@@ -18,8 +18,6 @@ public class MainController {
         return "ex/ex";
     }
 
-    @GetMapping("/serviceList")
-    public String serviceList() {return "/service/serviceList";}
 
     @GetMapping("/serviceInfo")
     public String serviceInfo() {return "/service/serviceInfo";}
