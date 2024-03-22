@@ -6,9 +6,27 @@
 
     <select id="login" resultType="team.trillion.yamuzip.user.dto.UserDTO">
         SELECT
-
-
+            user_code,
+            user_id,
+            user_pwd,
+            user_name,
+            user_nickname,
+            phone,
+            user_status,
+            auth,
+            email
+        FROM
+            tbl_user
+        WHERE
+            user_id= #{userId }
     </select>
+
+    <insert id="regist">
+        INSERT INTO
+            tbl_user (user_id, user_pwd, user_name, phone,email)
+        VALUES
+            (#{userId}, #{userPwd}, #{userName}, #{phone}, #{email})
+    </insert>
 
 
 

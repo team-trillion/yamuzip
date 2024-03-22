@@ -33,6 +33,10 @@
             color: black; /* 마우스를 올렸을 때의 링크 색상을 검은색으로 지정 */
         }
     </style>
+    <script>
+        const message = `[[${message}]]`;
+        message && alert(message);
+    </script>
 
 
 </head>
@@ -55,23 +59,23 @@
                     <h1>로그인</h1>
 
 
-                    <img src="images/logoA.png" class="form-image" alt="Your Image"> <!-- 이미지 추가 -->
-                    <body class="text-center">
+                    <img src="/images/logoA.PNG" class="form-image" alt="Your Image"> <!-- 이미지 추가 -->
+
 
                     <main class="form-signin">
-                        <form>
+                        <form  action="/user/login" method="post">
 <!--                            <img class="mb-4" src="/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
 <!--                            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>-->
 
                             <div class="form-box">
                                 <div class="form-floating">
                                     <p>아이디</p>
-                                    <input type="text" class="form-control" id="memberId" name="memberId" maxlength="50" placeholder="아이디를 입력해주세요" required>
+                                    <input type="text" class="form-control" id="userId" name="userid" maxlength="50" placeholder="아이디를 입력해주세요" required>
 <!--                                    <label for="floatingInput">Email address</label>-->
                                 </div>
                                 <div class="form-floating">
                                     <p>비밀번호</p>
-                                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                                    <input type="password" class="form-control" id="userpassword" name="userpwd" placeholder="Password">
 <!--                                    <label for="floatingPassword">Password</label>-->
                                 </div>
 
@@ -84,28 +88,28 @@
                             <button class="w-100 btn btn-lg btn-primary" type="submit">로그인 </button>
                             </div>
                             <li style="display: inline;">
-                                <a href="findId" style="color: black;">아이디찾기  |</a>
+                                <a href="/user/findId" style="color: black;">아이디찾기  |</a>
                             </li>
                             <li style="display: inline;">
-                                <a href="findPwd" style="color: black;">비밀번호 찾기  |</a>
+                                <a href="/user/findPwd" style="color: black;">비밀번호 찾기  |</a>
                             </li>
                             <li style="display: inline;">
-                                <a href="../regist" style="color: black;">회원가입  </a>
+                                <a href="/user/regist" style="color: black;">회원가입  </a>
                             </li>
                             <div style="padding: 70px">
                                 
                             </div>
 
 <!--                            <p class="mt-5 mb-3 text-muted">© 2017–2022</p>-->
-                        </form>
 
+                        </form>
                     </main>
 
 
 
 
 
-                    </body>
+
 
 
 

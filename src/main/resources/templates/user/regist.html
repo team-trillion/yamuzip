@@ -15,31 +15,30 @@
 
 <div id="fh5co-wrapper">
     <div id="fh5co-page">
-        <div id="fh5co-header">
+        <div id="fh5co-header" >
             <th:block layout:fragment="headerFragment"></th:block>
         </div>
 
 
         <div layout:fragment="content">
-            <div class="fh5co-hero">
+            <div class="fh5co-hero" style="height: auto;">
                 <div class="fh5co-overlay"></div>
                 <section class="container-sm" style=": yellow; padding-top: 150px;">
 
                 <!--여기부터 본인 페이지 코드 작성-->
 
                     <body>
-                    <form action="user/regiest" method="post">
                     <div class="container">
                         <div class="input-form-backgroud row">
                             <div class="input-form col-md-12 mx-auto">
                                 <h4 class="mb-3">회원가입</h4>
-                                <form method="post" action="joinPro" name="userInfo"
+                                <form action="/user/regist" method="post"  name="userInfo"
                                       onsubmit="return checkValue()">
                                     <div class="row">
                                         <div class=" mb-3">
-                                            <label for="memberId" style="display: block;">아이디</label>
+                                            <label for="userId" style="display: block;">아이디</label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" id="memberId" name="memberId" maxlength="50" placeholder="아이디를 입력해주세요" required>
+                                                <input type="text" class="form-control" id="userId" name="userId" maxlength="50" placeholder="아이디를 입력해주세요" required>
                                                 <span class="input-group-btn">
                                                     <button class="btn btn-default" type="button">중복확인</button>
                                                 </span>
@@ -47,30 +46,30 @@
                                             <span class="idchk"></span>
                                         </div>
                                         <div class=" mb-3">
-                                            <label for="memberName" style="display: block;">이름</label>
-                                            <input type="text" class="form-control" id="memberName" placeholder="이름을 입력해주세요" value="" required>
+                                            <label for="userName" style="display: block;">이름</label>
+                                            <input type="text" class="form-control" id="userName" name="userName" placeholder="이름을 입력해주세요" value="" required>
                                             <span class="memberNamechk"></span>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="mb-3">
-                                            <label for="memberPw">비밀번호</label> <input type="password"
-                                                                                      class="form-control" id="memberPw" placeholder="비밀번호를 입력해주세요"
+                                            <label for="userPwd">비밀번호</label> <input type="password"
+                                                                                      class="form-control" id="userPwd" name="userPwd" placeholder="비밀번호를 입력해주세요"
                                                                                       value="" required> <span class="pwchk1"></span>
                                         </div>
 
-                                        <div class=" mb-3">
-                                            <label for="memberPwCheck">비밀번호 확인</label> <input type="password"
-                                                                                              class="form-control" id="memberPwCheck"
-                                                                                              placeholder="비밀번호를 다시 한번 입력해주세요" value="" required><span
-                                                class="pwchk"></span>
-                                        </div>
+<!--                                        <div class=" mb-3">-->
+<!--                                            <label for="userPwd1">비밀번호 확인</label> <input type="password"-->
+<!--                                                                                              class="form-control" id="userPwd1"-->
+<!--                                                                                              placeholder="비밀번호를 다시 한번 입력해주세요" value="" required><span-->
+<!--                                                class="pwchk"></span>-->
+<!--                                        </div>-->
 
                                     </div>
                                     <div class="mb-3">
                                         <label for="email">이메일</label>
                                         <div class="input-group">
-                                            <input type="email" class="form-control" id="email" placeholder="metadog@example.com" required="required">
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="metadog@example.com" required="required">
                                             <span class="input-group-btn">
                                              <button class="btn btn-default" type="button">인증</button>
                                              </span>
@@ -79,8 +78,8 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="phoneNumber">휴대폰 번호</label> <input type="text"
-                                                                                       class="form-control" id="phoneNumber"> <span
+                                        <label for="phone">휴대폰 번호</label> <input type="text"
+                                                                                       class="form-control" id="phone"name="phone"> <span
                                             class="phchk"></span>
                                     </div>
 
@@ -117,7 +116,7 @@
 <!--                        </footer>-->
                     </div>
 
-                    </form>
+
 
                     </body>
 

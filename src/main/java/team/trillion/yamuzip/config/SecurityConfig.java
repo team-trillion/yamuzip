@@ -46,7 +46,10 @@ public class SecurityConfig {
                     /* 성공 시 랜딩 페이지 설정 */
                     login.defaultSuccessUrl("/");
                     /* 로그인 실패 시 랜딩 페이지 설정 */
-                    login.failureForwardUrl("/error/login");
+                    login.failureForwardUrl("/login");
+
+                    login.usernameParameter("userid");
+                    login.passwordParameter("userpwd");
                 })
                 /* 로그아웃 설정 */
                 .logout(logout ->{

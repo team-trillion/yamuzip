@@ -17,22 +17,47 @@ public class UserController {
     private final MessageSourceAccessor messageSourceAccessor;
 
     @GetMapping("/login")
-    public void getLoginPage(){}
+    public String getLoginPage(){
+        return "user/login";
+    }
+
+    @PostMapping("/login")
+    public String getLoginPage1(@RequestParam String userId , @RequestParam String userPwd){
+
+
+
+        return "redirect:/main";
+    }
 
     @GetMapping("/regist")
-    public void getregistPage(){}
+    public String getregistPage() {
+        return "user/regist";
+    }
 
-    @PostMapping ("/regist")
-    public String userregist(@ModelAttribute UserDTO user, RedirectAttributes rttr) {
-
-        userService.registUser(user);
+    @PostMapping("/regist")
+    public String regist(@ModelAttribute UserDTO user, RedirectAttributes rttr) {
+        System.out.println(user);
+        userService.regist(user);
         rttr.addFlashAttribute("message", messageSourceAccessor.getMessage("user.regist"));
+        return "redirect:/user/login";
+    }
+//    @GetMapping("/findId")
+//    public String findId() {
+//        return "user/login";
+//    }
+//
+//    @GetMapping("/findPwd")
+//    public String findPwd() {
+//        return "user/login";
+//    }
+@GetMapping("/findId")
+public String findId() {return "/user/findId";}
+
+    @GetMapping("/findPwd")
+    public String findPwd() {return "user/findPwd";}
 
 
-        return "/user/regist";
-    }
-    @GetMapping("/login")
-    public String userlogin() {
-        return "/user/login";  // 로그인창 이동
-    }
+
+
+
 }

@@ -19,17 +19,18 @@ public class MainController {
         return "ex/ex";
     }
 
-    @GetMapping("/regist")
-    public String sadf() {return "user/regist";}
+//    @GetMapping("/regist")
+//    public String sadf() {return "user/regist";}
 
-    @GetMapping("/login")
-    public String dssd() {return "user/login";}
+//    @GetMapping("/login")
+//    public String getLoginPage() {return "user/login";}
 
-    @GetMapping("/findId")
-    public String findId() {return "user/findId";}
 
-    @GetMapping("/findPwd")
-    public String findPwd() {return "user/findPwd";}
+//    @GetMapping("/user/findId")
+//    public String findId() {return "/user/findId";}
+//
+//    @GetMapping("/user/findPwd")
+//    public String findPwd() {return "user/findPwd";}
 
 }
 
