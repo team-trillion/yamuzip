@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Slf4j
 public class MainController {
 
-    @GetMapping("/")
+    @GetMapping(value = {"/main","/"})
     public String defaultRequest() {
         return "main";
     }
@@ -28,7 +28,7 @@ public class MainController {
 
 //    @GetMapping("/user/findId")
 //    public String findId() {return "/user/findId";}
-//
+
 //    @GetMapping("/user/findPwd")
 //    public String findPwd() {return "user/findPwd";}
 

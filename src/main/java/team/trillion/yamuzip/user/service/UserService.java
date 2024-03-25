@@ -1,18 +1,29 @@
 package team.trillion.yamuzip.user.service;
 
+import groovy.util.logging.Log4j;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import team.trillion.yamuzip.user.dao.UserMapper;
 import team.trillion.yamuzip.user.dto.UserDTO;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
+@RequestMapping("/user/regist")
 public class UserService {
+
 
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+
 
     @Transactional
     public void regist(UserDTO user) {
@@ -29,4 +40,7 @@ public class UserService {
     }
 
 
+    public List<String> getIds() {
+        return userMapper.getIds();
+    }
 }

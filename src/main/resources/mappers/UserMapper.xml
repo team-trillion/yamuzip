@@ -28,6 +28,13 @@
             (#{userId}, #{userPwd}, #{userName}, #{phone}, #{email})
     </insert>
 
+    <select id="getIds">
+        SELECT
+        user_id
+        FROM
+        tbl_user
+    </select>
+
 
 
 
