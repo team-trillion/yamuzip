@@ -3,10 +3,7 @@ package team.trillion.yamuzip.order.model.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import team.trillion.yamuzip.order.model.dao.OrderMapper;
-import team.trillion.yamuzip.order.model.dto.OptionDTO;
-import team.trillion.yamuzip.order.model.dto.OrderDTO;
-import team.trillion.yamuzip.order.model.dto.PaymentDTO;
-import team.trillion.yamuzip.order.model.dto.ServiceDTO;
+import team.trillion.yamuzip.order.model.dto.*;
 
 @Service
 @RequiredArgsConstructor
@@ -33,5 +30,9 @@ public class OrderService {
 
     public void insertPayment(PaymentDTO payment) {
         orderMapper.insertPayment(payment);
+    }
+
+    public OrderResultDTO selectOrderResult(String payCode) {
+        return orderMapper.selectOrderResult(payCode);
     }
 }

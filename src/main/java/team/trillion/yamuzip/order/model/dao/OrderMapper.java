@@ -1,10 +1,7 @@
 package team.trillion.yamuzip.order.model.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import team.trillion.yamuzip.order.model.dto.OptionDTO;
-import team.trillion.yamuzip.order.model.dto.OrderDTO;
-import team.trillion.yamuzip.order.model.dto.PaymentDTO;
-import team.trillion.yamuzip.order.model.dto.ServiceDTO;
+import team.trillion.yamuzip.order.model.dto.*;
 
 @Mapper
 public interface OrderMapper {
@@ -17,4 +14,6 @@ public interface OrderMapper {
     void insertOrderNoOption(OrderDTO order);
 
     void insertPayment(PaymentDTO payment);
+
+    OrderResultDTO selectOrderResult(String payCode);
 }

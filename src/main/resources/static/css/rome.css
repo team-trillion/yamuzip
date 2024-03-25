@@ -6,9 +6,8 @@
  */
 .rd-container {
   display: none;
-  border: 2px solid #959da8;
   background-color: #fff;
-  padding: 10px;
+  padding: 35px 10px;
   text-align: center;
   width: 100%;
   border-radius: 10px;
@@ -136,7 +135,7 @@
       height: 10px;
       border-radius: 50%;
       content: '';
-      background-color: #5562eb;
+      background-color: #264E86;
       position: absolute;
       left: 50%;
       top: 50%;

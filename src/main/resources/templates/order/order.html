@@ -6,8 +6,12 @@
     <th:block layout:fragment="userCss">
         <style>
             .breadcrumb { background: none; display:table; margin: 0 auto;}
-            .breadcrumb a { color: black; }
-            .service-img { max-width: 100%; }
+            .breadcrumb a { color: #5a5a5a; font-family: 'SUIT Variable', sans-serif; font-weight: 600; }
+            .img-box {overflow: hidden; width: 100%; height:350px;  border-radius: 15px;}
+            .service-img { width: 100%; height:100%; object-fit: cover; }
+
+            h1, h2, h3 { font-weight: 900; color: #003363; }
+            h4 { margin-bottom: 15px; font-weight: 700; color: #003363; }
         </style>
         <link rel="stylesheet" href="/css/rome.css">
     </th:block>
@@ -21,12 +25,12 @@
         </div>
 
         <div layout:fragment="content">
-            <div class="fh5co-hero" style="height: auto;">
+            <div class="fh5co-hero" style="height: auto; padding-bottom: 100px;">
 <!--                <div class="fh5co-overlay"></div>-->
                 <section class="container-sm" style="padding-top:150px;">
                     <div class="container-fluid">
 
-                        <div class="col-lg-8" style="float:none; margin: 0 auto;">
+                        <div class="col-lg-6" style="float:none; margin: 0 auto;">
                             <nav>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
@@ -37,29 +41,32 @@
                                     </li>
                                 </ol>
                             </nav>
-                            <h2 th:text="${ service.serviceTitle }" class="text-center" ></h2>
-                            <img th:src="${ service.imageList[0].imgUrl }" class="rounded center-block service-img" />
+                            <h1 th:text="${ service.serviceTitle }" class="text-center" ></h1>
+                            <div class="img-box">
+                                <img th:src="${ service.imageList[0].imgUrl }" class="center-block service-img" />
+                            </div>
 
-                            <p class="text-left">■ 예약 날짜와 시간을 선택해주세요.</p>
+                            <hr>
+                            <h4 class="text-left">■ 예약 날짜와 시간을 선택해주세요.</h4>
 
                             <div class="row justify-content-center">
                                 <div class="col text-center">
-                                    <form action="/order/payment">
+                                    <form id="order-form" action="/order/payment">
                                         <input type="hidden" name="serviceCode" id="serviceCode" th:value="${ service.serviceCode }"/>
                                         <div class="col">
                                             <div id="inline_cal"></div>
                                         </div>
                                         <input type="hidden" name="reserveDatetime" id="reserveDatetime"/>
 
-                                        <p class="text-left">
-                                            ■ 옵션을 선택해주세요. (선택)
-                                        </p>
+                                        <hr>
+                                        <h4 class="text-left">■ 옵션을 선택해주세요. (선택)</h4>
                                         <div class="option-group">
                                             <span th:each="option : ${ service.optionList }" class="inputGroup">
                                                 <input th:id="'radio'+${option.optionCode}" name="optionCode" th:value="${option.optionCode}" type="radio"/>
                                                 <label th:for="'radio'+${option.optionCode}" th:text="${ option.optionName }"></label>
                                             </span>
                                         </div>
+                                        <hr>
 
                                         <button class="btn btn-primary" type="submit">다음</button>
                                     </form>
@@ -82,11 +89,32 @@
 <th:block layout:fragment="userScript">
 
     <!--본인 페이지 js 작성-->
+
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/popper.min.js"></script>
     <script src="/js/rome.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>
+
+    <script th:inline="javascript">
+        $("input[type=radio]").each(function(){
+            var chk = $(this).is(":checked");
+            var name = $(this).attr('optionCode');
+            if(chk == true) $("input[name='"+name+"']").data("previous",$(this).val());
+        });
+        $("input[type=radio]").click(function(){
+            var pre = $(this).data("previous");
+            var chk = $(this).is(":checked");
+            var name = $(this).attr('name');
+
+            if(chk === true && pre === $(this).val()){
+                $(this).prop('checked',false);
+                $("input[name='"+name+"']").data("previous",'');
+            } else{
+                if(chk === true) $("input[name='"+name+"']").data("previous",$(this).val());
+            }
+        });
+    </script>
 
     <script th:inline="javascript">
         const $disabled = [[${disabledDates}]];
@@ -106,6 +134,20 @@
         datePicker.on('data', () => {
             document.getElementById("reserveDatetime").value = datePicker.getDateString("YYYY-MM-DD");
         });
+    </script>
+
+    <script th:inline="javascript">
+        const form = document.querySelector('#order-form');
+        function check_reserve_date(e) {
+            e.preventDefault();
+            const value = document.getElementById("reserveDatetime").value;
+            if(!value) {
+                alert("예약 날짜를 선택해주세요.");
+            } else {
+                form.submit();
+            }
+        }
+        form.addEventListener("submit", check_reserve_date);
     </script>
 </th:block>
 

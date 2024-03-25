@@ -33,7 +33,7 @@ public class OrderController {
             });
         }
 
-        // 이미 에약된 날짜 Set
+        // 이미 예약된 날짜 Set
         Set<String> disabledDates = new HashSet<>();
         if(!service.getOrderList().isEmpty()) {
             service.getOrderList().forEach( orderDTO -> {
@@ -42,9 +42,6 @@ public class OrderController {
                 disabledDates.add(date);
             });
         }
-        System.out.println("order : " + service.getOrderList());
-        System.out.println("option : " + service.getOptionList());
-        System.out.println("service : " + service.getServiceTitle());
 
         model.addAttribute("service", service);
         model.addAttribute("disabledDates", disabledDates);
@@ -73,8 +70,7 @@ public class OrderController {
     }
 
     @PostMapping("/payment")
-    public ResponseEntity<String> insertOrderAndPayment(@RequestBody OrderPaymentDTO orderPayment,
-                                                        RedirectAttributes rttr) {
+    public ResponseEntity<String> insertOrderAndPayment(@RequestBody OrderPaymentDTO orderPayment) {
 
         OrderDTO order = new OrderDTO();
         order.setServiceCode(orderPayment.getServiceCode());
@@ -83,12 +79,11 @@ public class OrderController {
         order.setReserveDatetime(orderPayment.getReserveDatetime());
         order.setOptionCode(orderPayment.getOptionCode());
 
-        System.out.println("orderPayment :" + orderPayment);
-        int optionCode = orderService.insertOrder(order).getOrderCode();
+        int orderCode = orderService.insertOrder(order).getOrderCode();
 
         PaymentDTO payment = new PaymentDTO();
         payment.setPayCode(orderPayment.getPayCode());
-        payment.setOrderCode(optionCode);
+        payment.setOrderCode(orderCode);
         payment.setPayPrice(orderPayment.getTotalPrice());
         payment.setPayType(orderPayment.getPayType());
         payment.setPayStatus(orderPayment.getPayStatus());
@@ -96,13 +91,15 @@ public class OrderController {
 
         orderService.insertPayment(payment);
 
-        rttr.addFlashAttribute(orderPayment);
-
         return ResponseEntity.ok("/order/success");
     }
 
     @GetMapping("/success")
-    public String isSuccess () {
+    public String orderSuccess (@RequestParam String payCode, Model model) {
+        OrderResultDTO orderResult = orderService.selectOrderResult(payCode);
+
+        model.addAttribute("orderResult", orderResult);
+
         return "order/success";
     }
 }
