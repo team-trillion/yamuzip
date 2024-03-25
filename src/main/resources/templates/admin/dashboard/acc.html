@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin}">
+
+<head>
+    <th:block layout:fragment="userCss">
+        <style>
+            .dashboardText > p > a:hover,
+            .dashboardText > div > div > a:hover {
+                color: #003f62 !important;
+            }
+            svg.bi {
+                color: rgba(38, 38, 38, 0.5);
+            }
+            .accBtn {
+                border: 0;
+                background-color: transparent;
+            }
+            .accBtn svg:hover {
+                border: 0;
+                background-color: rgba(0, 0, 0, 0.2);
+            }
+        </style>
+    </th:block>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+</head>
+
+<body>
+<div id="fh5co-wrapper">
+    <div id="fh5co-page">
+        <div id="fh5co-header">
+            <th:block layout:fragment="headerFragment"></th:block>
+        </div>
+
+
+        <div layout:fragment="content">
+            <div class="fh5co-hero" style="height: auto">
+                <!--                <div class="fh5co-overlay"></div>-->
+                <section class="container-sm" style="padding-top: 150px">
+
+                    <!--여기부터 본인 페이지 코드 작성-->
+
+                    <div class="container">
+                        <!--                            <h1 class="fs-1 fw-bord mb-4">관리자 페이지</h1>-->
+                        <div class="border-bottom border-dark my-1 mb-3"></div>
+
+                        <div class="row">
+                            <!-- start sideBar -->
+                            <div class="col-md-2 col-sm-3 col-xs-4 flex-shrink-0 p-3">
+
+                                <ul class="sideBar list-unstyled rounded border border-dark-subtle bg-Emphasis p-5">
+                                    <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark">회원 관리</p>
+                                        <div>
+                                            <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                                                <li><a href="/admin/user/list" class="text-body-tertiary link-primary link-body-emphasis d-inline-flex text-decoration-none rounded">회원 관리</a></li>
+                                                <li><a href="/admin/dobby/list" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">도비 관리</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark">서비스 관리</p>
+                                        <div>
+                                            <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                                                <li><a href="/admin/service/list" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">전체 서비스 조회</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark">정산 관리</p>
+                                        <div>
+                                            <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                                                <li><a href="admin/order/list" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">전체 주문내역 조회</a></li>
+                                                <li><a href="admin/calc/monthly" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">월별정산통계</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark">문의 관리</p>
+                                        <div>
+                                            <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                                                <li><a href="/admin/cs/list" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">전체 문의 조회</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark">카테고리 관리</p>
+                                        <div>
+                                            <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                                                <li><a href="/admin/category/select" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">카테고리 관리</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
+                                </ul>
+                            </div>
+
+                            <!-- start dashboard content -->
+                            <div class="dashboardText col-md-10 col-sm-9 col-xs-8">
+                                <p class="fs-5 pt-2 px-2">
+                                    <a href="#" class="text-black">관리자페이지</a> 〉 &nbsp;
+                                    <a href="#" class="text-black">정산관리</a>  &nbsp;
+                                </p>
+                                <p class="h3 border-bottom border-2 pb-3" style="color: #003f62">정산관리</p>
+                                <div class="container-fluid mt-5">
+                                <div class="row gx-3">
+                                    <div class="col-6">
+                                    <div class="rounded-5 px-5 border border-2 text-center">
+                                        <p class="h2 pt-4" style="color: #003f62">주문내역</p>
+                                        <button type="button" class="btn btn-sm btn-primary mt-3"
+                                                th:onclick="'location.href=\'/order/list\''">자세히 보기</button>
+                                        <div class="mx-5 pt-5" style="border-bottom: solid 1px dimgray;"></div>
+                                        <p class="h6 lh-base py-3">전체 주문 내역을 조회하고,<br>주문 상세 정보에서<br>주문을 취소할 수 있습니다.</p>
+                                    </div>
+                                    </div>
+                                    <div class="col-6">
+                                    <div class="rounded-5 px-5 border border-2 text-center">
+                                        <p class="h2 pt-4" style="color: #003f62">정산내역</p>
+                                        <button type="button" class="btn btn-sm btn-primary mt-3"
+                                                th:onclick="'location.href=\'/calc/monthly\''">자세히 보기</button>
+                                        <div class="mx-5 pt-5" style="border-bottom: solid 1px dimgray;"></div>
+                                        <p class="h6 lh-base py-3">상태별로 정산내역을 조회하고,<br>서비스 정보와 정산 세부 내용,<br>개별 명세서를 조회합니다.</p>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+
+                                <div class="container-fluid border border-2 rounded rounded-5 py-3 my-5">
+                                    <div class="text-center">
+                                        <p class="h2 pt-4" style="color: #003f62">월별 정산 통계</p>
+                                        <p class="4 py-4" style="color: #003f62">
+                                            <button type="button" class="accBtn">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-caret-left-square" viewBox="0 0 16 16">
+                                                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                                                <path d="M10.205 12.456A.5.5 0 0 0 10.5 12V4a.5.5 0 0 0-.832-.374l-4.5 4a.5.5 0 0 0 0 .748l4.5 4a.5.5 0 0 0 .537.082"/>
+                                            </svg></button>
+
+                                            <th:text>2024년</th:text>
+                                            <th:text>3월</th:text>
+
+                                            <button type="button" class="accBtn">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-caret-right-square" viewBox="0 0 16 16">
+                                                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                                                <path d="M5.795 12.456A.5.5 0 0 1 5.5 12V4a.5.5 0 0 1 .832-.374l4.5 4a.5.5 0 0 1 0 .748l-4.5 4a.5.5 0 0 1-.537.082"/>
+                                            </svg></button>
+                                            </p>
+                                    </div>
+                                    <table class="table text-center mb-5">
+                                        <thead class="table-light border-top border-dark">
+                                        <tr>
+                                            <th scope="col" class="text-center">정산 도비 합계</th>
+                                            <th scope="col" class="text-center">전월 대비</th>
+
+                                            <th scope="col" class="text-center">이용회원 합계</th>
+                                            <th scope="col" class="text-center">전월 대비</th>
+
+                                            <th scope="col" class="text-center">야무집 수입</th>
+                                            <th scope="col" class="text-center">전월 대비</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>20</td>
+                                            <td>1</td>
+                                            <td>20</td>
+                                            <td>1</td>
+                                            <td>100,000원</td>
+                                            <td>100,000원</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="card-group mx-2">
+                                        <div class="card border-dark">
+                                            <div class="card-header text-center fw-bold">
+                                                전월 미정산 합계
+                                            </div>
+                                            <div class="card-body p-4">
+                                                <div class="row">
+                                                    <h5 class="card-title col-6">전월 미정산 내역</h5>
+                                                    <div class="text-end col-6">5건</div>
+                                                </div>
+                                                <div class="row">
+                                                    <h5 class="card-title col-8">전월 서비스 미진행 내역</h5>
+                                                    <div class="text-end col-4">2건</div>
+                                                </div>
+                                                <div class="row">
+                                                    <h5 class="card-title col-8">미정산 금액 합계</h5>
+                                                    <div class="text-end col-4">300,000원</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card border-dark">
+                                            <div class="card-header text-center fw-bold">
+                                                서비스 합계
+                                            </div>
+                                            <div class="card-body p-4">
+                                                <div class="row">
+                                                    <h5 class="card-title col-8">서비스 진행 완료 수</h5>
+                                                    <div class="text-end col-4">52건</div>
+                                                </div>
+                                                <div class="row">
+                                                    <h5 class="card-title col-8">수수료 합계</h5>
+                                                    <div class="text-end col-4">1,300,000원</div>
+                                                </div>
+                                                <div class="row">
+                                                    <h5 class="card-title col-8">매출</h5>
+                                                    <div class="text-end col-4">1,800,000원</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card border-dark">
+                                            <div class="card-header text-center fw-bold">
+                                                서비스 취소 합계
+                                            </div>
+                                            <div class="card-body p-4">
+                                                <div class="row">
+                                                    <h5 class="card-title col-8">서비스 취소 수</h5>
+                                                    <div class="text-end col-4">3건</div>
+                                                </div>
+                                                <div class="row">
+                                                    <h5 class="card-title col-8">취소금액 합계</h5>
+                                                    <div class="text-end col-4">500,000원</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container-fluid">
+                                    <div class="row my-5 align-items-center">
+                                        <div class="col-3 text-sm-end">
+                                            <p class="h5 mb-1">전월 미정산 금액 합계</p>
+                                            <span class="fw-bold">
+                                            150,000원
+                                            </span>
+                                        </div>
+                                        <div class="col-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                                        </svg>
+                                        </div>
+                                        <div class="col-3 text-sm-end">
+                                            <p class="h5 mb-1">서비스 합계</p>
+                                            <span class="fw-bold">
+                                            1,540,000원
+                                            </span>
+                                        </div>
+                                        <div class="col-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-dash-circle-fill" viewBox="0 0 16 16">
+                                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="col-3 text-sm-end">
+                                            <p class="h5 mb-1">전월 미정산 금액 합계</p>
+                                            <span class="fw-bold">
+                                            150,000원
+                                            </span>
+                                        </div>
+                                    </div>
+                                        <div style="border-width: 0 0 3px 0; border-style: double; padding: 15px; border-bottom-color: #9d9d9d"></div>
+                                    </div>
+                                    <p class="h4 text-center py-5">총 정산금액 &nbsp;&nbsp;<span style="color: #2e6da4; font-weight: bold"><th:text>1,380,000원</th:text></span></p>
+                                    </div>
+
+                            </div>
+                            <!-- End dashboard content -->
+
+                        </div>
+                        <!-- End Page Title -->
+
+                    </div>
+                    <!-- End row -->
+                    <!--여기까지 본인 페이지 코드 작성-->
+                </section>
+            </div>
+        </div>
+        <!-- content -->
+
+    </div>
+    <!-- page -->
+</div>
+<!-- wrapper -->
+
+<th:block layout:fragment="userScript">
+    <!-- main js -->
+    <script src="/js/main.js"></script>
+
+</th:block>
+
+</body>
+</html>
