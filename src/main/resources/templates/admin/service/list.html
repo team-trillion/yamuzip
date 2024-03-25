@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin}">
+
+<head>
+    <th:block layout:fragment="userCss">
+        <style>
+        </style>
+    </th:block>
+</head>
+
+<body>
+<div id="fh5co-wrapper">
+    <div id="fh5co-page">
+        <div id="fh5co-header">
+            <th:block layout:fragment="headerFragment"></th:block>
+        </div>
+
+
+        <div layout:fragment="content">
+            <div class="fh5co-hero" style="height: auto">
+                <!--                <div class="fh5co-overlay"></div>-->
+                <section class="container-sm" style="padding-top: 150px;">
+
+                    <h1>회원관리</h1>
+                        <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                        <tr>
+                            <th scope="col">서비스 번호</th>
+                            <th scope="col">아이디</th>
+                            <th scope="col">제목</th>
+                            <th scope="col">카테고리</th>
+                            <th scope="col">등록일</th>
+                            <th scope="col">관리</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="service : ${serviceList}" th:onclick="|location.href='/service/detail?serviceCode=${service.serviceCode}'|">
+                            <td th:text="${service.serviceCode}" class="align-middle"></td>
+                            <td th:text="${service.dobCode}" class="align-middle"></td>
+                            <td th:text="${service.serviceTitle}" class="align-middle"></td>
+                            <td th:text="${service.categoryCode}" class="align-middle"></td>
+                            <td th:text="${#dates.format(service.serviceCreated, 'yy.MM.dd')}" class="align-middle"></td>
+                            <td><button>숨김</button>
+                                <br><button>삭제</button></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                        </div>
+
+                    <!--여기까지 본인 페이지 코드 작성-->
+                </section>
+            </div>
+        </div>
+        <!-- content -->
+
+    </div>
+    <!-- page -->
+</div>
+<!-- wrapper -->
+
+<th:block layout:fragment="userScript">
+    <!-- main js -->
+    <script src="js/main.js"></script>
+</th:block>
+
+</body>
+</html>
