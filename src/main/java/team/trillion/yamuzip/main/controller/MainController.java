@@ -19,8 +19,7 @@ public class MainController {
     }
 
 
-    @GetMapping("/serviceInfo")
-    public String serviceInfo() {return "/service/serviceInfo";}
+
 
 }
 

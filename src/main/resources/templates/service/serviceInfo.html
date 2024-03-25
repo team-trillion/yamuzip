@@ -27,20 +27,7 @@
             background-color: #0056b3;
         }
 
-        #questionFormContainer {
-            border: 1px solid #ccc;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
 
-        #questionList {
-            border: 1px solid #ccc;
-            padding: 20px;
-        }
-
-        .post {
-            margin-bottom: 20px;
-        }
 
         .post-header {
             display: flex;
@@ -48,9 +35,12 @@
             align-items: center;
         }
 
-        .post-actions {
-            display: flex;
-        }
+       #priceTag {
+           margin-right: 12px;
+       }
+       .infoTab {
+           margin-left: 15px;
+       }
 
         .post-actions button {
             margin-right: 10px;
@@ -60,11 +50,7 @@
             margin-top: 10px;
         }
 
-        .answer {
-            margin-top: 10px;
-            border-top: 1px solid #ccc;
-            padding-top: 10px;
-        }
+
         hr {
             color: black;
             opacity: 100;
@@ -164,43 +150,64 @@
                             </nav>
                             <div class="row gx-4 gx-lg-5 align-items-center">
                                 <div class="col-md-6">
-                                    <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+                                    <div id="carouselExampleIndicators" class="carousel carousel-dark slide">
+                                        <div class="carousel-indicators">
+                                            <button type="button" data-bs-target="#carouselExampleIndicators"
+                                                    data-bs-slide-to="0" class="active" aria-current="true"
+                                                    aria-label="Slide 1"></button>
+                                            <button type="button" data-bs-target="#carouselExampleIndicators"
+                                                    data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                            <button type="button" data-bs-target="#carouselExampleIndicators"
+                                                    data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                        </div>
                                         <div class="carousel-inner">
-                                            <div class="carousel-item active" data-bs-interval="2000">
+                                            <div class="carousel-item active">
                                                 <img src="/images/설치_2.png" class="d-block w-100" alt="...">
                                             </div>
-                                            <div class="carousel-item" data-bs-interval="2000">
-                                                <img src="/images/설치_2.png" class="d-block w-100" alt="...">
+                                            <div class="carousel-item">
+                                                <img src="/images/main_icon1.png" class="d-block w-100" alt="...">
                                             </div>
                                             <div class="carousel-item">
                                                 <img src="/images/설치_2.png" class="d-block w-100" alt="...">
                                             </div>
                                         </div>
                                         <button class="carousel-control-prev" type="button"
-                                                data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                                                data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                             <span class="visually-hidden">Previous</span>
                                         </button>
                                         <button class="carousel-control-next" type="button"
-                                                data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                                                data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
                                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                             <span class="visually-hidden">Next</span>
                                         </button>
                                     </div>
 
                                 </div>
-                                <div class="col-md-6">
-                                    <h1 class="display-5 fw-bolder">서비스 이름 어쩌구</h1>
-                                    <p class="lead">서비스 설명서비스 설명서비스 설명서비스 설명서비스 설명서비스 설명서비스 설명서비스 설명서비스 설명서비스 설명서비스
-                                        설명서비스 설명서비스 설명서비스 설명서비스 설명서비스 설명</p>
-                                    <div class="priceBox fs-5 mb-5">
-                                        <span class="heart">♥️</span>
-                                        <span class="price"><b>31,600~</b></span>
-                                    </div>
-                                    <div class="orderBox">
-                                        <button class="order btn-block" type="button">
-                                            주문하기
-                                        </button>
+                                <div class="col-md-6" th:each="serviceInfoList:${serviceInfoList}">
+                                    <div class="card shadow-sm" style="width: 100%; height: auto">
+                                        <div class="card-body" style="width: 100%">
+                                        <h1 class="infoTab display-5 mt-3" th:text="${serviceInfoList.serviceTitle}">서비스 이름
+                                            어쩌구</h1>
+                                        <p class="infoTab lead border-top" th:text="${serviceInfoList.serviceExplain}">서비스 설명서비스 설명서비스
+                                            설명서비스
+                                            설명서비스 설명서비스 설명서비스 설명서비스 설명서비스 설명서비스 설명서비스
+                                            설명서비스 설명서비스 설명서비스 설명서비스 설명서비스 설명</p>
+                                            <div class="infoTab cardText mb-3">
+                                                <span class="badge bg-primary">하위 카테고리</span>
+                                                <span class="badge bg-primary">상위 카테고리</span>
+                                            </div>
+                                        <div class="priceBox fs-5 mb-5 display-5 ">
+                                            <span class="infoTab heart">♥️</span>
+                                            <span id="priceTag" class="price"
+                                                  th:text="${serviceInfoList.servicePrice}"><b>31,600~</b></span>
+                                        </div>
+                                        <div class="orderBox">
+                                            <button class="order btn-block" type="button">
+                                                주문하기
+                                            </button>
+                                        </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -211,20 +218,22 @@
                                         <a class="nav-link active" aria-current="page" href="#serviceContext">서비스 설명</a>
                                         <a class="nav-link" href="#options">옵션 정보</a>
                                         <a class="nav-link" href="#reviews">리뷰</a>
-                                        <a class="nav-link" href="#">문의</a>
+                                        <a class="nav-link" href="#cs">문의</a>
                                     </nav>
                                 </div>
                                 <div class="profileCard col-md-2">
                                     <img src="/images/main_icon1.png" class="cardImg card-img-top p-3 img-thumbnail"
                                          alt="...">
                                 </div>
-                                <div class="profileCard col-md-4">
+                                <div class="profileCard col-md-4 border p-5 shadow-sm" th:each="serviceInfoList:${serviceInfoList}">
                                     <div class="Card">
                                         <div class="card-body">
-                                            <p class="card-text"><b>도비이름</b></p>
-                                            <p class="card-text">영업일 : 연중무휴</p>
-                                            <p class="card-text">지역 : 서울 중구</p>
-                                            <p class="card-text">저는 청소왕 도비입니다. 초반 일부 글자만 노출</p>
+                                            <p class="card-text border-bottom "  th:inline="text">
+                                                <b>도비:</b> [[${serviceInfoList.dobby.dobNickName}]]</p>
+                                            <p class="card-text border-bottom "><b>영업일</b> : 연중무휴</p>
+                                            <p class="card-text border-bottom" th:inline="text"><b>지역</b> : [[${serviceInfoList.dobby.dobArea}]]</p>
+                                            <p class="card-text font-weight-bold" th:text="${serviceInfoList.dobby.dobContent}">저는 청소왕
+                                                도비입니다. 초반 일부 글자만 노출</p>
                                         </div>
                                     </div>
                                 </div>
@@ -232,8 +241,8 @@
 
                             <div class="infoRow row">
                                 <h1>Info</h1>
-                                <div class="col-md-6" id="serviceContext">
-                                    <p>🔥구매 전 필독사항🔥
+                                <div class="col-md-6" id="serviceContext" th:each="serviceInfoList:${serviceInfoList}">
+                                    <p th:text="${serviceInfoList.serviceContent}">🔥구매 전 필독사항🔥
 
                                         ✔️핸드메이드 특성상 눈,코,입,귀 등
                                         위치나 모양이 조금씩 다를 수 있습니다.
@@ -265,12 +274,14 @@
                                                 <rect width="100%" height="100%" fill="#007bff"></rect>
                                                 <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
                                             </svg>
-                                            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                                            <div class="pb-3 mb-0 small lh-sm border-bottom w-100"
+                                                 th:each="serviceOptions:${serviceOptions}">
                                                 <div class="d-flex justify-content-between">
-                                                    <strong class="text-gray-dark">Option Name</strong>
+                                                    <strong class="text-gray-dark"
+                                                            th:text="${serviceOptions.optionName}">Option Name</strong>
                                                     <a class="choice" href="#">선택</a>
                                                 </div>
-                                                <span class="d-block">Price:+20,000</span>
+                                                <span class="d-block" th:text="${'+ ' + serviceOptions.optionPrice}">Price:+20,000</span>
                                             </div>
                                         </div>
                                         <div class="d-flex text-body-secondary pt-3">
@@ -281,12 +292,14 @@
                                                 <rect width="100%" height="100%" fill="#007bff"></rect>
                                                 <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
                                             </svg>
-                                            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                                            <div class="pb-3 mb-0 small lh-sm border-bottom w-100"
+                                                 th:each="serviceOptions:${serviceOptions}">
                                                 <div class="d-flex justify-content-between">
-                                                    <strong class="text-gray-dark">Option Name</strong>
+                                                    <strong class="text-gray-dark"
+                                                            th:text="${serviceOptions.optionName}">Option Name</strong>
                                                     <a class="choice" href="#">선택</a>
                                                 </div>
-                                                <span class="d-block">Price:+25,000</span>
+                                                <span class="d-block" th:text="${'+ ' + serviceOptions.optionPrice}">Price:+20,000</span>
                                             </div>
                                         </div>
                                         <div class="d-flex text-body-secondary pt-3">
@@ -297,12 +310,14 @@
                                                 <rect width="100%" height="100%" fill="#007bff"></rect>
                                                 <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
                                             </svg>
-                                            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                                            <div class="pb-3 mb-0 small lh-sm border-bottom w-100"
+                                                 th:each="serviceOptions:${serviceOptions}">
                                                 <div class="d-flex justify-content-between">
-                                                    <strong class="text-gray-dark">Option Name</strong>
+                                                    <strong class="text-gray-dark"
+                                                            th:text="${serviceOptions.optionName}">Option Name</strong>
                                                     <a class="choice" href="#">선택</a>
                                                 </div>
-                                                <span class="d-block">Price:+35000</span>
+                                                <span class="d-block" th:text="${'+ ' + serviceOptions.optionPrice}">Price:+20,000</span>
                                             </div>
                                         </div>
                                         <small class="d-block text-end mt-3">
@@ -319,19 +334,19 @@
                                          alt="...">
                                 </div>
 
-                                <div class="col-md-3">
-                                    <p id="userName">
+                                <div class="col-md-3" th:each="reviews:${reviews}">
+                                    <p id="userName" th:text="${reviews.user.userNickname}">
                                         사용자1234
                                     </p>
-                                    <p id="reviewDate">
+                                    <p id="reviewDate" th:text="${reviews.reviewCreated}">
                                         2024-01-01
                                     </p>
-                                    <p id="reviewRate">
+                                    <p id="reviewRate" th:text="${reviews.reviewGrade}">
                                         ⭐️⭐️⭐️⭐️⭐️
 
                                     </p>
 
-                                    <p id="reviewContext">
+                                    <p id="reviewContext" th:text="${reviews.reviewContent}">
                                         내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
                                     </p>
                                     <p>options : 2132134</p>
@@ -339,20 +354,30 @@
                                 <hr>
                             </div>
                             <div class="container">
-                                <h1>Customer Inquiries</h1>
-                                <div class="post-list">
-                                    <div class="post-item">
+                                <h1>CS</h1>
+                                <div class="post-list" id="cs">
+                                    <div class="post-item" th:each="cs:${cs}">
                                         <div class="post-header">
-                                            <span>번호: 1</span>
+                                            <span th:text="${cs.csCode}">번호: 1</span>
                                             <span>답변여부: 예</span>
-                                            <span>구분: 상품문의</span>
+                                            <div class="dropdown">
+                                                <button th:text="${cs.csType}" class="btn btn-secondary dropdown-toggle"
+                                                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    문의 유형
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#">서비스 상세 문의</a></li>
+                                                    <li><a class="dropdown-item" href="#">환불/취소 문의</a></li>
+                                                    <li><a class="dropdown-item" href="#">일정 문의</a></li>
+                                                </ul>
+                                            </div>
                                         </div>
                                         <div class="post-content">
-                                            <p>내용: 상품 관련 문의입니다.</p>
+                                            <p th:text="${cs.csContent}">내용: 상품 관련 문의입니다.</p>
                                         </div>
                                         <div class="post-footer">
-                                            <span>작성자: John Doe</span>
-                                            <span>등록일자: 2024-03-20</span>
+                                            <span th:text="${cs.user.userNickname}">작성자: John Doe</span>
+                                            <span th:text="${cs.csCreated}">등록일자: 2024-03-20</span>
                                             <button>답변 작성</button>
                                             <button>내 문의 바로가기</button>
 
@@ -360,6 +385,8 @@
                                     </div>
 
 
+                                </div>
+                            </div>
                         </div>
                     </section>
                 </section>

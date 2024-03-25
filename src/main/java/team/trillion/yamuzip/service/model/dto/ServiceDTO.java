@@ -1,23 +1,26 @@
 package team.trillion.yamuzip.service.model.dto;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
+@Setter
+@Getter
+@ToString
 public class ServiceDTO {
     private long serviceCode;
     private long dobCode;
-    private int categoryCode;
+    private DobbyDTO dobby;
+    private long categoryCode;
     private String serviceTitle;
     private String serviceExplain;
     private String serviceContent;
     private int servicePrice;
     private char serviceStatus;
     private LocalDateTime serviceCreated;
-    private DobbyDTO dobbyDTO;
+    private OptionDTO option;
+    private CsDTO cs;
+    private CsRepDTO csRep;
+    private ImageDTO image;
 
 }

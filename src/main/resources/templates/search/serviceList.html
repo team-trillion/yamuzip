@@ -35,6 +35,7 @@
             .card-foot {
                 display: flex;
                 justify-content: space-between;
+                margin-bottom: -40px;
             }
 
             .card-title {
@@ -58,6 +59,10 @@
             }
             .col-md-4{
                 margin-bottom: 10rem
+            }
+            #dobName {
+                font-size: 20px;
+                margin-bottom: 10px;
             }
         </style>
 
@@ -88,9 +93,10 @@
                                 금액
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">금액 항목 1</a>
-                                <a class="dropdown-item" href="#">금액 항목 2</a>
-                                <a class="dropdown-item" href="#">금액 항목 3</a>
+                                <a class="dropdown-item" href="#">전체</a>
+                                <a class="dropdown-item" href="#">0원 ~ 100,000원</a>
+                                <a class="dropdown-item" href="#">100,000원 ~ 250,000원</a>
+                                <a class="dropdown-item" href="#">250,000원 이상 </a>
                             </div>
                         </div>
                         <div class="dropdown">
@@ -100,9 +106,12 @@
                                 지역
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                <a class="dropdown-item" href="#">지역 항목 1</a>
-                                <a class="dropdown-item" href="#">지역 항목 2</a>
-                                <a class="dropdown-item" href="#">지역 항목 3</a>
+                                <a class="dropdown-item" href="#">전체</a>
+                                <a class="dropdown-item" href="#">서울</a>
+                                <a class="dropdown-item" href="#">경기도</a>
+                                <a class="dropdown-item" href="#">충청도</a>
+                                <a class="dropdown-item" href="#">전라도</a>
+
                             </div>
                         </div>
                         <div class="dropdown">
@@ -112,9 +121,10 @@
                                 경력
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-                                <a class="dropdown-item" href="#">경력 항목 1</a>
-                                <a class="dropdown-item" href="#">경력 항목 2</a>
-                                <a class="dropdown-item" href="#">경력 항목 3</a>
+                                <a class="dropdown-item" href="#">전체</a>
+                                <a class="dropdown-item" href="#">신입 ~ 1년차</a>
+                                <a class="dropdown-item" href="#">1년차 ~ 3년차</a>
+                                <a class="dropdown-item" href="#">3년차 이상</a>
                             </div>
                         </div>
                     </div>
@@ -138,17 +148,22 @@
                         <div class="col-md-4" th:each="service:${serviceList}">
 
                             <div class="card" style="width: 35rem; height: auto">
-                                <img src="/images/설치_2.png" class="card-img-top img-thumbnail" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-name" th:text="${service.dobNicname}">도비 이름</h5>
-                                    <a class="card-title" href="../serviceInfo" th:text="${service.serviceTitle}">서비스 이름</a>
-                                    <p class="card-text" th:text="${service.serviceContent}">서비스내용 Some quick example text to build on the card title and
+                                <img  src="/images/설치_2.png" class="card-img-top img-thumbnail" alt="...">
+                                <div class="card-body m-0 border">
+                                    <p id="dobName" class="card-name p-2 badge" style="color: whitesmoke; background-color: #97cbff" th:inline="text"><b>[[${service.dobby.dobNickName}]]</b></p>
+                                    <a class="card-title  p-3" style=" color: #003363" href="../serviceInfo" th:inline="text"><b>[[${service.serviceTitle}]]</b></a>
+                                    <p class="card-text p-3 border" style="border-radius: 5px" th:text="${service.serviceExplain}">서비스내용 Some quick example text to build on the card title and
                                         make up the bulk of the card's content.</p>
                                     <div class="card-foot">
-                                        <p class="heart">♥️</p>
-                                        <p class="infoFoot card-text" th:text="${service.servicePrice}">320,000~</p>
+                                        <p class="heart p-3">♥️</p>
+                                        <p class="infoFoot card-text p-3" th:text="${service.servicePrice}">320,000~</p>
                                     </div>
-                                    <p class="aver">★4.9(12)</p>
+                                    <div class="infoTab cardText mb-4 p-3">
+                                        <span class="badge bg-primary">하위 카테고리</span>
+                                        <span class="badge bg-primary">상위 카테고리</span>
+                                    </div>
+                                    <p class="aver p-3">★4.9(12)</p>
+
 
                                 </div>
                             </div>
