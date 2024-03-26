@@ -10,7 +10,7 @@ import team.trillion.yamuzip.common.exception.OrderFailedException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(OrderFailedException.class)
-    public ResponseEntity<Object> errorAsync(Exception e, Model model) {
+    public ResponseEntity<Object> errorAsync() {
         System.out.println("errorAsync");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
