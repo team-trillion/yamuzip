@@ -29,12 +29,10 @@ public class OrderService {
         } else {
             result1 = orderMapper.insertOrder(order);
         }
-
         payment.setOrderCode(order.getOrderCode());
         int result2 = orderMapper.insertPayment(payment);
 
-        // if(!(result1 > 0) && !(result2 > 0))
-            throw new OrderFailedException();
+        if(!(result1 > 0) && !(result2 > 0)) throw new OrderFailedException();
     }
 
     public OrderResultDTO selectOrderResult(String payCode) {

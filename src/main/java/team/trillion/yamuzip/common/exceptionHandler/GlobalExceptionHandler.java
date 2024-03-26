@@ -11,13 +11,11 @@ import team.trillion.yamuzip.common.exception.OrderFailedException;
 public class GlobalExceptionHandler {
     @ExceptionHandler(OrderFailedException.class)
     public ResponseEntity<Object> errorAsync() {
-        System.out.println("errorAsync");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
     @ExceptionHandler(RuntimeException.class)
     public String errorView(Exception e, Model model) {
-        System.out.println("errorView");
         model.addAttribute("errorMessage", e.getMessage());
         return "common/error";
     }
