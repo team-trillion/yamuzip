@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin}">
 
 <head>
     <th:block layout:fragment="userCss">
@@ -26,8 +26,6 @@
 </head>
 
 <body>
-<div id="fh5co-wrapper">
-    <div id="fh5co-page">
         <div id="fh5co-header">
             <th:block layout:fragment="headerFragment"></th:block>
         </div>
@@ -40,63 +38,12 @@
 
                     <!--여기부터 본인 페이지 코드 작성-->
 
-                    <div class="container">
-                        <!--                            <h1 class="fs-1 fw-bord mb-4">관리자 페이지</h1>-->
-                        <div class="border-bottom border-dark my-1 mb-3"></div>
-
-                        <div class="row">
-                            <!-- start sideBar -->
-                            <div class="col-md-2 col-sm-3 col-xs-4 flex-shrink-0 p-3">
-
-                                <ul class="sideBar list-unstyled rounded border border-dark-subtle bg-Emphasis p-5">
-                                    <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark">회원 관리</p>
-                                        <div>
-                                            <ul class="btn-toggle-nav list-unstyled fw-normal small">
-                                                <li><a href="/admin/user/list" class="text-body-tertiary link-primary link-body-emphasis d-inline-flex text-decoration-none rounded">회원 관리</a></li>
-                                                <li><a href="/admin/dobby/list" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">도비 관리</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark">서비스 관리</p>
-                                        <div>
-                                            <ul class="btn-toggle-nav list-unstyled fw-normal small">
-                                                <li><a href="/admin/service/list" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">전체 서비스 조회</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark">정산 관리</p>
-                                        <div>
-                                            <ul class="btn-toggle-nav list-unstyled fw-normal small">
-                                                <li><a href="admin/order/list" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">전체 주문내역 조회</a></li>
-                                                <li><a href="admin/calc/monthly" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">월별정산통계</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark">문의 관리</p>
-                                        <div>
-                                            <ul class="btn-toggle-nav list-unstyled fw-normal small">
-                                                <li><a href="/admin/cs/list" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">전체 문의 조회</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark">카테고리 관리</p>
-                                        <div>
-                                            <ul class="btn-toggle-nav list-unstyled fw-normal small">
-                                                <li><a href="/admin/category/select" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">카테고리 관리</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-
-                                </ul>
-                            </div>
-
                             <!-- start dashboard content -->
                             <div class="dashboardText col-md-10 col-sm-9 col-xs-8">
                                 <p class="fs-5 pt-3 px-2">
                                     <a href="#" class="text-black">관리자페이지</a> 〉 &nbsp;
                                     <a href="#" class="text-black">정산관리</a> 〉 &nbsp;
-                                    <a href="#" class="text-black">월별정산통계</a>  &nbsp;
+                                    <a href="#" class="text-black fw-bolder">월별정산통계</a>  &nbsp;
                                 </p>
 
                                 <div class="container-fluid border border-2 rounded py-3">
@@ -268,19 +215,12 @@
                         </div>
                         <!-- End Page Title -->
 
-                    </div>
-                    <!-- End row -->
-
                     <!--여기까지 본인 페이지 코드 작성-->
                 </section>
             </div>
         </div>
         <!-- content -->
 
-    </div>
-    <!-- page -->
-</div>
-<!-- wrapper -->
 
 <th:block layout:fragment="userScript">
     <!-- main js -->

@@ -1,47 +1,88 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin}">
 
 <head>
     <th:block layout:fragment="userCss">
+        <style>
+            .dBtn {
+                border: solid 1px #b0b0b0;
+                width: 85%;
+                background-color: #f8f8f8;
+                color: #222222;
+                font-weight: normal;
+                border-radius: 3%;
+            }
+        </style>
     </th:block>
 </head>
 
 <body>
-<div id="fh5co-wrapper">
-    <div id="fh5co-page">
-        <div id="fh5co-header">
-            <th:block layout:fragment="headerFragment"></th:block>
-        </div>
-
-
-        <div layout:fragment="content">
-            <div class="fh5co-hero">
-                <div class="fh5co-overlay"></div>
-                <section class="container-sm" style="background-color: yellow; padding-top: 150px;">
-
-                <!--여기부터 본인 페이지 코드 작성-->
-
-                    <h1>hello</h1>
-
-                    <p>표시를 위해 노란색 배경 적용했어요~ 22번 줄 style에서 background-color만 제거하시면 됩니다 퐈이튕!!!</p>
-                    <p>style.css는 웬만하면 건들지 않기! 꼭 상의하고 변경하기</p>
-                    <p>페이지에 필요한 css가 새로 있다면 head태그에 있는 usercss 블럭 태그 안에 작성하시면 됩니다!</p>
-
-                <!--여기까지 본인 페이지 코드 작성-->
-                </section>
-            </div>
-        </div>
-        <!-- content -->
-
-    </div>
-    <!-- page -->
+<div id="fh5co-header">
+    <th:block layout:fragment="headerFragment"></th:block>
 </div>
-<!-- wrapper -->
+
+
+<div layout:fragment="content">
+    <div class="fh5co-hero" style="height: auto">
+        <!--                <div class="fh5co-overlay"></div>-->
+        <section class="container-sm" style="padding-top: 150px;">
+
+            <div class=" col-md-10 col-sm-9 col-xs-8">
+                <p class="fs-5 pt-3 px-2">
+                    <a href="/admin/dashboard/dashboard" class="text-black">관리자페이지</a> 〉 &nbsp;
+                    <a href="/admin/dashboard/user" class="text-black">회원관리</a> 〉 &nbsp;
+                    <a href="" class="text-black fw-bolder">도비회원</a>  &nbsp;
+                </p>
+
+            <div class="container-fluid border border-2 rounded p-5">
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">아이디</th>
+                        <th scope="col">회원상태</th>
+                        <th scope="col">이름</th>
+                        <th scope="col">전화번호</th>
+                        <th scope="col">서비스</th>
+                        <th scope="col">가입일</th>
+                        <th scope="col">최근 결제일</th>
+                        <th scope="col">관리</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="dobby : ${dobbyList}"
+                        th:onclick="|location.href='/dobby/detail?dobCode=${dobby.dobCode}'|">
+                        <td th:text="${dobby.dobCode}"></td>
+                        <td th:text="${dobby.userId}"></td>
+                        <td th:text="${dobby.userName}"></td>
+                        <td th:text="${dobby.phone}"></td>
+                        <td>1</td>
+                        <td>1</td>
+                        <!--                            <td th:text="${dobby.review}"></td>-->
+                        <!--                            <td th:text="${dobby.cs}"></td>-->
+                        <!--                            <td th:text="${#dates.format(dobby.registDate, 'yyyy.MM.dd HH:mm:ss')}"></td>-->
+                        <!--                            <td th:text="${dobby.payDate}"></td>-->
+                        <td>1</td>
+                        <td>
+                            <button type="button" class="badge dBtn btn btn-sm mb-2">회원 정지</button>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+
+            <!--여기까지 본인 페이지 코드 작성-->
+        </section>
+    </div>
+</div>
+<!-- content -->
 
 <th:block layout:fragment="userScript">
-<!--본인 페이지 js 작성-->
+    <!-- main js -->
+    <script src="/js/main.js"></script>
 </th:block>
 
 </body>
