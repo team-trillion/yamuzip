@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import team.trillion.yamuzip.common.exception.OrderFailedException;
 import team.trillion.yamuzip.order.model.dto.*;
 import team.trillion.yamuzip.order.model.service.OrderService;
 
@@ -70,7 +71,7 @@ public class OrderController {
     }
 
     @PostMapping("/payment")
-    public ResponseEntity<String> insertOrderAndPayment(@RequestBody OrderPaymentDTO orderPayment) {
+    public ResponseEntity<String> insertOrderAndPayment(@RequestBody OrderPaymentDTO orderPayment) throws OrderFailedException {
 
         OrderDTO order = new OrderDTO();
         order.setServiceCode(orderPayment.getServiceCode());
@@ -99,4 +100,7 @@ public class OrderController {
 
         return "order/success";
     }
+
+    @GetMapping("/error")
+    public void orderErrorView() {}
 }

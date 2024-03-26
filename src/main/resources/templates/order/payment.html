@@ -180,14 +180,14 @@
                         success : function (res) {
                             location.href = res + "?payCode=" + result.payCode;
                         },
-                        error: function (err) {
-                            console.log(err);
+                        error: function () {
+                            location.href = "/order/error";
                         }
                     }); //ajax
                 } else {
                     msg = '결제 실패' + '\n에러 코드 : ' + rsp.error_code + '\n에러 내용 : ' + rsp.error_msg;
+                    alert(msg);
                 }
-                alert(msg);
             });
         }
     </script>
@@ -210,7 +210,7 @@
             IMP.request_pay({
                 pg: "tosspay.tosstest",
                 pay_method: "card",
-                merchant_uid: "YMZ" + new Date().getTime(),   // 주문번호
+                merchant_uid: "YMZ" + new Date().getTime(), // 주문번호
                 name: $serviceTitle,
                 amount: $totalPrice,                         // 숫자 타입
 
@@ -245,14 +245,14 @@
                         success : function (res) {
                             location.href = res + "?payCode=" + result.payCode;
                         },
-                        error: function (err) {
-                            console.log(err);
+                        error: function () {
+                            location.href = "/order/error";
                         }
                     }); //ajax
                 } else {
                     msg = '결제 실패' + '\n에러 코드 : ' + rsp.error_code + '\n에러 내용 : ' + rsp.error_msg;
+                    alert(msg);
                 }
-                alert(msg);
             });
         }
     </script>

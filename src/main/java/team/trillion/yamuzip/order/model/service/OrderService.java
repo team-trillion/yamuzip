@@ -33,7 +33,8 @@ public class OrderService {
         payment.setOrderCode(order.getOrderCode());
         int result2 = orderMapper.insertPayment(payment);
 
-        if(!(result1 > 0) && !(result2 > 0)) throw new OrderFailedException("주문이 정상적으로 완료되지 않았습니다.");
+        // if(!(result1 > 0) && !(result2 > 0))
+            throw new OrderFailedException();
     }
 
     public OrderResultDTO selectOrderResult(String payCode) {
