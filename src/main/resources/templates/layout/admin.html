@@ -8,16 +8,22 @@
 <body>
 <div id="fh5co-wrapper">
     <div id="fh5co-page">
+        <div class="container">
         <!-- header fragment -->
-        <div th:block th:replace="~{layout/admin/header::headerFragment}"></div>
+        <div th:block th:replace="~{/layout/admin/header::headerFragment}"></div>
 
-        <div th:block th:replace="~{layout/admin/content::contentFragment}"></div>
+        <!-- sideBar -->
+        <div th:block th:replace="~{/layout/admin/sidebar::sideBar}"></div>
+
+        <!-- content fragment -->
+        <div th:block th:replace="~{/layout/admin/content::contentFragment}"></div>
+        </div>
 
         <!-- footer fragment -->
-        <div th:block th:replace="~{layout/admin/footer::footerFragment}"></div>
+        <div th:block th:replace="~{/layout/admin/footer::footerFragment}"></div>
 
         <!-- script fragment -->
-        <div th:replace="~{layout/admin/script::scriptFragment}"></div>
+        <div th:replace="~{/layout/admin/script::scriptFragment}"></div>
 
         <!-- 사용자 스크립트 영역 -->
         <th:block layout:fragment="userScript"></th:block>
