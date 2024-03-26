@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/admin}">
 
 <head>
     <th:block layout:fragment="userCss">
@@ -10,6 +10,7 @@
             .dashboardText > div > div > a:hover {
                 color: #003f62 !important;
             }
+
             svg.bi {
                 color: rgba(38, 38, 38, 0.5);
             }
@@ -19,143 +20,90 @@
 </head>
 
 <body>
-<div id="fh5co-wrapper">
-    <div id="fh5co-page">
-        <div id="fh5co-header">
-            <th:block layout:fragment="headerFragment"></th:block>
-        </div>
+<div id="fh5co-header">
+    <th:block layout:fragment="headerFragment"></th:block>
+</div>
 
 
-        <div layout:fragment="content">
-            <div class="fh5co-hero" style="height: auto">
-                <!--                <div class="fh5co-overlay"></div>-->
-                <section class="container-sm" style="padding-top: 150px">
+<div layout:fragment="content">
+    <div class="fh5co-hero" style="height: auto">
+        <!--                <div class="fh5co-overlay"></div>-->
+        <section class="container-sm" style="padding-top: 150px">
 
-                    <!--여기부터 본인 페이지 코드 작성-->
+            <!-- start dashboard content -->
+            <div class="dashboardText col-md-10 col-sm-9 col-xs-8">
 
-                    <div class="container">
-                        <!--                            <h1 class="fs-1 fw-bord mb-4">관리자 페이지</h1>-->
-                        <div class="border-bottom border-dark my-1 mb-3"></div>
+                <p class="h3 border-bottom border-2 pb-3 px-2" style="color: #003f62">회원관리</p>
 
-                        <div class="row">
-                            <!-- start sideBar -->
-                            <div class="col-md-2 col-sm-3 col-xs-4 flex-shrink-0 p-3">
-
-                                <ul class="sideBar list-unstyled rounded border border-dark-subtle bg-Emphasis p-5">
-                                    <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark">회원 관리</p>
-                                        <div>
-                                            <ul class="btn-toggle-nav list-unstyled fw-normal small">
-                                                <li><a href="/admin/user/list" class="text-body-tertiary link-primary link-body-emphasis d-inline-flex text-decoration-none rounded">회원 관리</a></li>
-                                                <li><a href="/admin/dobby/list" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">도비 관리</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark">서비스 관리</p>
-                                        <div>
-                                            <ul class="btn-toggle-nav list-unstyled fw-normal small">
-                                                <li><a href="/admin/service/list" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">전체 서비스 조회</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark">정산 관리</p>
-                                        <div>
-                                            <ul class="btn-toggle-nav list-unstyled fw-normal small">
-                                                <li><a href="admin/order/list" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">전체 주문내역 조회</a></li>
-                                                <li><a href="admin/calc/monthly" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">월별정산통계</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark">문의 관리</p>
-                                        <div>
-                                            <ul class="btn-toggle-nav list-unstyled fw-normal small">
-                                                <li><a href="/admin/cs/list" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">전체 문의 조회</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark">카테고리 관리</p>
-                                        <div>
-                                            <ul class="btn-toggle-nav list-unstyled fw-normal small">
-                                                <li><a href="/admin/category/select" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">카테고리 관리</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-
-                                </ul>
-                            </div>
-
-                            <!-- start dashboard content -->
-                            <div class="dashboardText col-md-10 col-sm-9 col-xs-8">
-                                <p class="fs-5 pt-2 px-2">
-                                    <a href="#" class="text-black">정산관리</a> 〉 &nbsp;
-                                    <a href="#" class="text-dark">전체 주문내역 조회</a>
-                                </p>
-                                <div class="row">
-                                    <div class="col-6 rounded px-5 border text-center">
-                                        <p class="h2 pt-4" style="color: #003f62">회원</p>
-                                        <button type="button" class="btn btn-sm btn-primary mt-3"
-                                                th:onclick="'location.href=\'/user/list\''">자세히 보기</button>
-                                        <div class="mx-5 pt-5" style="border-bottom: solid 1px dimgray;"></div>
-                                        <p class="h6 lh-base py-3">야무집의 모든 회원을 조회하고,<br>회원의 활동을 관리할 수 있습니다.<br>주문관련의 설정은 정산관리에서 진행할 수 있습니다.</p>
-                                    </div>
-                                    <div class="col-6 rounded px-5 border text-center">
-                                        <p class="h2 pt-4" style="color: #003f62">도비</p>
-                                        <button type="button" class="btn btn-sm btn-primary mt-3"
-                                                th:onclick="'location.href=\'/dobby/list\''">자세히 보기</button>
-                                        <div class="mx-5 pt-5" style="border-bottom: solid 1px dimgray;"></div>
-                                        <p class="h6 lh-base py-3">야무집의 도비 회원을 조회하고,<br>도비의 활동을 관리할 수 있습니다.<br>신규 도비 신청 목록을 조회하고, 승인 및 거절을 진행합니다.</p>
-                                    </div>
-                                </div>
-
-                                <div class="my-5">
-                                    <div class="row text-center rounded border">
-                                        <div class="col-4 bg-body py-5 px-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="75" height="75" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
-                                                <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-                                                <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5"/>
-                                            </svg><br>
-                                            <p class="h4 fw-bold text-emphasis">신규 도비 신청</p>
-                                            <button type="button" class="btn btn-sm btn-primary mt-2"
-                                                    th:onclick="'location.href=\'/apply/dobby\''">자세히 보기</button>
-                                        </div>
-                                        <div class="col-8 pt-3">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">회원번호</th>
-                                                    <th scope="col">아이디</th>
-                                                    <th scope="col">이름</th>
-                                                    <th scope="col">신청일</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End dashboard content -->
-
-
-                        </div><!-- End Page Title -->
-
+                <div class="container-fluid">
+                <div class="row mt-5">
+                    <div class="col-6 rounded px-5 border text-center">
+                        <p class="h2 pt-4" style="color: #003f62">회원</p>
+                        <button type="button" class="btn btn-sm btn-primary mt-3"
+                                th:onclick="|location.href='/admin/user/list'|">자세히 보기
+                        </button>
+                        <div class="mx-5 pt-5" style="border-bottom: solid 1px dimgray;"></div>
+                        <p class="h6 lh-base py-3">야무집의 모든 회원을 조회하고,<br>회원의 활동을 관리할 수 있습니다.<br>주문관련의 설정은 정산관리에서 진행할 수
+                            있습니다.</p>
                     </div>
-                    <!-- End row -->
-                    <!--여기까지 본인 페이지 코드 작성-->
-                </section>
+                    <div class="col-6 rounded px-5 border text-center">
+                        <p class="h2 pt-4" style="color: #003f62">도비</p>
+                        <button type="button" class="btn btn-sm btn-primary mt-3"
+                                th:onclick="|location.href='/admin/dobby/list'|">자세히 보기
+                        </button>
+                        <div class="mx-5 pt-5" style="border-bottom: solid 1px dimgray;"></div>
+                        <p class="h6 lh-base py-3">야무집의 도비 회원을 조회하고,<br>도비의 활동을 관리할 수 있습니다.<br>신규 도비 신청 목록을 조회하고, 승인 및
+                            거절을 진행합니다.</p>
+                    </div>
+                </div>
+
+
+                <div class="my-5">
+                    <div class="row text-center rounded border">
+                        <div class="col-4 bg-body py-5 px-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="75" height="75" fill="currentColor"
+                                 class="bi bi-person-plus" viewBox="0 0 16 16">
+                                <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                                <path fill-rule="evenodd"
+                                      d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5"/>
+                            </svg>
+                            <br>
+                            <p class="h4 fw-bold text-emphasis">신규 도비 신청</p>
+                            <button type="button" class="btn btn-sm btn-primary mt-2"
+                                    th:onclick="|location.href='/admin/apply/list'|">자세히 보기
+                            </button>
+                        </div>
+                        <div class="col-8 pt-3">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th scope="col">회원번호</th>
+                                    <th scope="col">아이디</th>
+                                    <th scope="col">이름</th>
+                                    <th scope="col">신청일</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <!-- container -->
             </div>
-        </div>
-        <!-- content -->
+            <!-- End dashboard content -->
 
     </div>
-    <!-- page -->
+    <!-- End Page Title -->
+
+<!--여기까지 본인 페이지 코드 작성-->
+</section>
 </div>
-<!-- wrapper -->
 
 <th:block layout:fragment="userScript">
     <!-- main js -->
-    <script src="js/main.js"></script>
+    <script src="/js/main.js"></script>
 
 </th:block>
 
