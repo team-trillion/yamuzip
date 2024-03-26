@@ -79,17 +79,14 @@ public class OrderController {
         order.setReserveDatetime(orderPayment.getReserveDatetime());
         order.setOptionCode(orderPayment.getOptionCode());
 
-        int orderCode = orderService.insertOrder(order).getOrderCode();
-
         PaymentDTO payment = new PaymentDTO();
         payment.setPayCode(orderPayment.getPayCode());
-        payment.setOrderCode(orderCode);
         payment.setPayPrice(orderPayment.getTotalPrice());
         payment.setPayType(orderPayment.getPayType());
         payment.setPayStatus(orderPayment.getPayStatus());
         payment.setPayDatetime(orderPayment.getPayDatetime());
 
-        orderService.insertPayment(payment);
+        orderService.insertOrderInfo(order, payment);
 
         return ResponseEntity.ok("/order/success");
     }

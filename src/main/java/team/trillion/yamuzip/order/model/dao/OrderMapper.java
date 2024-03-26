@@ -9,11 +9,11 @@ public interface OrderMapper {
 
     OptionDTO selectOption(int optionCode);
 
-    void insertOrder(OrderDTO order);
+    int insertOrder(OrderDTO order);
 
-    void insertOrderNoOption(OrderDTO order);
+    int insertOrderNoOption(OrderDTO order);
 
-    void insertPayment(PaymentDTO payment);
+    int insertPayment(PaymentDTO payment);
 
     OrderResultDTO selectOrderResult(String payCode);
 }

@@ -2,6 +2,8 @@ package team.trillion.yamuzip.order.model.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import team.trillion.yamuzip.common.exception.OrderFailedException;
 import team.trillion.yamuzip.order.model.dao.OrderMapper;
 import team.trillion.yamuzip.order.model.dto.*;
 
@@ -19,17 +21,19 @@ public class OrderService {
         return orderMapper.selectOption(optionCode);
     }
 
-    public OrderDTO insertOrder(OrderDTO order) {
+    @Transactional
+    public void insertOrderInfo(OrderDTO order, PaymentDTO payment) throws OrderFailedException {
+        int result1 = 0;
         if(order.getOptionCode() == 0) {
-            orderMapper.insertOrderNoOption(order);
+            result1 = orderMapper.insertOrderNoOption(order);
         } else {
-            orderMapper.insertOrder(order);
+            result1 = orderMapper.insertOrder(order);
         }
-        return order;
-    }
 
-    public void insertPayment(PaymentDTO payment) {
-        orderMapper.insertPayment(payment);
+        payment.setOrderCode(order.getOrderCode());
+        int result2 = orderMapper.insertPayment(payment);
+
+        if(!(result1 > 0) && !(result2 > 0)) throw new OrderFailedException("주문이 정상적으로 완료되지 않았습니다.");
     }
 
     public OrderResultDTO selectOrderResult(String payCode) {
