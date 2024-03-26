@@ -13,6 +13,8 @@
             regist_datetime
         FROM
             tbl_user
+        WHERE
+            auth != 'ADMIN'
         ORDER BY
             user_code
     </select>

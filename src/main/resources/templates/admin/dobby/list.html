@@ -36,17 +36,17 @@
                     <a href="" class="text-black fw-bolder">도비회원</a>  &nbsp;
                 </p>
 
-            <div class="container-fluid border border-2 rounded p-5">
+            <div class="container-fluid border border-2 rounded p-5 mb-5">
 
                 <table class="table table-hover">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">아이디</th>
-                        <th scope="col">회원상태</th>
+                        <th scope="col">닉네임</th>
                         <th scope="col">이름</th>
                         <th scope="col">전화번호</th>
-                        <th scope="col">서비스</th>
+                        <th scope="col">보유서비스</th>
                         <th scope="col">가입일</th>
                         <th scope="col">최근 결제일</th>
                         <th scope="col">관리</th>
@@ -57,15 +57,12 @@
                         th:onclick="|location.href='/dobby/detail?dobCode=${dobby.dobCode}'|">
                         <td th:text="${dobby.dobCode}"></td>
                         <td th:text="${dobby.userId}"></td>
+                        <td th:text="${dobby.dobNickname}"></td>
                         <td th:text="${dobby.userName}"></td>
                         <td th:text="${dobby.phone}"></td>
-                        <td>1</td>
-                        <td>1</td>
-                        <!--                            <td th:text="${dobby.review}"></td>-->
-                        <!--                            <td th:text="${dobby.cs}"></td>-->
-                        <!--                            <td th:text="${#dates.format(dobby.registDate, 'yyyy.MM.dd HH:mm:ss')}"></td>-->
-                        <!--                            <td th:text="${dobby.payDate}"></td>-->
-                        <td>1</td>
+                        <td th:text="${dobby.dobbyServiceCount}"></td>
+                        <td th:text="${#dates.format(dobby.registDatetime, 'yy.MM.dd')}"></td>
+                        <td th:text="${#dates.format(dobby.orderDatetime, 'yy.MM.dd')}"></td>
                         <td>
                             <button type="button" class="badge dBtn btn btn-sm mb-2">회원 정지</button>
                     </tr>

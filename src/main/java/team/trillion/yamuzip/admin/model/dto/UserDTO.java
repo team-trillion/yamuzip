@@ -18,6 +18,6 @@ public class UserDTO {
     private String phone;
     //
     //
-    private Date registDate;
+    private Date registDatetime;
     //
 }
