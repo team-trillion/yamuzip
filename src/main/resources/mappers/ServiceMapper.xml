@@ -105,6 +105,7 @@
         JOIN tbl_dobby ON tbl_service.dob_code = tbl_dobby.dob_code
         WHERE
         service_status = 'A'
+        service_code = #{serviceCode}
         ORDER BY
         service_code
     </select>
@@ -126,28 +127,28 @@
 
     <select id="getReviews" resultMap="getReviews" >
         SELECT
-        user_nickname,
-        review_created,
-        review_grade,
-        review_content
+            user_nickname,
+            review_created,
+            review_grade,
+            review_content
         FROM
-        tbl_review
+            tbl_review
         JOIN tbl_user ON tbl_review.writer_user_code = tbl_user.user_code
     </select>
     <select id="getCs" resultMap="getCs">
         SELECT
-        cs_code,
-        section,
-        writer_user_code,
-        user_nickname,
-        cs_created,
-        cs_status,
-        cs_type,
-        cs_secret,
-        cs_modify,
-        cs_title,
-        cs_content,
-        s1.service_code
+            cs_code,
+            section,
+            writer_user_code,
+            user_nickname,
+            cs_created,
+            cs_status,
+            cs_type,
+            cs_secret,
+            cs_modify,
+            cs_title,
+            cs_content,
+            s1.service_code
         FROM
         tbl_cs
 

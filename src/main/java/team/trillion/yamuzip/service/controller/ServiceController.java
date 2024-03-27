@@ -33,8 +33,8 @@ public class ServiceController {
         return "search/serviceList";
     }
 
-    @GetMapping("/serviceInfo")
-    public String findInfoService(@RequestParam("code") long serviceCode, Model model) {
+    @GetMapping("/serviceInfo/{serviceCode}")
+    public String findInfoService(@PathVariable("serviceCode") long serviceCode, Model model) {
         List<ServiceDTO> serviceInfoList = serviceService.findInfoService(serviceCode);
 
 
