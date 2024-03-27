@@ -1,18 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="team.trillion.yamuzip.user.model.dao.UserMapper">
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.user.dao.UserMapper">
 
-    <select id="getOrderStatus">
+    <select id="login" resultType="team.trillion.yamuzip.user.dto.UserDTO">
         SELECT
             user_code,
-            order_code,
-            order_status
+            user_id,
+            user_pwd,
+            user_name,
+            user_nickname,
+            phone,
+            user_status,
+            auth,
+            email
         FROM
-            tbl_order
+            tbl_user
         WHERE
-            user_code = #{ userCode }
+            user_id= #{userId }
+    </select>
+
+    <insert id="regist">
+        INSERT INTO
+            tbl_user (user_id, user_pwd, user_name, phone,email)
+        VALUES
+            (#{userId}, #{userPwd}, #{userName}, #{phone}, #{email})
+    </insert>
+
+    <select id="getIds">
+        SELECT
+        user_id
+        FROM
+        tbl_user
+    </select>
+
+    <select id="findId">
+        SELECT
+            user_id,
+            email
+        FROM
+            tbl_user
     </select>
 
 </mapper>
