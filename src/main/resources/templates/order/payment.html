@@ -22,92 +22,85 @@
 </head>
 
 <body>
-<div id="fh5co-wrapper">
-    <div id="fh5co-page">
-        <div id="fh5co-header">
-            <th:block layout:fragment="headerFragment"></th:block>
-        </div>
+<div id="fh5co-header">
+    <th:block layout:fragment="headerFragment"></th:block>
+</div>
 
+<div layout:fragment="content">
+    <div class="fh5co-hero" style="height: auto; padding-bottom: 100px;">
+        <section class="container-sm" style="padding-top: 150px;">
 
-        <div layout:fragment="content">
-            <div class="fh5co-hero" style="height: auto; padding-bottom: 100px;">
-<!--                <div class="fh5co-overlay"></div>-->
-                <section class="container-sm" style="padding-top: 150px;">
-
-                    <!--여기부터 본인 페이지 코드 작성-->
+            <!--여기부터 본인 페이지 코드 작성-->
+            <div class="row">
+                <div class="col-lg-8" style="margin: 0 auto;">
                     <div class="row">
-                        <div class="col-lg-8" style="margin: 0 auto;">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="img-box">
-                                        <img th:src="${ service.imageList[0].imgUrl }" class="rounded service-img"/>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <nav>
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item">
-                                                <a href="#" th:text="${ service.category.refCategoryName }">상위 카테고리</a>
-                                            </li>
-                                            <li class="breadcrumb-item active">
-                                                <a href="#" th:text="${ service.category.categoryName }">하위 카테고리</a>
-                                            </li>
-                                        </ol>
-                                    </nav>
-                                    <h2 th:text="${service.serviceTitle}"></h2>
-                                    <h4 th:text="|예약 날짜 : ${reserveDatetime}|"></h4>
-                                    <p>선택한 옵션 :
-                                        <span th:text="|${option.optionName}(+${option.optionPrice}원)|" th:if="${option != null}"></span>
-                                        <span th:text="없음" th:unless="${option != null}"></span>
-                                    </p>
-                                </div>
+                        <div class="col-md-4">
+                            <div class="img-box">
+                                <img th:src="${ service.imageList[0].imgUrl }" class="rounded service-img"/>
                             </div>
-                            <h3 class="text-right" th:text="|총액 ${totalPrice}원|"></h3>
+                        </div>
+                        <div class="col">
+                            <nav>
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="#" th:text="${ service.category.refCategoryName }">상위 카테고리</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">
+                                        <a href="#" th:text="${ service.category.categoryName }">하위 카테고리</a>
+                                    </li>
+                                </ol>
+                            </nav>
+                            <h2 th:text="${service.serviceTitle}"></h2>
+                            <h4 th:text="|예약 날짜 : ${reserveDatetime}|"></h4>
+                            <p>선택한 옵션 :
+                                <span th:text="|${option.optionName}(+${option.optionPrice}원)|"
+                                      th:if="${option != null}"></span>
+                                <span th:text="없음" th:unless="${option != null}"></span>
+                            </p>
+                        </div>
+                    </div>
+                    <h3 class="text-right" th:text="|총액 ${totalPrice}원|"></h3>
 
-                            <hr>
-                            <h3>결제 방식 선택
-                            </h3>
-                            <form id="pay-form">
-                                <div class="option-group">
+                    <hr>
+                    <h3>결제 방식 선택
+                    </h3>
+                    <form id="pay-form">
+                        <div class="option-group">
                                     <span class="inputGroup">
                                         <input id="radio1" name="pay" value="card" type="radio" checked/>
                                         <label for="radio1">카드결제</label>
                                     </span>
-                                    <span class="inputGroup">
+                            <span class="inputGroup">
                                         <input id="radio2" name="pay" value="toss" type="radio"/>
                                         <label for="radio2">토스페이</label>
                                     </span>
-                                </div>
-                                <hr>
-                                <div class="row checkbox-row">
-                                    <div class="col-xs-9 col-xs-offset-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" required>
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                주문 내용을 확인하였으며, 결제 약관에 동의합니다.
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="text-center" >
-                                    <button class="btn btn-primary" type="submit" value="submit">결제하기</button>
-                                </div>
-                            </form>
                         </div>
-                    </div>
+                        <hr>
+                        <div class="row checkbox-row">
+                            <div class="col-xs-9 col-xs-offset-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                                           required>
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        주문 내용을 확인하였으며, 결제 약관에 동의합니다.
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
 
-
-                    <!--여기까지 본인 페이지 코드 작성-->
-                </section>
+                        <div class="text-center">
+                            <button class="btn btn-primary" type="submit" value="submit">결제하기</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
-        <!-- content -->
 
+
+            <!--여기까지 본인 페이지 코드 작성-->
+        </section>
     </div>
-    <!-- page -->
 </div>
-<!-- wrapper -->
+<!-- content -->
 
 <th:block layout:fragment="userScript">
     <!--본인 페이지 js 작성-->
