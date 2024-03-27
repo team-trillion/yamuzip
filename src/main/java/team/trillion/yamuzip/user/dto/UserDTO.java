@@ -12,9 +12,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collection;
 
-@Getter
-@Setter
-@ToString
+@Getter @Setter @ToString
 public class UserDTO implements UserDetails {
 
     private int userCode;
