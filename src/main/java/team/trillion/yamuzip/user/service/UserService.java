@@ -44,6 +44,9 @@ public class UserService {
         return userMapper.getIds();
     }
 
-    public List<String> findId() { return userMapper.findId();
+
+
+    public List<String> findUserId() {
+        return userMapper.findUserId();
     }
 }

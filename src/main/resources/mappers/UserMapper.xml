@@ -35,9 +35,9 @@
         tbl_user
     </select>
 
-    <select id="findId">
+    <select id="findUserId">
         SELECT
-            user_id,
+            user_name,
             email
         FROM
             tbl_user

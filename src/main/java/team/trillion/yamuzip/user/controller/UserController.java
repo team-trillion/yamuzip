@@ -56,6 +56,12 @@ public class UserController {
         return "redirect:/user/login";
     }
 
+    @GetMapping("/getId")
+    public @ResponseBody List<String> fetchJsonTest() {
+
+        return userService.getIds();
+    }
+
 
 //    @GetMapping("/findId")
 //    public String findId() {
@@ -69,25 +75,32 @@ public class UserController {
 //    }
 
 
-//    @GetMapping("/findId")
-//    public String findId() {return "/user/findId";}
+    @GetMapping("/findId")
+    public String findId() {return "/user/findId";}
 
+//    @ResponseBody
+//    @GetMapping("/findUserId")
+//    public   List<String> findUserId() {
+//        return userService.findUserId();
+//    }
+    @PostMapping("/findId")
+    public String findUserId(@RequestBody Map<String, String> requestData) {
+        String name = requestData.get("name");
+        String email = requestData.get("email");
+        return "foundUserId";
+    }
 
 
     @GetMapping("/findPwd")
     public String findPwd() {return "user/findPwd";}
 
-    @GetMapping("/getId")
-    public @ResponseBody List<String> fetchJsonTest() {
-
-        return userService.getIds();
-    }
 
 
-    @GetMapping("/findId")
-    public @ResponseBody List<String> findId() {
-        return userService.findId();
-    }
+//    @ResponseBody
+//    @GetMapping("/findId")
+//    public  List<String> findId() {
+//        return "/user/findId";
+//    }
 
 
 
