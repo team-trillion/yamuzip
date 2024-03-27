@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.order.model.dao.OrderMapper">
+
+    <resultMap type="team.trillion.yamuzip.order.model.dto.ServiceDTO" id="serviceResultMap" >
+        <id property="serviceCode" column="service_code"/>
+        <association property="dobby" resultMap="dobbyResultMap"/>
+        <association property="category" resultMap="categoryResultMap"/>
+        <collection property="imageList" resultMap="imageResultMap"/>
+        <collection property="optionList" resultMap="optionResultMap"/>
+<!--        <collection property="reserveDatetimeList" column="reserve_datetime" ofType="java.time.LocalDateTime"/>-->
+        <collection property="orderList" resultMap="orderResultMap"/>
+    </resultMap>
+
+    <resultMap type="team.trillion.yamuzip.order.model.dto.DobbyDTO" id="dobbyResultMap" >
+        <id property="dobCode" column="dob_code"/>
+        <collection property="workdayList" resultMap="workdayResultMap"/>
+    </resultMap>
+
+    <resultMap type="team.trillion.yamuzip.order.model.dto.WorkdayDTO" id="workdayResultMap" >
+        <id column="{dayWeek=day_week,dobCode=dob_code}"/>
+    </resultMap>
+
+    <resultMap type="team.trillion.yamuzip.order.model.dto.CategoryDTO" id="categoryResultMap" >
+        <id property="categoryCode" column="category_code"/>
+        <result property="categoryName" column="category_name"/>
+        <result property="refCategoryName" column="ref_category_name"/>
+    </resultMap>
+
+    <resultMap type="team.trillion.yamuzip.order.model.dto.ImageDTO" id="imageResultMap" >
+        <id property="imgCode" column="img_code"/>
+    </resultMap>
+
+    <resultMap type="team.trillion.yamuzip.order.model.dto.OptionDTO" id="optionResultMap" >
+        <id property="optionCode" column="option_code"/>
+        <result property="serviceCode" column="service_id"/> <!-- serviceCode 오토매핑되지 않도록-->
+    </resultMap>
+
+    <resultMap type="team.trillion.yamuzip.order.model.dto.OrderDTO" id="orderResultMap" >
+        <id property="orderCode" column="order_code"/>
+        <result property="serviceCode" column="service_id"/> <!-- serviceCode 오토매핑되지 않도록-->
+    </resultMap>
+
+    <resultMap id="orderResultResultMap" type="team.trillion.yamuzip.order.model.dto.OrderResultDTO">
+        <id property="orderCode" column="order_code"/>
+    </resultMap>
+
+
+    <select id="selectService" resultMap="serviceResultMap">
+        SELECT
+            a.service_code,
+            a.service_title,
+            a.service_explain,
+            a.service_price,
+            b.dob_nickname,
+            c.category_name,
+            c2.category_name as ref_category_name,
+            DATE_FORMAT(d.reserve_datetime, '%Y-%m-%d') AS "reserve_datetime",
+            e.day_week,
+            e.dob_code,
+            f.option_code,
+            f.option_name,
+            f.option_price,
+            g.img_url
+        FROM
+            tbl_service a
+                JOIN
+            tbl_dobby b ON (a.dob_code = b.dob_code)
+                JOIN
+            tbl_category c ON (a.category_code = c.category_code)
+                LEFT JOIN
+            tbl_category c2 ON (c.ref_category_code = c2.category_code)
+                LEFT JOIN
+            tbl_order d ON (a.service_code = d.service_code)
+                LEFT JOIN
+            tbl_workday e ON (a.dob_code = e.dob_code)
+                LEFT JOIN
+            tbl_option f ON (a.service_code = f.service_code)
+                LEFT JOIN
+            tbl_img g ON (a.service_code = g.service_code)
+        WHERE
+            a.service_code = #{ serviceCode }
+            AND
+            a.service_status = 'A'
+    </select>
+
+    <select id="selectOption" resultMap="optionResultMap">
+        SELECT
+            option_code,
+            option_name,
+            option_price
+        FROM
+            tbl_option
+        WHERE
+            option_code = #{ optionCode }
+    </select>
+
+    <insert id="insertOrder">
+        INSERT INTO
+            tbl_order (service_code, user_code, total_price, reserve_datetime, option_code)
+        VALUES
+            (#{ serviceCode }, #{ userCode }, #{ totalPrice }, #{ reserveDatetime }, #{ optionCode })
+
+        <selectKey resultType="Int" keyProperty="orderCode" keyColumn="order_code" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="insertOrderNoOption">
+        INSERT INTO
+        tbl_order (service_code, user_code, total_price, reserve_datetime)
+        VALUES
+        (#{ serviceCode }, #{ userCode }, #{ totalPrice }, #{ reserveDatetime })
+
+        <selectKey resultType="Int" keyProperty="orderCode" keyColumn="order_code" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="insertPayment">
+        INSERT INTO
+            tbl_payment(pay_code, order_code, pay_price, pay_type, pay_status, pay_datetime)
+        VALUES
+            (#{ payCode }, #{ orderCode }, #{ payPrice }, #{ payType }, #{ payStatus }, #{ payDatetime })
+    </insert>
+
+    <select id="selectOrderResult" resultMap="orderResultResultMap">
+        SELECT
+            a.pay_code,
+            a.order_code,
+            a.pay_price,
+            a.pay_type,
+            service_title,
+            option_name,
+            option_price
+        FROM
+            tbl_payment a
+                JOIN
+            tbl_order b on (a.order_code = b.order_code)
+                LEFT JOIN
+            tbl_option c on (b.option_code = c.option_code)
+                LEFT JOIN
+            tbl_service d on (b.service_code = d.service_code)
+        WHERE
+            a.pay_code = #{ payCode }
+    </select>
+</mapper>
+
