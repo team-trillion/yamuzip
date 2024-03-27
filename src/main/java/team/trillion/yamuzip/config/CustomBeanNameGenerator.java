@@ -10,7 +10,6 @@ public class CustomBeanNameGenerator implements BeanNameGenerator {
     public String generateBeanName(BeanDefinition definition, BeanDefinitionRegistry registry) {
         final String result;
         result = generateFullBeanName((AnnotatedBeanDefinition) definition);
-        System.out.println(result);
         return result;
     }
     private String generateFullBeanName(final AnnotatedBeanDefinition definition) {
