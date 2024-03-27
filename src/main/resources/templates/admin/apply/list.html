@@ -9,6 +9,7 @@
             .dBtn {
                 border: solid 1px #b0b0b0;
             }
+            .
         </style>
     </th:block>
 </head>
@@ -40,26 +41,26 @@
                         <th scope="col">아이디</th>
                         <th scope="col">이름</th>
                         <th scope="col">전화번호</th>
-                        <th scope="col">경력사항</th>
+                        <th scope="col">전문분야</th>
                         <th scope="col">신청일</th>
                         <th scope="col">신청서</th>
                         <th scope="col">관리</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="dobby : ${dobbyList}"
-                        th:onclick="|location.href='/dobby/detail?dobCode=${dobby.dobCode}'|">
-                        <td th:text="${dobby.dobCode}"></td>
-                        <td th:text="${dobby.userId}"></td>
-                        <td th:text="${dobby.userName}"></td>
-                        <td th:text="${dobby.phone}"></td>
-                        <td>1</td>
-                        <td>1</td>
-                        <!--                            <td th:text="${dobby.review}"></td>-->
-                        <!--                            <td th:text="${dobby.cs}"></td>-->
-                        <!--                            <td th:text="${#dates.format(dobby.registDate, 'yyyy.MM.dd HH:mm:ss')}"></td>-->
-                        <!--                            <td th:text="${dobby.payDate}"></td>-->
-                        <td>1</td>
+                    <tr th:each="apply : ${applyList}">
+                        <!-- th:onclick="|location.href='/apply/detail?applyCode=${apply.applyCode}'|"> -->
+                        <td th:text="${apply.applyCode}" class="align-middle"></td>
+                        <td th:text="${apply.userId}" class="align-middle"></td>
+                        <td th:text="${apply.userName}" class="align-middle"></td>
+                        <td th:text="${apply.phone}" class="align-middle"></td>
+                        <td th:text="${apply.applyCareer}" class="align-middle"></td>
+                        <td th:text="${#dates.format(apply.applyDatetime, 'yy.MM.dd')}" class="align-middle"></td>
+                        <td th:attr="onclick=|openModal('${apply.applyCode}')|" class="align-middle"><button type="button" class="btn btn-sm" data-toggle="modal" data-target="#applyModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                            </svg>
+                        </button></td>
                         <td>
                             <button type="button" class="dBtn btn btn-sm mb-2" style="background-color: #e5e5e5;">숨김
                             </button>
@@ -77,6 +78,54 @@
     </div>
 </div>
 <!-- content -->
+
+<div layout:fragment="contentModal">
+    <!--Modal Section-->
+    <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="applyModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta dolor fuga id iste itaque
+                        labore, nam nesciunt officia perferendis quas, quia quibusdam sequi similique sit suscipit
+                        temporibus velit vero voluptatem?
+                    </div>
+                    <div>Accusamus ad aliquid amet animi aperiam autem consequatur culpa dolores enim est eum, expedita
+                        fugiat impedit ipsam labore laboriosam nam neque nobis numquam officia, quam quasi quis tempore
+                        totam voluptate.
+                    </div>
+                    <div>Amet architecto asperiores blanditiis consectetur culpa cupiditate, deserunt doloremque error
+                        et eveniet id ipsa ipsum labore, laboriosam magni maiores minus modi nostrum odio odit quia quod
+                        quos rem repellendus vero?
+                    </div>
+                    <div>Cumque cupiditate delectus dicta dolorem ducimus esse, excepturi illum incidunt iste laboriosam
+                        magni minus molestias nemo nesciunt perspiciatis placeat possimus quasi quis quos sapiente
+                        tempore temporibus voluptate voluptatem voluptatibus voluptatum?
+                    </div>
+                    <div>Alias architecto, eligendi esse fuga hic inventore laboriosam modi, nulla odit pariatur quas
+                        quisquam quod quos reprehenderit vel! Consequatur debitis dolorum eligendi fugit itaque libero
+                        magnam quia sed voluptatibus? Porro?
+                    </div>
+                    <div>Laboriosam perspiciatis possimus sit. Aliquam architecto commodi distinctio labore minus optio
+                        saepe sapiente sit? A corporis dolor illum nemo obcaecati? Aliquid illo itaque iure quasi
+                        quibusdam quidem sit veritatis voluptatum!
+                    </div>
+                    <div>Ab atque blanditiis cupiditate debitis deleniti ea eos excepturi impedit minus nam nostrum
+                        obcaecati porro praesentium quis repellat, rerum sint veritatis voluptates voluptatibus
+                        voluptatum. Architecto ex id itaque nesciunt ullam!
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <th:block layout:fragment="userScript">
     <!-- main js -->
