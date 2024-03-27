@@ -20,9 +20,9 @@ public class CustomUser extends User {
 
 
     public CustomUser(UserDTO user, Collection<? extends GrantedAuthority> authorities) {
-        super(user.getUserName(), user.getUserPwd(), authorities);
+        super(user.getUsername(), user.getUserPwd(), authorities);
         this.userCode = user.getUserCode();
-        this.userName = user.getUserName();
+        this.userName = user.getUsername();
     }
 
     @Override

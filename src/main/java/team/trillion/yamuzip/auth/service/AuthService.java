@@ -39,12 +39,13 @@ public class AuthService implements UserDetailsService {
         if (user == null) throw new UsernameNotFoundException ("userId not found");
 
         /* 권한 만들기*/
-        List<GrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority(user.getAuth().name()));
+        // List<GrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority(user.getAuth().name()));
 
         // 사용자의 Principal 객체에 닉네임 속성 추가
 //        CustomUser customUser = new CustomUser(user, authorities);
 //        customUser.setUserNickname(user.getUserNickname());
 
-        return new CustomUser(user, authorities);
+        // return new CustomUser(user, authorities);
+        return user;
     }
 }
