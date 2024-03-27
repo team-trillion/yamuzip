@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/admin}">
 
+
 <head>
     <th:block layout:fragment="userCss">
         <style>
@@ -27,9 +28,7 @@
             <div class="fh5co-hero" style="height: auto">
 <!--                <div class="fh5co-overlay"></div>-->
                 <section class="container-sm" style="padding-top: 150px">
-
-                <!--여기부터 본인 페이지 코드 작성-->
-
+                  
                         <!-- start dashboard content -->
                         <div class="dashboardText col-md-10 col-sm-9 col-xs-8">
                             <p class="fs-5 pt-2 px-2">
@@ -46,7 +45,9 @@
                                 </div>
                                 <div class="col-3 text-center mt-5">
                                     <div class="rounded pt-4 container-fluid" style="background-color:rgba(14,121,178,0.2);">
+
                                         <img src="/images/profile.png" alt="profile" class="img-circle img-thumbnail w-50">
+
                                         <h3 class="pt-3 fs-4 fw-bord mb-3">관리자</h3>
                                         <button type="button" class="btn btn-light shadow-sm border-body-tertiary btn-sm mb-4">로그아웃</button>
                                     </div>
@@ -102,11 +103,14 @@
                             </div>
                             </div>
                         </div>
-                                <!-- End dashboard content -->
 
 
                             </div>
                             <!-- End Page Title -->
+
+
+                        </div>
+                        <!-- End Page Title -->
 
                         </div>
                     <!-- End row -->
@@ -116,10 +120,14 @@
         </div>
         <!-- content -->
 
-
 <th:block layout:fragment="userScript">
     <!-- main js -->
     <script src="/js/main.js"></script>
+
+<th:block layout:fragment="userScript">
+    <!-- main js -->
+    <script src="js/main.js"></script>
+
     <!-- chart -->
     <script src="/js/admin/chart.js"></script>
 
