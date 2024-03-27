@@ -35,7 +35,13 @@
         tbl_user
     </select>
 
-
+    <select id="findId">
+        SELECT
+            user_id,
+            email
+        FROM
+            tbl_user
+    </select>
 
 
 </mapper>

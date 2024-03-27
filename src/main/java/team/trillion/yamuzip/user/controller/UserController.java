@@ -1,6 +1,7 @@
 package team.trillion.yamuzip.user.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -13,10 +14,7 @@ import team.trillion.yamuzip.user.dao.UserMapper;
 import team.trillion.yamuzip.user.dto.UserDTO;
 import team.trillion.yamuzip.user.service.UserService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/user")
@@ -65,22 +63,32 @@ public class UserController {
 //    }
 //
 //    @GetMapping("/findPwd")
+
 //    public String findPwd() {
 //        return "user/login";
 //    }
-    @GetMapping("/findId")
-    public String findId() {return "/user/findId";}
+
+
+//    @GetMapping("/findId")
+//    public String findId() {return "/user/findId";}
 
 
 
     @GetMapping("/findPwd")
     public String findPwd() {return "user/findPwd";}
 
-@GetMapping("/getId")
-public @ResponseBody List<String> fetchJsonTest() {
+    @GetMapping("/getId")
+    public @ResponseBody List<String> fetchJsonTest() {
 
-    return userService.getIds();
-}
+        return userService.getIds();
+    }
+
+
+    @GetMapping("/findId")
+    public @ResponseBody List<String> findId() {
+        return userService.findId();
+    }
+
 
 
 

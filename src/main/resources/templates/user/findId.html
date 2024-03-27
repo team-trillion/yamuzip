@@ -23,6 +23,25 @@
             text-align: center;
         }
     </style>
+    <script>
+        async function receiveFetch() {
+            const $email = document.querySelector("#email");
+            console.log($email.value);
+
+            const response = await fetch('/user/findId');
+            const responseJson = await response.json();
+            console.log(responseJson);
+            console.log(responseJson[0]);
+            console.log(responseJson[1]);
+            console.log($email.value+"..");
+            for(let i=0;i<responseJson.length;i++){
+                console.log(responseJson[i]);
+                if($email.value==responseJson[i]) {
+                    alert("중복 되는 아이디입니다.");
+                }
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -49,16 +68,16 @@
                                 <div style="padding: 10px"></div>
                                 <p style="font-weight: bold">| 본인확인 이메일확인</p>
                                 <div style="padding: 10px"></div>
-                            <div class="form-floating">
-                                <P>아이디</P>
-                                <div style="padding: 5px"></div>
-                                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
-<!--                                <label for="floatingInput">Email address</label>-->
-                            </div>
+<!--                            <div class="form-floating">-->
+<!--                                <P>아이디</P>-->
+<!--                                <div style="padding: 5px"></div>-->
+<!--                                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com">-->
+<!--&lt;!&ndash;                                <label for="floatingInput">Email address</label>&ndash;&gt;-->
+<!--                            </div>-->
                             <div class="form-floating">
                                 <p>이메일</p>
                                 <div style="padding: 5px"></div>
-                                <input type="email" class="form-control" id="floatingPassword" placeholder="Password">
+                                <input type="email" class="form-control" id="email" placeholder="">
 <!--                                <label for="floatingPassword">Password</label>-->
                             </div>
 
@@ -69,9 +88,7 @@
 <!--                                </label>-->
 <!--                            </div>-->
 <!--                            <button class="w-100 btn btn-lg btn-primary" type="submit">아이디 찾기</button>-->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                   아이디찾기
-                                </button>
+                                <button class="btn btn-default" type="button" id="id" name="id" onclick="receiveFetch()">아이디찾기</button>
                             </div>
                             <!-- Modal -->
                             <div style="padding: 70px"></div>

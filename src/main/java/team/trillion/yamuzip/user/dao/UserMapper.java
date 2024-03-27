@@ -14,4 +14,6 @@ public interface UserMapper {
 
 
     List<String> getIds();
+
+    List<String> findId();
 }

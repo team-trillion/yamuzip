@@ -1,4 +1,5 @@
 package team.trillion.yamuzip.user.dto;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
