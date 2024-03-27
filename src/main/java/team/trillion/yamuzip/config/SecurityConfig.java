@@ -33,9 +33,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 /* 요청에 대한 권한 체크 */
                 .authorizeHttpRequests(auth -> {
-//                    auth.requestMatchers("/order/**", "/user/mypage").hasAnyAuthority("GENERAL", "ADMIN");
-//                    auth.requestMatchers(HttpMethod.POST, "/menu/**").hasAuthority("ADMIN");
-//                    auth.requestMatchers("/admin/**").hasAuthority("ADMIN");
+                    auth.requestMatchers("/order/**", "/mypage/**").hasAnyAuthority("GENERAL", "DOBBY", "ADMIN");
+                    auth.requestMatchers(HttpMethod.POST, "/menu/**").hasAuthority("ADMIN");
+                    auth.requestMatchers("/admin/**").hasAuthority("ADMIN");
                     /* 위에 서술 된 패턴 외의 요청은 인증 되지 않은 사용자도 요청 허가 */
                     auth.anyRequest().permitAll();
                 })
@@ -46,7 +46,9 @@ public class SecurityConfig {
                     /* 성공 시 랜딩 페이지 설정 */
                     login.defaultSuccessUrl("/");
                     /* 로그인 실패 시 랜딩 페이지 설정 */
-                    login.failureForwardUrl("/error/login");
+                    login.failureForwardUrl("/user/loginFailed");
+                    login.usernameParameter("userId");
+                    login.passwordParameter("userPwd");
                 })
                 /* 로그아웃 설정 */
                 .logout(logout ->{
@@ -57,7 +59,7 @@ public class SecurityConfig {
                     /* 세션 만료 */
                     logout.invalidateHttpSession(true);
                     /* 로그아웃 후 랜딩 페이지 */
-                    logout.logoutSuccessUrl("/");
+                    logout.logoutSuccessUrl("/main");
                 })
                 /* 인증/인가 예외 처리 */
                 .exceptionHandling(exception -> {

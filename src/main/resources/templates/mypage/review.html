@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/user}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/mypage}">
 <head>
     <th:block layout:fragments="userCss">
     </th:block>
@@ -32,27 +32,25 @@
             <div class="col mt-5">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">주문 내역 조회</button>
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">리뷰 쓰기</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">환불 내역 조회</button>
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">내가 쓴 리뷰</button>
                     </li>
                 </ul>
-
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-                        <div class="mt-5 mb-5 white-box">
-                            주문 내역 조회
+                        <div class="mt-5 white-box">
+                            리뷰 쓰기
                         </div>
                     </div>
                     <div class="tab-pane" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-                        <div class="mt-5 mb-5 white-box">
-                            환불 내역 조회
+                        <div class="mt-5 white-box">
+                            내가 쓴 리뷰
                         </div>
                     </div>
                 </div>
             </div>
-
 
             <!--여기까지 본인 페이지 코드 작성-->
         </section>
@@ -62,7 +60,7 @@
 
 <th:block layout:fragment="userScript">
     <!-- Main JS -->
-    <script src="js/main.js"></script>
+    <script src="/js/main.js"></script>
 </th:block>
 
 </body>
