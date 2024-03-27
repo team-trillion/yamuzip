@@ -43,6 +43,10 @@
         <result property="serviceCode" column="service_id"/> <!-- serviceCode 오토매핑되지 않도록-->
     </resultMap>
 
+    <resultMap id="orderResultResultMap" type="team.trillion.yamuzip.order.model.dto.OrderResultDTO">
+        <id property="orderCode" column="order_code"/>
+    </resultMap>
+
 
     <select id="selectService" resultMap="serviceResultMap">
         SELECT
@@ -121,5 +125,26 @@
         VALUES
             (#{ payCode }, #{ orderCode }, #{ payPrice }, #{ payType }, #{ payStatus }, #{ payDatetime })
     </insert>
+
+    <select id="selectOrderResult" resultMap="orderResultResultMap">
+        SELECT
+            a.pay_code,
+            a.order_code,
+            a.pay_price,
+            a.pay_type,
+            service_title,
+            option_name,
+            option_price
+        FROM
+            tbl_payment a
+                JOIN
+            tbl_order b on (a.order_code = b.order_code)
+                LEFT JOIN
+            tbl_option c on (b.option_code = c.option_code)
+                LEFT JOIN
+            tbl_service d on (b.service_code = d.service_code)
+        WHERE
+            a.pay_code = #{ payCode }
+    </select>
 </mapper>
 

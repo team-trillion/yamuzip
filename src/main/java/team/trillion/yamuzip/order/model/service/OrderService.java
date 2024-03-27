@@ -2,11 +2,10 @@ package team.trillion.yamuzip.order.model.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import team.trillion.yamuzip.common.exception.OrderFailedException;
 import team.trillion.yamuzip.order.model.dao.OrderMapper;
-import team.trillion.yamuzip.order.model.dto.OptionDTO;
-import team.trillion.yamuzip.order.model.dto.OrderDTO;
-import team.trillion.yamuzip.order.model.dto.PaymentDTO;
-import team.trillion.yamuzip.order.model.dto.ServiceDTO;
+import team.trillion.yamuzip.order.model.dto.*;
 
 @Service
 @RequiredArgsConstructor
@@ -22,16 +21,21 @@ public class OrderService {
         return orderMapper.selectOption(optionCode);
     }
 
-    public OrderDTO insertOrder(OrderDTO order) {
+    @Transactional
+    public void insertOrderInfo(OrderDTO order, PaymentDTO payment) throws OrderFailedException {
+        int result1 = 0;
         if(order.getOptionCode() == 0) {
-            orderMapper.insertOrderNoOption(order);
+            result1 = orderMapper.insertOrderNoOption(order);
         } else {
-            orderMapper.insertOrder(order);
+            result1 = orderMapper.insertOrder(order);
         }
-        return order;
+        payment.setOrderCode(order.getOrderCode());
+        int result2 = orderMapper.insertPayment(payment);
+
+        if(!(result1 > 0) && !(result2 > 0)) throw new OrderFailedException();
     }
 
-    public void insertPayment(PaymentDTO payment) {
-        orderMapper.insertPayment(payment);
+    public OrderResultDTO selectOrderResult(String payCode) {
+        return orderMapper.selectOrderResult(payCode);
     }
 }
