@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--profileFragment 선언-->
+    <div th:fragment="profileFragment" style="padding-top: 150px;">
+
+        <div class="container white-box">
+            <div class="row">
+                <div class="col-2 p-4 justify-content-center">
+                    <img src="/images/profile.png" alt="profile" class="img-circle img-thumbnail w-50 center-block">
+                </div>
+                <div class="col d-flex align-items-start justify-content-center flex-column mb-2 ">
+                    <div class="p-3">lhs1119@gmail.com</div>
+                    <button onClick="location.href='/user/mypage'" class="btn btn-* border border-white border-2 rounded-pill"><-> 일반 회원으로 전환</button>
+                </div>
+                <div class="col d-flex align-items-center justify-content-center">
+                    <button onClick="location.href='profile'" class="btn btn-primary" >내 프로필 보러가기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</html>

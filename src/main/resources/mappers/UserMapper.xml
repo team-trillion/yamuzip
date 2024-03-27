@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.user.model.dao.UserMapper">
+
+    <select id="getOrderStatus" resultType="team.trillion.yamuzip.user.model.dto.UserDTO">
+        SELECT
+            user_code
+            order_code
+            order_status
+        FROM
+            tbl_order
+        AND
+            user_code = #{ userCode }
+    </select>
+
+</mapper>
