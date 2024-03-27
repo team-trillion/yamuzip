@@ -16,5 +16,6 @@ public class ServiceDTO {
     private String serviceTitle;
     private int categoryCode;
     private Date serviceCreated;
+    private String thumbnailUrl;
 
 }

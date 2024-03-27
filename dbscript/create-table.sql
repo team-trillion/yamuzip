@@ -284,3 +284,8 @@ CREATE TABLE IF NOT EXISTS `tbl_img`
     FOREIGN KEY (review_code) REFERENCES tbl_review(review_code),
     FOREIGN KEY (cs_code) REFERENCES tbl_cs(cs_code)
     ) ENGINE=INNODB COMMENT = '이미지';
+
+ALTER TABLE tbl_service
+    ADD COLUMN thumbnail_url VARCHAR(255) DEFAULT NULL;
+ALTER TABLE tbl_review
+    ADD COLUMN review_content mediumtext NOT NULL;
