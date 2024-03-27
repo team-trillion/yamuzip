@@ -34,7 +34,7 @@ a {
 }
 a:hover {
   text-decoration: none !important;
-  color: #fff !important;
+  /*color: #fff !important;*/
 }
 
 p, ul, ol {
