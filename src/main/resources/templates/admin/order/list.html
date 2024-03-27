@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+    <th:block layout:fragment="userCss">
+    </th:block>
+</head>
+
+<body>
+<div id="fh5co-wrapper">
+    <div id="fh5co-page">
+        <div id="fh5co-header">
+            <th:block layout:fragment="headerFragment"></th:block>
+        </div>
+
+
+        <div layout:fragment="content">
+            <div class="fh5co-hero" style="height: auto;">
+<!--                <div class="fh5co-overlay"></div>-->
+                <section class="container-sm" style="padding-top: 150px;">
+
+                <!--여기부터 본인 페이지 코드 작성-->
+
+                    <div class="container">
+                        <!--                            <h1 class="fs-1 fw-bord mb-4">관리자 페이지</h1>-->
+                        <div class="border-bottom border-dark my-1 mb-3"></div>
+
+                        <div class="row">
+                            <!-- start sideBar -->
+                            <div class="col-md-2 col-sm-3 col-xs-4 flex-shrink-0 p-3">
+
+                                <ul class="sideBar list-unstyled rounded border border-dark-subtle bg-Emphasis p-5">
+                                    <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark">회원 관리</p>
+                                        <div>
+                                            <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                                                <li><a href="/admin/user/list" class="text-body-tertiary link-primary link-body-emphasis d-inline-flex text-decoration-none rounded">회원 관리</a></li>
+                                                <li><a href="/admin/dobby/list" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">도비 관리</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark">서비스 관리</p>
+                                        <div>
+                                            <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                                                <li><a href="/admin/service/list" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">전체 서비스 조회</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark">정산 관리</p>
+                                        <div>
+                                            <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                                                <li><a href="admin/order/list" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">전체 주문내역 조회</a></li>
+                                                <li><a href="admin/calc/monthly" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">월별정산통계</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark">문의 관리</p>
+                                        <div>
+                                            <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                                                <li><a href="/admin/cs/list" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">전체 문의 조회</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark">카테고리 관리</p>
+                                        <div>
+                                            <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                                                <li><a href="/admin/category/select" class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">카테고리 관리</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
+                                </ul>
+                            </div>
+
+                            <!-- start dashboard content -->
+                            <div class="dashboardText col-md-10 col-sm-9 col-xs-8">
+                                <p class="fs-5 pt-3 px-2">
+                                    <a href="#" class="text-black">관리자페이지</a> 〉 &nbsp;
+                                    <a href="#" class="text-black">정산관리</a> 〉 &nbsp;
+                                    <a href="#" class="text-black">주문내역</a>  &nbsp;
+                                </p>
+
+                                <div class="container-fluid border border-2 rounded py-3 my-5">
+                                    <div class="text-center">
+                                        <p class="h2 py-4" style="color: #003f62">주문내역 조회</p>
+                                    </div>
+
+                                    <div class="card-group mx-2 mb-5 text-center">
+                                        <div class="card border-dark">
+                                            <div class="card-header text-secondary fw-bold">
+                                                주문신청
+                                            </div>
+                                            <div class="card-body p-4 bg">
+                                                <h6 class="card-title">회원이 서비스를<br>새롭게 신청한 상태</h6>
+                                            </div>
+                                        </div>
+                                        <div class="card border-dark">
+                                            <div class="card-header text-success fw-bold">
+                                                예약완료
+                                            </div>
+                                            <div class="card-body p-4">
+                                                    <h6 class="card-title">도비와의 일정 조정이<br>예약 완료된 상태</h6>
+                                            </div>
+                                        </div>
+                                        <div class="card border-dark">
+                                            <div class="card-header text-primary fw-bold">
+                                                서비스완료
+                                            </div>
+                                            <div class="card-body p-4">
+                                                <h6 class="card-title">서비스 예약일 이후<br>제공이 완료된 상태</h6>
+                                            </div>
+                                        </div>
+                                        <div class="card border-dark">
+                                            <div class="card-header text-warning fw-bold">
+                                                예약취소
+                                            </div>
+                                            <div class="card-body p-4">
+                                                <h6 class="card-title">서비스 예약일 이전<br>예약이 취소된 상태</h6>
+                                            </div>
+                                        </div>
+                                        <div class="card border-dark">
+                                            <div class="card-header text-danger fw-bold">
+                                                예약불가
+                                            </div>
+                                            <div class="card-body p-4">
+                                                <h6 class="card-title">서비스 신청 이전<br>예약이 불가한 상태</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="btn-group-sm pb-3" role="group" aria-label="Basic example">
+                                        <button type="button" class="btn btn-light">전체</button>
+                                        <button type="button" class="btn btn-light">최근1년</button>
+                                        <button type="button" class="btn btn-light">이번달</button>
+                                    </div>
+
+                                    <table class="table text-center mb-5">
+                                        <thead class="table-light border-top border-dark">
+                                        <tr>
+                                            <th scope="col" class="text-center">주문번호</th>
+                                            <th scope="col" class="text-center">주문상태</th>
+                                            <th scope="col" class="text-center">결제상태</th>
+                                            <th scope="col" class="text-center">결제금액</th>
+                                            <th scope="col" class="text-center">서비스제목</th>
+                                            <th scope="col" class="text-center">주문일</th>
+                                            <th scope="col" class="text-center">결제일</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>20</td>
+                                            <td><span class="badge text-bg-primary">서비스완료</span>
+                                            </td>
+                                            <td>20</td>
+                                            <td>1</td>
+                                            <td>100,000원</td>
+                                            <td>22.02.22</td>
+                                            <td>22.02.22</td>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                            </div>
+                            <!-- End dashboard content -->
+
+                        </div>
+                        <!-- End Page Title -->
+
+                    </div>
+                    <!-- End row -->
+
+                <!--여기까지 본인 페이지 코드 작성-->
+                </section>
+            </div>
+        </div>
+        <!-- content -->
+
+    </div>
+    <!-- page -->
+</div>
+<!-- wrapper -->
+
+<th:block layout:fragment="userScript">
+    <!-- main js -->
+    <script src="/js/main.js"></script>
+</th:block>
+
+</body>
+</html>
