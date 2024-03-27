@@ -64,6 +64,15 @@
                 font-size: 20px;
                 margin-bottom: 10px;
             }
+            /* 추가된 CSS */
+            #load-more-btn {
+                margin-top: 20px;
+            }
+
+            .loading-spinner {
+                display: none;
+                text-align: center;
+            }
         </style>
 
     </th:block>
@@ -150,41 +159,99 @@
                             <div class="card" style="width: 35rem; height: auto">
                                 <img  src="/images/설치_2.png" class="card-img-top img-thumbnail" alt="...">
                                 <div class="card-body m-0 border">
-                                    <p id="dobName" class="card-name p-2 badge" style="color: whitesmoke; background-color: #97cbff" th:inline="text"><b>[[${service.dobby.dobNickName}]]</b></p>
-                                    <a class="card-title  p-3" style=" color: #003363" href="../serviceInfo" th:inline="text"><b>[[${service.serviceTitle}]]</b></a>
-                                    <p class="card-text p-3 border" style="border-radius: 5px" th:text="${service.serviceExplain}">서비스내용 Some quick example text to build on the card title and
-                                        make up the bulk of the card's content.</p>
+                                    <!-- 닉네임 출력 -->
+                                    <p id="dobName" class="card-name p-2 badge" style="color: whitesmoke; background-color: #97cbff">
+                                        <!-- Thymeleaf 문법을 사용하여 닉네임 출력 -->
+                                        <b th:text="${service.dobby.dobNickName}"></b>
+                                    </p>
+
+                                    <!-- 상세 페이지로 이동하는 링크 -->
+                                    <a class="card-title p-3" style="color: #003363"
+                                       th:href="@{'/serviceInfo/{serviceCode}'(serviceCode=${service.serviceCode})}">
+                                    <!-- Thymeleaf 문법을 사용하여 서비스 제목 출력 -->
+                                    <b th:text="${service.serviceTitle}"></b>
+                                    </a></div>
+
+                                    <!-- 서비스 설명 출력 -->
+                                    <p class="card-text p-3 border" style="border-radius: 5px">
+                                        <!-- Thymeleaf 문법을 사용하여 서비스 설명 출력 -->
+                                        <span th:text="${service.serviceExplain}">
+            서비스내용 Some quick example text to build on the card title and make up the bulk of the card's content.
+        </span>
+                                    </p>
+
                                     <div class="card-foot">
                                         <p class="heart p-3">♥️</p>
+                                        <!-- Thymeleaf 문법을 사용하여 서비스 가격 출력 -->
                                         <p class="infoFoot card-text p-3" th:text="${service.servicePrice}">320,000~</p>
                                     </div>
+
                                     <div class="infoTab cardText mb-4 p-3">
                                         <span class="badge bg-primary">하위 카테고리</span>
                                         <span class="badge bg-primary">상위 카테고리</span>
                                     </div>
+
                                     <p class="aver p-3">★4.9(12)</p>
-
-
                                 </div>
+
                             </div>
                         </div>
 
-                    </div>
-
-
-                    <!--여기까지 본인 페이지 코드 작성-->
                 </section>
+            </div>
+
+                    <!-- 로딩 스피너 -->
+                    <div class="loading-spinner" id="loadingSpinner">
+                        <img src="/images/logo.png" alt="Loading" width="50" height="50">
+                    </div>
+                    <!--여기까지 본인 페이지 코드 작성-->
             </div>
         </div>
         <!-- content -->
 
     </div>
     <!-- page -->
-</div>
 <!-- wrapper -->
 
 <th:block layout:fragment="userScript">
     <!--본인 페이지 js 작성-->
+    <th:block layout:fragment="userScript">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                var page = 1; // 초기 페이지 번호
+                var loading = false; // 데이터 로딩 여부를 확인하기 위한 변수
+
+                // 스크롤 이벤트 리스너 추가
+                $(window).scroll(function () {
+                    // 스크롤이 페이지 하단에 도달하면 추가 데이터를 요청
+                    if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100 && !loading) {
+                        loading = true; // 데이터 로딩 중임을 표시
+                        $('#loadingSpinner').show(); // 로딩 스피너 표시
+
+                        // 서버로 추가 데이터 요청 (예: /getMoreData 엔드포인트를 사용하여 Ajax 호출)
+                        $.ajax({
+                            url: '/getMoreData',
+                            type: 'GET',
+                            data: { page: page }, // 페이지 번호를 전달하여 요청
+                            success: function (response) {
+                                // 요청 성공 시, 받은 데이터를 화면에 추가
+                                $('#serviceList').append(response);
+                                page++; // 다음 페이지 번호 증가
+                                loading = false; // 데이터 로딩 완료
+                                $('#loadingSpinner').hide(); // 로딩 스피너 숨김
+                            },
+                            error: function (xhr, status, error) {
+                                console.log(error); // 에러 처리
+                                loading = false; // 데이터 로딩 완료
+                                $('#loadingSpinner').hide(); // 로딩 스피너 숨김
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
+    </th:block>
     <script src="js/main.js"></script>
 </th:block>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

@@ -18,23 +18,29 @@ public class ServiceService {
         return serviceMapper.findAllService();
     }
 
-    public List<ServiceDTO> findInfoService() {
-        return serviceMapper.findInfoService();
+
+    public List<ServiceDTO> findInfoService(long serviceCode) {
+        return serviceMapper.findInfoService(serviceCode);
     }
 
     public List<ImageDTO> getImages() {
         return serviceMapper.getImages();
     }
 
-    public List<OptionDTO> getOptions() {
-        return serviceMapper.getOptions();
+    public List<OptionDTO> getOptions(long serviceCode) {
+        return serviceMapper.getOptions(serviceCode);
     }
 
-    public List<ReviewDTO> getReviews() {
-        return serviceMapper.getReviews();
+    public List<ReviewDTO> getReviews(long serviceCode) {
+        return serviceMapper.getReviews(serviceCode);
     }
 
-    public List<CsDTO> getCs() {
-        return serviceMapper.getCs();
+
+
+    public List<CsDTO> getCs(long serviceCode) {
+        return serviceMapper.getCs(serviceCode);
     }
+
+
+
 }

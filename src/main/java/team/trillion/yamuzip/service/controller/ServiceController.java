@@ -5,6 +5,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import team.trillion.yamuzip.service.model.dto.*;
 import team.trillion.yamuzip.service.model.service.ServiceService;
 
@@ -32,13 +34,15 @@ public class ServiceController {
     }
 
     @GetMapping("/serviceInfo")
-    public String findInfoService(Model model) {
-        List<ServiceDTO> serviceInfoList = serviceService.findInfoService();
-        List<ImageDTO> serviceImages = serviceService.getImages();
-        List<OptionDTO> serviceOptions = serviceService.getOptions();
-        List<ReviewDTO> reviews = serviceService.getReviews();
-        List<CsDTO> cs = serviceService.getCs();
+    public String findInfoService(@RequestParam("code") long serviceCode, Model model) {
+        List<ServiceDTO> serviceInfoList = serviceService.findInfoService(serviceCode);
 
+
+
+        List<ImageDTO> serviceImages = serviceService.getImages();
+        List<OptionDTO> serviceOptions = serviceService.getOptions(serviceCode);
+        List<ReviewDTO> reviews = serviceService.getReviews(serviceCode);
+        List<CsDTO> cs = serviceService.getCs(serviceCode);
         model.addAttribute("serviceInfoList", serviceInfoList);
         model.addAttribute("serviceImages", serviceImages);
         model.addAttribute("serviceOptions", serviceOptions);
@@ -46,6 +50,7 @@ public class ServiceController {
         model.addAttribute("cs", cs);
         return "service/serviceInfo";
     }
+
 
 
 }

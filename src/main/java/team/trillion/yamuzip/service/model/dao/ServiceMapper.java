@@ -1,9 +1,7 @@
 package team.trillion.yamuzip.service.model.dao;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+import org.springframework.data.domain.Page;
 import team.trillion.yamuzip.service.model.dto.*;
 
 import java.util.List;
@@ -12,13 +10,15 @@ import java.util.List;
 public interface ServiceMapper {
     List<ServiceDTO> findAllService();
 
-    List<ServiceDTO> findInfoService();
+    List<ServiceDTO> findInfoService(long serviceCode);
 
     List<ImageDTO> getImages();
 
-    List<OptionDTO> getOptions();
+    List<OptionDTO> getOptions(long serviceCode);
 
-    List<ReviewDTO> getReviews();
+    List<ReviewDTO> getReviews(long serviceCode);
 
-    List<CsDTO> getCs();
+    List<CsDTO> getCs(long serviceCode);
+
+
 }

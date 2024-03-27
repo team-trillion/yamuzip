@@ -162,6 +162,12 @@
         cs_code
 
     </select>
-
+<!--    서비스 총 개수-->
+    <select id="serviceGetTotal" resultType="_int">
+        select count(*) from tbl_service
+        <if test="keyword != null">
+            where product_title like '%' || #{keyword} || '%'
+        </if>
+    </select>
 
 </mapper>
