@@ -4,14 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="team.trillion.yamuzip.user.model.dao.UserMapper">
 
-    <select id="getOrderStatus" resultType="team.trillion.yamuzip.user.model.dto.UserDTO">
+    <select id="getOrderStatus">
         SELECT
-            user_code
-            order_code
+            user_code,
+            order_code,
             order_status
         FROM
             tbl_order
-        AND
+        WHERE
             user_code = #{ userCode }
     </select>
 
