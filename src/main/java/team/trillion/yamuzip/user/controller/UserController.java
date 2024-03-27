@@ -6,10 +6,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import team.trillion.yamuzip.auth.service.AuthService;
 import team.trillion.yamuzip.user.dao.UserMapper;
 import team.trillion.yamuzip.user.dto.UserDTO;
 import team.trillion.yamuzip.user.service.UserService;
@@ -22,9 +26,8 @@ import java.util.*;
 public class UserController {
 
     private final UserService userService;
+    private final AuthService authService;
     private final MessageSourceAccessor messageSourceAccessor;
-    @Autowired
-    private UserMapper userMapper;
 
 
 
@@ -33,14 +36,19 @@ public class UserController {
         return "user/login";
     }
 
-    @PostMapping("/login")
+ /*   @PostMapping("/login")
     public String getLoginPage1(@RequestParam String userId , @RequestParam String userPwd){
 
 
 
         return "redirect:/main";
-    }
+    }*/
 
+    @PostMapping("loginFailed")
+    public String loginFailed(RedirectAttributes rttr) {
+        rttr.addFlashAttribute("message", messageSourceAccessor.getMessage("error.login"));
+        return "redirect:/user/login";
+    }
 
 
     @GetMapping("/regist")
@@ -90,6 +98,14 @@ public class UserController {
     }
 
 
+    protected Authentication createNewAuthentication(String userId) {
+
+        UserDetails newPrincipal = authService.loadUserByUsername(userId);
+        UsernamePasswordAuthenticationToken newAuth
+                = new UsernamePasswordAuthenticationToken(newPrincipal, newPrincipal.getPassword(), newPrincipal.getAuthorities());
+
+        return newAuth;
+    }
 
 
 }

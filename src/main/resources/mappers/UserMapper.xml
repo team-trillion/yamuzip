@@ -18,7 +18,7 @@
         FROM
             tbl_user
         WHERE
-            user_id= #{userId }
+            user_id= #{ userId }
     </select>
 
     <insert id="regist">
