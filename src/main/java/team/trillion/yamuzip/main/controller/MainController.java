@@ -14,9 +14,9 @@ public class MainController {
         return "main";
     }
 
-    @GetMapping("/ex")
+    @GetMapping("/admin")
     public String ex() {
-        return "ex/ex";
+        return "admin/dashboard/dashboard";
     }
 
 }

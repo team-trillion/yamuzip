@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.admin.model.dao.DobbyApplyMapper">
+
+    <select id="findAllApply" resultType="team.trillion.yamuzip.admin.model.dto.DobbyApplyDTO">
+        SELECT
+            a.apply_code,
+            u.user_id,
+            u.user_name,
+            u.phone,
+            a.apply_career,
+            a.apply_datetime
+        FROM
+            tbl_dob_apply a
+                JOIN tbl_user u on (u.user_code = a.user_code)
+        WHERE
+            auth != 'ADMIN';
+    </select>
+
+    <select id="selectApplyDetail" resultType="team.trillion.yamuzip.admin.model.dto.DobbyApplyDTO">
+        SELECT
+            a.apply_code,
+            u.user_name,
+            a.apply_career
+        FROM
+            tbl_dob_apply a
+                JOIN tbl_user u on (u.user_code = a.user_code)
+        WHERE
+            a.apply_no = #{ applyNo }
+    </select>
+
+
+</mapper>

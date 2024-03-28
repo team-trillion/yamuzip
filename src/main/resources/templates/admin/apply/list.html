@@ -9,6 +9,9 @@
             .dBtn {
                 border: solid 1px #b0b0b0;
             }
+            #applyModal {
+                z-index: 99999999;
+            }
         </style>
     </th:block>
 </head>
@@ -40,26 +43,26 @@
                         <th scope="col">아이디</th>
                         <th scope="col">이름</th>
                         <th scope="col">전화번호</th>
-                        <th scope="col">경력사항</th>
+                        <th scope="col">전문분야</th>
                         <th scope="col">신청일</th>
                         <th scope="col">신청서</th>
                         <th scope="col">관리</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="dobby : ${dobbyList}"
-                        th:onclick="|location.href='/dobby/detail?dobCode=${dobby.dobCode}'|">
-                        <td th:text="${dobby.dobCode}"></td>
-                        <td th:text="${dobby.userId}"></td>
-                        <td th:text="${dobby.userName}"></td>
-                        <td th:text="${dobby.phone}"></td>
-                        <td>1</td>
-                        <td>1</td>
-                        <!--                            <td th:text="${dobby.review}"></td>-->
-                        <!--                            <td th:text="${dobby.cs}"></td>-->
-                        <!--                            <td th:text="${#dates.format(dobby.registDate, 'yyyy.MM.dd HH:mm:ss')}"></td>-->
-                        <!--                            <td th:text="${dobby.payDate}"></td>-->
-                        <td>1</td>
+                    <tr th:each="apply : ${applyList}">
+                        <!-- th:onclick="|location.href='/apply/detail?applyCode=${apply.applyCode}'|"> -->
+                        <td th:text="${apply.applyCode}" class="align-middle"></td>
+                        <td th:text="${apply.userId}" class="align-middle"></td>
+                        <td th:text="${apply.userName}" class="align-middle"></td>
+                        <td th:text="${apply.phone}" class="align-middle"></td>
+                        <td th:text="${apply.applyCareer}" class="align-middle"></td>
+                        <td th:text="${#dates.format(apply.applyDatetime, 'yy.MM.dd')}" class="align-middle"></td>
+                        <td class="align-middle"><button type="button" id="applyViewBtn" class="btn btn-sm" data-toggle="modal" data-target="#applyModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                            </svg>
+                        </button></td>
                         <td>
                             <button type="button" class="dBtn btn btn-sm mb-2" style="background-color: #e5e5e5;">숨김
                             </button>
@@ -78,9 +81,53 @@
 </div>
 <!-- content -->
 
+<div layout:fragment="contentModal">
+    <!--Modal Section-->
+    <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="applyModalLabel">도비 신청서</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div th:each="detail : ${applyDetail}">
+                        <h3 th:text="${detail.userName} + '님의 도비 신청 내용'"></h3>
+                        <h5 th:text="'전문분야 : ' + ${detail.applyCareer}"></h5>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-primary">수락</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <th:block layout:fragment="userScript">
     <!-- main js -->
     <script src="js/main.js"></script>
+
+    <script>
+        const applyModal = document.getElementById('applyModal')
+        const applyCode = applyModal.target()
+
+        applyModal.addEventListener('click', e => {
+            console.log("test")
+            console.log(applyModal)
+
+            fetch('/admin/apply/detail', {
+                method : 'GET',
+                headers : {
+                    'Content-Type' : 'application/json; charset=UTF-8'
+                },
+                body : JSON.stringify({ applyCode })
+
+            })
+        })
+    </script>
+
 </th:block>
 
 </body>

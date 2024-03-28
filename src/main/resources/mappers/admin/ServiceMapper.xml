@@ -10,7 +10,8 @@
             dob_code,
             service_title,
             category_code,
-            service_created
+            service_created,
+            thumbnail_url
         FROM
             tbl_service
         ORDER BY
