@@ -22,4 +22,9 @@ public class DobbyApplyService {
     public List<DobbyApplyDTO> findAllApply() {
         return dobbyApplyMapper.findAllApply();
     }
+
+    public DobbyApplyDTO selectApplyDetail(Long applyCode) {
+
+        return dobbyApplyMapper.selectApplyDetail(applyCode);
+    }
 }

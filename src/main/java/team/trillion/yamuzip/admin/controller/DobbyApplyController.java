@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import team.trillion.yamuzip.admin.model.dto.DobbyApplyDTO;
 import team.trillion.yamuzip.admin.model.service.DobbyApplyService;
 
@@ -32,7 +33,14 @@ public class DobbyApplyController {
     }
 
     @GetMapping("/detail")
-    public void getApplyDetail() {}
+    public String getApplyDetail(@RequestParam Long applyCode, Model model) {
+
+        DobbyApplyDTO applyDetail = dobbyApplyService.selectApplyDetail(applyCode);
+        log.info("applyDetail : {}", applyDetail);
+        model.addAttribute("applyDetail", applyDetail);
+
+        return "admin/apply/list";
+    }
 
     @GetMapping("/accept")
     public void acceptApply() {}
