@@ -9,6 +9,8 @@ import lombok.ToString;
 @ToString
 public class CategoryDTO {
 
-
+    private int categoryCode;
+    private String categoryName;
+    private String refCategoryName;
 
 }
