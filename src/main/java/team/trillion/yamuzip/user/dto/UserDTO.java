@@ -46,6 +46,9 @@ public class UserDTO implements UserDetails {
     public String getUsername() {
         return userId;
     }
+    public String getUserName() {
+        return userName;
+    }
 
     @Override
     public boolean isAccountNonExpired() {

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head>
     <th:block layout:fragment="userCss">
@@ -90,6 +91,7 @@
 
                         <div class="text-center">
                             <button class="btn btn-primary" type="submit" value="submit">결제하기</button>
+                            <div class="p-3" sec:authentication="principal.userCode"></div>
                         </div>
                     </form>
                 </div>
@@ -142,9 +144,9 @@
                 name: $serviceTitle,
                 amount: $totalPrice,                         // 숫자 타입
 
-                buyer_email: "user02@ohgiraffers.com", // #authentication.principal.email
-                buyer_name: "유관순", // #authentication.principal.userName
-                buyer_tel: "01065845651" // #authentication.principal.phone
+                buyer_email: [[${#authentication.principal.email}]],
+                buyer_name: [[${#authentication.principal.userName}]],
+                buyer_tel: [[${#authentication.principal.phone}]]
 
             }, function (rsp) { // callback
                 console.log(rsp);
@@ -153,7 +155,7 @@
                     var result = {
                         // orderCode : auto increment
                         "serviceCode" : $serviceCode,       // 상품번호
-                        "userCode" : 3, // #authentication.principal.userCode
+                        "userCode" : [[${#authentication.principal.userCode}]],
                         "totalPrice" : $totalPrice,          // 결제 금액
                         "reserveDatetime" : $reserveDatetime + 'T00:00:00', // 예약일
                         "optionCode" : [[${option?.optionCode}]] || 0, // 옵션번호
@@ -207,9 +209,9 @@
                 name: $serviceTitle,
                 amount: $totalPrice,                         // 숫자 타입
 
-                buyer_email: "user02@ohgiraffers.com", // #authentication.principal.email
-                buyer_name: "유관순", // #authentication.principal.userName
-                buyer_tel: "01065845651" // #authentication.principal.phone
+                buyer_email: [[${#authentication.principal.email}]],
+                buyer_name: [[${#authentication.principal.userName}]],
+                buyer_tel: [[${#authentication.principal.phone}]]
 
             }, function (rsp) { // callback
                 console.log(rsp);
@@ -218,7 +220,7 @@
                     var result = {
                         // orderCode : auto increment
                         "serviceCode" : $serviceCode,       // 상품번호
-                        "userCode" : 3, // #authentication.principal.userCode
+                        "userCode" : [[${#authentication.principal.userCode}]],
                         "totalPrice" : $totalPrice,          // 결제 금액
                         "reserveDatetime" : $reserveDatetime + 'T00:00:00', // 예약일
                         "optionCode" : [[${option?.optionCode}]] || 0, // 옵션번호
