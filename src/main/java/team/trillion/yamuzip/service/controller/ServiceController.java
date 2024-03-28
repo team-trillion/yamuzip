@@ -6,11 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import team.trillion.yamuzip.service.model.dto.*;
 import team.trillion.yamuzip.service.model.service.ServiceService;
 
 import java.util.List;
+
 @Slf4j
 @Controller
 public class ServiceController {
@@ -38,7 +38,6 @@ public class ServiceController {
         List<ServiceDTO> serviceInfoList = serviceService.findInfoService(serviceCode);
 
 
-
         List<ImageDTO> serviceImages = serviceService.getImages();
         List<OptionDTO> serviceOptions = serviceService.getOptions(serviceCode);
         List<ReviewDTO> reviews = serviceService.getReviews(serviceCode);
@@ -51,6 +50,9 @@ public class ServiceController {
         return "service/serviceInfo";
     }
 
+    @GetMapping("/serviceRegist")
+    public String registService() {
 
-
+        return "service/serviceRegist";
+    }
 }
