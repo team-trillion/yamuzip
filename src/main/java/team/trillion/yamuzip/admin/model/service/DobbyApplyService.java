@@ -14,6 +14,7 @@ import java.util.List;
 public class DobbyApplyService {
 
     private final DobbyApplyMapper dobbyApplyMapper;
+    public DobbyApplyDTO selectApplyDetail;
 
     public DobbyApplyService(DobbyApplyMapper dobbyApplyMapper) {
         this.dobbyApplyMapper = dobbyApplyMapper;
@@ -23,8 +24,4 @@ public class DobbyApplyService {
         return dobbyApplyMapper.findAllApply();
     }
 
-    public DobbyApplyDTO selectApplyDetail(Long applyCode) {
-
-        return dobbyApplyMapper.selectApplyDetail(applyCode);
-    }
 }

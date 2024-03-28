@@ -12,6 +12,8 @@
             #applyModal {
                 z-index: 99999999;
             }
+            .modal-body > div{display: none}
+            .modal-body > div.show{display: block}
         </style>
     </th:block>
 </head>
@@ -58,7 +60,8 @@
                         <td th:text="${apply.phone}" class="align-middle"></td>
                         <td th:text="${apply.applyCareer}" class="align-middle"></td>
                         <td th:text="${#dates.format(apply.applyDatetime, 'yy.MM.dd')}" class="align-middle"></td>
-                        <td class="align-middle"><button type="button" id="applyViewBtn" class="btn btn-sm" data-toggle="modal" data-target="#applyModal">
+                        <td class="align-middle">
+                            <button type="button" th:id="|applyViewBtn${apply.applyCode}|" class="btn btn-sm btn-modal" data-toggle="modal" data-target="#applyModal" th:attr='data-apply=${apply.applyCode}'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                             </svg>
@@ -74,6 +77,8 @@
                 </table>
                 </div>
 
+<!--                <h1 th:text="${applyList}"></h1>-->
+
             </div>
             <!--여기까지 본인 페이지 코드 작성-->
         </section>
@@ -87,18 +92,18 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="applyModalLabel">도비 신청서</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="applyModalLabel">도비 신청서
+                    </h5>
                 </div>
                 <div class="modal-body">
-                    <div th:each="detail : ${applyDetail}">
-                        <h3 th:text="${detail.userName} + '님의 도비 신청 내용'"></h3>
-                        <h5 th:text="'전문분야 : ' + ${detail.applyCareer}"></h5>
+                    <div th:each="apply : ${applyList}" th:id="|applyView${apply.applyCode}|">
+                        <h3 th:text="${apply.userName} + '님의 도비 신청 내용'"></h3>
+                        <h5 th:text="'전문분야 : ' + ${apply.applyCareer}"></h5>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                    <button type="button" class="btn btn-primary">수락</button>
+                    <button type="button" class="closeBtn btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">닫기</button>
+                    <button type="submit" class="btn btn-primary">수락</button>
                 </div>
             </div>
         </div>
@@ -107,27 +112,28 @@
 
 <th:block layout:fragment="userScript">
     <!-- main js -->
-    <script src="js/main.js"></script>
-
+    <script src="/js/main.js"></script>
     <script>
-        const applyModal = document.getElementById('applyModal')
-        const applyCode = applyModal.target()
 
-        applyModal.addEventListener('click', e => {
-            console.log("test")
-            console.log(applyModal)
-
-            fetch('/admin/apply/detail', {
-                method : 'GET',
-                headers : {
-                    'Content-Type' : 'application/json; charset=UTF-8'
-                },
-                body : JSON.stringify({ applyCode })
-
-            })
+      $(function(){
+        $(".btn-modal").click(function(){
+            const applyCode = $(this).data('apply');
+            const $targetModal = "#applyView"+applyCode;
+            $($targetModal).addClass('show')
+                .siblings()
+                .removeClass('show');
         })
-    </script>
 
+          $(".closeBtn").click(function(){
+              $('#applyModal').removeClass('modal-backdrop').css('display', 'none')
+              $('.modal-backdrop').removeClass('fade in').css('display', 'none')
+              $('body').removeClass("modal-open")
+          })
+
+      })
+
+
+    </script>
 </th:block>
 
 </body>
