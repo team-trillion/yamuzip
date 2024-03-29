@@ -1,4 +1,4 @@
-package team.trillion.yamuzip.user.model;
+package team.trillion.yamuzip.login.model;
 
 public enum Authority {
     GENERAL, DOBBY, ADMIN

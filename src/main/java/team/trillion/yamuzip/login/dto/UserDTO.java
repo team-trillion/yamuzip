@@ -1,12 +1,11 @@
-package team.trillion.yamuzip.user.dto;
-import lombok.Data;
+package team.trillion.yamuzip.login.dto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import team.trillion.yamuzip.user.model.Authority;
+import team.trillion.yamuzip.login.model.Authority;
 
 import java.time.LocalDate;
 import java.util.Arrays;

@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import team.trillion.yamuzip.user.dao.UserMapper;
-import team.trillion.yamuzip.user.dto.UserDTO;
+import team.trillion.yamuzip.login.dao.UserMapper;
+import team.trillion.yamuzip.login.dto.UserDTO;
 
 @Service
 @Slf4j

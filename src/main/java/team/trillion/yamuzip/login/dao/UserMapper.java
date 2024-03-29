@@ -1,7 +1,7 @@
-package team.trillion.yamuzip.user.dao;
+package team.trillion.yamuzip.login.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import team.trillion.yamuzip.user.dto.UserDTO;
+import team.trillion.yamuzip.login.dto.UserDTO;
 
 import java.util.List;
 

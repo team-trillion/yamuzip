@@ -1,19 +1,14 @@
-package team.trillion.yamuzip.user.service;
+package team.trillion.yamuzip.login.service;
 
-import groovy.util.logging.Log4j;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import team.trillion.yamuzip.user.dao.UserMapper;
-import team.trillion.yamuzip.user.dto.UserDTO;
+import team.trillion.yamuzip.login.dao.UserMapper;
+import team.trillion.yamuzip.login.dto.UserDTO;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
