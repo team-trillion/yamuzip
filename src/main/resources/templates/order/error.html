@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+    <th:block layout:fragment="userCss">
+        <style>
+            h1, h2, h3 { margin-bottom: 5px; font-weight: 900; color: #003363; }
+            h4 { margin-bottom: 15px; font-weight: 700; color: #003363; }
+            .error-message { margin-bottom: 15px; }
+        </style>
+    </th:block>
+</head>
+
+<body>
+
+<div id="fh5co-header">
+    <th:block layout:fragment="headerFragment"></th:block>
+</div>
+
+<div layout:fragment="content">
+    <div class="fh5co-hero" style="height: auto; padding-bottom: 100px;">
+        <section class="container-sm" style="padding-top: 150px;">
+            <!--여기부터 본인 페이지 코드 작성-->
+
+            <div class="col-lg-8" style="float:none; margin: 0 auto;">
+                <div class="text-center">
+                    <div class="error-message">
+                        <h1>주문이 정상적으로 완료되지 않았습니다.</h1>
+                        <h1>이용에 불편을 드려 죄송합니다.</h1>
+                    </div>
+                    재시도를 하신 후에도 계속해서 같은 오류가 발생한다면<br>
+                    고객센터로 문의하여 주시기 바랍니다.
+                    <hr>
+                    <div>
+                        <button class="btn btn-primary" onclick="location.href='/'">메인으로</button>
+                    </div>
+                </div>
+            </div>
+
+            <!--여기까지 본인 페이지 코드 작성-->
+        </section>
+    </div>
+</div>
+<!-- content -->
+
+<th:block layout:fragment="userScript">
+<!--본인 페이지 js 작성-->
+</th:block>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<style>
+    a {
+        color: #222222;
+    }
+</style>
+
+<div th:fragment="sideBar">
+
+    <div class="col-md-2 col-sm-3 col-xs-4 p-3" style="margin-top: 150px; padding-left: 20%;">
+
+        <ul class="sideBar list-unstyled rounded border border-dark-subtle bg-Emphasis p-5" style="padding-top: 150px;">
+            <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark"><a href="/admin/dashboard/user">회원 관리</a></p>
+                <div>
+                    <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                        <li><a href="/admin/user/list"
+                               class="text-body-tertiary link-primary link-body-emphasis d-inline-flex text-decoration-none rounded">회원
+                            관리</a></li>
+                        <li><a href="/admin/dobby/list"
+                               class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">도비
+                            관리</a></li>
+                        <li><a href="/admin/apply/list"
+                               class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">신규
+                            도비 신청</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark"><a href="/admin/service/list">서비스 관리</a></p>
+                <div>
+                    <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                        <li><a href="/admin/service/list"
+                               class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">전체
+                            서비스 조회</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark"><a href="/admin/dashboard/acc">정산 관리</a></p>
+                <div>
+                    <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                        <li><a href="/admin/order/list"
+                               class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">전체
+                            주문내역 조회</a></li>
+                        <li><a href="/admin/calc/monthly"
+                               class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">월별정산통계</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark"><a href="/admin/cs/list">문의 관리</a></p>
+                <div>
+                    <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                        <li><a href="/admin/cs/list"
+                               class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">전체
+                            문의 조회</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark"><a href="/admin/category/select">카테고리 관리</a></p>
+                <div>
+                    <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                        <li><a href="/admin/category/select"
+                               class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">카테고리
+                            관리</a></li>
+                    </ul>
+                </div>
+            </div>
+        </ul>
+    </div>
+
+</div>
+
+</div>
+</html>

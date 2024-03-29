@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin}">
+
+<head>
+    <th:block layout:fragment="userCss">
+        <style>
+            .dBtn {
+                border: solid 1px #b0b0b0;
+                width: 85%;
+                background-color: #f8f8f8;
+                color: #222222;
+                font-weight: normal;
+                border-radius: 3%;
+            }
+        </style>
+    </th:block>
+</head>
+
+<body>
+<div id="fh5co-header">
+    <th:block layout:fragment="headerFragment"></th:block>
+</div>
+
+
+<div layout:fragment="content">
+    <div class="fh5co-hero" style="height: auto">
+        <!--                <div class="fh5co-overlay"></div>-->
+        <section class="container-sm" style="padding-top: 150px;">
+
+            <div class=" col-md-10 col-sm-9 col-xs-8">
+                <p class="fs-5 pt-3 px-2">
+                    <a href="/admin/dashboard/dashboard" class="text-black">관리자페이지</a> 〉 &nbsp;
+                    <a href="/admin/dashboard/user" class="text-black">회원관리</a> 〉 &nbsp;
+                    <a href="" class="text-black fw-bolder">일반회원</a> &nbsp;
+                </p>
+
+                <div class="container-fluid border border-2 rounded p-5 mb-5">
+
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">아이디</th>
+                            <th scope="col">이름</th>
+                            <th scope="col">전화번호</th>
+                            <th scope="col">리뷰</th>
+                            <th scope="col">문의</th>
+                            <th scope="col">가입일</th>
+                            <th scope="col">최근 결제일</th>
+                            <th scope="col">관리</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user : ${userList}"
+                            th:onclick="|location.href='/user/detail?userCode=${user.userCode}'|">
+                            <td th:text="${user.userCode}"></td>
+                            <td th:text="${user.userId}"></td>
+                            <td th:text="${user.userName}"></td>
+                            <td th:text="${user.phone}"></td>
+                            <td>1</td>
+                            <td>1</td>
+                            <!--                            <td th:text="${user.review}"></td>-->
+                            <!--                            <td th:text="${user.cs}"></td>-->
+                            <td th:text="${#dates.format(user.registDatetime, 'yy.MM.dd')}"></td>
+                            <!--                            <td th:text="${user.payDate}"></td>-->
+                            <td>1</td>
+                            <td>
+                                <button type="button" class="badge dBtn btn btn-sm mb-2">회원 정지</button>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!--여기까지 본인 페이지 코드 작성-->
+        </section>
+    </div>
+</div>
+<!-- content -->
+
+<th:block layout:fragment="userScript">
+    <!-- main js -->
+    <script src="/js/main.js"></script>
+</th:block>
+
+</body>
+</html>

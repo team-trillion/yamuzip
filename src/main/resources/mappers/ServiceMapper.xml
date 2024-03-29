@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.service.model.dao.ServiceMapper">
+
+    <resultMap id="selectService" type="team.trillion.yamuzip.service.model.dto.ServiceDTO">
+        <id property="serviceCode" column="service_code"/>
+        <result property="serviceTitle" column="service_title"/>
+        <result property="serviceExplain" column="service_explain"/>
+        <result property="serviceContent" column="service_content"/>
+        <result property="servicePrice" column="service_price"/>
+        <result property="serviceCreated" column="service_created"/>
+        <association property="dobby" javaType="team.trillion.yamuzip.service.model.dto.DobbyDTO">
+            <id property="dobCode" column="dob_code"/>
+            <result property="dobNickName" column="dob_nickname"/>
+            <result property="dobImage" column="dob_image"/>
+            <result property="dobContent" column="dob_content"/>
+            <result property="dobArea" column="dob_area"/>
+            <result property="dobCareerDays" column="dob_career_days"/>
+            <result property="dobContent" column="dob_content"/>
+        </association>
+
+
+    </resultMap>
+
+    <resultMap id="getImages" type="team.trillion.yamuzip.service.model.dto.ImageDTO">
+        <id property="imgCode" column="img_code"/>
+        <result property="imgUrl" column="img_url"/>
+        <result property="imgOriginName" column="img_origin_name"/>
+        <result property="imgName" column="img_name"/>
+        <association property="service" javaType="team.trillion.yamuzip.service.model.dto.ServiceDTO">
+            <id property="serviceCode" column="service_code"/>
+            <result property="serviceTitle" column="service_title"/>
+            <result property="serviceExplain" column="service_explain"/>
+            <result property="serviceContent" column="service_content"/>
+            <result property="servicePrice" column="service_price"/>
+            <result property="serviceCreated" column="service_created"/>
+        </association>
+
+
+    </resultMap>
+    <resultMap id="getReviews" type="team.trillion.yamuzip.service.model.dto.ReviewDTO">
+        <id property="reviewCode" column="review_code"/>
+        <result property="reviewCreated" column="review_created"/>
+        <result property="reviewGrade" column="review_grade"/>
+        <result property="reviewContent" column="review_content"/>
+        <association property="user" javaType="team.trillion.yamuzip.service.model.dto.UserDTO">
+            <id property="userCode" column="user_code"/>
+            <result property="userNickname" column="user_nickname"/>
+        </association>
+
+
+    </resultMap>
+    <resultMap id="getCs" type="team.trillion.yamuzip.service.model.dto.CsDTO">
+        <id property="csCode" column="cs_code"/>
+        <result property="section" column="section"/>
+        <result property="writerUserCode" column="writer_user_code"/>
+        <result property="csCreated" column="cs_created"/>
+        <result property="csStatus" column="cs_status"/>
+        <result property="csType" column="cs_type"/>
+        <result property="csSecret" column="cs_secret"/>
+        <result property="csModify" column="cs_modify"/>
+        <result property="csTitle" column="cs_title"/>
+        <result property="cs_content" column="cs_content"/>
+        <association property="user" javaType="team.trillion.yamuzip.service.model.dto.UserDTO">
+            <id property="userCode" column="user_code"/>
+            <id property="userNickname" column="user_nickname"/>
+        </association>
+
+
+    </resultMap>
+
+    <select id="findAllService" resultMap="selectService">
+        SELECT
+            service_code,
+            dob_nickname,
+            service_title,
+            service_explain,
+            service_content,
+            service_price,
+            service_created
+        FROM
+            tbl_service
+        JOIN tbl_dobby ON tbl_service.dob_code = tbl_dobby.dob_code
+        WHERE
+            service_status = 'A'
+        ORDER BY
+            service_code
+    </select>
+    <select id="findInfoService" resultMap="selectService">
+        SELECT
+        service_code,
+        dob_nickname,
+        dob_area,
+        dob_career_days,
+        dob_content,
+        service_title,
+        service_explain,
+        service_content,
+        service_price,
+        service_created
+        FROM
+        tbl_service
+        JOIN tbl_dobby ON tbl_service.dob_code = tbl_dobby.dob_code
+        WHERE
+        service_status = 'A'
+        ORDER BY
+        service_code
+    </select>
+    <select id="getImages" resultMap="getImages">
+        SELECT
+            img_url,
+            img_origin_name,
+            img_name
+        FROM
+            tbl_img
+    </select>
+    <select id="getOptions" resultType="team.trillion.yamuzip.service.model.dto.OptionDTO">
+        SELECT
+        option_name,
+        option_price
+        FROM
+        tbl_option
+    </select>
+
+    <select id="getReviews" resultMap="getReviews" >
+        SELECT
+        user_nickname,
+        review_created,
+        review_grade,
+        review_content
+        FROM
+        tbl_review
+        JOIN tbl_user ON tbl_review.writer_user_code = tbl_user.user_code
+    </select>
+    <select id="getCs" resultMap="getCs">
+        SELECT
+        cs_code,
+        section,
+        writer_user_code,
+        user_nickname,
+        cs_created,
+        cs_status,
+        cs_type,
+        cs_secret,
+        cs_modify,
+        cs_title,
+        cs_content,
+        s1.service_code
+        FROM
+        tbl_cs
+
+        JOIN
+        tbl_user ON tbl_cs.writer_user_code = tbl_user.user_code
+        JOIN
+        tbl_service s1 ON tbl_cs.writer_user_code = s1.service_code
+        WHERE
+        cs_status = 'A'
+
+        ORDER BY
+        cs_code
+
+    </select>
+<!--    서비스 총 개수-->
+    <select id="serviceGetTotal" resultType="_int">
+        select count(*) from tbl_service
+        <if test="keyword != null">
+            where product_title like '%' || #{keyword} || '%'
+        </if>
+    </select>
+
+</mapper>

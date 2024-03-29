@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.admin.model.dao.DobbyMapper">
+
+    <select id="findAllDobby" resultType="team.trillion.yamuzip.admin.model.dto.DobbyDTO">
+        SELECT
+            d.dob_code,
+            u.user_id,
+            d.dob_nickname,
+            u.user_name,
+            u.phone,
+            u.regist_datetime,
+            o.order_datetime,
+            dobby_service_count
+        FROM
+            tbl_user u
+                JOIN tbl_dobby d on (dob_code = u.user_code)
+                LEFT JOIN (select user_code, MAX(order_datetime) as order_datetime
+                           from tbl_order
+                           group by user_code) o ON (u.user_code=o.user_code)
+                LEFT JOIN (select dob_code, count(*) as dobby_service_count
+                           from tbl_service
+                           group by dob_code) s ON (u.user_code=s.dob_code)
+        WHERE
+            auth != 'ADMIN';
+    </select>
+
+
+</mapper>

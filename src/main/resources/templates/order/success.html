@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+    <th:block layout:fragment="userCss">
+        <style>
+            hr { border-top-color: #777; }
+            h1, h2, h3 { font-weight: 900; color: #003363; }
+            h4 { margin-bottom: 15px; font-weight: 700; color: #003363; }
+
+            .table th { width: 150px;}
+        </style>
+    </th:block>
+</head>
+
+<body>
+
+<div id="fh5co-header">
+    <th:block layout:fragment="headerFragment"></th:block>
+</div>
+
+<div layout:fragment="content">
+    <div class="fh5co-hero" style="height: auto; padding-bottom: 100px;">
+        <section class="container-sm" style="padding-top: 150px;">
+
+            <!--여기부터 본인 페이지 코드 작성-->
+
+            <div class="row">
+                <div class="col-lg-8" style="margin: 0 auto">
+                    <div class="text-center">
+                        <h1>주문이 완료되었습니다.</h1>
+                        <h4 th:text="|주문번호 : ${orderResult.orderCode}|"></h4>
+                        <span>주문내역에 관한 안내는 주문조회를 통하여 확인 가능합니다.</span>
+                    </div>
+                    <hr>
+                    <h3>결제정보</h3>
+                    <table class="table">
+                        <tr>
+                            <th class="table-secondary">결제 금액</th>
+                            <td class="table-light" th:text="${orderResult.payPrice}"></td>
+                        </tr>
+                        <tr>
+                            <th class="table-secondary">결제 수단</th>
+                            <td class="table-light" th:text="${orderResult.payType}"></td>
+                        </tr>
+                    </table>
+                    <hr>
+                    <h3>주문정보</h3>
+                    <table class="table">
+                        <tr>
+                            <th class="table-secondary">서비스 이름</th>
+                            <td class="table-light" th:text="${orderResult.serviceTitle}"></td>
+                        </tr>
+                        <tr>
+                            <th class="table-secondary">옵션</th>
+                            <td class="table-light" th:text="|${orderResult.optionName}(+${orderResult.optionPrice}원)|"
+                                th:if="${orderResult.optionName != null}"></td>
+                            <td class="table-light" th:text="없음" th:unless="${orderResult.optionName != null}"></td>
+                        </tr>
+                    </table>
+
+                    <div class="text-center">
+                        <button class="btn btn-primary" onclick="location.href='/'">메인으로</button>
+                        <button class="btn btn-primary" onclick="location.href='/'">주문내역</button>
+                    </div>
+                </div>
+            </div>
+
+            <!--여기까지 본인 페이지 코드 작성-->
+        </section>
+    </div>
+</div>
+<!-- content -->
+
+<th:block layout:fragment="userScript">
+    <!--본인 페이지 js 작성-->
+</th:block>
+
+</body>
+</html>
