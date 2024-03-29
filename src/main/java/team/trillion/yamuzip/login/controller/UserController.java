@@ -1,22 +1,16 @@
-package team.trillion.yamuzip.user.controller;
+package team.trillion.yamuzip.login.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import team.trillion.yamuzip.auth.service.AuthService;
-import team.trillion.yamuzip.user.dao.UserMapper;
-import team.trillion.yamuzip.user.dto.UserDTO;
-import team.trillion.yamuzip.user.service.UserService;
+import team.trillion.yamuzip.login.dto.UserDTO;
+import team.trillion.yamuzip.login.service.UserService;
 
 import java.util.*;
 
