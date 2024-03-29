@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.admin.model.dao.CalcMapper">
+
+    <select id="findAllCalc" resultType="team.trillion.yamuzip.admin.model.dto.CalcDTO">
+        SELECT
+            o.order_code,
+            p.pay_status,
+            p.pay_price,
+            s.service_title,
+            o.order_datetime,
+            p.pay_datetime,
+            IFNULL(c.cal_status, 0) as cal_status
+        FROM
+            tbl_order o
+                LEFT JOIN tbl_payment p on (o.order_code = p.order_code)
+                LEFT JOIN tbl_service s on (o.service_code = s.service_code)
+                LEFT JOIN (select cal_code as cal_status, pay_code
+                           from tbl_calc_fin) c on (c.pay_code = p.pay_code)
+        ORDER BY
+            order_code;
+
+
+    </select>
+
+</mapper>
