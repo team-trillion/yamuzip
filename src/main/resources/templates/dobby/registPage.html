@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+    <th:block layout:fragment="userCss">
+    </th:block>
+    <style>
+        .white-box {
+            background: #F2F2F2;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0.5px 0.5px 2px 1px #eee;
+        }
+
+        .custom-width {
+            width: 100px; /* 원하는 너비를 지정하세요 */
+        }
+    </style>
+</head>
+
+<body>
+<div id="fh5co-wrapper">
+    <div id="fh5co-page">
+        <div id="fh5co-header">
+            <th:block layout:fragment="headerFragment"></th:block>
+        </div>
+
+
+        <div layout:fragment="content">
+            <div class="fh5co-hero" style="height: auto;">
+                <!--                <div class="fh5co-overlay"></div>-->
+                <section class="container-sm" style="padding-top: 150px;">
+
+                    <!--여기부터 본인 페이지 코드 작성-->
+
+                    <div class="py-5 text-center">
+                        <img src="/images/logo.png" class="img-fluid"
+                             style="width: 20rem; background-color: #0E79B2; border-radius: 10%" alt="logo">
+                        <h2></h2>
+                        <p class="lead">야무집의 도비가 되어 환상적인 서비스를 선보이세요! 도비로서 야무집과 함께하면 더 넓은 세계를 경험할 수 있습니다.
+                            당신이 도비가 되면, 우리는 함께 더 많은 꿈을 이룰 수 있습니다.</p>
+                    </div>
+
+                    <div class="col d-flex align-items-center justify-content-center mb-5">
+                        <button type="button" onClick="location.href='/signup/dobby'" class="btn btn-primary">도비
+                            등록하기
+                        </button>
+                        
+
+                    </div>
+
+                    <!-- -->
+
+
+                    <div class="row">
+
+                    </div>
+
+                    <!--여기까지 본인 페이지 코드 작성-->
+                </section>
+            </div>
+        </div>
+        <!-- content -->
+
+    </div>
+    <!-- page -->
+</div>
+<!-- wrapper -->
+
+<th:block layout:fragment="userScript">
+    <!--본인 페이지 js 작성-->
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
+</th:block>
+
+</body>
+</html>

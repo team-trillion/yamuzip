@@ -10,7 +10,9 @@ public class DobbyController {
 
     // 도비 마이페이지 메인
     @GetMapping("/mypage")
-    public String dobbyMypage() {return "dobby/main";}
+    public String dobbyMypage() {
+        return "dobby/main";
+    }
 
     // 도비 프로필
     @GetMapping("/profile")
@@ -20,7 +22,9 @@ public class DobbyController {
 
     // 도비 마이페이지 > 판매 관리
     @GetMapping("/order")
-    public String dobbyOrder() {return "dobby/order";}
+    public String dobbyOrder() {
+        return "dobby/order";
+    }
 
     // 도비 마이페이지 > 내 서비스
     @GetMapping("/service")
