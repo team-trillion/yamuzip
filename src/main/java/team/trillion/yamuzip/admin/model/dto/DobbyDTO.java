@@ -20,5 +20,5 @@ public class DobbyDTO {
     private int dobbyServiceCount;
     private Date registDatetime;
     private Date orderDatetime;
-
+    private ServiceDTO dobService;
 }

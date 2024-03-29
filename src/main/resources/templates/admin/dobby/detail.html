@@ -6,6 +6,15 @@
 <head>
     <th:block layout:fragment="userCss">
     </th:block>
+    <style>
+        .white-box{
+            background: #F2F2F2;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0.5px 0.5px 2px 1px #eee;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -17,19 +26,105 @@
 
 
         <div layout:fragment="content">
-            <div class="fh5co-hero">
-                <div class="fh5co-overlay"></div>
-                <section class="container-sm" style="background-color: yellow; padding-top: 150px;">
+            <div class="fh5co-hero"  style="height: auto;">
+                <!--                                <div class="fh5co-overlay"></div>-->
+                <section class="container-sm" style="padding-top: 150px;">
 
-                <!--여기부터 본인 페이지 코드 작성-->
+                    <!--여기부터 본인 페이지 코드 작성-->
 
-                    <h1>hello</h1>
+                    <!-- 프로필바 -->
+                    <div class="container" >
+                        <div class="row white-box">
+                            <div class="col-2 p-4 justify-content-center">
+                                <img src="/images/profile.png" alt="profile" class="img-circle img-thumbnail w-50 center-block">
+                            </div>
+                            <div class="col d-flex align-items-start justify-content-center flex-column mb-2">
+                                <div class="pt-3">홍길동</div>
+                                <div class="pb-3">lhs1119@gmail.com</div>
+                            </div>
+                            <div class="col d-flex align-items-center justify-content-center">
+                                <button class="btn btn-primary" >내 정보 등록/수정</button>
+                            </div>
+                        </div>
+                    </div>
 
-                    <p>표시를 위해 노란색 배경 적용했어요~ 22번 줄 style에서 background-color만 제거하시면 됩니다 퐈이튕!!!</p>
-                    <p>style.css는 웬만하면 건들지 않기! 꼭 상의하고 변경하기</p>
-                    <p>페이지에 필요한 css가 새로 있다면 head태그에 있는 usercss 블럭 태그 안에 작성하시면 됩니다!</p>
+                    <div class="container">
+                        <div class="mt-5">
+                            <nav>
+                                <ul class="nav nav-underline border border-start-0 border-top-0 border-end-0  ">
+                                    <li class="nav-item">
+                                        <a class="nav-link active border-2" aria-current="page" href="#">소개</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <div class="row">
+                                <p class="col m-5">
+                                    안녕하세요!
+                                    우리는 청결과 안락을 위한 전문 청소 서비스를 제공합니다.
 
-                <!--여기까지 본인 페이지 코드 작성-->
+                                    고객의 요구에 맞춰 맞춤형 서비스를 제공하며,
+                                    친환경적인 청소제와 방법을 사용하여 환경과 건강에도 신경을 씁니다.
+
+                                    언제든지 편안한 공간을 원하시는 분들께 최상의 서비스를 제공하기 위해 준비되어 있습니다. 문의나 예약은 언제든지 환영합니다. 감사합니다.
+                                </p>
+                                <div class="col-3 m-5">
+                                    <div class="card">
+                                        <div class="card-body m-3">
+                                            <h3 class="card-title fs-3">도비 정보</h3>
+                                            <div class="card-text fs-4 d-flex justify-content-between">
+                                                <span>지역</span>
+                                                <span>서울시 종로구</span>
+                                            </div>
+                                            <div class="card-text fs-4 d-flex justify-content-between">
+                                                <span>영업일</span>
+                                                <span>월.화.수.목.금</span>
+                                            </div>
+                                            <div class="card-text fs-4 d-flex justify-content-between">
+                                                <span>전문 분야</span>
+                                                <span>이사.청소</span>
+                                            </div>
+                                            <div class="card-text fs-4 d-flex justify-content-between">
+                                                <span>경력</span>
+                                                <span>10년 이상</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-5">
+                                <nav>
+                                    <ul class="nav nav-underline border border-start-0 border-top-0 border-end-0  ">
+                                        <li class="nav-item">
+                                            <a class="nav-link active border-2" aria-current="page" href="#">서비스</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <div class="row m-5 pb-5 border border-2 border-start-0 border-top-0 border-end-0">
+                                    <div class="card border-0">
+                                        <div class="row g-0">
+                                            <div class="col-md-4">
+                                                <img src="/images/profile.png" class="img-fluid rounded-start" alt="...">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body">
+                                                    <h5 class="card-title fs-3">서비스 이름</h5>
+                                                    <p class="card-text fs-4">This is a wider card with supporting text below as a natural lead-in to additional content. </p>
+                                                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--                                <div class="row m-5 pb-5 border border-2 border-start-0 border-top-0 border-end-0">-->
+                                <!--                                    <p href="#" class="text-center">+서비스 등록하기</p>-->
+                                <!--                                </div>-->
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--여기까지 본인 페이지 코드 작성-->
+
                 </section>
             </div>
         </div>
@@ -41,7 +136,9 @@
 <!-- wrapper -->
 
 <th:block layout:fragment="userScript">
-<!--본인 페이지 js 작성-->
+    <!--본인 페이지 js 작성-->
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
 </th:block>
 
 </body>

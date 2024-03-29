@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -15,7 +16,7 @@ public class ServiceDTO {
     private int dobCode;
     private String serviceTitle;
     private int categoryCode;
-    private Date serviceCreated;
+    private LocalDateTime serviceCreated;
     private String thumbnailUrl;
 
 }

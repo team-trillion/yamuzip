@@ -9,21 +9,21 @@
 <div id="fh5co-wrapper">
     <div id="fh5co-page">
         <!-- header fragment -->
-        <div th:block th:replace="~{layout/dobby/header::headerFragment}"></div>
+        <div th:block th:replace="~{/layout/fragments/default/header::headerFragment}"></div>
 
         <!-- profile fragment -->
-        <div th:block th:replace="~{layout/dobby/profile::profileFragment}"></div>
+        <div th:block th:replace="~{/layout/fragments/dobby/profile::profileFragment}"></div>
 
         <!-- sideBar fragment 마지막에 도전 -->
 <!--        <div th:block th:replace="~{layout/dobby/sideBar::sideBarFragment}"></div>-->
 
-        <div th:block th:replace="~{layout/dobby/content::contentFragment}"></div>
+        <div th:block th:replace="~{/layout/fragments/dobby/content::contentFragment}"></div>
 
         <!-- footer fragment -->
-        <div th:block th:replace="~{layout/dobby/footer::footerFragment}"></div>
+        <div th:block th:replace="~{/layout/fragments/default/footer::footerFragment}"></div>
 
         <!-- script fragment -->
-        <div th:replace="~{layout/dobby/script::scriptFragment}"></div>
+        <div th:replace="~{/layout/fragments/default/script::scriptFragment}"></div>
 
         <!-- 사용자 스크립트 영역 -->
         <th:block layout:fragment="userScript"></th:block>

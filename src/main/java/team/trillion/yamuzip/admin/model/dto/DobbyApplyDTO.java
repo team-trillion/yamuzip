@@ -17,5 +17,6 @@ public class DobbyApplyDTO {
     private String phone;
     private String applyCareer;
     private Date applyDatetime;
+    private String auth;
 
 }
