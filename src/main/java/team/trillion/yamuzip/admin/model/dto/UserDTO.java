@@ -3,7 +3,7 @@ package team.trillion.yamuzip.admin.model.dto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import team.trillion.yamuzip.user.model.Authority;
+import team.trillion.yamuzip.login.model.Authority;
 
 import java.time.LocalDate;
 import java.util.Date;

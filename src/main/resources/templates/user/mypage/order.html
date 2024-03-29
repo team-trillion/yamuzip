@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/mypage}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/user}">
 <head>
     <th:block layout:fragments="userCss">
-    </th:block>
-    <style>
-        .white-box{
-            background: #F2F2F2;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0.5px 0.5px 2px 1px #eee;
-        }
-        thead > tr > th, td:not(.title) { text-align: center; }
-        .table > tbody > tr > td { vertical-align: middle; line-height: 100px;}
-        .form-control, .input-sm { padding : 5px 10px;}
-        .img-col { width: 100px; }
-        .order-img { width: 100%; height:100%; object-fit: cover; }
-    </style>
-
+        <style>
+            .white-box{
+                background: #F2F2F2;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0.5px 0.5px 2px 1px #eee;
+            }
+            thead > tr > th, td:not(.title) { text-align: center; }
+            .table > tbody > tr > td { vertical-align: middle; line-height: 100px;}
+            .form-control, .input-sm { padding : 5px 10px;}
+            .img-col { width: 100px; }
+            .order-img { width: 100%; height:100%; object-fit: cover; }
+        </style>
+    </th:block>\
 </head>
 
 <body>

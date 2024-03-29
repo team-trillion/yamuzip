@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import team.trillion.yamuzip.login.dto.UserDTO;
+import team.trillion.yamuzip.login.model.dto.UserDTO;
 
 import java.util.Collection;
 

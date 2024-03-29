@@ -1,12 +1,11 @@
-package team.trillion.yamuzip.login.service;
+package team.trillion.yamuzip.login.model.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
-import team.trillion.yamuzip.login.dao.UserMapper;
-import team.trillion.yamuzip.login.dto.UserDTO;
+import team.trillion.yamuzip.login.model.dao.UserMapper;
+import team.trillion.yamuzip.login.model.dto.UserDTO;
 
 import java.util.Collections;
 import java.util.List;

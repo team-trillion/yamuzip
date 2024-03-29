@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import team.trillion.yamuzip.user.mypage.model.dto.OrderDTO;
 import team.trillion.yamuzip.user.mypage.model.dto.OrderDetailDTO;
 import team.trillion.yamuzip.user.mypage.model.service.OrderService;
-import team.trillion.yamuzip.login.dto.UserDTO;
+import team.trillion.yamuzip.login.model.dto.UserDTO;
 
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;

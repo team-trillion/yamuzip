@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import team.trillion.yamuzip.dobby.model.dto.DobbyRegistDTO;
 import team.trillion.yamuzip.dobby.model.service.DobbyRegistService;
-import team.trillion.yamuzip.user.dto.UserDTO;
+import team.trillion.yamuzip.login.model.dto.UserDTO;
 
 @Slf4j
 @Controller

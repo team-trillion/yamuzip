@@ -10,8 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import team.trillion.yamuzip.auth.service.AuthService;
-import team.trillion.yamuzip.login.dto.UserDTO;
-import team.trillion.yamuzip.login.service.UserService;
+import team.trillion.yamuzip.login.model.dto.UserDTO;
+import team.trillion.yamuzip.login.model.service.UserService;
 
 import java.util.*;
 

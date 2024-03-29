@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
 
     // 관리자 페이지
-    @GetMapping("/dashboard")
-    public void getAdminPage() {}
+    @GetMapping("")
+    public String getAdminPage() {
+        return "admin/dashboard/dashboard";
+    }
 
     // 관리자 페이지 > 회원관리 페이지
     @GetMapping("/user")
