@@ -7,9 +7,9 @@ import java.util.List;
 
 @Mapper
 public interface ServiceMapper {
-    List<ServiceDTO> findAllService();
+    List<ServiceDTO> getServiceList();
 
-    List<ServiceDTO> findInfoService(long serviceCode);
+    List<ServiceDTO> getServiceDetail(long serviceCode);
 
     List<ImageDTO> getImages();
 

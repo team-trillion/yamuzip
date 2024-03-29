@@ -25,35 +25,35 @@ public class ServiceController {
         this.messageSource = messageSource;
     }
 
-    @GetMapping("/search/serviceList")
-    public String findAllService(Model model) {
-        List<ServiceDTO> serviceList = serviceService.findAllService();
+    @GetMapping("/service/serviceList")
+    public String getServiceList(Model model) {
+        List<ServiceDTO> serviceList = serviceService.getServiceList();
         List<ImageDTO> serviceImages = serviceService.getImages();
 
         model.addAttribute("serviceImages", serviceImages);
         model.addAttribute("serviceList", serviceList);
-        return "search/serviceList";
+        return "service/serviceList";
     }
 
-    @GetMapping("/service/serviceInfo/{serviceCode}")
-    public String findInfoService(@PathVariable("serviceCode") long serviceCode, Model model) {
-        List<ServiceDTO> serviceInfoList = serviceService.findInfoService(serviceCode);
+    @GetMapping("/service/serviceDetail/{serviceCode}")
+    public String getServiceDetail(@PathVariable("serviceCode") long serviceCode, Model model) {
+        List<ServiceDTO> serviceDetailList = serviceService.getServiceDetail(serviceCode);
 
 
         List<ImageDTO> serviceImages = serviceService.getImages();
         List<OptionDTO> serviceOptions = serviceService.getOptions(serviceCode);
         List<ReviewDTO> reviews = serviceService.getReviews(serviceCode);
         List<CsDTO> cs = serviceService.getCs(serviceCode);
-        model.addAttribute("serviceInfoList", serviceInfoList);
+        model.addAttribute("serviceDetailList", serviceDetailList);
         model.addAttribute("serviceImages", serviceImages);
         model.addAttribute("serviceOptions", serviceOptions);
         model.addAttribute("reviews", reviews);
         model.addAttribute("cs", cs);
-        return "service/serviceInfo";
+        return "service/serviceDetail";
     }
 
     @GetMapping("/service/serviceRegist")
-    public String serviceRegistPage(Model model) {
+    public String serviceRegistPage() {
 
 
         return "service/serviceRegist";

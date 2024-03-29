@@ -14,13 +14,13 @@ public class ServiceService {
         this.serviceMapper = serviceMapper;
     }
 
-    public List<ServiceDTO> findAllService() {
-        return serviceMapper.findAllService();
+    public List<ServiceDTO> getServiceList() {
+        return serviceMapper.getServiceList();
     }
 
 
-    public List<ServiceDTO> findInfoService(long serviceCode) {
-        return serviceMapper.findInfoService(serviceCode);
+    public List<ServiceDTO> getServiceDetail(long serviceCode) {
+        return serviceMapper.getServiceDetail(serviceCode);
     }
 
     public List<ImageDTO> getImages() {

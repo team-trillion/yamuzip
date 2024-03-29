@@ -57,13 +57,16 @@
                 display: flex;
                 justify-content: flex-end;
             }
-            .col-md-4{
+
+            .col-md-4 {
                 margin-bottom: 10rem
             }
+
             #dobName {
                 font-size: 20px;
                 margin-bottom: 10px;
             }
+
             /* 추가된 CSS */
             #load-more-btn {
                 margin-top: 20px;
@@ -157,10 +160,11 @@
                         <div class="col-md-4" th:each="service:${serviceList}">
 
                             <div class="card" style="width: 35rem; height: auto">
-                                <img  src="/images/설치_2.png" class="card-img-top img-thumbnail" alt="...">
+                                <img src="/images/설치_2.png" class="card-img-top img-thumbnail" alt="...">
                                 <div class="card-body m-0 border">
                                     <!-- 닉네임 출력 -->
-                                    <p id="dobName" class="card-name p-2 badge" style="color: whitesmoke; background-color: #97cbff">
+                                    <p id="dobName" class="card-name p-2 badge"
+                                       style="color: whitesmoke; background-color: #97cbff">
                                         <!-- Thymeleaf 문법을 사용하여 닉네임 출력 -->
                                         <b th:text="${service.dobby.dobNickName}"></b>
                                     </p>
@@ -168,49 +172,49 @@
                                     <!-- 상세 페이지로 이동하는 링크 -->
                                     <a class="card-title p-3" style="color: #003363"
                                        th:href="@{'/serviceInfo/{serviceCode}'(serviceCode=${service.serviceCode})}">
-                                    <!-- Thymeleaf 문법을 사용하여 서비스 제목 출력 -->
-                                    <b th:text="${service.serviceTitle}"></b>
+                                        <!-- Thymeleaf 문법을 사용하여 서비스 제목 출력 -->
+                                        <b th:text="${service.serviceTitle}"></b>
                                     </a></div>
 
-                                    <!-- 서비스 설명 출력 -->
-                                    <p class="card-text p-3 border" style="border-radius: 5px">
-                                        <!-- Thymeleaf 문법을 사용하여 서비스 설명 출력 -->
-                                        <span th:text="${service.serviceExplain}">
+                                <!-- 서비스 설명 출력 -->
+                                <p class="card-text p-3 border" style="border-radius: 5px">
+                                    <!-- Thymeleaf 문법을 사용하여 서비스 설명 출력 -->
+                                    <span th:text="${service.serviceExplain}">
             서비스내용 Some quick example text to build on the card title and make up the bulk of the card's content.
         </span>
-                                    </p>
+                                </p>
 
-                                    <div class="card-foot">
-                                        <p class="heart p-3">♥️</p>
-                                        <!-- Thymeleaf 문법을 사용하여 서비스 가격 출력 -->
-                                        <p class="infoFoot card-text p-3" th:text="${service.servicePrice}">320,000~</p>
-                                    </div>
-
-                                    <div class="infoTab cardText mb-4 p-3">
-                                        <span class="badge bg-primary">하위 카테고리</span>
-                                        <span class="badge bg-primary">상위 카테고리</span>
-                                    </div>
-
-                                    <p class="aver p-3">★4.9(12)</p>
+                                <div class="card-foot">
+                                    <p class="heart p-3">♥️</p>
+                                    <!-- Thymeleaf 문법을 사용하여 서비스 가격 출력 -->
+                                    <p class="infoFoot card-text p-3" th:text="${service.servicePrice}">320,000~</p>
                                 </div>
 
+                                <div class="infoTab cardText mb-4 p-3">
+                                    <span class="badge bg-primary">하위 카테고리</span>
+                                    <span class="badge bg-primary">상위 카테고리</span>
+                                </div>
+
+                                <p class="aver p-3">★4.9(12)</p>
                             </div>
+
                         </div>
+                    </div>
 
                 </section>
             </div>
 
-                    <!-- 로딩 스피너 -->
-                    <div class="loading-spinner" id="loadingSpinner">
-                        <img src="/images/logo.png" alt="Loading" width="50" height="50">
-                    </div>
-                    <!--여기까지 본인 페이지 코드 작성-->
+            <!-- 로딩 스피너 -->
+            <div class="loading-spinner" id="loadingSpinner">
+                <img src="/images/logo.png" alt="Loading" width="50" height="50">
             </div>
+            <!--여기까지 본인 페이지 코드 작성-->
         </div>
-        <!-- content -->
-
     </div>
-    <!-- page -->
+    <!-- content -->
+
+</div>
+<!-- page -->
 <!-- wrapper -->
 
 <th:block layout:fragment="userScript">
