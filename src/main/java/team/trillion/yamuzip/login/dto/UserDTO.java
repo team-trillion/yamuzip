@@ -1,9 +1,8 @@
-package team.trillion.yamuzip.user.dto;
-import lombok.Data;
+package team.trillion.yamuzip.login.dto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import team.trillion.yamuzip.user.model.Authority;
+import team.trillion.yamuzip.login.model.Authority;
 
 import java.time.LocalDate;
 
@@ -15,6 +14,7 @@ public class UserDTO {
     private int userCode;
     private String userId;
     private String userPwd;
+    private String userPwdConfirm;
     private String userName;
     private String userNickname;
     private String phone;

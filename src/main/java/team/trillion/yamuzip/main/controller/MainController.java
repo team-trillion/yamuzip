@@ -19,18 +19,6 @@ public class MainController {
         return "ex/ex";
     }
 
-//    @GetMapping("/regist")
-//    public String sadf() {return "user/regist";}
-
-//    @GetMapping("/login")
-//    public String getLoginPage() {return "user/login";}
-
-
-//    @GetMapping("/user/findId")
-//    public String findId() {return "/user/findId";}
-
-//    @GetMapping("/user/findPwd")
-//    public String findPwd() {return "user/findPwd";}
 
 }
 

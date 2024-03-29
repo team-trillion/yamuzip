@@ -9,8 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import team.trillion.yamuzip.auth.model.CustomUser;
-import team.trillion.yamuzip.user.dao.UserMapper;
-import team.trillion.yamuzip.user.dto.UserDTO;
+import team.trillion.yamuzip.login.dao.UserMapper;
+import team.trillion.yamuzip.login.dto.UserDTO;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,9 +41,6 @@ public class AuthService implements UserDetailsService {
         /* 권한 만들기*/
         List<GrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority(user.getAuth().name()));
 
-        // 사용자의 Principal 객체에 닉네임 속성 추가
-//        CustomUser customUser = new CustomUser(user, authorities);
-//        customUser.setUserNickname(user.getUserNickname());
 
         return new CustomUser(user, authorities);
     }

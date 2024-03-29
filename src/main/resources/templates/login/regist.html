@@ -14,52 +14,8 @@
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
 
-        // async function receiveFetch() {
-        //     const $userId = document.querySelector("#userId");
-        //     console.log($userId.value);
-        //
-        //     const response = await fetch('/user/getId');
-        //     const responseJson = await response.json();
-        //     console.log(responseJson);
-        //     console.log(responseJson[0]);
-        //     console.log(responseJson[1]);
-        //     console.log($userId.value+"..");
-        //     for(let i=0;i<responseJson.length;i++){
-        //         console.log(responseJson[i]);
-        //         if($userId.value==responseJson[i]) {
-        //             alert("중복 되는 아이디입니다.");
-        //         } else($userId.value==responseJson[i]){
-        //             alert("사용 가능한 아이디 입니다.");
-        //         }
-        //
-        //     }
-        // }
-        // async function receiveFetch() {
-        //     const $userId = document.querySelector("#userId");
-        //     console.log($userId.value);
-        //
-        //     const response = await fetch('/user/getId');
-        //     const responseJson = await response.json();
-        //     console.log(responseJson);
-        //
-        //     let isIdDuplicate = false; // 아이디 중복 여부를 나타내는 변수
-        //
-        //     for (let i = 0; i < responseJson.length; i++) {
-        //         console.log(responseJson[i]);
-        //         if ($userId.value === responseJson[i]) {
-        //             isIdDuplicate = true; // 아이디가 중복됨을 나타내고 반복문 종료
-        //             break;
-        //         }
-        //     }
-        //
-        //     if (isIdDuplicate) {
-        //         alert("중복되는 아이디입니다.");
-        //     } else {
-        //         alert("사용 가능한 아이디입니다.");
-        //     }
-        // }
+    <script>
         async function receiveFetch() {
             const $userId = document.querySelector("#userId");
             const userIdValue = $userId.value;
@@ -74,7 +30,7 @@
 
             console.log(userIdValue);
 
-            const response = await fetch('/user/getId');
+            const response = await fetch('/getId');
             const responseJson = await response.json();
             console.log(responseJson);
 
@@ -89,9 +45,11 @@
             }
 
             if (isIdDuplicate) {
-                alert("중복되는 아이디입니다.");
+                alert("중복되는 아이디입니다. 회원가입을 진행할수 없습니다.");
+                // document.querySelector("#registerButton").style.display = "none";
             } else {
                 alert("사용 가능한 아이디입니다.");
+                document.querySelector("#registerButton").style.display = "block";
             }
         }
 
@@ -105,18 +63,11 @@
                 $("#check2").hide();
             }
         }
-            $(document).ready(function (){
+        $(document).ready(function (){
             $("#check2").hide();
             $("#userPwd, #userPwd1").on("keyup", check);
-            });
-
-
-
-
-
-
+        });
     </script>
-
 
 </head>
 
@@ -141,7 +92,7 @@
                         <div class="input-form-backgroud row">
                             <div class="input-form col-md-12 mx-auto">
                                 <h4 class="mb-3">회원가입</h4>
-                                <form action="/user/regist" method="post"  name="userInfo"
+                                <form action="regist" method="post"  name="userInfo"
                                       onsubmit="return checkValue()">
                                     <div class="row">
                                         <div class=" mb-3">
@@ -174,7 +125,9 @@
                                                                                               class="form-control" id="userPwd1"
                                                                                               placeholder="비밀번호를 다시 한번 입력해주세요" value="" required><span
                                                 class="pwchk"></span>
+
                                         </div>
+
                                         <div class="mb-3" id="check2" >PASSWORD 가 동일하지 않습니다</div>
 
                                     </div>
@@ -213,7 +166,7 @@
 
 
 
-                                    <button class="btn btn-primary btn-lg btn-block" type="submit">가입
+                                    <button class="btn btn-primary btn-lg btn-block" type="submit" id="registerButton">가입
                                         완료</button>
                                 </form>
                                 <br>

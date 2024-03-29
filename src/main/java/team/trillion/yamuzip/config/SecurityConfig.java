@@ -42,7 +42,7 @@ public class SecurityConfig {
                 /* 로그인 설정 */
                 .formLogin(login ->{
                     /* 로그인 페이지 설정 */
-                    login.loginPage("/user/login");
+                    login.loginPage("/login");
                     /* 성공 시 랜딩 페이지 설정 */
                     login.defaultSuccessUrl("/");
                     /* 로그인 실패 시 랜딩 페이지 설정 */
@@ -54,7 +54,7 @@ public class SecurityConfig {
                 /* 로그아웃 설정 */
                 .logout(logout ->{
                     /* 로그아웃 요청 URL */
-                    logout.logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"));
+                    logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
                     /* JSESSIONID 쿠키 삭제 */
                     logout.deleteCookies("JSESSIONID");
                     /* 세션 만료 */

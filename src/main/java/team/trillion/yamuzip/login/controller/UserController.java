@@ -1,36 +1,32 @@
-package team.trillion.yamuzip.user.controller;
+package team.trillion.yamuzip.login.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import team.trillion.yamuzip.user.dao.UserMapper;
-import team.trillion.yamuzip.user.dto.UserDTO;
-import team.trillion.yamuzip.user.service.UserService;
+import team.trillion.yamuzip.login.dao.UserMapper;
+import team.trillion.yamuzip.login.dto.UserDTO;
+import team.trillion.yamuzip.login.service.UserService;
 
 import java.util.*;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
     private final MessageSourceAccessor messageSourceAccessor;
-    @Autowired
-    private UserMapper userMapper;
+
 
 
 
     @GetMapping("/login")
     public String getLoginPage(){
-        return "user/login";
+        return "login/login";
     }
 
     @PostMapping("/login")
@@ -45,7 +41,7 @@ public class UserController {
 
     @GetMapping("/regist")
     public String getregistPage() {
-        return "user/regist";
+        return "login/regist";
     }
 
     @PostMapping("/regist")
@@ -53,7 +49,7 @@ public class UserController {
         System.out.println(user);
         userService.regist(user);
         rttr.addFlashAttribute("message", messageSourceAccessor.getMessage("user.regist"));
-        return "redirect:/user/login";
+        return "redirect:/login";
     }
 
     @GetMapping("/getId")
@@ -63,44 +59,40 @@ public class UserController {
     }
 
 
-//    @GetMapping("/findId")
-//    public String findId() {
-//        return "user/login";
-//    }
-//
-//    @GetMapping("/findPwd")
 
-//    public String findPwd() {
-//        return "user/login";
-//    }
+
+
 
 
     @GetMapping("/findId")
-    public String findId() {return "/user/findId";}
+    public String findId() {return "/login/findId";}
 
-//    @ResponseBody
-//    @GetMapping("/findUserId")
-//    public   List<String> findUserId() {
-//        return userService.findUserId();
-//    }
+
     @PostMapping("/findId")
-    public String findUserId(@RequestBody Map<String, String> requestData) {
+    public ResponseEntity<?> findUserId(@RequestBody Map<String, String> requestData) {
         String name = requestData.get("name");
         String email = requestData.get("email");
-        return "foundUserId";
+        List<String> userIdList = userService.findUserId(name, email);
+        if (userIdList.isEmpty()) {
+            return ResponseEntity.notFound().build(); // 아이디를 찾을 수 없는 경우 404 응답을 반환합니다.
+        } else {
+            // 아이디를 찾은 경우 첫 번째 아이디를 반환합니다.
+            String userId = userIdList.get(0);
+            return ResponseEntity.ok(Collections.singletonMap("userId", userId));
+        }
     }
 
 
+
+
     @GetMapping("/findPwd")
-    public String findPwd() {return "user/findPwd";}
+    public String findPwd() {return "login/findPwd";}
 
 
 
-//    @ResponseBody
-//    @GetMapping("/findId")
-//    public  List<String> findId() {
-//        return "/user/findId";
-//    }
+
+
+
 
 
 

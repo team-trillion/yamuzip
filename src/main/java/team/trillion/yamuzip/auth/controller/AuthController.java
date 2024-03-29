@@ -17,7 +17,7 @@ public class AuthController {
     public String loginFailed(RedirectAttributes rttr) {
         rttr.addFlashAttribute("message", messageSourceAccessor.getMessage("error.login")); // 로그인실패시  메세지 전송
 
-        return "redirect:/user/login";
+        return "redirect:/login/login";
     }
 
     @GetMapping("error/admin")
