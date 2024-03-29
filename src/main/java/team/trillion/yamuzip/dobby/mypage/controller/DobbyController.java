@@ -1,4 +1,4 @@
-package team.trillion.yamuzip.dobby.controller;
+package team.trillion.yamuzip.dobby.mypage.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

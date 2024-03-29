@@ -47,15 +47,62 @@
                         <button type="button" onClick="location.href='/signup/dobby'" class="btn btn-primary">도비
                             등록하기
                         </button>
-                        
-
                     </div>
+
+
+<!--                    <div class="row">-->
+<!--                        <h4 class="mb-3">DOBBY</h4>&ndash;&gt;-->
+
+<!--                        <p th:text="${#authentication.principal.userId}"></p>-->
+<!--                        <p th:text="${#authentication.principal.userName}"></p>-->
+<!--                        <p th:text="${#authentication.principal.phone}"></p>-->
+
+<!--                        <form class="needs-validation" action="/signup/dobby" method="post">-->
+<!--                            <label for="applyCareer">전문 분야:</label>-->
+<!--                            <input type="text" id="applyCareer" name="applyCareer" required>-->
+<!--                            <br>-->
+<!--                            <button type="submit">전송</button>-->
+<!--                        </form>-->
+
+<!--                    </div>-->
 
                     <!-- -->
 
-
-                    <div class="row">
-
+                    <div class="form-group">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                            도비 등록하기
+                        </button>
+                        <div class="modal modal-lg	" tabindex="-1" id="exampleModal">
+                            <div class="modal-dialog  modal-dialog-centered">
+                                <div class="modal-content" action="/signup/dobby" method="post">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">도비 등록</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body" for="applyCareer">
+                                        <select class="form-select form-select-lg mb-3"
+                                                aria-label="Large select example"
+                                                type="text" id="applyCareer" name="applyCareer" required>
+                                            <option selected>전문 분야</option>
+                                            <option value="청소">청소</option>
+                                            <option value="수리">수리</option>
+                                            <option value="이사">이사</option>
+                                            <option value="설치">설치</option>
+                                            <option value="인테리어">인테리어</option>
+                                        </select>
+                                    </div>
+                                    <div class="modal-footer">
+<!--                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">-->
+<!--                                            Close-->
+<!--                                        </button>-->
+                                        <button type="submit" class="btn btn-primary">도비 등록</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!--여기까지 본인 페이지 코드 작성-->
