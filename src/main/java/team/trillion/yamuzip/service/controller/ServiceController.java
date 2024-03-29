@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import team.trillion.yamuzip.service.model.dto.*;
 import team.trillion.yamuzip.service.model.service.ServiceService;
 
@@ -23,7 +25,7 @@ public class ServiceController {
         this.messageSource = messageSource;
     }
 
-    @GetMapping("/serviceList")
+    @GetMapping("/search/serviceList")
     public String findAllService(Model model) {
         List<ServiceDTO> serviceList = serviceService.findAllService();
         List<ImageDTO> serviceImages = serviceService.getImages();
@@ -33,7 +35,7 @@ public class ServiceController {
         return "search/serviceList";
     }
 
-    @GetMapping("/serviceInfo/{serviceCode}")
+    @GetMapping("/service/serviceInfo/{serviceCode}")
     public String findInfoService(@PathVariable("serviceCode") long serviceCode, Model model) {
         List<ServiceDTO> serviceInfoList = serviceService.findInfoService(serviceCode);
 
@@ -50,9 +52,28 @@ public class ServiceController {
         return "service/serviceInfo";
     }
 
-    @GetMapping("/serviceRegist")
-    public String registService() {
+    @GetMapping("/service/serviceRegist")
+    public String serviceRegistPage(Model model) {
+
 
         return "service/serviceRegist";
+    }
+
+    @PostMapping(value = "/service/serviceRegist")
+    public String serviceRegist(@RequestParam String title,
+                                @RequestParam String explain,
+                                @RequestParam String content,
+                                @RequestParam int price,
+                                @RequestParam ImageDTO thumbnail) {
+        ServiceDTO service = new ServiceDTO();
+        service.setServiceTitle(title);
+        service.setServiceExplain(explain);
+        service.setServiceContent(content);
+        service.setServicePrice(price);
+        service.setImage(thumbnail);
+
+        serviceService.registerService(service);
+
+        return "redirect:/"; // 등록 성공 후 이동할 페이지
     }
 }

@@ -36,11 +36,12 @@ public class ServiceService {
     }
 
 
-
     public List<CsDTO> getCs(long serviceCode) {
         return serviceMapper.getCs(serviceCode);
     }
 
 
-
+    public void registerService(ServiceDTO service) {
+        serviceMapper.registerService(service);
+    }
 }

@@ -1,7 +1,6 @@
 package team.trillion.yamuzip.service.model.dao;
 
-import org.apache.ibatis.annotations.*;
-import org.springframework.data.domain.Page;
+import org.apache.ibatis.annotations.Mapper;
 import team.trillion.yamuzip.service.model.dto.*;
 
 import java.util.List;
@@ -20,5 +19,7 @@ public interface ServiceMapper {
 
     List<CsDTO> getCs(long serviceCode);
 
+
+    void registerService(ServiceDTO service);
 
 }
