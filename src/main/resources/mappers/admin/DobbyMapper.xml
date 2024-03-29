@@ -27,5 +27,33 @@
             auth != 'ADMIN';
     </select>
 
+    <select id="findDetailDobby" resultType="team.trillion.yamuzip.admin.model.dto.DobbyDTO">
+        SELECT
+            d.dob_code,
+            d.dob_nickname,
+            d.dob_img,
+            d.dob_content,
+            d.dob_area,
+            d.dob_career_days,
+            u.user_id,
+            u.user_name,
+            u.phone,
+            u.email
+            u.regist_datetime,
+            s.service_code,
+            s.service_title,
+            s.service_explain
+            s.service_price,
+            s.service_status,
+            s.service_created,
+            s.thumbnail_url,
+            o.order_datetime
+        FROM
+            tbl_user u
+                JOIN tbl_dobby d on (d.dob_code = u.user_code)
+                JOIN tbl_service s on (d.dob_code = s.dob_code)
+                JOIN tbl_order o on (s.service_code = o.service_code);
+    </select>
+
 
 </mapper>

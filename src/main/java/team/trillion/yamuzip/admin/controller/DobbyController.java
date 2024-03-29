@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import team.trillion.yamuzip.admin.model.dto.DobbyDTO;
 import team.trillion.yamuzip.admin.model.service.DobbyService;
 
@@ -32,7 +33,14 @@ public class DobbyController {
     }
 
     @GetMapping("/detail")
-    public void getDobbyDetail() {}
+    public String getDobbyDetail(@RequestParam("code") long dobbyCode, Model model) {
+
+        List<DobbyDTO> dobbyDetail = dobbyService.findDetailDobby(dobbyCode);
+
+        model.addAttribute("dobbyDetail", dobbyDetail);
+
+        return "admin/dobby/detail";
+    }
 
     @GetMapping("/ban")
     public void banDobby() {}
