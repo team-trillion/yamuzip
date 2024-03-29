@@ -3,27 +3,27 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<th:block th:replace="/layout/admin/head :: headFragment"></th:block>
+<th:block th:replace="/layout/fragments/default/head :: headFragment"></th:block>
 
 <body>
 <div id="fh5co-wrapper">
     <div id="fh5co-page">
         <div class="container">
         <!-- header fragment -->
-        <div th:block th:replace="~{/layout/admin/header::headerFragment}"></div>
+        <div th:block th:replace="~{/layout/fragments/default/header::headerFragment}"></div>
 
         <!-- sideBar -->
-        <div th:block th:replace="~{/layout/admin/sidebar::sideBar}"></div>
+        <div th:block th:replace="~{/layout/fragments/admin/sidebar::sideBar}"></div>
 
         <!-- content fragment -->
-        <div th:block th:replace="~{/layout/admin/content::contentFragment}"></div>
+        <div th:block th:replace="~{/layout/fragments/admin/content::contentFragment}"></div>
         </div>
 
         <!-- footer fragment -->
-        <div th:block th:replace="~{/layout/admin/footer::footerFragment}"></div>
+        <div th:block th:replace="~{/layout/fragments/default/footer::footerFragment}"></div>
 
         <!-- script fragment -->
-        <div th:replace="~{/layout/admin/script::scriptFragment}"></div>
+        <div th:replace="~{/layout/fragments/default/script::scriptFragment}"></div>
 
         <!-- 사용자 스크립트 영역 -->
         <th:block layout:fragment="userScript"></th:block>
