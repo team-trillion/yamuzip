@@ -71,24 +71,24 @@
 
     </resultMap>
 
-    <select id="findAllService" resultMap="selectService">
+    <select id="getServiceList" resultMap="selectService">
         SELECT
-            service_code,
-            dob_nickname,
-            service_title,
-            service_explain,
-            service_content,
-            service_price,
-            service_created
+        service_code,
+        dob_nickname,
+        service_title,
+        service_explain,
+        service_content,
+        service_price,
+        service_created
         FROM
-            tbl_service
+        tbl_service
         JOIN tbl_dobby ON tbl_service.dob_code = tbl_dobby.dob_code
         WHERE
-            service_status = 'A'
+        service_status = 'A'
         ORDER BY
-            service_code
+        service_code
     </select>
-    <select id="findInfoService" resultMap="selectService">
+    <select id="getServiceDetail" resultMap="selectService">
         SELECT
         service_code,
         dob_nickname,
@@ -105,16 +105,17 @@
         JOIN tbl_dobby ON tbl_service.dob_code = tbl_dobby.dob_code
         WHERE
         service_status = 'A'
+        service_code = #{serviceCode}
         ORDER BY
         service_code
     </select>
     <select id="getImages" resultMap="getImages">
         SELECT
-            img_url,
-            img_origin_name,
-            img_name
+        img_url,
+        img_origin_name,
+        img_name
         FROM
-            tbl_img
+        tbl_img
     </select>
     <select id="getOptions" resultType="team.trillion.yamuzip.service.model.dto.OptionDTO">
         SELECT
@@ -124,7 +125,7 @@
         tbl_option
     </select>
 
-    <select id="getReviews" resultMap="getReviews" >
+    <select id="getReviews" resultMap="getReviews">
         SELECT
         user_nickname,
         review_created,
@@ -162,7 +163,7 @@
         cs_code
 
     </select>
-<!--    서비스 총 개수-->
+    <!--    서비스 총 개수-->
     <select id="serviceGetTotal" resultType="_int">
         select count(*) from tbl_service
         <if test="keyword != null">
