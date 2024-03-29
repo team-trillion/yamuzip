@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import team.trillion.yamuzip.login.dao.UserMapper;
 import team.trillion.yamuzip.login.dto.UserDTO;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@RequestMapping("/user/regist")
 public class UserService {
 
 
@@ -39,6 +39,11 @@ public class UserService {
         return userMapper.getIds();
     }
 
-    public List<String> findId() { return userMapper.findId();
+
+
+    public List<String> findUserId(String name, String email) {
+        List<String> userIdList = userMapper.findUserId(name, email);
+        return userIdList.isEmpty() ? Collections.emptyList() : userIdList;
     }
+
 }

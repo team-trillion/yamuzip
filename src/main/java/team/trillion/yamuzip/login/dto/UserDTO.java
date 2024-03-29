@@ -13,10 +13,10 @@ import java.util.Collection;
 
 @Getter @Setter @ToString
 public class UserDTO implements UserDetails {
-
     private int userCode;
     private String userId;
     private String userPwd;
+    private String userPwdConfirm;
     private String userName;
     private String userNickname;
     private String phone;

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ import team.trillion.yamuzip.login.service.UserService;
 import java.util.*;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -24,16 +25,13 @@ public class UserController {
     private final MessageSourceAccessor messageSourceAccessor;
 
 
-
     @GetMapping("/login")
     public String getLoginPage(){
-        return "user/login";
+        return "login/login";
     }
 
- /*   @PostMapping("/login")
+/*    @PostMapping("/login")
     public String getLoginPage1(@RequestParam String userId , @RequestParam String userPwd){
-
-
 
         return "redirect:/main";
     }*/
@@ -47,7 +45,7 @@ public class UserController {
 
     @GetMapping("/regist")
     public String getregistPage() {
-        return "user/regist";
+        return "login/regist";
     }
 
     @PostMapping("/regist")
@@ -55,29 +53,9 @@ public class UserController {
         System.out.println(user);
         userService.regist(user);
         rttr.addFlashAttribute("message", messageSourceAccessor.getMessage("user.regist"));
-        return "redirect:/user/login";
+        return "redirect:/login";
     }
 
-
-//    @GetMapping("/findId")
-//    public String findId() {
-//        return "user/login";
-//    }
-//
-//    @GetMapping("/findPwd")
-
-//    public String findPwd() {
-//        return "user/login";
-//    }
-
-
-//    @GetMapping("/findId")
-//    public String findId() {return "/user/findId";}
-
-
-
-    @GetMapping("/findPwd")
-    public String findPwd() {return "user/findPwd";}
 
     @GetMapping("/getId")
     public @ResponseBody List<String> fetchJsonTest() {
@@ -85,11 +63,27 @@ public class UserController {
         return userService.getIds();
     }
 
-
     @GetMapping("/findId")
-    public @ResponseBody List<String> findId() {
-        return userService.findId();
+    public String findId() {return "/login/findId";}
+
+
+    @PostMapping("/findId")
+    public ResponseEntity<?> findUserId(@RequestBody Map<String, String> requestData) {
+        String name = requestData.get("name");
+        String email = requestData.get("email");
+        List<String> userIdList = userService.findUserId(name, email);
+        if (userIdList.isEmpty()) {
+            return ResponseEntity.notFound().build(); // 아이디를 찾을 수 없는 경우 404 응답을 반환합니다.
+        } else {
+            // 아이디를 찾은 경우 첫 번째 아이디를 반환합니다.
+            String userId = userIdList.get(0);
+            return ResponseEntity.ok(Collections.singletonMap("userId", userId));
+        }
     }
+
+    @GetMapping("/findPwd")
+    public String findPwd() {return "login/findPwd";}
+
 
 
     protected Authentication createNewAuthentication(String userId) {

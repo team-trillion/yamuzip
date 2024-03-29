@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/user}">
+<head>
+    <th:block layout:fragments="userCss">
+        <style>
+            .white-box{
+                background: #F2F2F2;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0.5px 0.5px 2px 1px #eee;
+            }
+        </style>
+    </th:block>
+</head>
+
+<body>
+<div id="fh5co-header">
+    <th:block layout:fragment="headerFragment"></th:block>
+</div>
+
+<div layout:fragment="content">
+    <div class="fh5co-hero" style="height: auto;">
+        <!--                <div class="fh5co-overlay"></div>-->
+
+        <section class="container-sm">
+            <!--여기부터 본인 페이지 코드 작성-->
+            <!--nav 옆 (content 안에 nav 있음)-->
+                <div class="card mt-5 mb-3 p-4 ">
+                    <div class="card-header">진행 중 서비스</div>
+                    <div class="row card-body ">
+                        <div class="col ">
+                            <h5 class="card-title">2024.3.24 주문</h5>
+                        </div>
+                        <div class="col text-a">
+                            <h5 class="card-title text-end ">주문번호 12345678</h5>
+                        </div>
+
+                    </div>
+
+                    <div class="p-5">
+                        <div class="position-relative m-4">
+                            <div class="progress" role="progressbar" aria-label="Progress" aria-valuenow="50"
+                                 aria-valuemin="0" aria-valuemax="100" style="height: 1px;">
+                                <div class="progress-bar" style="width: 50%"></div>
+                            </div>
+                            <button type="button"
+                                    class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-primary rounded-pill"
+                                    style="width: 5rem; height:5rem;"></button>
+                            <button type="button"
+                                    class="position-absolute top-0 start-50 translate-middle btn btn-sm btn-primary rounded-pill"
+                                    style="width: 5rem; height:5rem;"></button>
+                            <button type="button"
+                                    class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-secondary rounded-pill"
+                                    style="width: 5rem; height:5rem;"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-3 p-4 ">
+                    <div class="card-header">내 문의</div>
+                    <div class="row card-body ">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">First</th>
+                                <th scope="col">Last</th>
+                                <th scope="col">Handle</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td colspan="2">Larry the Bird</td>
+                                <td>@twitter</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!--여기까지 본인 페이지 코드 작성-->
+        </section>
+    </div>
+</div>
+    <!-- content -->
+
+<th:block layout:fragment="userScript">
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
+</th:block>
+
+</body>
+</html>

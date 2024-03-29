@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:c="http://www.w3.org/1999/XSL/Transform"
+      layout:decorate="~{layout/layout}">
 
 <head>
     <th:block layout:fragment="userCss">
@@ -24,23 +25,57 @@
         }
     </style>
     <script>
-        async function receiveFetch() {
-            const $email = document.querySelector("#email");
-            console.log($email.value);
 
-            const response = await fetch('/user/findId');
-            const responseJson = await response.json();
-            console.log(responseJson);
-            console.log(responseJson[0]);
-            console.log(responseJson[1]);
-            console.log($email.value+"..");
-            for(let i=0;i<responseJson.length;i++){
-                console.log(responseJson[i]);
-                if($email.value==responseJson[i]) {
-                    alert("중복 되는 아이디입니다.");
-                }
+
+
+        function validateEmail(email) {
+            // 간단한 이메일 유효성 검사를 수행합니다.
+            const re = /\S+@\S+\.\S+/;
+            return re.test(email);
+        }
+
+        async function findUserId() {
+            const name = $("#name").val(); // 이름 입력란에서 값을 가져옵니다.
+            const email = $("#email").val(); // 이메일 입력란에서 값을 가져옵니다.
+
+            // 이름과 이메일 주소가 유효한지 확인합니다.
+            if (!name || !email) {
+                alert("이름과 이메일을 모두 입력하세요.");
+                return;
+            }
+
+            // 이메일 주소가 유효한지 확인합니다.
+            if (!validateEmail(email)) {
+                alert("유효한 이메일 주소를 입력하세요.");
+                return;
+            }
+
+            const response = await fetch('/user/findId', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({name: name, email: email})
+            });
+
+
+
+            if (response.ok) {
+                // 반환된 데이터에서 아이디 값을 가져와서 출력합니다.
+                const data = await response.json();
+                alert(`입력하신 이름과 이메일 주소와 연결된 아이디는 ${data.userId} 입니다.`);
+            } else {
+                alert("해당 이름과 이메일 주소와 연결된 아이디를 찾을 수 없습니다.");
             }
         }
+
+
+
+
+
+
+
+
     </script>
 </head>
 
@@ -68,16 +103,17 @@
                                 <div style="padding: 10px"></div>
                                 <p style="font-weight: bold">| 본인확인 이메일확인</p>
                                 <div style="padding: 10px"></div>
-<!--                            <div class="form-floating">-->
-<!--                                <P>아이디</P>-->
-<!--                                <div style="padding: 5px"></div>-->
-<!--                                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com">-->
-<!--&lt;!&ndash;                                <label for="floatingInput">Email address</label>&ndash;&gt;-->
-<!--                            </div>-->
+
+                            <div class="form-floating">
+                                <P>이름</P>
+                                <div style="padding: 5px"></div>
+                                <input type="text" class="form-control"name="name" id="name" placeholder="">
+<!--                                <label for="floatingInput">Email address</label>-->
+                            </div>
                             <div class="form-floating">
                                 <p>이메일</p>
                                 <div style="padding: 5px"></div>
-                                <input type="email" class="form-control" id="email" placeholder="">
+                                <input type="email" class="form-control"name="email" id="email" placeholder="">
 <!--                                <label for="floatingPassword">Password</label>-->
                             </div>
 
@@ -88,29 +124,29 @@
 <!--                                </label>-->
 <!--                            </div>-->
 <!--                            <button class="w-100 btn btn-lg btn-primary" type="submit">아이디 찾기</button>-->
-                                <button class="btn btn-default" type="button" id="id" name="id" onclick="receiveFetch()">아이디찾기</button>
+                                <button class="btn btn-default" type="button" id="id" name="id" onclick="findUserId()" >아이디찾기</button>
                             </div>
                             <!-- Modal -->
                             <div style="padding: 70px"></div>
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">아이디 찾기</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>회원님의 아이디는 ㅇㅇㅇ 입니다.</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-<!--                                            <button type="button" class="btn btn-primary">Save changes</button>-->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+<!--                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--                                <div class="modal-dialog" role="document">-->
+<!--                                    <div class="modal-content">-->
+<!--                                        <div class="modal-header">-->
+<!--                                            <h5 class="modal-title" id="exampleModalLabel">아이디 찾기</h5>-->
+<!--                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                                                <span aria-hidden="true">&times;</span>-->
+<!--                                            </button>-->
+<!--                                        </div>-->
+<!--                                        <div class="modal-body">-->
+<!--                                            <p>회원님의 아이디는 ㅇㅇㅇ 입니다.</p>-->
+<!--                                        </div>-->
+<!--                                        <div class="modal-footer">-->
+<!--                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--&lt;!&ndash;                                            <button type="button" class="btn btn-primary">Save changes</button>&ndash;&gt;-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
 <!--                            <p class="mt-5 mb-3 text-muted">© 2017–2021</p>-->
                         </form>
 

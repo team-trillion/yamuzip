@@ -29,24 +29,25 @@
                                 <li><a href="#">회원가입</a></li>
                             </ul>
                         </li>
+
                         <li class="active">
                             <a href="/signup/become-a-dobby">도비등록</a>
                         </li>
                         <th:block sec:authorize="isAnonymous()">
                             <li class="active">
-                                <a href="/user/login">로그인</a>
+                                <a href="/login">로그인</a>
                             </li>
-                            <li class="loginBtn"><a href="/user/regist">회원가입</a></li>
+                            <li class="loginBtn"><a href="/regist">회원가입</a></li>
                         </th:block>
 
                         <th:block sec:authorize="hasAnyAuthority('GENERAL' ,'DOBBY')">
                             <li><a href="/mypage">마이페이지</a></li>
-                            <li><a href="/user/logout">로그아웃</a></li>
+                            <li><a href="/logout">로그아웃</a></li>
                         </th:block>
 
                         <th:block sec:authorize="hasAuthority('ADMIN')">
                             <li><a href="admin/admin">관리자페이지</a></li>
-                            <li><a href="/user/logout">로그아웃</a></li>
+                            <li><a href="/logout">로그아웃</a></li>
                         </th:block>
                     </ul>
 

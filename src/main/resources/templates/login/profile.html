@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+    <th:block layout:fragment="userCss">
+    </th:block>
+    <style>
+        .white-box{
+            background: #F2F2F2;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0.5px 0.5px 2px 1px #eee;
+        }
+
+        .custom-width {
+            width: 100px; /* 원하는 너비를 지정하세요 */
+        }
+    </style>
+</head>
+
+<body>
+<div id="fh5co-wrapper">
+    <div id="fh5co-page">
+        <div id="fh5co-header">
+            <th:block layout:fragment="headerFragment"></th:block>
+        </div>
+
+
+        <div layout:fragment="content">
+            <div class="fh5co-hero" style="height: auto;">
+                <!--                <div class="fh5co-overlay"></div>-->
+                <section class="container-sm" style="padding-top: 150px;">
+
+                    <!--여기부터 본인 페이지 코드 작성-->
+
+
+                    <!-- 프로필 등록 페이지 -->
+
+                    <div class="row">
+                        <div class="col-2">
+                            <nav id="navbar-example3" class="h-100 flex-column align-items-stretch pe-4 border-end">
+                                <nav class="nav nav-pills flex-column">
+                                    <a class="nav-link" href="#item-1">➀ 내 정보</a>
+                                    <a class="nav-link" href="#item-2">➁ 비밀번호 변경</a>
+                                    <a class="nav-link" href="#item-3">➂ 회원 탈퇴</a>
+                                </nav>
+                            </nav>
+                        </div>
+
+                        <div class="col-10">
+                            <div data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0">
+                                <div id="item-1">
+                                    <h4>➀ 내 정보</h4>
+                                    <div>
+                                        <img src="/images/profile.png" alt="profile" class="img-circle img-thumbnail custom-width center-block">
+                                    </div>
+
+                                    <button type="button" class="btn btn-primary mt-3 center-block" data-bs-toggle="modal" data-bs-target="#profileChangeModal">
+                                        프로필 변경
+                                    </button>
+
+
+                                    <div class="center-block pt-5" style="width: 500px;">
+                                        <input type="nickname" class="form-control" id="floatingInput" placeholder="닉네임">
+                                    </div>
+
+                                    <div class="center-block pt-5" style="width: 500px;">
+                                        <input type="name" class="form-control"  placeholder="이름">
+                                    </div>
+
+                                    <div class="center-block pt-5" style="width: 500px;">
+                                        <input type="phone" class="form-control"  placeholder="전화번호">
+                                    </div>
+
+                                    <div class="center-block pt-5" style="width: 500px;">
+                                        <input type="email" class="form-control"  placeholder="이메일">
+                                    </div>
+
+                                    <div class=" p-5">
+                                        <button type="button" class="btn btn-primary mt-3 float-end" data-bs-toggle="modal" data-bs-target="#profileChangeModal">
+                                            내 정보 저장
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                                <div id="item-2">
+                                    <h4 class="py-5">➁ 비밀번호 변경</h4>
+                                    <p>...</p>
+
+
+                                    <div class=" p-5">
+                                        <button type="button" class="btn btn-primary mt-3 float-end" data-bs-toggle="modal" data-bs-target="#profileChangeModal">
+                                            비밀번호 저장
+                                        </button>
+                                    </div>
+
+                                </div>
+                                <div id="item-3">
+                                    <h4 class="py-5">➂ 회원 탈퇴</h4>
+                                    <p>...</p>
+
+                                    <div class="p-5">
+                                        <button type="button" class="btn btn-primary mt-3 float-end" data-bs-toggle="modal" data-bs-target="#profileChangeModal">
+                                            회원 탈퇴
+                                        </button>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                            <!--여기까지 본인 페이지 코드 작성-->
+                </section>
+            </div>
+        </div>
+        <!-- content -->
+
+    </div>
+    <!-- page -->
+</div>
+<!-- wrapper -->
+
+<th:block layout:fragment="userScript">
+    <!--본인 페이지 js 작성-->
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
+</th:block>
+
+</body>
+</html>

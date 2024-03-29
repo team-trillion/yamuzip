@@ -35,12 +35,16 @@
         tbl_user
     </select>
 
-    <select id="findId">
+    <select id="findUserId" parameterType="map" resultType="string">
         SELECT
-            user_id,
-            email
+            user_id
         FROM
             tbl_user
+        WHERE
+            user_name = #{name} AND email = #{email}
     </select>
+
+
+
 
 </mapper>

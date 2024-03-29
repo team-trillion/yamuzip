@@ -1,6 +1,7 @@
 package team.trillion.yamuzip.login.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import team.trillion.yamuzip.login.dto.UserDTO;
 
 import java.util.List;
@@ -15,5 +16,8 @@ public interface UserMapper {
 
     List<String> getIds();
 
-    List<String> findId();
+
+    List<String> findUserId(@Param("name") String name, @Param("email") String email);
+
+
 }

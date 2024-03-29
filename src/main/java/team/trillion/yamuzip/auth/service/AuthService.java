@@ -2,12 +2,18 @@ package team.trillion.yamuzip.auth.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import team.trillion.yamuzip.login.dao.UserMapper;
 import team.trillion.yamuzip.login.dto.UserDTO;
+import team.trillion.yamuzip.auth.model.CustomUser;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -15,6 +21,8 @@ import team.trillion.yamuzip.login.dto.UserDTO;
 public class AuthService implements UserDetailsService {
 
     private final UserMapper userMapper;
+
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
