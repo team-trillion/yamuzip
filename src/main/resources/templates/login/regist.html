@@ -16,6 +16,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
+        let isIdDuplicate = false;
+        let isIdChecked = false;
         async function receiveFetch() {
             const $userId = document.querySelector("#userId");
             const userIdValue = $userId.value;
@@ -34,7 +36,8 @@
             const responseJson = await response.json();
             console.log(responseJson);
 
-            let isIdDuplicate = false; // 아이디 중복 여부를 나타내는 변수
+
+            isIdDuplicate = false; // 아이디 중복 여부를 나타내는 변수
 
             for (let i = 0; i < responseJson.length; i++) {
                 console.log(responseJson[i]);
@@ -42,31 +45,109 @@
                     isIdDuplicate = true; // 아이디가 중복됨을 나타내고 반복문 종료
                     break;
                 }
+
             }
 
             if (isIdDuplicate) {
                 alert("중복되는 아이디입니다. 회원가입을 진행할수 없습니다.");
-                // document.querySelector("#registerButton").style.display = "none";
+
+                document.querySelector("#registerButton").style.display = "none";
             } else {
                 alert("사용 가능한 아이디입니다.");
+                isIdChecked = true;
                 document.querySelector("#registerButton").style.display = "block";
             }
         }
 
-        function check() {
+        // function mySubmit() {
+        //     if (!isIdChecked) {
+        //         alert("아이디 중복 확인을 해주세요.")
+        //         return false;
+        //     }
+        //
+        //     if (!isIdDuplicate) {
+        //         alert("중복되는 아이디 입니다. 회원가입을 진행할수 없습니다.")
+        //         return false;
+        //     }
+        //     return true;
+        // }
+
+        // $("#registerButton").click(function (event){
+        //     let userPwd = $("#userPwd").val();
+        //     let userPwd1 = $("#userPwd1").val();
+        //
+        //     if (userPwd !== userPwd1) {
+        //         alert("비밀번호가 일치하지 않습니다. 다시 입력해주세요.")
+        //         event.preventDefault();
+        //     }
+        // })
+
+        function handleSubmit(event) {
+            if (!isIdChecked) {
+                alert("아이디 중복 확인을 해주세요.")
+                event.preventDefault();
+                return;
+            }
+
+            // let userPwd = $("#userPwd").val();
+            // let userPwd1 = $("#userPwd1").val();
+            //
+            // if (userPwd !== userPwd1) {
+            //     alert("비밀번호가 일치하지 않습니다.")
+            //     event.preventDefault();
+            //     return;
+            // }
+        }
+
+
+
+
+        function check(event) {
             let userPwd = $("#userPwd").val();
             let userPwd1 = $("#userPwd1").val();
+            // const btn = document.querySelector(".btn-block");
 
+            console.log(userPwd);
+            console.log(userPwd1);
             if (userPwd!==userPwd1) {
-                $("#check2").show();
-            } else {
-                $("#check2").hide();
+                alert("비밀번호가 일치하지 않습니다.")
+                event.preventDefault();
+
+                // btn.disabled = true;
             }
         }
-        $(document).ready(function (){
-            $("#check2").hide();
-            $("#userPwd, #userPwd1").on("keyup", check);
-        });
+        function isSamePassword(){
+            let userPwd = $("#userPwd").val();
+            let userPwd1 = $("#userPwd1").val();
+            const isPass = document.querySelector("#check2");
+
+            if(userPwd != userPwd1){
+                isPass.hidden = false;
+            }else{
+                isPass.hidden = true;
+            }
+        }
+        // $(document).ready(function () {
+        //     $("#check2").hide();
+        //     $("#userPwd, #userPwd1").on("keyup", check);
+        // });
+        //
+        //     $("registerButton").click(function (){
+        //         let userPwd = $("userPwd").val();
+        //         let userPwd1 = $("userPwd1").val();
+        //
+        //         if (userPwd !== userPwd1) {
+        //             alert("비밀번호가 일치 하지 않습니다.")
+        //             return false;
+        //         }
+        //     });
+        // });
+
+
+
+
+
+
     </script>
 
 </head>
@@ -93,7 +174,7 @@
                             <div class="input-form col-md-12 mx-auto">
                                 <h4 class="mb-3">회원가입</h4>
                                 <form action="regist" method="post"  name="userInfo"
-                                      onsubmit="return checkValue()">
+                                      onsubmit="handleSubmit(event)">
                                     <div class="row">
                                         <div class=" mb-3">
                                             <label for="userId" style="display: block;">아이디</label>
@@ -123,12 +204,14 @@
                                         <div class=" mb-3">
                                             <label for="userPwd1">비밀번호 확인</label> <input type="password"
                                                                                               class="form-control" id="userPwd1"
-                                                                                              placeholder="비밀번호를 다시 한번 입력해주세요" value="" required><span
+                                                                                              placeholder="비밀번호를 다시 한번 입력해주세요"
+                                                                                         oninput="isSamePassword()"
+                                                                                         value="" required><span
                                                 class="pwchk"></span>
 
                                         </div>
 
-                                        <div class="mb-3" id="check2" >PASSWORD 가 동일하지 않습니다</div>
+                                        <div class="mb-3" id="check2" hidden>PASSWORD 가 동일하지 않습니다</div>
 
                                     </div>
                                     <div class="mb-3">
@@ -166,7 +249,7 @@
 
 
 
-                                    <button class="btn btn-primary btn-lg btn-block" type="submit" id="registerButton">가입
+                                    <button class="btn btn-primary btn-lg btn-block" type="submit" id="registerButton" onsubmit="return mySubmit()" onclick="check(event)">가입
                                         완료</button>
                                 </form>
                                 <br>
