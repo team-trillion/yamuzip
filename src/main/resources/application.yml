@@ -42,3 +42,8 @@ mybatis:
 #  위에 두줄만 지워라
 
 
+# import api key
+imp:
+  api:
+    key: 7151635636482512
+    secret: RHSjuju5fNQnqaD78p6KmyzUdSj2lIWlSVtf9G4ZTU6VJ8ewvhIRCO4QFmWQIUqnkYB2AWnhjty6FdQR

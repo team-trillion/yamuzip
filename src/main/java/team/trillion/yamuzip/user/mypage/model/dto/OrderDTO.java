@@ -19,6 +19,5 @@ public class OrderDTO {
     private LocalDateTime orderDatetime;
     private String orderDateString;
     private OrderStatus orderStatus;
-    private String orderStatusString;
     private int totalPrice;
 }
