@@ -1,4 +1,4 @@
-package team.trillion.yamuzip.dobby.controller;
+package team.trillion.yamuzip.dobby.regist.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import team.trillion.yamuzip.dobby.model.dto.DobbyRegistDTO;
-import team.trillion.yamuzip.dobby.model.service.DobbyRegistService;
+import team.trillion.yamuzip.dobby.regist.model.dto.RegistDTO;
+import team.trillion.yamuzip.dobby.regist.model.service.RegistService;
 import team.trillion.yamuzip.login.model.dto.UserDTO;
 
 @Slf4j
 @Controller
 @RequestMapping("/signup")
 @RequiredArgsConstructor
-public class DobbyRegistController {
+public class RegistController {
 
-    private final DobbyRegistService registDobbyService;
+    private final RegistService registService;
 
     // 도비 등록 유도 페이지
     @GetMapping("/become-a-dobby")
@@ -28,25 +28,26 @@ public class DobbyRegistController {
 
     // 도비 등록 페이지
     @GetMapping("/dobby")
-    public String registDobby() {
-        return "dobby/regist";
-    }
+    public String getDobby() { return "dobby/regist"; }
 
-    @PostMapping("/dobby")
+
+    // 등록 신청 내역  모달창으로 변경하기!
+    @PostMapping("/become-a-dobby")
     public String registDobby(@RequestParam("applyCareer") String applyCareer, @AuthenticationPrincipal UserDTO user) {
 
-        DobbyRegistDTO registDobby = new DobbyRegistDTO();
+        RegistDTO registDobby = new RegistDTO();
         registDobby.setApplyCareer(applyCareer);
         registDobby.setUserCode(user.getUserCode());
 
-        int dobbyApplyResult = registDobbyService.selectDobbyApplyByUserCode(user.getUserCode());
-        if (dobbyApplyResult > 0) {
-            throw new RuntimeException("cannot apply ~~");
+        // 도비 중복 신청 불가 (applyStatus가 c일때)
+        int dobbyApplyResult = registService.selectApplyStatus(user.getUserCode());
+        if (dobbyApplyResult == 1) {
+            throw new RuntimeException("중복 신청은 불가합니다");
         }
 
-        registDobbyService.registDobby(registDobby);
+        registService.registDobby(registDobby);
+
         return "redirect:/";
     }
-
 
 }

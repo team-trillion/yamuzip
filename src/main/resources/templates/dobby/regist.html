@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/layout}">
 
 <head>
     <th:block layout:fragment="userCss">
@@ -36,12 +39,32 @@
 
                     <div class="row">
                         <h4 class="mb-3">DOBBY</h4>-->
-                        <form class="needs-validation" action="/signup/dobby" method="post">
-                            <label for="applyCareer">전문 분야:</label>
-                            <input type="text" id="applyCareer" name="applyCareer" required>
-                            <br>
+
+                        <p th:text="${#authentication.principal.userId}"></p>
+                        <p th:text="${#authentication.principal.userName}"></p>
+                        <p th:text="${#authentication.principal.phone}"></p>
+
+<!--                        <form class="needs-validation" action="/signup/dobby" method="post">-->
+<!--                            <label for="applyCareer">전문 분야:</label>-->
+<!--                            <input type="text" id="applyCareer" name="applyCareer" required>-->
+<!--                            <br>-->
+<!--                            <button type="submit">전송</button>-->
+<!--                        </form>-->
+
+                        <form action="/signup/dobby" method="post">
+                            <select class="form-select form-select-lg mb-3"
+                                    aria-label="Large select example"
+                                    id="applyCareer" name="applyCareer" required>
+                                <option selected>전문 분야</option>
+                                <option type="text" value="청소">청소</option>
+                                <option type="text" value="수리">수리</option>
+                                <option type="text" value="이사">이사</option>
+                                <option type="text" value="설치">설치</option>
+                                <option type="text" value="인테리어">인테리어</option>
+                            </select>
                             <button type="submit">전송</button>
                         </form>
+
                     </div>
 
 
