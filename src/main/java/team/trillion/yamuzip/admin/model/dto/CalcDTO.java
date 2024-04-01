@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -22,9 +23,9 @@ public class CalcDTO {
     private String accBank;
     private String accName;
     private String userName;
-    private LocalDateTime reserveDatetime;
-    private LocalDateTime payDatetime;
-    private LocalDateTime orderDatetime;
+    private Date reserveDatetime;
+    private Date payDatetime;
+    private Date orderDatetime;
 
     // 서비스
     private String serviceTitle;

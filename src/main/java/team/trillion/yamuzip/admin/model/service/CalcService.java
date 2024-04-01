@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.trillion.yamuzip.admin.model.dao.CalcMapper;
 import team.trillion.yamuzip.admin.model.dto.CalcDTO;
+import team.trillion.yamuzip.admin.model.dto.CalcDetailDTO;
+import team.trillion.yamuzip.admin.model.dto.CalcMonthlyDTO;
 
 import java.util.List;
 
@@ -22,4 +24,15 @@ public class CalcService {
     public List<CalcDTO> findAllCalc() {
         return calcMapper.findAllCalc();
     }
+
+    public CalcDetailDTO selectCalcDetail(int orderCode) {
+
+        return calcMapper.selectCalcDetail(orderCode);
+    }
+
+    public CalcMonthlyDTO selectMonthlyDetail(String selectMonth) {
+
+        return calcMapper.selectMonthlyDetail(selectMonth);
+    }
+
 }
