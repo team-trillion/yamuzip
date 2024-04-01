@@ -1,15 +1,22 @@
 # spring datasource config
 spring:
-#  mail:
-#    host: smtp.naver.com
-#    port: 465
-#    username: qkrquddjs9752@naver.com
-#    password: dlwldms1!@
-#    properties:
-#      mail.smtp.auth : true
-#      mail.smtp.ssl.enable: true
-#      mail.smtp.ssl.trust: smtp.naver.com
-#      mail.smtp.starttls.enable: true
+  mail:
+    host: smtp.gmial.com
+    port: 587
+    username: yamzip@gmail.com
+    password: yvppuwhsjtsbnygi
+    properties:
+      mail:
+        smtp:
+          auth:
+            starttls:
+              enable:
+                required:
+                  connectiontimeout: 5000
+                  timeout: 5000
+                  writetimeout: 5000
+                  auth-code-expiration-mullis: 1800000
+
 
 
   datasource:

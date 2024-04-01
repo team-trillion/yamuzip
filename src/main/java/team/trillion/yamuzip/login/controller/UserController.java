@@ -30,11 +30,11 @@ public class UserController {
         return "login/login";
     }
 
-/*    @PostMapping("/login")
-    public String getLoginPage1(@RequestParam String userId , @RequestParam String userPwd){
-
-        return "redirect:/main";
-    }*/
+//    @PostMapping("/login")
+//    public String getLoginPage1(@RequestParam String userId , @RequestParam String userPwd){
+//
+//        return "redirect:/main";
+//    }
 
     @PostMapping("loginFailed")
     public String loginFailed(RedirectAttributes rttr) {
