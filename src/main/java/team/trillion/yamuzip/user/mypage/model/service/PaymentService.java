@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team.trillion.yamuzip.common.exception.CancelFailedException;
 import team.trillion.yamuzip.order.model.dao.PaymentMapper;
 import team.trillion.yamuzip.order.model.dto.OrderCancelDTO;
 import team.trillion.yamuzip.order.model.dto.PaymentDTO;
@@ -90,10 +91,16 @@ public class PaymentService {
         bw.close();
 
         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+        Gson gson = new Gson(); // 응답 데이터를 자바 객체로 변환
+        int code = (int)Double.parseDouble((gson.fromJson(br.readLine(), Map.class).get("code").toString()));
         br.close();
         conn.disconnect();
 
-        paymentMapper.cancelPayment(orderCancel.getPayCode());
-        paymentMapper.cancelOrder(orderCancel);
+        if(code == 0) {
+            paymentMapper.cancelPayment(orderCancel.getPayCode());
+            paymentMapper.cancelOrder(orderCancel);
+        } else {
+            throw new CancelFailedException();
+        }
     }
 }

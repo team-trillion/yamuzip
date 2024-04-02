@@ -10,6 +10,6 @@ import lombok.ToString;
 public class OrderCountDTO {
 
     private int orderCount;
-    private int acceptCount;
+    private int approveCount;
     private int finishCount;
 }

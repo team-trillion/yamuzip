@@ -1,9 +1,11 @@
 package team.trillion.yamuzip.dobby.mypage.model.service;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team.trillion.yamuzip.common.exception.CancelFailedException;
 import team.trillion.yamuzip.common.paging.Pagenation;
 import team.trillion.yamuzip.common.paging.SelectCriteria;
 import team.trillion.yamuzip.dobby.mypage.model.dao.OrderMapper;
@@ -84,14 +86,21 @@ public class OrderService {
         bw.close();
 
         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+        Gson gson = new Gson();
+        int code = (int)Double.parseDouble((gson.fromJson(br.readLine(), Map.class).get("code").toString()));
         br.close();
         conn.disconnect();
 
-        System.out.println(orderReject);
-        /* 결제 상태 환불 완료로 업데이트 하기 */
-        paymentMapper.cancelPayment(orderReject.getPayCode());
+        if(code == 0) {
+            /* 결제 상태 환불 완료로 업데이트 하기 */
+            paymentMapper.cancelPayment(orderReject.getPayCode());
 
-        /* 주문 상태 거절로 업데이트 하기 */
-        orderMapper.rejectOrder(orderReject);
+            /* 주문 상태 거절로 업데이트 하기 */
+            orderMapper.rejectOrder(orderReject);
+        } else {
+            throw new CancelFailedException();
+        }
+
+
     }
 }
