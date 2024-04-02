@@ -33,9 +33,11 @@ public class DobbyController {
     }
 
     @GetMapping("/detail")
-    public String getDobbyDetail(@RequestParam("code") long dobbyCode, Model model) {
+    public String getDobbyDetail(@RequestParam int dobCode, Model model) {
 
-        List<DobbyDTO> dobbyDetail = dobbyService.findDetailDobby(dobbyCode);
+        DobbyDTO dobbyDetail = dobbyService.findDetailDobby(dobCode);
+
+        log.info("dobbyDetail : {}", dobbyDetail);
 
         model.addAttribute("dobbyDetail", dobbyDetail);
 
