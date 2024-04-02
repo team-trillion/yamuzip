@@ -21,8 +21,8 @@ public class CalcService {
         this.calcMapper = calcMapper;
     }
 
-    public List<CalcDTO> findAllCalc() {
-        return calcMapper.findAllCalc();
+    public List<CalcDTO> findAllCalc(String selectMonth) {
+        return calcMapper.findAllCalc(selectMonth);
     }
 
     public CalcDetailDTO selectCalcDetail(int orderCode) {

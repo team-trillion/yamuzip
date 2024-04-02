@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin}">
 
 <head>
@@ -22,8 +22,13 @@
 
             .accBtn svg:hover, .ecBtn:hover {
                 border: 0;
-                background-color: rgba(0, 0, 0, 0.2);
+                background-color: rgba(0, 0, 0, 0.2) !important;
             }
+
+            .tblBadge {
+                width: 60px;
+            }
+
         </style>
     </th:block>
 </head>
@@ -35,191 +40,255 @@
 
 
 <div layout:fragment="content">
-    <!--                <div class="fh5co-overlay"></div>-->
-    <section class="container-sm" style="padding-top: 150px;">
+    <div class="fh5co-hero" style="height: auto;">
+        <section class="container-sm" style="padding-top: 150px;">
 
-        <!--여기부터 본인 페이지 코드 작성-->
+            <!--여기부터 본인 페이지 코드 작성-->
 
-        <!-- start dashboard content -->
-        <div class="dashboardText col-md-10 col-sm-9 col-xs-8">
-            <p class="fs-5 pt-3 px-2">
-                <a href="#" class="text-black">관리자페이지</a> 〉 &nbsp;
-                <a href="#" class="text-black">정산관리</a> 〉 &nbsp;
-                <a href="#" class="text-black fw-bolder">월별정산통계</a> &nbsp;
-            </p>
-
-            <div class="container-fluid border border-2 rounded py-3">
-                <div class="text-center p-2">
-                    <p class="4 py-5" style="color: #003f62">
-                        <button th:onclick="|location.href='/?selectMonth=' @{${calcMonthly.selectMonth}} + |" type="button" class="accBtn prevBtn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                 class="bi bi-caret-left-square" viewBox="0 0 16 16">
-                                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
-                                <path d="M10.205 12.456A.5.5 0 0 0 10.5 12V4a.5.5 0 0 0-.832-.374l-4.5 4a.5.5 0 0 0 0 .748l4.5 4a.5.5 0 0 0 .537.082"/>
-                            </svg>
-                        </button>
-
-                        <span th:text="${#calendars.format(#calendars.createNow(), 'yyyy년 MM월')}"></span>
-
-                        <button type="button" class="accBtn nextBtn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                 class="bi bi-caret-right-square" viewBox="0 0 16 16">
-                                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
-                                <path d="M5.795 12.456A.5.5 0 0 1 5.5 12V4a.5.5 0 0 1 .832-.374l4.5 4a.5.5 0 0 1 0 .748l-4.5 4a.5.5 0 0 1-.537.082"/>
-                            </svg>
-                        </button>
-                    </p>
-                </div>
-                <table class="table text-center mb-5">
-                    <thead class="table-light border-top border-dark">
-                    <tr>
-                        <th scope="col" class="text-center">정산 도비 합계</th>
-                        <th scope="col" class="text-center">전월 대비</th>
-
-                        <th scope="col" class="text-center">이용회원 합계</th>
-                        <th scope="col" class="text-center">전월 대비</th>
-
-                        <th scope="col" class="text-center">야무집 수입</th>
-                        <th scope="col" class="text-center">전월 대비</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td th:text="|${calcMonthly.dobResult}명|"></td>
-                        <td></td>
-                        <td th:text="|${calcMonthly.userResult}명|"></td>
-                        <td></td>
-                        <td th:text="|${calcMonthly.chargeResult}원|"></td>
-                        <td></td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="card-group mx-2">
-                    <div class="card border-dark">
-                        <div class="card-header text-center fw-bold">
-                            서비스 합계
-                        </div>
-                        <div class="card-body p-5">
-                            <div class="row">
-                                <h5 class="card-title col-8">서비스 진행 완료 수</h5>
-                                <div class="text-end col-4" th:text="|${calcMonthly.payCount}건|"></div>
-                            </div>
-                            <div class="row">
-                                <h5 class="card-title col-8">수수료 합계</h5>
-                                <div class="text-end col-4" th:text="|${calcMonthly.chargeResult}원|"></div>
-                            </div>
-                            <div class="row">
-                                <h5 class="card-title col-8">매출</h5>
-                                <div class="text-end col-4" th:text="|${calcMonthly.salesResult}원|"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card border-dark">
-                        <div class="card-header text-center fw-bold">
-                            서비스 취소 합계
-                        </div>
-                        <div class="card-body p-5">
-                            <div class="row">
-                                <h5 class="card-title col-8">서비스 취소 수</h5>
-                                <div class="text-end col-4" th:text="|${calcMonthly.cancelCount}건|"></div>
-                            </div>
-                            <div class="row">
-                                <h5 class="card-title col-8">취소금액 합계</h5>
-                                <div class="text-end col-4" th:text="|${calcMonthly.cancelResult}원|"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container-fluid">
-                    <div class="row my-5 align-items-center">
-                        <div class="col-4"></div>
-                        <div class="col-2 text-sm-end">
-                            <p class="h5 mb-1">총 매출</p>
-                            <span class="fw-bold" th:text="|${calcMonthly.salesResult + calcMonthly.chargeResult}원|"></span>
-                            <h5 class="fs-6 pt-3 my-0">도비 매출과 수수료를 합한 금액</h5>
-                        </div>
-                        <div class="col-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                                 class="bi bi-dash-circle-fill" viewBox="0 0 16 16">
-                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1z"/>
-                            </svg>
-                        </div>
-                        <div class="col-2 text-sm-end">
-                            <p class="h5 mb-1">수수료</p>
-                            <span class="fw-bold" th:text="|${calcMonthly.chargeResult}원|"></span>
-                            <h5 class="fs-6 pt-3 my-0">각 서비스의 10%를 합한 금액</h5>
-                        </div>
-                        <div class="col-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                                 class="bi bi-dash-circle-fill" viewBox="0 0 16 16">
-                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1z"/>
-                            </svg>
-                        </div>
-                        <div class="col-2 text-sm-end">
-                            <p class="h5 mb-1">취소 합계</p>
-                            <span class="fw-bold" th:text="|${calcMonthly.cancelResult}원|"></span>
-                            <h5 class="fs-6 pt-3 my-0" th:text="|취소 건수 : ${calcMonthly.cancelCount}건|"></h5>
-                        </div>
-                    </div>
-                    <div style="border-width: 0 0 3px 0; border-style: double; padding: 15px; border-bottom-color: #9d9d9d"></div>
-                </div>
-                <p class="h4 text-end p-5">총 정산금액 &nbsp;&nbsp;<span style="color: #2e6da4; font-weight: bold" th:text="|${calcMonthly.salesResult - calcMonthly.cancelResult}원|"></span>
+            <!-- start dashboard content -->
+            <div class="dashboardText col-md-10 col-sm-9 col-xs-8">
+                <p class="fs-5 pt-3 px-2">
+                    <a href="#" class="text-black">관리자페이지</a> 〉 &nbsp;
+                    <a href="#" class="text-black">정산관리</a> 〉 &nbsp;
+                    <a href="#" class="text-black fw-bolder">월별정산통계</a> &nbsp;
                 </p>
+
+                <th:block th:if="${ calcMonthly != null and calcList != null }">
+
+                    <div class="container-fluid border border-2 rounded py-3">
+                        <div class="text-center p-2">
+                            <p class="4 py-5" style="color: #003f62">
+                                <button type="button" class="accBtn prevBtn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                         class="bi bi-caret-left-square" viewBox="0 0 16 16">
+                                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                                        <path d="M10.205 12.456A.5.5 0 0 0 10.5 12V4a.5.5 0 0 0-.832-.374l-4.5 4a.5.5 0 0 0 0 .748l4.5 4a.5.5 0 0 0 .537.082"/>
+                                    </svg>
+                                </button>
+
+                                <span id="selectMonth" th:text="${calcMonthly.selectMonth}"></span>
+
+                                <button type="button" class="accBtn nextBtn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                         class="bi bi-caret-right-square" viewBox="0 0 16 16">
+                                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                                        <path d="M5.795 12.456A.5.5 0 0 1 5.5 12V4a.5.5 0 0 1 .832-.374l4.5 4a.5.5 0 0 1 0 .748l-4.5 4a.5.5 0 0 1-.537.082"/>
+                                    </svg>
+                                </button>
+                            </p>
+                        </div>
+                        <table class="table text-center mb-5">
+                            <thead class="table-light border-top border-dark">
+                            <tr>
+                                <th scope="col" class="text-center">정산 도비 합계</th>
+                                <th scope="col" class="text-center">전월 대비</th>
+
+                                <th scope="col" class="text-center">이용회원 합계</th>
+                                <th scope="col" class="text-center">전월 대비</th>
+
+                                <th scope="col" class="text-center">야무집 수입</th>
+                                <th scope="col" class="text-center">전월 대비</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td th:text="|${calcMonthly.dobResult}명|"></td>
+                                <td></td>
+                                <td th:text="|${calcMonthly.userResult}명|"></td>
+                                <td></td>
+                                <td th:text="|${calcMonthly.chargeResult}원|"></td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="card-group mx-2">
+                            <div class="card border-dark">
+                                <div class="card-header text-center fw-bold">
+                                    서비스 합계
+                                </div>
+                                <div class="card-body p-5">
+                                    <div class="row">
+                                        <h5 class="card-title col-8">서비스 진행 완료 수</h5>
+                                        <div class="text-end col-4" th:text="|${calcMonthly.payCount}건|"></div>
+                                    </div>
+                                    <div class="row">
+                                        <h5 class="card-title col-8">수수료 합계</h5>
+                                        <div class="text-end col-4" th:text="|${calcMonthly.chargeResult}원|"></div>
+                                    </div>
+                                    <div class="row">
+                                        <h5 class="card-title col-8">매출</h5>
+                                        <div class="text-end col-4" th:text="|${calcMonthly.salesResult}원|"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card border-dark">
+                                <div class="card-header text-center fw-bold">
+                                    서비스 취소 합계
+                                </div>
+                                <div class="card-body p-5">
+                                    <div class="row">
+                                        <h5 class="card-title col-8">서비스 취소 수</h5>
+                                        <div class="text-end col-4" th:text="|${calcMonthly.cancelCount}건|"></div>
+                                    </div>
+                                    <div class="row">
+                                        <h5 class="card-title col-8">취소금액 합계</h5>
+                                        <div class="text-end col-4" th:text="|${calcMonthly.cancelResult}원|"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="row my-5 align-items-center">
+                                <div class="col-4"></div>
+                                <div class="col-2 text-sm-end">
+                                    <p class="h5 mb-1">총 매출</p>
+                                    <span class="fw-bold"
+                                          th:text="|${calcMonthly.salesResult + calcMonthly.chargeResult}원|"></span>
+                                    <h5 class="fs-6 pt-3 my-0">도비 매출과 수수료를 합한 금액</h5>
+                                </div>
+                                <div class="col-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                         class="bi bi-dash-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1z"/>
+                                    </svg>
+                                </div>
+                                <div class="col-2 text-sm-end">
+                                    <p class="h5 mb-1">수수료</p>
+                                    <span class="fw-bold" th:text="|${calcMonthly.chargeResult}원|"></span>
+                                    <h5 class="fs-6 pt-3 my-0">각 서비스의 10%를 합한 금액</h5>
+                                </div>
+                                <div class="col-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                         class="bi bi-dash-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1z"/>
+                                    </svg>
+                                </div>
+                                <div class="col-2 text-sm-end">
+                                    <p class="h5 mb-1">취소 합계</p>
+                                    <span class="fw-bold" th:text="|${calcMonthly.cancelResult}원|"></span>
+                                    <h5 class="fs-6 pt-3 my-0" th:text="|취소 건수 : ${calcMonthly.cancelCount}건|"></h5>
+                                </div>
+                            </div>
+                            <div style="border-width: 0 0 3px 0; border-style: double; padding: 15px; border-bottom-color: #9d9d9d"></div>
+                        </div>
+                        <p class="h4 text-end p-5">총 정산금액 &nbsp;&nbsp;<span style="color: #2e6da4; font-weight: bold"
+                                                                            th:text="|${calcMonthly.salesResult - calcMonthly.cancelResult}원|"></span>
+                        </p>
+                    </div>
+                    <div class="d-flex justify-content-between mt-5">
+                        <h4 th:text="|${calcMonthly.selectMonth} 정산 목록|" class="text-dark fw-bold pt-4 my-2"></h4>
+                        <button class="badge ecBtn text-bg-success mx-2 mt-4 h-25">
+                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20"
+                                 viewBox="0 0 48 48">
+                                <path fill="#4CAF50"
+                                      d="M41,10H25v28h16c0.553,0,1-0.447,1-1V11C42,10.447,41.553,10,41,10z"></path>
+                                <path fill="#FFF"
+                                      d="M32 15H39V18H32zM32 25H39V28H32zM32 30H39V33H32zM32 20H39V23H32zM25 15H30V18H25zM25 25H30V28H25zM25 30H30V33H25zM25 20H30V23H25z"></path>
+                                <path fill="#2E7D32" d="M27 42L6 38 6 10 27 6z"></path>
+                                <path fill="#FFF"
+                                      d="M19.129,31l-2.411-4.561c-0.092-0.171-0.186-0.483-0.284-0.938h-0.037c-0.046,0.215-0.154,0.541-0.324,0.979L13.652,31H9.895l4.462-7.001L10.274,17h3.837l2.001,4.196c0.156,0.331,0.296,0.725,0.42,1.179h0.04c0.078-0.271,0.224-0.68,0.439-1.22L19.237,17h3.515l-4.199,6.939l4.316,7.059h-3.74V31z"></path>
+                            </svg>
+                            엑셀 다운로드
+                        </button>
+                    </div>
+                    <table class="table text-center table-bordered table-hover mb-5">
+                        <thead class="border-top border-dark">
+                        <tr>
+                            <th scope="col" class="text-center">주문번호</th>
+                            <th scope="col" class="text-center">정산여부</th>
+                            <th scope="col" class="text-center">정산금액</th>
+                            <th scope="col" class="text-center">예금주</th>
+                            <th scope="col" class="text-center">계좌번호</th>
+                            <th scope="col" class="text-center">은행명</th>
+                            <th scope="col" class="text-center">서비스진행일</th>
+                            <th scope="col" class="text-center">정산진행일</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="calc : ${calcList}"
+                            th:onclick="|location.href='detail?orderCode=${calc.orderCode}'|">
+                            <td th:text="${calc.orderCode}" class="align-middle"></td>
+                            <td th:if="${calc.calStatus}"
+                                class="py-0 fs-6 m-0 align-bottom badge tblBadge bg-primary-subtle text-primary-emphasis">
+                                정산완료
+                            </td>
+                            <td th:unless="${calc.calStatus}"
+                                class="py-0 fs-6 m-0 align-bottom badge tblBadge bg-danger-subtle text-danger-emphasis">
+                                정산미완료
+                            </td>
+                            <td th:text="${calc.payPrice}" class="align-middle"></td>
+                            <td th:text="${calc.accName}" class="align-middle"></td>
+                            <td th:text="${calc.accNumber}" class="align-middle"></td>
+                            <td th:text="${calc.accBank}" class="align-middle"></td>
+                            <td th:text="${#dates.format(calc.reserveDatetime, 'yy.MM.dd')}" class="align-middle"></td>
+                            <td th:text="${#dates.format(calc.payDatetime, 'yy.MM.dd')}" class="align-middle"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </th:block>
+                <th:block th:unless="${calcMonthly != null and calcList != null}">
+
+                    <div class="container-fluid border border-2 rounded py-3" style="height: 530px;">
+
+                        <h1 class="text-center p-5">정산 데이터가 없습니다.</h1>
+
+                    </div>
+
+                </th:block>
+
             </div>
-            <p class="h4 text-dark fw-bold pt-5">2024년 3월 정산 목록
-                <button class="badge ecBtn text-bg-success mx-2 mb-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
-                        <path fill="#4CAF50"
-                              d="M41,10H25v28h16c0.553,0,1-0.447,1-1V11C42,10.447,41.553,10,41,10z"></path>
-                        <path fill="#FFF"
-                              d="M32 15H39V18H32zM32 25H39V28H32zM32 30H39V33H32zM32 20H39V23H32zM25 15H30V18H25zM25 25H30V28H25zM25 30H30V33H25zM25 20H30V23H25z"></path>
-                        <path fill="#2E7D32" d="M27 42L6 38 6 10 27 6z"></path>
-                        <path fill="#FFF"
-                              d="M19.129,31l-2.411-4.561c-0.092-0.171-0.186-0.483-0.284-0.938h-0.037c-0.046,0.215-0.154,0.541-0.324,0.979L13.652,31H9.895l4.462-7.001L10.274,17h3.837l2.001,4.196c0.156,0.331,0.296,0.725,0.42,1.179h0.04c0.078-0.271,0.224-0.68,0.439-1.22L19.237,17h3.515l-4.199,6.939l4.316,7.059h-3.74V31z"></path>
-                    </svg>
-                    엑셀 다운로드
-                </button>
-            </p>
-            <table class="table text-center table-borderless mb-5">
-                <thead class="table-light border-top border-dark">
-                <tr>
-                    <th scope="col" class="text-center">주문번호</th>
-                    <th scope="col" class="text-center">주문상태</th>
-                    <th scope="col" class="text-center">결제상태</th>
-                    <th scope="col" class="text-center">결제금액</th>
-                    <th scope="col" class="text-center">서비스제목</th>
-                    <th scope="col" class="text-center">주문일</th>
-                    <th scope="col" class="text-center">결제일</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="calc : ${calcList}"
-                    th:onclick="|location.href='detail?orderCode=${calc.orderCode}'|">
-                    <td th:text="${calc.orderCode}" class="align-middle"></td>
-                    <td th:if="${calc.calStatus == 0}" class="py-0 fs-6 my-0 align-bottom badge tblBadge bg-danger-subtle text-danger-emphasis">정산미완료</td>
-                    <td th:if="${calc.calStatus > 0}" class="badge text-bg-primary align-middle">정산완료</td>
-                    <td th:text="${calc.payPrice}" class="align-middle"></td>
-                    <td th:text="${calc.calPrice}" class="align-middle"></td>
-                    <td th:text="${calc.serviceTitle}" class="align-middle"></td>
-                    <td th:text="${#dates.format(calc.orderDatetime, 'yy.MM.dd')}" class="align-middle"></td>
-                    <td th:text="${#dates.format(calc.payDatetime, 'yy.MM.dd')}" class="align-middle"></td>
-                </tr>
-                </tbody>
-            </table>
+            <!-- End dashboard content -->
+
+        </section>
+    </div>
+    </div>
+    <!-- content -->
 
 
-        </div>
-        <!-- End dashboard content -->
+    <th:block layout:fragment="userScript">
+        <!-- main js -->
+        <script src="/js/main.js"></script>
 
-    </section>
-</div>
-<!-- content -->
+        <script>
+            const selectMonthElement = document.querySelector('#selectMonth');
+            const prevBtn = document.querySelector('.prevBtn');
+            const nextBtn = document.querySelector('.nextBtn');
+
+            let currentYear = parseInt(selectMonthElement.textContent.slice(0, 4));
+            let currentMonth = parseInt(selectMonthElement.textContent.slice(5, 7));
+
+            const today = new Date();
+            const currentYearToday = today.getFullYear();
+            const currentMonthToday = today.getMonth() + 1;
+
+            prevBtn.addEventListener('click', function () {
+                if (currentMonth <= 1) {
+                    currentMonth = 12;
+                    currentYear--;
+                } else {
+                    currentMonth--;
+                }
+                location.href = `/admin/calc/monthly?selectMonth=${currentYear}-${currentMonth.toString().padStart(2, '0')}`;
+            });
+
+            nextBtn.addEventListener('click', function () {
+                if (currentMonth >= 12) {
+                    currentMonth = 1;
+                    currentYear++;
+                } else {
+                    currentMonth++;
+                }
+                if (currentYear > currentYearToday || (currentYear === currentYearToday && currentMonth > currentMonthToday)) {
+                    alert("미래의 정산은 알 수가 없지요~")
+                    return;
+                }
+                location.href = `/admin/calc/monthly?selectMonth=${currentYear}-${currentMonth.toString().padStart(2, '0')}`;
+            });
 
 
-<th:block layout:fragment="userScript">
-    <!-- main js -->
-    <script src="/js/main.js"></script>
-</th:block>
+        </script>
+    </th:block>
 
 </body>
 </html>

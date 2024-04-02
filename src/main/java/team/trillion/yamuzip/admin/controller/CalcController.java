@@ -3,15 +3,14 @@ package team.trillion.yamuzip.admin.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import team.trillion.yamuzip.admin.model.dto.CalcDTO;
 import team.trillion.yamuzip.admin.model.dto.CalcDetailDTO;
 import team.trillion.yamuzip.admin.model.dto.CalcMonthlyDTO;
 import team.trillion.yamuzip.admin.model.service.CalcService;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Slf4j
@@ -26,18 +25,24 @@ public class CalcController {
     }
 
     @GetMapping("/monthly")
-    public String getMonthlyCalc(@RequestParam String selectMonth,
+    public String getMonthlyCalc(@RequestParam(required = false) String selectMonth,
                                  Model model) {
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+        String formattedCurrentDate = currentDate.format(formatter);
 
-        List<CalcDTO> calcList = calcService.findAllCalc();
-        CalcMonthlyDTO calcMonthly = calcService.selectMonthlyDetail(selectMonth);
+        if(selectMonth == null) selectMonth = formattedCurrentDate;
+
         System.out.println(selectMonth);
+        List<CalcDTO> calcList = calcService.findAllCalc(selectMonth);
+        CalcMonthlyDTO calcMonthly = calcService.selectMonthlyDetail(selectMonth);
 
         model.addAttribute("calcList", calcList);
         model.addAttribute("calcMonthly", calcMonthly);
 
         return "admin/calc/monthly";
     }
+
 
     @GetMapping("/detail")
     public String getCalcDetail(@RequestParam int orderCode, Model model) {
@@ -47,7 +52,6 @@ public class CalcController {
         model.addAttribute("calcDetail", calcDetail);
 
         return "admin/calc/detail";
-
     }
 
     @GetMapping("/complete")
