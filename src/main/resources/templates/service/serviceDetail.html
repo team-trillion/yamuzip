@@ -184,12 +184,12 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-6" th:each="service : ${serviceInfoList}">
+                                <div class="col-md-6" >
                                     <div class="card shadow-sm" style="width: 100%; height: auto">
-                                        <div class="card-body" style="width: 100%">
-                                            <h1 class="infoTab display-5 mt-3" th:text="${service.serviceTitle}">서비스 이름
+                                        <div class="card-body" style="width: 100%" >
+                                            <h1 class="infoTab display-5 mt-3" th:text="${serviceDetailList.serviceTitle}">서비스 이름
                                                 어쩌구</h1>
-                                            <p class="infoTab lead border-top" th:text="${service.serviceExplain}">서비스
+                                            <p class="infoTab lead border-top" th:text="${serviceDetailList.serviceExplain}">서비스
                                                 설명</p>
                                             <div class="infoTab cardText mb-3">
                                                 <span class="badge bg-primary">하위 카테고리</span>
@@ -197,7 +197,7 @@
                                             </div>
                                             <div class="priceBox fs-5 mb-5 display-5 ">
                                                 <span class="infoTab heart">♥️</span>
-                                                <span id="priceTag" class="price" th:text="${service.servicePrice}"><b>31,600~</b></span>
+                                                <span id="priceTag" class="price" th:text="${serviceDetailList.servicePrice}"><b>31,600~</b></span>
                                             </div>
                                             <div class="orderBox">
                                                 <button class="order btn-block" type="button">주문하기</button>
@@ -223,17 +223,17 @@
                                      alt="...">
                             </div>
                             <div class="profileCard col-md-4 border p-5 shadow-sm"
-                                 th:each="serviceInfoList:${serviceInfoList}">
+                            >
                                 <div class="Card">
                                     <div class="card-body">
                                         <p class="card-text border-bottom " th:inline="text">
-                                            <b>도비:</b> [[${serviceInfoList.dobby.dobNickName}]]</p>
+                                            <b>도비:</b> [[${serviceDetailList.dobby.dobNickName}]]</p>
                                         <p class="card-text border-bottom "><b>영업일</b> : 연중무휴</p>
                                         <p class="card-text border-bottom" th:inline="text"><b>지역</b> :
-                                            [[${serviceInfoList.dobby.dobArea}]]</p>
+                                            [[${serviceDetailList.dobby.dobArea}]]</p>
                                         <p class="card-text font-weight-bold"
-                                           th:text="${serviceInfoList.dobby.dobContent}">저는 청소왕
-                                            도비입니다. 초반 일부 글자만 노출</p>
+                                           th:text="${serviceDetailList.dobby.dobContent}"> </p>
+
                                     </div>
                                 </div>
                             </div>
@@ -241,8 +241,8 @@
 
                         <div class="infoRow row">
                             <h1>Info</h1>
-                            <div class="col-md-6" id="serviceContext" th:each="serviceInfoList:${serviceInfoList}">
-                                <p th:text="${serviceInfoList.serviceContent}">🔥구매 전 필독사항🔥
+                            <div class="col-md-6" id="serviceContext" >
+                                <p th:text="${serviceDetailList.serviceContent}">🔥구매 전 필독사항🔥
 
                                     ✔️핸드메이드 특성상 눈,코,입,귀 등
                                     위치나 모양이 조금씩 다를 수 있습니다.
@@ -267,62 +267,25 @@
                                 <div class="bg-body rounded shadow-sm">
                                     <h6 class="border-bottom pb-2 mb-0">옵션</h6>
                                     <div class="d-flex text-body-secondary pt-3">
-                                        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32"
-                                             height="32" xmlns="http://www.w3.org/2000/svg" role="img"
+                                        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded"  width="20"
+                                             height="20" xmlns="http://www.w3.org/2000/svg" role="img"
                                              aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice"
                                              focusable="false"><title>Placeholder</title>
                                             <rect width="100%" height="100%" fill="#007bff"></rect>
                                             <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
                                         </svg>
-                                        <div class="pb-3 mb-0 small lh-sm border-bottom w-100"
-                                             th:each="serviceOptions:${serviceOptions}">
-                                            <div class="d-flex justify-content-between">
-                                                <strong class="text-gray-dark"
-                                                        th:text="${serviceOptions.optionName}">Option Name</strong>
-                                                <a class="choice" href="#">선택</a>
-                                            </div>
-                                            <span class="d-block" th:text="${'+ ' + serviceOptions.optionPrice}">Price:+20,000</span>
+                                        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                                        <label for="option">옵션 선택:</label>
+                                        <select name="option" id="option" th:field="*{serviceOptions}">
+                                            <!-- Thymeleaf 반복문을 통해 옵션 목록 표시 -->
+                                            <option value="none">선택안함</option>
+                                            <option th:each="opt : ${serviceOptions}" th:value="${opt.optionPrice}" th:text="${opt.optionName} + ' - 추가 금액: ' + ${opt.optionPrice}"></option>
+                                        </select>
+
+
                                         </div>
                                     </div>
-                                    <div class="d-flex text-body-secondary pt-3">
-                                        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32"
-                                             height="32" xmlns="http://www.w3.org/2000/svg" role="img"
-                                             aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice"
-                                             focusable="false"><title>Placeholder</title>
-                                            <rect width="100%" height="100%" fill="#007bff"></rect>
-                                            <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-                                        </svg>
-                                        <div class="pb-3 mb-0 small lh-sm border-bottom w-100"
-                                             th:each="serviceOptions:${serviceOptions}">
-                                            <div class="d-flex justify-content-between">
-                                                <strong class="text-gray-dark"
-                                                        th:text="${serviceOptions.optionName}">Option Name</strong>
-                                                <a class="choice" href="#">선택</a>
-                                            </div>
-                                            <span class="d-block" th:text="${'+ ' + serviceOptions.optionPrice}">Price:+20,000</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex text-body-secondary pt-3">
-                                        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32"
-                                             height="32" xmlns="http://www.w3.org/2000/svg" role="img"
-                                             aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice"
-                                             focusable="false"><title>Placeholder</title>
-                                            <rect width="100%" height="100%" fill="#007bff"></rect>
-                                            <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-                                        </svg>
-                                        <div class="pb-3 mb-0 small lh-sm border-bottom w-100"
-                                             th:each="serviceOptions:${serviceOptions}">
-                                            <div class="d-flex justify-content-between">
-                                                <strong class="text-gray-dark"
-                                                        th:text="${serviceOptions.optionName}">Option Name</strong>
-                                                <a class="choice" href="#">선택</a>
-                                            </div>
-                                            <span class="d-block" th:text="${'+ ' + serviceOptions.optionPrice}">Price:+20,000</span>
-                                        </div>
-                                    </div>
-                                    <small class="d-block text-end mt-3">
-                                        <a href="#">All suggestions</a>
-                                    </small>
+
                                 </div>
                             </div>
                         </div>
