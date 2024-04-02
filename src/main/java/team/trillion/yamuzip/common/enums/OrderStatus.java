@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum OrderStatus {
-    O("주문완료"),
+    O("주문신청"),
     A("예약승인"),
     R("주문거절"),
     F("서비스완료"),

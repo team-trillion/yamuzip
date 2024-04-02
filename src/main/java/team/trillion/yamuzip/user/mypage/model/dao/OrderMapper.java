@@ -16,4 +16,8 @@ public interface OrderMapper {
     List<OrderDTO> selectAllOrderList(@Param("userCode") int userCode, @Param("selectCriteria") SelectCriteria selectCriteria);
 
     OrderDetailDTO selectOrderDetail(int orderCode);
+
+    int selectCancelCount(Map<String, String> searchMap);
+
+    List<OrderDTO> selectAllCancelList(int userCode, SelectCriteria selectCriteria);
 }

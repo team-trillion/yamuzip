@@ -2,6 +2,7 @@ package team.trillion.yamuzip.order.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +11,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import team.trillion.yamuzip.common.exception.OrderFailedException;
 import team.trillion.yamuzip.order.model.dto.*;
 import team.trillion.yamuzip.order.model.service.OrderService;
+import team.trillion.yamuzip.user.mypage.model.service.PaymentService;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,6 +24,7 @@ import java.util.Set;
 public class OrderController {
 
     private final OrderService orderService;
+    private final PaymentService paymentService;
 
     @GetMapping("")
     public String getOrderPage(@RequestParam int serviceCode, Model model) {
@@ -103,4 +107,23 @@ public class OrderController {
 
     @GetMapping("/error")
     public void orderErrorView() {}
+
+    @PostMapping("/cancel")
+    public String cancelOrder(@RequestParam int orderCode,
+                              @RequestParam String cancelReason,
+                              @RequestParam(required = false) String cancelReasonEtc) throws IOException {
+
+        String token = paymentService.getToken();
+        PaymentDTO payment = paymentService.getPaymentByOrderCode(orderCode);
+        String reason = cancelReasonEtc != null ? cancelReasonEtc : cancelReason;
+
+        OrderCancelDTO orderCancel = new OrderCancelDTO();
+        orderCancel.setPayCode(payment.getPayCode());
+        orderCancel.setOrderCode(orderCode);
+        orderCancel.setCancelReason(reason);
+
+        paymentService.cancelOrder(token, orderCancel);
+
+        return "redirect:/mypage/order";
+    }
 }
