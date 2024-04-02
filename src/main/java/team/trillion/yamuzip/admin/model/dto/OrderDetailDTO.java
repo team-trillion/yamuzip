@@ -6,21 +6,13 @@ import lombok.ToString;
 import team.trillion.yamuzip.common.enums.OrderStatus;
 import team.trillion.yamuzip.common.enums.PayStatus;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @ToString
-public class OrderDTO {
-
+public class OrderDetailDTO {
     private int orderCode;
-    private int payPrice;
-
     private String serviceTitle;
-    private Date orderDatetime;
-    private Date payDatetime;
-
-    private OrderStatus orderStatus;
-    private PayStatus payStatus;
 
 }

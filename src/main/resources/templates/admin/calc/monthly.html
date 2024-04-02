@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin}">
 
 <head>
@@ -51,7 +51,9 @@
             <div class="container-fluid border border-2 rounded py-3">
                 <div class="text-center p-2">
                     <p class="4 py-5" style="color: #003f62">
-                        <button th:onclick="|location.href='/?selectMonth=' @{${calcMonthly.selectMonth}} + |" type="button" class="accBtn prevBtn">
+                        <form action="/admin/calc/monthly" method="post">
+                        <button type="submit" name="action" value="prev" class="accBtn prevBtn">
+                        <input type="hidden">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                                  class="bi bi-caret-left-square" viewBox="0 0 16 16">
                                 <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
@@ -59,15 +61,16 @@
                             </svg>
                         </button>
 
-                        <span th:text="${#calendars.format(#calendars.createNow(), 'yyyy년 MM월')}"></span>
+                        <span id="selectMonth" th:text="${calcMonthly.selectMonth}"></span>
 
-                        <button type="button" class="accBtn nextBtn">
+                        <button type="submit" name="action" value="next" class="accBtn nextBtn">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                                  class="bi bi-caret-right-square" viewBox="0 0 16 16">
                                 <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
                                 <path d="M5.795 12.456A.5.5 0 0 1 5.5 12V4a.5.5 0 0 1 .832-.374l4.5 4a.5.5 0 0 1 0 .748l-4.5 4a.5.5 0 0 1-.537.082"/>
                             </svg>
                         </button>
+                        </form>
                     </p>
                 </div>
                 <table class="table text-center mb-5">
@@ -219,6 +222,42 @@
 <th:block layout:fragment="userScript">
     <!-- main js -->
     <script src="/js/main.js"></script>
+
+    <script>
+        const selectMonthElement = document.querySelector('#selectMonth');
+        const prevBtn = document.getElementsByClassName('prevBtn');
+        const nextBtn = document.getElementsByClassName('nextBtn');
+
+        let currentMonth = parseInt(selectMonthElement.textContent.slice(5, 7));
+        let currentYear = parseInt(selectMonthElement.textContent.slice(0, 4));
+
+        Array.from(prevBtn).forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (currentMonth <= 1) {
+                    currentMonth = 12;
+                    currentYear--;
+                } else {
+                    currentMonth--;
+                }
+                selectMonthElement.textContent = `${currentYear}-${currentMonth.toString().padStart(2, '0')}`;
+            });
+        });
+
+        Array.from(nextBtn).forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (currentMonth >= 12) {
+                    currentMonth = 1;
+                    currentYear++;
+                } else {
+                    currentMonth++;
+                }
+                selectMonthElement.textContent = `${currentYear}-${currentMonth.toString().padStart(2, '0')}`;
+            });
+        });
+
+
+
+    </script>
 </th:block>
 
 </body>

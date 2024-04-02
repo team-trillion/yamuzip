@@ -61,7 +61,7 @@
     <select id="selectMonthlyDetail" resultType="team.trillion.yamuzip.admin.model.dto.CalcMonthlyDTO">
         WITH MonthlyCalc AS (
             SELECT
-                DATE_FORMAT(o.reserve_datetime, '%Y-%m') AS calcMonth,
+                DATE_FORMAT(o.reserve_datetime, '%Y-%m') AS selectMonth,
                 SUM(CAST(p.pay_price * 0.10 AS DECIMAL(10,0))) AS chargeResult,
                 SUM(CAST((p.pay_price - (p.pay_price * 0.10)) AS DECIMAL(10,0))) AS salesResult,
                 COUNT(o.order_code) AS payCount,
@@ -78,13 +78,13 @@
                     LEFT JOIN tbl_user u ON o.user_code = u.user_code
                     LEFT JOIN tbl_account a ON d.dob_code = a.dob_code
             WHERE
-                DATE_FORMAT(o.reserve_datetime '%Y-%m') = #{ selectMonth }
+                DATE_FORMAT(o.reserve_datetime, '%Y-%m') = #{ selectMonth }
             GROUP BY
                 DATE_FORMAT(o.reserve_datetime, '%Y-%m')
 
         )
         SELECT * FROM MonthlyCalc
-        ORDER BY calcMonth DESC;
+        ORDER BY selectMonth DESC;
 
     </select>
 
