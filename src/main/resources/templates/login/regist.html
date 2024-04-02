@@ -13,9 +13,9 @@
             font-size: 16px;
         }
     </style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <script>
+    <script >
         let isIdDuplicate = false;
         let isIdChecked = false;
         async function receiveFetch() {
@@ -59,63 +59,31 @@
             }
         }
 
-        // function mySubmit() {
-        //     if (!isIdChecked) {
-        //         alert("아이디 중복 확인을 해주세요.")
-        //         return false;
-        //     }
-        //
-        //     if (!isIdDuplicate) {
-        //         alert("중복되는 아이디 입니다. 회원가입을 진행할수 없습니다.")
-        //         return false;
-        //     }
-        //     return true;
-        // }
+        let emconfirmchk = false;
+        function handleSubmit(event ) {
 
-        // $("#registerButton").click(function (event){
-        //     let userPwd = $("#userPwd").val();
-        //     let userPwd1 = $("#userPwd1").val();
-        //
-        //     if (userPwd !== userPwd1) {
-        //         alert("비밀번호가 일치하지 않습니다. 다시 입력해주세요.")
-        //         event.preventDefault();
-        //     }
-        // })
-
-        function handleSubmit(event) {
             if (!isIdChecked) {
                 alert("아이디 중복 확인을 해주세요.")
                 event.preventDefault();
                 return;
             }
 
-            // let userPwd = $("#userPwd").val();
-            // let userPwd1 = $("#userPwd1").val();
-            //
-            // if (userPwd !== userPwd1) {
-            //     alert("비밀번호가 일치하지 않습니다.")
-            //     event.preventDefault();
-            //     return;
-            // }
-        }
-
-
-
-
-        function check(event) {
             let userPwd = $("#userPwd").val();
             let userPwd1 = $("#userPwd1").val();
-            // const btn = document.querySelector(".btn-block");
 
-            console.log(userPwd);
-            console.log(userPwd1);
-            if (userPwd!==userPwd1) {
+            if (userPwd !== userPwd1) {
                 alert("비밀번호가 일치하지 않습니다.")
                 event.preventDefault();
+                return;
+            }
 
-                // btn.disabled = true;
+            if(!emconfirmchk) {
+                alert('인증번호가 일치하지 않습니다.')
+                event.preventDefault();
+                return;
             }
         }
+
         function isSamePassword(){
             let userPwd = $("#userPwd").val();
             let userPwd1 = $("#userPwd1").val();
@@ -127,27 +95,52 @@
                 isPass.hidden = true;
             }
         }
-        // $(document).ready(function () {
-        //     $("#check2").hide();
-        //     $("#userPwd, #userPwd1").on("keyup", check);
-        // });
-        //
-        //     $("registerButton").click(function (){
-        //         let userPwd = $("userPwd").val();
-        //         let userPwd1 = $("userPwd1").val();
-        //
-        //         if (userPwd !== userPwd1) {
-        //             alert("비밀번호가 일치 하지 않습니다.")
-        //             return false;
-        //         }
-        //     });
-        // });
 
+        function checkEmail() {
+            var $checkButton = $('#check');
+            var $email = $('#email');
+            var $memailconfirm = $('#memailconfirm');
+            var $memailconfirmTxt = $('#memailconfirmTxt');
 
+            $.ajax({
+                type: "POST",
+                url: "login/mailConfirm",
+                data: {
+                    "email": $email.val()
+                },
+                success: function (data) {
+                    alert("해당 이메일로 인증번호 발송이 완료되었습니다.");
+                    console.log("data: " + data);
+                    chkEmailConfirm(data, $memailconfirm, $memailconfirmTxt);
 
+                },
+                error : (e) => console.log(e)
+            });
 
+        }
 
+        function chkEmailConfirm(data, $emailconfirm, $emailconfirmTxt) {
+            $emailconfirm.on("keyup", function () {
+                if (data != $emailconfirm.val()) {
+                    emconfirmchk = false;
+                    $emailconfirmTxt.html("<span id='emconfirmchk'>인증번호가 잘못되었습니다</span>");
+                    $("#emconfirmchk").css({
+                        "color": "#FA3E3E",
+                        "font-weight": "bold",
+                        "font-size": "10px"
+                    });
 
+                } else {
+                    emconfirmchk = true;
+                    $emailconfirmTxt.html("<span id='emconfirmchk'>인증번호 확인 완료</span>");
+                    $("#emconfirmchk").css({
+                        "color": "#0D6EFD",
+                        "font-weight": "bold",
+                        "font-size": "10px"
+                    });
+                }
+            });
+        }
     </script>
 
 </head>
@@ -216,14 +209,21 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="email">이메일</label>
-                                        <div class="input-group" >
+                                        <div class="input-group">
                                             <input type="email" class="form-control" id="email" name="email" placeholder="metadog@example.com" required="required">
                                             <span class="input-group-btn">
-                                             <button class="btn btn-default" type="button" name="email" onclick="email">인증</button>
-                                             </span>
+                                            <button class="btn btn-default" type="button" name="email" id="check" onclick="checkEmail()">인증</button>
+                                        </span>
                                         </div>
                                         <span class="emailchk"></span>
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="memailconfirm" >인증번호를 입력해주세요</label>
+                                        <input type="text" class="form-control" id="memailconfirm" placeholder="인증번호를 입력해주세요">
+<!--                                        <button class="btn btn-default" type="button" id="a" onclick="b">확인</button>-->
+                                        <span id="memailconfirmTxt"></span>
+                                    </div>
+
 
                                     <div class="mb-3">
                                         <label for="phone">휴대폰 번호</label> <input type="text"
@@ -231,25 +231,11 @@
                                             class="phchk"></span>
                                     </div>
 
-<!--                                    <div class="mb-3">-->
-<!--                                        <label for="address">우편번호 <span class="text-muted">&nbsp;(선택사항)</span>-->
-<!--                                            <span class="text-muted">-->
-<!--								<button type="button" class="btn" id="check_btn" onclick="#">찾기</button>-->
-<!--						</span>-->
-<!--                                        </label> <input type="text" class="form-control" id="address"-->
-<!--                                                        placeholder="찾기를 눌러 주소를 입력하세요">-->
-<!--                                    </div>-->
-
-<!--                                    <div class="mb-3">-->
-<!--                                        <label for="address2">주소<span class="text-muted">&nbsp;(선택사항)</span></label>-->
-<!--                                        <input type="text" class="form-control" id="address2"-->
-<!--                                               placeholder="주소를 입력해주세요.">-->
-<!--                                    </div>-->
                                     <div class="mb-4"></div>
 
 
 
-                                    <button class="btn btn-primary btn-lg btn-block" type="submit" id="registerButton" onsubmit="return mySubmit()" onclick="check(event)">가입
+                                    <button class="btn btn-primary btn-lg btn-block" type="submit" id="registerButton" >가입
                                         완료</button>
                                 </form>
                                 <br>
@@ -259,9 +245,7 @@
                             </div>
                         </div>
 
-<!--                        <footer class="my-3 text-center text-small">-->
-<!--                            <p class="mb-1">&copy; 2021 YD</p>-->
-<!--                        </footer>-->
+
                     </div>
 
 
@@ -269,10 +253,6 @@
                     </body>
 
 
-
-<!--                    <p>표시를 위해 노란색 배경 적용했어요~ 22번 줄 style에서 background-color만 제거하시면 됩니다 퐈이튕!!!</p>-->
-<!--                    <p>style.css는 웬만하면 건들지 않기! 꼭 상의하고 변경하기</p>-->
-<!--                    <p>페이지에 필요한 css가 새로 있다면 head태그에 있는 usercss 블럭 태그 안에 작성하시면 됩니다!</p>-->
 
                 <!--여기까지 본인 페이지 코드 작성-->.
 

@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import team.trillion.yamuzip.auth.service.AuthService;
@@ -23,6 +24,8 @@ public class UserController {
     private final UserService userService;
     private final AuthService authService;
     private final MessageSourceAccessor messageSourceAccessor;
+
+
 
 
     @GetMapping("/login")
@@ -82,7 +85,12 @@ public class UserController {
     }
 
     @GetMapping("/findPwd")
-    public String findPwd() {return "login/findPwd";}
+    public String findPwd(Model model) {
+        return "login/findPwd";}
+
+
+
+
 
 
 

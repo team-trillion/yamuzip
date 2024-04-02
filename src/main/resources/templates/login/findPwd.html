@@ -23,7 +23,11 @@
             text-align: center;
         }
 
+
     </style>
+    <script>
+
+    </script>
 </head>
 
 <body>
@@ -50,31 +54,38 @@
                                 <div style="padding: 10px"></div>
                                 <p style="font-weight: bold">| 본인확인 이메일인증</p>
                                 <div style="padding: 10px"></div>
-                                <div class="form-floating">
-                                    <P>이름</P>
-                                    <div style="padding: 5px"></div>
-                                    <input type="text" class="form-control" id="name" placeholder="이름을 입력하세요">
-                                    <!--                                <label for="floatingInput">Email address</label>-->
-                                </div>
+<!--                                <div class="form-floating">-->
+<!--                                    <P>이름</P>-->
+<!--                                    <div style="padding: 5px"></div>-->
+<!--                                    <input type="text" class="form-control" id="name" placeholder="이름을 입력하세요">-->
+<!--                                    &lt;!&ndash;                                <label for="floatingInput">Email address</label>&ndash;&gt;-->
+<!--                                </div>-->
                                 <div class="form-floating">
                                     <p>아이디</p>
                                     <div style="padding: 5px"></div>
-                                    <input type="text" class="form-control" id="ID" placeholder="아이디를 입력하세요">
+                                    <input type="text" class="form-control" id="id" placeholder="아이디를 입력하세요">
                                     <!--                                <label for="floatingPassword">Password</label>-->
                                 </div>
 
-                                <div class="form-floating">
-                                    <p>이메일</p>
-                                    <div style="padding: 5px"></div>
-                                    <input type="email" class="form-control" id="email" placeholder="YAMUZIP@gmail.com">
-                                    <!--                                <label for="floatingPassword">Password</label>-->
+                                <div class="mb-3">
+                                    <label for="email">이메일</label>
+                                    <div class="input-group">
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="metadog@example.com" required="required">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" name="email" id="" onclick="checkEmail()">인증</button>
+                                        </span>
+                                    </div>
+                                    <span class="emailchk"></span>
                                 </div>
-
-                                <div class="form-floating">
-                                    <p>이메일확인</p>
-                                    <div style="padding: 5px"></div>
-                                    <input type="text" class="form-control" id="emailchek" placeholder="이메일확인">
-                                    <!--                                <label for="floatingPassword">Password</label>-->
+                                <div class="mb-3">
+                                    <label for="email">이메일인증번호 확인</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="email" name="email" placeholder="인증번호를 입력해주세요" required="required">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" name="email" id="check" onclick="checkEmail()">확인</button>
+                                        </span>
+                                    </div>
+                                    <span class="emailchk"></span>
                                 </div>
 
                                 <div class="checkbox mb-3">
