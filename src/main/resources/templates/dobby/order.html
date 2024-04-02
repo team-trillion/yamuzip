@@ -12,6 +12,11 @@
             border-radius: 5px;
             box-shadow: 0.5px 0.5px 2px 1px #eee;
         }
+        .box { background: white; border-radius: 5px; padding: 30px; }
+        .box-div:not(:last-child) { border-right: 1px solid #888; }
+
+        h1, h2, h3 { font-weight: 900; color: #003363; }
+        h4 { margin-bottom: 15px; font-weight: 700; color: #003363; }
     </style>
 </head>
 
@@ -22,14 +27,115 @@
 
 <div layout:fragment="content">
     <div class="fh5co-hero" style="height: auto;">
-        <!--                <div class="fh5co-overlay"></div>-->
 
         <section class="container-sm">
-            <!--여기부터 본인 페이지 코드 작성-->
+            <div class="mt-5 mb-5 white-box">
 
-            <!--nav 옆 (content 안에 nav 있음)-->
+                <div class="row container-fluid" style="margin: 0 auto;">
+                    <div class="box">
+                        <div class="col-md-4 text-center box-div">
+                            <h3>승인 대기</h3>
+                            <h1 th:text="${orderCount.getOrderCount()}"></h1>
+                        </div>
+                        <div class="col-md-4 text-center box-div">
+                            <h3>진행중</h3>
+                            <h1 th:text="${orderCount.getAcceptCount()}"></h1>
+                        </div>
+                        <div class="col-md-4 text-center box-div">
+                            <h3>완료</h3>
+                            <h1 th:text="${orderCount.getFinishCount()}"></h1>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>주문번호</th>
+                                <th>주문일</th>
+                                <th>주문자</th>
+                                <th>서비스 제목</th>
+                                <th>진행 단계</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="order-list" th:each="order : ${orderList}"
+                                th:onclick="|location.href='/dobby/orderDetail?orderCode=${order.orderCode}'|">
+                                <td th:text="${order.orderCode}"></td>
+                                <td th:text="${order.orderDateString}"></td>
+                                <td th:text="${order.userId}"></td>
+                                <td th:text="${order.serviceTitle}"></td>
+                                <td th:text="${order.orderStatus.getOrderStatus()}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
 
-            <!--여기까지 본인 페이지 코드 작성-->
+                        <div id="paging" align="center" style="margin-top: 20px;">
+                            <th:block th:if="${ paging.searchCondition != null and paging.searchValue != null }">
+                                <!-- 맨 앞으로 이동 -->
+                                <button th:onclick="'location.href=\'/dobby/order?page=1&searchCondition=' + @{${paging.searchCondition}} + '&searchValue=' + @{${paging.searchValue}} + '\''">
+                                    &lt;&lt;
+                                </button>
+
+                                <!-- 이전 페이지로 이동 -->
+                                <button th:onclick="'location.href=\'/dobby/order?page=' + @{${paging.page - 1}} + '&searchCondition=' + @{${paging.searchCondition}} + '&searchValue=' + @{${paging.searchValue}} + '\''"
+                                        th:disabled="${ paging.page <= 1 }">&lt;
+                                </button>
+
+                                <!-- 숫자 버튼 -->
+                                <th:block th:each="page : ${ #numbers.sequence(paging.startPage, paging.endPage)}">
+                                    <button th:onclick="'location.href=\'/dobby/order?page=' + @{${page}} + '&searchCondition=' + @{${paging.searchCondition}} + '&searchValue=' + @{${paging.searchValue}} + '\''"
+                                            th:text="${ page }" th:disabled="${ paging.page eq page }">
+                                    </button>
+                                </th:block>
+
+                                <!-- 다음 페이지로 이동 -->
+                                <button
+                                        th:onclick="'location.href=\'/dobby/order?page=' + @{${paging.page + 1}} + '&searchCondition=' + @{${paging.searchCondition}} + '&searchValue=' + @{${paging.searchValue}} + '\''"
+                                        th:disabled="${ paging.page >= paging.maxPage }">>
+                                </button>
+
+                                <!-- 맨 끝으로 이동 -->
+                                <button th:onclick="'location.href=\'/dobby/order?page=' + @{${paging.maxPage}} + '&searchCondition=' + @{${paging.searchCondition}} + '&searchValue=' + @{${paging.searchValue}} + '\''">
+                                    >>
+                                </button>
+                            </th:block>
+
+                            <th:block th:if="${ paging.searchCondition == null  || paging.searchValue == null }">
+                                <!-- 맨 앞으로 이동 -->
+                                <button th:onclick="'location.href=\'/dobby/order?page=1\''">&lt;&lt;</button>
+
+                                <!-- 이전 페이지로 이동 -->
+                                <button th:onclick="'location.href=\'/dobby/order?page=' + @{${paging.page - 1}} + '\''"
+                                        th:disabled="${ paging.page <= 1 }">&lt;
+                                </button>
+
+                                <!-- 숫자 버튼 -->
+                                <th:block th:each="page : ${ #numbers.sequence(paging.startPage, paging.endPage)}">
+                                    <button th:onclick="'location.href=\'/dobby/order?page=' + @{${page}} + '\''"
+                                            th:text="${ page }" th:disabled="${ paging.page eq page }">
+                                    </button>
+                                </th:block>
+
+                                <!-- 다음 페이지로 이동 -->
+                                <button th:onclick="'location.href=\'/dobby/order?page=' + @{${paging.page + 1}} + '\''"
+                                        th:disabled="${ paging.page >= paging.maxPage }">>
+                                </button>
+
+                                <!-- 맨 끝으로 이동 -->
+                                <button th:onclick="'location.href=\'/dobby/order?page=' + @{${paging.maxPage}} + '\''">
+                                    >>
+                                </button>
+                            </th:block>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
         </section>
     </div>
 </div>

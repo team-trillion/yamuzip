@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.dobby.mypage.model.dao.OrderMapper">
+
+    <select id="getDobCode">
+        SELECT
+            dob_code
+        FROM
+            tbl_dobby
+        WHERE
+            user_code = #{ userCode }
+    </select>
+
+    <select id="getOrderCount">
+        SELECT
+            count(CASE WHEN order_status = 'O' THEN 1 END) as order_count,
+            count(CASE WHEN order_status = 'A' THEN 1 END) as accept_count,
+            count(CASE WHEN order_status = 'F' THEN 1 END) as finish_count
+        FROM
+            tbl_order a
+        JOIN
+            tbl_service b on (a.service_code = b.service_code)
+        WHERE
+            dob_code = #{ dobCode }
+    </select>
+
+    <select id="selectOrderCount" resultType="_int" parameterType="hashmap">
+        SELECT
+            COUNT(*)
+        FROM
+            tbl_order a
+                JOIN
+            tbl_service b ON(a.service_code = b.service_code)
+        <where>
+            <if test="searchCondition == 'serviceTitle'">
+                b.service_title LIKE CONCAT('%', #{ searchValue }, '%')
+            </if>
+            <if test="start != '' and start != null">
+                AND
+                a.order_datetime > #{ start }
+            </if>
+            <if test="end != '' and end != null">
+                AND
+                #{ end } > DATE_ADD(a.order_datetime, INTERVAL -1 DAY)
+            </if>
+            AND
+                dob_code = #{ dobCode }
+        </where>
+        ORDER BY
+            order_datetime DESC
+    </select>
+
+    <select id="selectAllOrderList" resultType="team.trillion.yamuzip.dobby.mypage.model.dto.OrderDTO">
+        SELECT
+            a.order_code,
+            a.user_code,
+            a.service_code,
+            b.user_id,
+            c.thumbnail_url,
+            c.service_title,
+            a.order_datetime,
+            a.order_status,
+            a.total_price
+        FROM
+            tbl_order a
+        JOIN
+            tbl_user b on (a.user_code = b.user_code)
+        JOIN
+            tbl_service c on (a.service_code = c.service_code)
+        <where>
+            <if test="selectCriteria.searchCondition == 'serviceTitle'">
+                c.service_title LIKE CONCAT('%', #{ selectCriteria.searchValue }, '%')
+            </if>
+            <if test="selectCriteria.start != '' and selectCriteria.start != null">
+                AND
+                a.order_datetime > #{ selectCriteria.start }
+            </if>
+            <if test="selectCriteria.end != '' and selectCriteria.end != null">
+                AND
+                #{ selectCriteria.end } > DATE_ADD(a.order_datetime, INTERVAL -1 DAY)
+            </if>
+            AND
+                c.dob_code = #{ dobCode }
+        </where>
+        ORDER BY
+            a.order_datetime DESC
+        LIMIT #{selectCriteria.offset}, #{selectCriteria.limit}
+    </select>
+
+
+    <select id="selectOrderDetail" resultType="team.trillion.yamuzip.user.mypage.model.dto.OrderDetailDTO">
+        SELECT
+            a.order_code,
+            a.order_datetime,
+            a.reserve_datetime,
+            a.cancel_datetime,
+            a.reject_datetime,
+            a.cancel_reason,
+            a.reject_reason,
+            a.order_status,
+            a.total_price,
+            b.service_title,
+            b.service_price,
+            b.thumbnail_url,
+            c.user_name,
+            d.pay_status,
+            d.pay_type,
+            e.option_name,
+            e.option_price
+        FROM
+            tbl_order a
+                JOIN
+            tbl_service b on a.service_code = b.service_code
+                JOIN
+            tbl_user c on a.user_code = c.user_code
+                JOIN
+            tbl_payment d on a.order_code = d.order_code
+                LEFT JOIN
+            tbl_option e on a.option_code = e.option_code
+        WHERE
+            a.order_code = #{ orderCode };
+    </select>
+
+</mapper>
