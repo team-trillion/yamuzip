@@ -29,7 +29,7 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
-      location: C:/00/10_spring/04_spring-comprehensive/ch01-comprehensive
+      location: /Users/eunjae/Desktop/project/newyamuzip
 
 # Mybatis config
 mybatis:

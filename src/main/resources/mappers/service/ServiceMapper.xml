@@ -105,7 +105,8 @@
         JOIN tbl_dobby ON tbl_service.dob_code = tbl_dobby.dob_code
         WHERE
         service_status = 'A'
-        service_code = #{serviceCode}
+        and
+        service_code = #{ serviceCode }
         ORDER BY
         service_code
     </select>
@@ -116,6 +117,9 @@
         img_name
         FROM
         tbl_img
+        WHERE
+        service_code = (#{serviceCode})
+
     </select>
     <select id="getOptions" resultType="team.trillion.yamuzip.service.model.dto.OptionDTO">
         SELECT
@@ -123,6 +127,8 @@
         option_price
         FROM
         tbl_option
+        WHERE
+        service_code = #{serviceCode}
     </select>
 
     <select id="getReviews" resultMap="getReviews">
@@ -163,6 +169,27 @@
         cs_code
 
     </select>
+    <!-- getServiceById -->
+    <select id="getServiceById" resultMap="selectService">
+        SELECT
+        service_code,
+        dob_nickname,
+        dob_area,
+        dob_career_days,
+        dob_content,
+        service_title,
+        service_explain,
+        service_content,
+        service_price,
+        service_created
+        FROM
+        tbl_service
+        JOIN tbl_dobby ON tbl_service.dob_code = tbl_dobby.dob_code
+        WHERE
+        service_code = #{serviceCode}
+
+
+    </select>
     <!--    서비스 총 개수-->
     <select id="serviceGetTotal" resultType="_int">
         select count(*) from tbl_service
@@ -170,5 +197,44 @@
             where product_title like '%' || #{keyword} || '%'
         </if>
     </select>
+    <resultMap id="categoryResultMap" type="team.trillion.yamuzip.service.model.dto.CategoryDTO">
+        <id property="categoryCode" column="category_code" />
+        <result property="categoryName" column="category_name" />
+        <result property="refCategoryCode" column="ref_category_code" />
+    </resultMap>
+
+    <select id="getParentCategoryList" resultMap="categoryResultMap">
+        SELECT category_code, category_name, ref_category_code
+        FROM tbl_category
+        WHERE ref_category_code IS NULL
+    </select>
+
+    <select id="getSubcategoriesByParentId" resultMap="categoryResultMap">
+        SELECT category_code, category_name, ref_category_code
+        FROM tbl_category
+        WHERE ref_category_code = #{parentId}
+    </select>
+    <insert id="registService" >
+        <selectKey keyProperty="serviceCode" resultType="long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO
+        tbl_service(service_title, service_price, category_code, service_content,service_explain,thumbnail_url)
+        VALUES
+        (#{ serviceTitle }, #{ servicePrice }, #{ categoryCode },#{ serviceContent }, #{serviceExplain},#{thumbnailUrl})
+    </insert>
+
+    <insert id="uploadImg" parameterType="team.trillion.yamuzip.service.model.dto.ImageDTO">
+        INSERT INTO tbl_img (img_origin_name, img_name, img_url, section, service_code)
+        VALUES
+        (#{imgOriginName}, #{imgName}, #{imgUrl}, #{section}, #{serviceCode})
+    </insert>
+
+    <insert id="registOption" parameterType="team.trillion.yamuzip.service.model.dto.OptionDTO">
+        INSERT INTO tbl_option (option_name, option_price, service_code)
+        VALUES
+        (#{optionName}, #{optionPrice}, #{serviceCode})
+    </insert>
+
 
 </mapper>
