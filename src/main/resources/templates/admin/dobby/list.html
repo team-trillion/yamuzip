@@ -54,7 +54,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="dobby : ${dobbyList}"
-                        th:onclick="|location.href='/dobby/detail?dobCode=${dobby.dobCode}'|">
+                        th:onclick="|location.href='detail?dobCode=${dobby.dobCode}'|">
                         <td th:text="${dobby.dobCode}"></td>
                         <td th:text="${dobby.userId}"></td>
                         <td th:text="${dobby.dobNickname}"></td>

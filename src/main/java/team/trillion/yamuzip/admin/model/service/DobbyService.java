@@ -24,7 +24,7 @@ public class DobbyService {
         return dobbyMapper.findAllDobby();
     }
 
-    public List<DobbyDTO> findDetailDobby(long dobbyCode) {
-        return dobbyMapper.findDetailDobby(dobbyCode);
+    public DobbyDTO findDetailDobby(int dobCode) {
+        return dobbyMapper.findDetailDobby(dobCode);
     }
 }

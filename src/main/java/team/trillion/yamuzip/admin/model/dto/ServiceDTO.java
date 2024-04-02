@@ -16,7 +16,7 @@ public class ServiceDTO {
     private int dobCode;
     private String serviceTitle;
     private int categoryCode;
-    private LocalDateTime serviceCreated;
+    private Date serviceCreated;
     private String thumbnailUrl;
 
 }
