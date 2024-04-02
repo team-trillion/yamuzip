@@ -16,7 +16,7 @@
     <select id="getOrderCount">
         SELECT
             count(CASE WHEN order_status = 'O' THEN 1 END) as order_count,
-            count(CASE WHEN order_status = 'A' THEN 1 END) as accept_count,
+            count(CASE WHEN order_status = 'A' THEN 1 END) as approve_count,
             count(CASE WHEN order_status = 'F' THEN 1 END) as finish_count
         FROM
             tbl_order a
@@ -120,7 +120,27 @@
                 LEFT JOIN
             tbl_option e on a.option_code = e.option_code
         WHERE
-            a.order_code = #{ orderCode };
+            a.order_code = #{ orderCode }
     </select>
 
+    <update id="approveOrder">
+        UPDATE
+            tbl_order
+        SET
+            order_status = 'A',
+            approval_datetime = CURRENT_TIMESTAMP
+        WHERE
+            order_code = #{ orderCode }
+    </update>
+
+    <update id="rejectOrder">
+        UPDATE
+            tbl_order
+        SET
+            order_status = 'R',
+            reject_reason = '${rejectReason}',
+            reject_datetime = CURRENT_TIMESTAMP
+        WHERE
+            order_code = #{ orderCode }
+    </update>
 </mapper>

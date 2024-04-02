@@ -3,6 +3,7 @@ package team.trillion.yamuzip.dobby.mypage.model.dao;
 import org.apache.ibatis.annotations.Mapper;
 import team.trillion.yamuzip.common.paging.SelectCriteria;
 import team.trillion.yamuzip.dobby.mypage.model.dto.OrderCountDTO;
+import team.trillion.yamuzip.order.model.dto.OrderRejectDTO;
 import team.trillion.yamuzip.user.mypage.model.dto.OrderDTO;
 import team.trillion.yamuzip.user.mypage.model.dto.OrderDetailDTO;
 
@@ -20,4 +21,8 @@ public interface OrderMapper {
     OrderCountDTO getOrderCount(int dobCode);
 
     OrderDetailDTO selectOrderDetail(int orderCode);
+
+    void approveOrder(int orderCode);
+
+    void rejectOrder(OrderRejectDTO orderReject);
 }

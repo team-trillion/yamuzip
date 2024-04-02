@@ -1,18 +1,25 @@
 package team.trillion.yamuzip.dobby.mypage.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import team.trillion.yamuzip.dobby.mypage.model.OrderService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import team.trillion.yamuzip.dobby.mypage.model.service.OrderService;
 import team.trillion.yamuzip.dobby.mypage.model.dto.OrderCountDTO;
 import team.trillion.yamuzip.dobby.mypage.model.dto.OrderDTO;
 import team.trillion.yamuzip.login.model.dto.UserDTO;
+import team.trillion.yamuzip.order.model.dto.OrderRejectDTO;
+import team.trillion.yamuzip.order.model.dto.PaymentDTO;
 import team.trillion.yamuzip.user.mypage.model.dto.OrderDetailDTO;
+import team.trillion.yamuzip.user.mypage.model.service.PaymentService;
 
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.HashMap;
@@ -26,6 +33,8 @@ import java.util.Objects;
 public class OrderController {
 
     private final OrderService orderService;
+    private final PaymentService paymentService;
+    private final MessageSourceAccessor messageSourceAccessor;
 
     @GetMapping("/order")
     public String getOrderList(@AuthenticationPrincipal UserDTO user,
@@ -72,6 +81,32 @@ public class OrderController {
 
         model.addAttribute("orderDetail", orderDetail);
         return "dobby/orderDetail";
+    }
+
+    @PostMapping("/orderApprove")
+    public String approveOrder(@RequestParam int orderCode, RedirectAttributes rttr) {
+        orderService.approveOrder(orderCode);
+        rttr.addFlashAttribute("message", messageSourceAccessor.getMessage("order.approve"));
+        return "redirect:/dobby/order";
+    }
+
+    @PostMapping("/orderReject")
+    public String rejectOrder(@RequestParam int orderCode,
+                              @RequestParam String rejectReason,
+                              @RequestParam(required = false) String rejectReasonEtc) throws IOException {
+
+        String token = paymentService.getToken();
+        PaymentDTO payment = paymentService.getPaymentByOrderCode(orderCode);
+        String reason = rejectReasonEtc != null ? rejectReasonEtc : rejectReason;
+
+        OrderRejectDTO orderReject = new OrderRejectDTO();
+        orderReject.setPayCode(payment.getPayCode());
+        orderReject.setOrderCode(orderCode);
+        orderReject.setRejectReason(reason);
+
+        orderService.rejectOrder(token, orderReject);
+
+        return "redirect:/dobby/order";
     }
 
 }

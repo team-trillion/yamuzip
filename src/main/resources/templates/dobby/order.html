@@ -4,20 +4,21 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/dobby}">
 <head>
     <th:block layout:fragments="userCss">
-    </th:block>
-    <style>
-        .white-box{
-            background: #F2F2F2;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0.5px 0.5px 2px 1px #eee;
-        }
-        .box { background: white; border-radius: 5px; padding: 30px; }
-        .box-div:not(:last-child) { border-right: 1px solid #888; }
+        <style>
+            .white-box{
+                background: #F2F2F2;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0.5px 0.5px 2px 1px #eee;
+            }
+            .box { background: white; border-radius: 5px; padding: 30px; }
+            .box-div:not(:last-child) { border-right: 1px solid #888; }
 
-        h1, h2, h3 { font-weight: 900; color: #003363; }
-        h4 { margin-bottom: 15px; font-weight: 700; color: #003363; }
-    </style>
+            h1, h2, h3 { font-weight: 900; color: #003363; }
+            h4 { margin-bottom: 15px; font-weight: 700; color: #003363; }
+
+        </style>
+    </th:block>
 </head>
 
 <body>
@@ -39,7 +40,7 @@
                         </div>
                         <div class="col-md-4 text-center box-div">
                             <h3>진행중</h3>
-                            <h1 th:text="${orderCount.getAcceptCount()}"></h1>
+                            <h1 th:text="${orderCount.getApproveCount()}"></h1>
                         </div>
                         <div class="col-md-4 text-center box-div">
                             <h3>완료</h3>
@@ -144,6 +145,20 @@
 <th:block layout:fragment="userScript">
     <!-- Main JS -->
     <script src="/js/main.js"></script>
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+        })
+        const message = '[[${message}]]';
+        message && Toast.fire({
+            icon: 'success',
+            title: message
+        });
+    </script>
 </th:block>
 
 </body>

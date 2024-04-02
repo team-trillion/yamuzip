@@ -20,7 +20,7 @@
 
             h1, h2, h3 { font-weight: 900; color: #003363; }
             h4 { margin-bottom: 15px; font-weight: 700; color: #003363; }
-            textarea { resize: none; max-width: 200px; }
+            textarea { resize: none; margin-top: 9px; }
 
             .modal-body > div{display: none;}
             .modal-body > div.show{display: block;}
@@ -59,7 +59,7 @@
                                         </tr>
                                         <tr>
                                             <th class="table-secondary">주문자</th>
-                                            <td class="table-light" sec:authentication="principal.userName"></td>
+                                            <td class="table-light" th:text="${orderDetail.userName}"></td>
                                         </tr>
                                         <tr>
                                             <th class="table-secondary">주문상태</th>
@@ -123,9 +123,12 @@
                                     </table>
                                     <hr>
                                     <div class="text-center" th:if="${orderDetail.orderStatus.getOrderStatus().equals('주문신청')}">
-                                        <button id="accept-btn" type="button" class="btn btn-primary btn-modal" data-toggle="modal" data-target="#applyModal">
-                                            주문 승인
-                                        </button>
+                                        <form action="/dobby/orderApprove" method="post" style="display: inline-block;">
+                                            <input type="hidden" name="orderCode" th:value="${orderDetail.orderCode}"/>
+                                            <button id="approve-btn" type="submit" class="btn btn-primary">
+                                                주문 승인
+                                            </button>
+                                        </form>
                                         <button id="reject-btn" type="button" class="btn btn-light btn-modal" data-toggle="modal" data-target="#applyModal">
                                             주문 거절
                                         </button>
@@ -136,7 +139,7 @@
                         </div>
                     </div>
                 </div>
-<!--            <div th:replace="~{user/mypage/orderCancel.html}"></div>-->
+            <div th:replace="~{dobby/orderReject.html}"></div>
 
             <!--여기까지 본인 페이지 코드 작성-->
         </section>
@@ -150,13 +153,13 @@
     <script>
         $(function(){
             //입력박스 숨어있다가
-            $("#cancelReasonEtc").hide();
-            $("#cancelReason").change(function() {
+            $("#rejectReasonEtc").hide();
+            $("#rejectReason").change(function() {
                 //기타를 선택하면 등장
-                if($("#cancelReason").val() == "etc") {
-                    $("#cancelReasonEtc").show();
+                if($("#rejectReason").val() == "etc") {
+                    $("#rejectReasonEtc").show();
                 }  else {
-                    $("#cancelReasonEtc").hide();
+                    $("#rejectReasonEtc").hide();
                 }
             })
         });
