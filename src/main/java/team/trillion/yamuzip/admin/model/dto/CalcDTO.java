@@ -12,6 +12,8 @@ import java.util.Date;
 @ToString
 public class CalcDTO {
 
+    private String selectMonth;
+
     // 금액
     private int orderCode;
     private int calPrice;

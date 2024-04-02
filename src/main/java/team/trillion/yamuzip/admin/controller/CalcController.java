@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import team.trillion.yamuzip.admin.model.dto.CalcDTO;
 import team.trillion.yamuzip.admin.model.dto.CalcDetailDTO;
 import team.trillion.yamuzip.admin.model.dto.CalcMonthlyDTO;
@@ -13,7 +12,6 @@ import team.trillion.yamuzip.admin.model.service.CalcService;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
 
 @Slf4j
 @Controller
@@ -36,24 +34,13 @@ public class CalcController {
         if(selectMonth == null) selectMonth = formattedCurrentDate;
 
         System.out.println(selectMonth);
-        List<CalcDTO> calcList = calcService.findAllCalc();
+        List<CalcDTO> calcList = calcService.findAllCalc(selectMonth);
         CalcMonthlyDTO calcMonthly = calcService.selectMonthlyDetail(selectMonth);
 
         model.addAttribute("calcList", calcList);
         model.addAttribute("calcMonthly", calcMonthly);
 
         return "admin/calc/monthly";
-    }
-
-    @PostMapping("/monthly")
-    public String chanchMonth(@ModelAttribute String selectMonth, Model model) {
-
-        CalcMonthlyDTO calcMonthly = calcService.selectMonthlyDetail(selectMonth);
-        model.addAttribute("selectMonth", selectMonth);
-
-        System.out.println(selectMonth);
-
-        return "redirect:/admin/calc/monthly";
     }
 
 
@@ -65,7 +52,6 @@ public class CalcController {
         model.addAttribute("calcDetail", calcDetail);
 
         return "admin/calc/detail";
-
     }
 
     @GetMapping("/complete")

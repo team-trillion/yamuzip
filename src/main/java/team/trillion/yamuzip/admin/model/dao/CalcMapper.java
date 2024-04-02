@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface CalcMapper {
-    List<CalcDTO> findAllCalc();
+    List<CalcDTO> findAllCalc(String selectMonth);
 
     CalcDetailDTO selectCalcDetail(int orderCode);
 
