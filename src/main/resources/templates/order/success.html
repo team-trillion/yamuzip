@@ -43,7 +43,7 @@
                         </tr>
                         <tr>
                             <th class="table-secondary">결제 수단</th>
-                            <td class="table-light" th:text="${orderResult.payType}"></td>
+                            <td class="table-light" th:text="${orderResult.payType.getPayType()}"></td>
                         </tr>
                     </table>
                     <hr>
@@ -63,7 +63,7 @@
 
                     <div class="text-center">
                         <button class="btn btn-primary" onclick="location.href='/'">메인으로</button>
-                        <button class="btn btn-primary" onclick="location.href='/'">주문내역</button>
+                        <button class="btn btn-primary" onclick="location.href='/mypage/order'">주문내역</button>
                     </div>
                 </div>
             </div>
