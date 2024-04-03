@@ -42,3 +42,7 @@ mybatis:
 #  위에 두줄만 지워라
 
 
+# 프로필 이미지
+profile:
+  imageDir: src/main/resources/upload/
+

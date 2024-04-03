@@ -15,8 +15,8 @@ public class MypageController {
     }
 
     // 유저 정보
-    @GetMapping("/profile")
-    public String userProfile() {
+//    @GetMapping("/profile")
+    public String modifyUser() {
         return "user/mypage/profile";
     }
 

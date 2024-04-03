@@ -9,7 +9,6 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
 
-
     UserDTO login(String userId);
     void regist(UserDTO user);
 

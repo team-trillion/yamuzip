@@ -31,8 +31,8 @@ public class RegistController {
     public String getDobby() { return "dobby/regist"; }
 
 
-    // 등록 신청 내역  모달창으로 변경하기!
-    @PostMapping("/become-a-dobby")
+    // 등록 신청 내역
+    @PostMapping("/dobby")
     public String registDobby(@RequestParam("applyCareer") String applyCareer, @AuthenticationPrincipal UserDTO user) {
 
         RegistDTO registDobby = new RegistDTO();
