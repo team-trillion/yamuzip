@@ -7,8 +7,13 @@
 
         <div class="container white-box" >
             <div class="row">
-                <div class="col-2 p-4 justify-content-center">
-                    <img src="/images/profile.png" alt="profile" class="img-circle img-thumbnail w-50 center-block">
+                <div class="col-3 p-4 justify-content-center">
+                    <div class="img">
+                        <img id="image-box"
+                             class="img-thumbnail custom-circle center-block"
+                             th:src="${#authentication.principal.userImg != null
+                                            ? #authentication.principal.userImg : '/images/profile.png'}" alt="유저 프로필"/>
+                    </div>
                 </div>
                 <div class="col d-flex align-items-start justify-content-center flex-column mb-2 ">
                     <div class="p-3" sec:authentication="principal.email"></div>

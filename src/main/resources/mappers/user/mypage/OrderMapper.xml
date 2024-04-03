@@ -168,9 +168,9 @@
             AND
                 user_code = #{ userCode }
             AND
-                order_status = 'C'
-            OR
-                order_status = 'R'
+                (order_status = 'C'
+                OR
+                order_status = 'R')
         </where>
         ORDER BY
             a.order_datetime DESC

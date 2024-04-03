@@ -4,15 +4,21 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/user}">
 <head>
     <th:block layout:fragments="userCss">
+        <style>
+            .white-box{
+                background: #F2F2F2;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0.5px 0.5px 2px 1px #eee;
+            }
+            .custom-circle {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                overflow: hidden;
+            }
+        </style>
     </th:block>
-    <style>
-        .white-box{
-            background: #F2F2F2;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0.5px 0.5px 2px 1px #eee;
-        }
-    </style>
 </head>
 
 <body>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+    <th:block layout:fragment="userCss">
+        <style>
+            .white-box{
+                background: #F2F2F2;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0.5px 0.5px 2px 1px #eee;
+            }
+            .custom-width {
+                width: 100px; /* 원하는 너비를 지정하세요 */
+            }
+            .custom-circle {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                overflow: hidden;
+            }
+        </style>
+    </th:block>
+</head>
+
+<body>
+<div id="fh5co-wrapper">
+    <div id="fh5co-page">
+        <div id="fh5co-header">
+            <th:block layout:fragment="headerFragment"></th:block>
+        </div>
+
+
+        <div layout:fragment="content">
+            <div class="fh5co-hero" style="height: auto;">
+                <section class="container-sm" style="padding-top: 150px;">
+
+                    <!--여기부터 본인 페이지 코드 작성-->
+
+<!--                    <form> -->
+                    <!-- 프로필바 -->
+                    <div class="container">
+                        <div class="row white-box">
+                            <div class="col-3 p-4 justify-content-center">
+                                <div class="img">
+                                    <img id="image-box"
+                                         class="img-thumbnail custom-circle center-block"
+                                         th:src="${dobby.dobImg != null? dobby.dobImg : '/images/profile.png'}" alt="도비 프로필"/>
+                                </div>
+                            </div>
+                            <div class="col d-flex align-items-start justify-content-center flex-column mb-2">
+                                <div class="p-3" th:text="${dobby.dobNickname}"></div>
+                                <div class="p-3" th:text="${#authentication.principal.phone}"></div>
+                            </div>
+                            <div class="col d-flex align-items-center justify-content-center">
+                                <button onClick="location.href='profile'" class="btn btn-primary">내 정보 등록/수정</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container">
+                        <div class="mt-5">
+                            <nav>
+                                <ul class="nav nav-underline border border-start-0 border-top-0 border-end-0  ">
+                                    <li class="nav-item">
+                                        <a class="nav-link active border-2" aria-current="page" href="#">소개</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <div class="row">
+<!--                                도비 소개-->
+                                <p class="col m-5" th:text="${dobby.dobContent}">
+                                </p>
+                                <div class="col-3 m-5">
+                                    <div class="card">
+                                        <div class="card-body m-3">
+                                            <h3 class="card-title fs-3">도비 정보</h3>
+                                            <div class="card-text fs-4 d-flex justify-content-between">
+                                                <span>지역</span>
+                                                <span th:text="${dobby.dobArea}"></span>
+                                            </div>
+                                            <div class="card-text fs-4 d-flex justify-content-between">
+                                                <span>영업일</span>
+                                                <span th:each="workday:${dobby.workdayList}" th:text="${workday.dayWeek}"></span>
+                                            </div>
+                                            <div class="card-text fs-4 d-flex justify-content-between">
+                                                <span>전문 분야</span>
+                                                <span th:text="${dobby.applyCareer}"></span>
+                                            </div>
+                                            <div class="card-text fs-4 d-flex justify-content-between">
+                                                <span>경력</span>
+                                                <span th:text="${dobby.dobCareerDays}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-5">
+                                <nav>
+                                    <ul class="nav nav-underline border border-start-0 border-top-0 border-end-0  ">
+                                        <li class="nav-item">
+                                            <a class="nav-link active border-2" aria-current="page" href="#">서비스</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <div class="row m-5 pb-5 border border-2 border-start-0 border-top-0 border-end-0">
+                                    <div class="card border-0">
+                                        <div class="row g-0">
+                                            <div class="col-md-4">
+                                                <img src="/images/profile.png" class="img-fluid rounded-start"
+                                                     alt="...">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body">
+                                                    <h5 class="card-title fs-3">서비스 이름</h5>
+                                                    <p class="card-text fs-4">This is a wider card with supporting text
+                                                        below as a natural lead-in to additional content. </p>
+                                                    <p class="card-text"><small class="text-body-secondary">Last updated
+                                                        3 mins ago</small></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--                                <div class="row m-5 pb-5 border border-2 border-start-0 border-top-0 border-end-0">-->
+                                <!--                                    <p href="#" class="text-center">+서비스 등록하기</p>-->
+                                <!--                                </div>-->
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--여기까지 본인 페이지 코드 작성-->
+<!--                    </form>-->
+
+                </section>
+            </div>
+        </div>
+        <!-- content -->
+
+    </div>
+    <!-- page -->
+</div>
+<!-- wrapper -->
+
+<th:block layout:fragment="userScript">
+    <!--본인 페이지 js 작성-->
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
+</th:block>
+
+</body>
+</html>

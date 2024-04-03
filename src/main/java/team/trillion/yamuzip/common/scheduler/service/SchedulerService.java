@@ -1,4 +1,4 @@
-package team.trillion.yamuzip.common.scheduler;
+package team.trillion.yamuzip.common.scheduler.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,6 +6,7 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team.trillion.yamuzip.common.scheduler.dao.SchedulerMapper;
 import team.trillion.yamuzip.common.scheduler.dto.OrderDTO;
 import team.trillion.yamuzip.order.model.dto.OrderCancelDTO;
 import team.trillion.yamuzip.order.model.service.PaymentService;

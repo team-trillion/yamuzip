@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.dobby.mypage.model.dao.ModifyMapper">
+
+
+    <resultMap id="modifyResultMap" type="team.trillion.yamuzip.dobby.mypage.model.dto.ModifyDTO">
+        <id property="dobCode" column="dob_code"/>
+        <collection property="workdayList" resultMap="workdayResultMap"/>
+    </resultMap>
+
+    <resultMap id="workdayResultMap" type="team.trillion.yamuzip.dobby.mypage.model.dto.WorkdayDTO">
+        <id column="{dayWeek=day_week, dobCode=dob_code}"/>
+    </resultMap>
+
+    <select id="getDobby" resultMap="modifyResultMap">
+        SELECT
+        a.dob_code,
+        a.user_code,
+        a.dob_img,
+        a.dob_nickname,
+        a.dob_content,
+        a.dob_area,
+        a.dob_career_days,
+        b.apply_career,
+        c.day_week,
+        c.dob_code
+        FROM
+        tbl_dobby a
+        JOIN
+        tbl_dob_apply b on(a.user_code = b.user_code)
+        JOIN
+        tbl_workday c on(a.dob_code = c.dob_code)
+        WHERE
+        a.user_code= #{userCode}
+    </select>
+
+
+    <update id="modifyDobby">
+        UPDATE
+        tbl_dobby
+        SET
+        dob_img = #{dobImg},
+        dob_nickname = #{dobNickname},
+        dob_content = #{dobContent},
+        dob_area = #{dobArea},
+        dob_career_days = #{dobCareerDays}
+        WHERE
+        user_code = #{userCode}
+    </update>
+
+</mapper>
