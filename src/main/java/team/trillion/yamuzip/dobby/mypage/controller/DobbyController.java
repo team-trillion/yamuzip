@@ -60,20 +60,9 @@ public class DobbyController {
         return "dobby/profile";
     }
 
-    // 도비 마이페이지 > 판매 관리
-    @GetMapping("/order")
-    public String dobbyOrder(Model model,
-                             @AuthenticationPrincipal UserDTO user) {
-        ModifyDTO dobby = modifyService.getDobby(user.getUserCode());
-        if(dobby == null) {
-            model.addAttribute("dobby", new ModifyDTO());
-        }
-        else {
-            model.addAttribute("dobby", dobby);
-
-            System.out.println(dobby);
-
-        }
+    // 도비 마이페이지 > 판매 관리 (OrderController로 이동)
+    // @GetMapping("/order")
+    public String dobbyOrder() {
         return "dobby/order";
     }
 

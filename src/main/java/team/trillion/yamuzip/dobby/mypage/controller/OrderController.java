@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import team.trillion.yamuzip.dobby.mypage.model.dto.ModifyDTO;
+import team.trillion.yamuzip.dobby.mypage.model.service.ModifyService;
 import team.trillion.yamuzip.dobby.mypage.model.service.OrderService;
 import team.trillion.yamuzip.dobby.mypage.model.dto.OrderCountDTO;
 import team.trillion.yamuzip.dobby.mypage.model.dto.OrderDTO;
@@ -32,6 +34,7 @@ import java.util.Objects;
 @RequestMapping("/dobby")
 public class OrderController {
 
+    private final ModifyService modifyService;
     private final OrderService orderService;
     private final PaymentService paymentService;
     private final MessageSourceAccessor messageSourceAccessor;
@@ -44,6 +47,14 @@ public class OrderController {
                                @RequestParam(required = false) String searchCondition,
                                @RequestParam(required = false) String searchValue,
                                Model model) {
+
+        ModifyDTO dobby = modifyService.getDobby(user.getUserCode());
+        if(dobby == null) {
+            model.addAttribute("dobby", new ModifyDTO());
+        }
+        else {
+            model.addAttribute("dobby", dobby);
+        }
 
         Map<String, String> searchMap = new HashMap<>();
         if(searchCondition == null && !Objects.equals(searchValue, "") && searchValue != null)
@@ -71,7 +82,14 @@ public class OrderController {
     }
 
     @GetMapping("/orderDetail")
-    public String getUserOrderDetail(@RequestParam int orderCode, Model model) {
+    public String getUserOrderDetail(@AuthenticationPrincipal UserDTO user,
+                                     @RequestParam int orderCode, Model model) {
+        ModifyDTO dobby = modifyService.getDobby(user.getUserCode());
+        if(dobby == null)
+            model.addAttribute("dobby", new ModifyDTO());
+        else
+            model.addAttribute("dobby", dobby);
+
         OrderDetailDTO orderDetail = orderService.selectOrderDetail(orderCode);
 
         orderDetail.setOrderDateString(orderDetail.getOrderDatetime()

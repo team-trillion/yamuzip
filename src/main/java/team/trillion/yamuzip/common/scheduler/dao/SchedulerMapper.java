@@ -1,4 +1,4 @@
-package team.trillion.yamuzip.common.scheduler;
+package team.trillion.yamuzip.common.scheduler.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import team.trillion.yamuzip.common.scheduler.dto.OrderDTO;
