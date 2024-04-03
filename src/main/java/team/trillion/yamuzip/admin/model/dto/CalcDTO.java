@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -37,5 +36,12 @@ public class CalcDTO {
     private String payStatus;
     private int calStatus;
 
+//    public String dateToString() {
+//
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+//        String formattedDateTime = this.reserveDatetime.format(formatter);
+//        return formattedDateTime;
+//
+//    }
 
 }

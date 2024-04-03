@@ -286,6 +286,17 @@
                 location.href = `/admin/calc/monthly?selectMonth=${currentYear}-${currentMonth.toString().padStart(2, '0')}`;
             });
 
+            // excel download btn
+            const ecBtn = document.querySelector('.ecBtn');
+
+            ecBtn.addEventListener('click', function () {
+                if (confirm(`${currentYear}년 ${currentMonth}월의 정산 자료를 다운받으시겠습니까?`) == true){
+                location.href = `/admin/excel?selectMonth=${currentYear}-${currentMonth.toString().padStart(2, '0')}`;
+            } else {
+                    return false;
+                }
+            });
+
 
         </script>
     </th:block>
