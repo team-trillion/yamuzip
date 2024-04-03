@@ -17,7 +17,7 @@ import team.trillion.yamuzip.login.model.dto.UserDTO;
 import team.trillion.yamuzip.order.model.dto.OrderRejectDTO;
 import team.trillion.yamuzip.order.model.dto.PaymentDTO;
 import team.trillion.yamuzip.user.mypage.model.dto.OrderDetailDTO;
-import team.trillion.yamuzip.user.mypage.model.service.PaymentService;
+import team.trillion.yamuzip.order.model.service.PaymentService;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;

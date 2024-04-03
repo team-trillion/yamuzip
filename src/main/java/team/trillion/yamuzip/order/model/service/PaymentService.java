@@ -1,4 +1,4 @@
-package team.trillion.yamuzip.user.mypage.model.service;
+package team.trillion.yamuzip.order.model.service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
