@@ -19,6 +19,7 @@ public class DobbyController {
 
     private final ModifyService modifyService;
 
+
     // 도비 마이페이지 메인
     @GetMapping("/mypage")
     public String dobbyMypage(Model model,
@@ -60,26 +61,70 @@ public class DobbyController {
     }
 
     // 도비 마이페이지 > 판매 관리
-    // @GetMapping("/order")
-    public String dobbyOrder() {
+    @GetMapping("/order")
+    public String dobbyOrder(Model model,
+                             @AuthenticationPrincipal UserDTO user) {
+        ModifyDTO dobby = modifyService.getDobby(user.getUserCode());
+        if(dobby == null) {
+            model.addAttribute("dobby", new ModifyDTO());
+        }
+        else {
+            model.addAttribute("dobby", dobby);
+
+            System.out.println(dobby);
+
+        }
         return "dobby/order";
     }
 
     // 도비 마이페이지 > 내 서비스
     @GetMapping("/service")
-    public String dobbyService() {
+    public String dobbyService(Model model,
+                               @AuthenticationPrincipal UserDTO user) {
+        ModifyDTO dobby = modifyService.getDobby(user.getUserCode());
+        if(dobby == null) {
+            model.addAttribute("dobby", new ModifyDTO());
+        }
+        else {
+            model.addAttribute("dobby", dobby);
+
+            System.out.println(dobby);
+
+        }
         return "dobby/service";
     }
 
     // 도비 마이페이지 > 수익 관리
     @GetMapping("/calc")
-    public String dobbyCalc() {
+    public String dobbyCalc(Model model,
+                            @AuthenticationPrincipal UserDTO user) {
+        ModifyDTO dobby = modifyService.getDobby(user.getUserCode());
+        if(dobby == null) {
+            model.addAttribute("dobby", new ModifyDTO());
+        }
+        else {
+            model.addAttribute("dobby", dobby);
+
+            System.out.println(dobby);
+
+        }
         return "dobby/calc";
     }
 
     // 도비 마이페이지 > 문의 관리
     @GetMapping("/cs")
-    public String dobbyCs() {
+    public String dobbyCs(Model model,
+                          @AuthenticationPrincipal UserDTO user) {
+        ModifyDTO dobby = modifyService.getDobby(user.getUserCode());
+        if(dobby == null) {
+            model.addAttribute("dobby", new ModifyDTO());
+        }
+        else {
+            model.addAttribute("dobby", dobby);
+
+            System.out.println(dobby);
+
+        }
         return "dobby/cs";
     }
 }
