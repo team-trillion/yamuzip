@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -17,6 +18,8 @@ public class DobbyApplyDTO {
     private String phone;
     private String applyCareer;
     private Date applyDatetime;
+    private LocalDateTime applyDone;
+    private String applyRejectReason;
     private String auth;
 
 }

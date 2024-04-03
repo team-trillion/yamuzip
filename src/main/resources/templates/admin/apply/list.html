@@ -54,7 +54,7 @@
                     <tbody>
                     <tr th:each="apply : ${applyList}">
                         <!-- th:onclick="|location.href='/apply/detail?applyCode=${apply.applyCode}'|"> -->
-                        <td th:text="${apply.applyCode}" class="align-middle"></td>
+                        <td th:text="${apply.applyCode}" class="applyCode align-middle"></td>
                         <td th:text="${apply.userId}" class="align-middle"></td>
                         <td th:text="${apply.userName}" class="align-middle"></td>
                         <td th:text="${apply.phone}" class="align-middle"></td>
@@ -67,14 +67,19 @@
                             </svg>
                         </button></td>
                         <td>
-                            <button type="button" class="dBtn btn btn-sm mb-2" style="background-color: #e5e5e5;">숨김
-                            </button>
-                            <br>
-                            <button type="button" class="dBtn btn btn-sm" style="background-color:#ffeaea;">삭제</button>
+                            <button type="button" class="approveBtn dBtn btn btn-sm mb-2" style="background-color: #e4eff5;" th:attr="data-apply-code=${apply.applyCode}">승인</button><br>
+                            <button type="button" class="rejectBtn dBtn btn btn-sm" style="background-color:#ffeaea;" th:attr="data-apply-code=${apply.applyCode}">거절</button>
                         </td>
                     </tr>
                     </tbody>
                 </table>
+
+                    <form action="/admin/apply/control" method="post" name="applyControl">
+                        <input type="hidden" name="applyCode">
+                        <input type="hidden" name="result">
+                        <input type="hidden" name="applyDone">
+                        <input type="hidden" name="applyRejectReason">
+                    </form>
                 </div>
 
 <!--                <h1 th:text="${applyList}"></h1>-->
@@ -97,25 +102,30 @@
                 </div>
                 <div class="modal-body">
                     <div th:each="apply : ${applyList}" th:id="|applyView${apply.applyCode}|">
-                        <h3 th:text="${apply.userName} + '님의 도비 신청 내용'"></h3>
+                        <h3 th:text="${apply.userName} + '님의 도비 신청'"></h3>
+                        <h5 th:text="'아이디 : ' + ${apply.userId}"></h5>
+                        <h5 th:text="'이름 : ' + ${apply.userName}"></h5>
+                        <h5 th:text="'연락처 : ' + ${apply.phone}"></h5>
                         <h5 th:text="'전문분야 : ' + ${apply.applyCareer}"></h5>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="closeBtn btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">닫기</button>
-                    <button type="submit" class="btn btn-primary">수락</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+
+
 <th:block layout:fragment="userScript">
     <!-- main js -->
     <script src="/js/main.js"></script>
     <script>
 
-      $(function(){
+        // 모달 닫기
+        $(function(){
         $(".btn-modal").click(function(){
             const applyCode = $(this).data('apply');
             const $targetModal = "#applyView"+applyCode;
@@ -130,8 +140,29 @@
               $('body').removeClass("modal-open")
           })
 
-      })
+        })
 
+        // 도비 승인 및 거절
+        const approveBtns = document.querySelectorAll('.approveBtn');
+        const rejectBtns = document.querySelectorAll('.rejectBtn');
+
+        const $applyControl = document.forms.applyControl;
+
+        approveBtns.forEach(btn => btn.addEventListener('click', function() {
+          if (confirm(`도비로 전환하시겠습니까?`)){
+              $applyControl.elements['applyCode'].value = btn.getAttribute("data-apply-code");
+              $applyControl.elements['result'].value = 'A';
+              $applyControl.submit();
+          }
+        }));
+
+        rejectBtns.forEach(btn => btn.addEventListener('click', function() {
+            if (confirm(`도비신청을 거절하시겠습니까?`)){
+              $applyControl.elements['applyCode'].value = btn.getAttribute("data-apply-code");
+              $applyControl.elements['result'].value = 'R';
+              $applyControl.submit();
+          }
+        }));
 
     </script>
 </th:block>

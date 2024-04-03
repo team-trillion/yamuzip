@@ -16,7 +16,6 @@ import team.trillion.yamuzip.login.model.service.UserService;
 import java.util.*;
 
 @Controller
-@RequestMapping("/login")
 @RequiredArgsConstructor
 public class UserController {
 

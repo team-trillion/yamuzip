@@ -10,26 +10,25 @@
             u.user_id,
             u.user_name,
             u.phone,
+--             CONCAT(SUBSTRING(u.phone, 1, 3), '-', SUBSTRING(u.phone, 4, 4), '-', SUBSTRING(u.phone, 8, 4)),
             a.apply_career,
             a.apply_datetime
         FROM
             tbl_dob_apply a
                 JOIN tbl_user u on (u.user_code = a.user_code)
         WHERE
-            auth != 'ADMIN';
+            apply_status = 'C'
     </select>
 
-<!--    <select id="selectApplyDetail" resultType="team.trillion.yamuzip.admin.model.dto.DobbyApplyDTO">-->
-<!--        SELECT-->
-<!--            a.apply_code,-->
-<!--            u.user_name,-->
-<!--            a.apply_career-->
-<!--        FROM-->
-<!--            tbl_dob_apply a-->
-<!--                JOIN tbl_user u on (u.user_code = a.user_code)-->
-<!--        WHERE-->
-<!--            a.apply_code = #{applyCode}-->
-<!--    </select>-->
+    <update id="applyControl">
+        UPDATE tbl_dob_apply
+        SET apply_status = #{ result },
+            apply_done = #{ applyDone },
+            apply_reject_reason = #{ applyRejectReason }
+        WHERE apply_code = #{ applyCode }
+    </update>
+
+
 
 
 </mapper>
