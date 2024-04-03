@@ -171,7 +171,7 @@
 
                                     <!-- 상세 페이지로 이동하는 링크 -->
                                     <a class="card-title p-3" style="color: #003363"
-                                       th:href="@{'/serviceInfo/{serviceCode}'(serviceCode=${service.serviceCode})}">
+                                       th:href="@{'/service/serviceDetail/{serviceCode}'(serviceCode=${service.serviceCode})}">
                                         <!-- Thymeleaf 문법을 사용하여 서비스 제목 출력 -->
                                         <b th:text="${service.serviceTitle}"></b>
                                     </a></div>

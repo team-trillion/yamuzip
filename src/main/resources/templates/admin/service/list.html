@@ -47,7 +47,7 @@
                             </thead>
                             <tbody>
                             <tr th:each="service : ${serviceList}"
-                                th:onclick="|location.href='/service/detail?serviceCode=${service.serviceCode}'|">
+                                th:onclick="|location.href='/serviceInfo/${service.serviceCode}'|">
                                 <td th:text="${service.serviceCode}" class="align-middle"></td>
                                 <td> <img th:src="@{${service.thumbnailUrl}}" alt="thumbnail" class="align-middle img-thumbnail"/></td>
                                 <td th:text="${service.dobCode}" class="align-middle"></td>

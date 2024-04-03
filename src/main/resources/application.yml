@@ -1,15 +1,22 @@
 # spring datasource config
 spring:
-#  mail:
-#    host: smtp.naver.com
-#    port: 465
-#    username: qkrquddjs9752@naver.com
-#    password: dlwldms1!@
-#    properties:
-#      mail.smtp.auth : true
-#      mail.smtp.ssl.enable: true
-#      mail.smtp.ssl.trust: smtp.naver.com
-#      mail.smtp.starttls.enable: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: yamzip@gmail.com
+    password: yvppuwhsjtsbnygi
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+          auth-code-expiration-millis: 1800000
+
 
 
   datasource:
@@ -29,7 +36,7 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
-      location: C:/00/10_spring/04_spring-comprehensive/ch01-comprehensive
+      location: /Users/eunjae/Desktop/project/newyamuzip
 
 # Mybatis config
 mybatis:
@@ -37,9 +44,16 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
     auto-mapping-behavior: full
+
 ##server:
 ##  port: 9000
 #  위에 두줄만 지워라
+
+# import api key
+imp:
+  api:
+    key: 7151635636482512
+    secret: RHSjuju5fNQnqaD78p6KmyzUdSj2lIWlSVtf9G4ZTU6VJ8ewvhIRCO4QFmWQIUqnkYB2AWnhjty6FdQR
 
 
 # 프로필 이미지

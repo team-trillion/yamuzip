@@ -9,5 +9,5 @@ import java.util.List;
 public interface DobbyMapper {
     List<DobbyDTO> findAllDobby();
 
-    List<DobbyDTO> findDetailDobby(long dobbyCode);
+    DobbyDTO findDetailDobby(int dobCode);
 }

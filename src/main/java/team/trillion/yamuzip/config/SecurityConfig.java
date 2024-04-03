@@ -48,7 +48,7 @@ public class SecurityConfig {
                     /* 로그인 페이지 설정 */
                     login.loginPage("/login");
                     /* 성공 시 랜딩 페이지 설정 */
-                    login.defaultSuccessUrl("/");
+                    login.defaultSuccessUrl("/main");
                     /* 로그인 실패 시 랜딩 페이지 설정 */
                     login.failureForwardUrl("/error/login");
                     login.usernameParameter("userId");

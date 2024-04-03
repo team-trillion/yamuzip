@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import team.trillion.yamuzip.common.enums.OrderStatus;
 import team.trillion.yamuzip.common.enums.PayStatus;
+import team.trillion.yamuzip.common.enums.PayType;
 
 import java.time.LocalDateTime;
 
@@ -18,9 +19,8 @@ public class OrderDetailDTO {
     private int userCode;
     private String userName;
     private OrderStatus orderStatus;
-    private String orderStatusString;
 
-    private String payType;
+    private PayType payType;
     private PayStatus payStatus;
     private String payStatusString;
     private int servicePrice;
@@ -34,5 +34,12 @@ public class OrderDetailDTO {
     private LocalDateTime reserveDatetime;
     private String reserveDateString;
 
+    private LocalDateTime rejectDatetime;
+    private String rejectDateString;
+    private String rejectReason;
+
+    private LocalDateTime cancelDatetime;
+    private String cancelDateString;
+    private String cancelReason;
 
 }

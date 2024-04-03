@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/user}">
+<head>
+    <th:block layout:fragments="userCss">
+        <style>
+            .white-box{
+                background: #F2F2F2;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0.5px 0.5px 2px 1px #eee;
+            }
+            thead > tr > th, td:not(.title) { text-align: center; }
+            .table > tbody > tr > td { vertical-align: middle; line-height: 100px;}
+            .form-control, .input-sm { padding : 5px 10px;}
+            .img-col { width: 100px; }
+            .order-img { width: 100%; height:100%; object-fit: cover; }
+        </style>
+    </th:block>
+</head>
+
+<body>
+<div id="fh5co-header">
+    <th:block layout:fragment="headerFragment"></th:block>
+</div>
+
+<div layout:fragment="content">
+    <div class="fh5co-hero" style="height: auto;">
+        <!--                <div class="fh5co-overlay"></div>-->
+
+        <section class="container-sm">
+            <!--여기부터 본인 페이지 코드 작성-->
+
+            <div class="col mt-5">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" data-bs-toggle="tab" type="button" role="tab"
+                                onClick="location.href='/mypage/order'">주문 내역 조회</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" data-bs-toggle="tab" type="button" role="tab"
+                                onClick="location.href='/mypage/cancelList'">환불 내역 조회
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="mt-5 mb-5 white-box">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form id="searchForm" class="form-inline" action="/mypage/order" method="get">
+                                <nav class="navbar navbar-expand-lg text-right">
+                                    <div class="collapse navbar-collapse">
+                                        <div class="input-group input-daterange w-50" id="datepicker">
+                                            <input type="text" class="form-control input-sm" name="start" placeholder="연도. 월. 일." th:value="${ paging.start }"/>
+                                            <span class="input-group-addon input-sm">-</span>
+                                            <input type="text" class="form-control input-sm" name="end" placeholder="연도. 월. 일." th:value="${ paging.end }"/>
+                                        </div>
+                                        <input class="form-control input-sm w-25" type="text" id="searchValue" name="searchValue"
+                                               placeholder="서비스명으로 검색" th:value="${ paging.searchValue }"/>
+                                        <button class="btn btn-primary btn-sm" type="submit">조회</button>
+                                    </div>
+                                </nav>
+                            </form>
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>주문번호</th>
+                                    <th colspan="2">서비스 정보</th>
+                                    <th>주문일자</th>
+                                    <th>주문금액</th>
+                                    <th>주문상태</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="order-list" th:each="order : ${cancelList}" th:onclick="|location.href='/mypage/cancelDetail?orderCode=${order.orderCode}'|">
+                                    <td th:text="${order.orderCode}"></td>
+                                    <td class="img-col"><img class="order-img" th:src="${order.thumbnailUrl}"/></td>
+                                    <td class="title" th:text="${order.serviceTitle}"></td>
+                                    <td th:text="${order.orderDateString}"></td>
+                                    <td th:text="|${order.totalPrice}원|"></td>
+                                    <td th:text="${order.orderStatus.getOrderStatus()}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="paging" align="center" style="margin-top: 20px;">
+                        <th:block th:if="${ paging.searchCondition != null and paging.searchValue != null }">
+                            <!-- 맨 앞으로 이동 -->
+                            <button th:onclick="'location.href=\'/mypage/cancelList?page=1&searchCondition=' + @{${paging.searchCondition}} + '&searchValue=' + @{${paging.searchValue}} + '\''">
+                                &lt;&lt;
+                            </button>
+
+                            <!-- 이전 페이지로 이동 -->
+                            <button th:onclick="'location.href=\'/mypage/cancelList?page=' + @{${paging.page - 1}} + '&searchCondition=' + @{${paging.searchCondition}} + '&searchValue=' + @{${paging.searchValue}} + '\''"
+                                    th:disabled="${ paging.page <= 1 }">&lt;
+                            </button>
+
+                            <!-- 숫자 버튼 -->
+                            <th:block th:each="page : ${ #numbers.sequence(paging.startPage, paging.endPage)}">
+                                <button th:onclick="'location.href=\'/mypage/cancelList?page=' + @{${page}} + '&searchCondition=' + @{${paging.searchCondition}} + '&searchValue=' + @{${paging.searchValue}} + '\''"
+                                        th:text="${ page }" th:disabled="${ paging.page eq page }">
+                                </button>
+                            </th:block>
+
+                            <!-- 다음 페이지로 이동 -->
+                            <button
+                                    th:onclick="'location.href=\'/mypage/cancelList?page=' + @{${paging.page + 1}} + '&searchCondition=' + @{${paging.searchCondition}} + '&searchValue=' + @{${paging.searchValue}} + '\''"
+                                    th:disabled="${ paging.page >= paging.maxPage }">>
+                            </button>
+
+                            <!-- 맨 끝으로 이동 -->
+                            <button th:onclick="'location.href=\'/mypage/cancelList?page=' + @{${paging.maxPage}} + '&searchCondition=' + @{${paging.searchCondition}} + '&searchValue=' + @{${paging.searchValue}} + '\''">
+                                >>
+                            </button>
+                        </th:block>
+
+                        <th:block th:if="${ paging.searchCondition == null  || paging.searchValue == null }">
+                            <!-- 맨 앞으로 이동 -->
+                            <button th:onclick="'location.href=\'/mypage/cancelList?page=1\''">&lt;&lt;</button>
+
+                            <!-- 이전 페이지로 이동 -->
+                            <button th:onclick="'location.href=\'/mypage/cancelList?page=' + @{${paging.page - 1}} + '\''"
+                                    th:disabled="${ paging.page <= 1 }">&lt;
+                            </button>
+
+                            <!-- 숫자 버튼 -->
+                            <th:block th:each="page : ${ #numbers.sequence(paging.startPage, paging.endPage)}">
+                                <button th:onclick="'location.href=\'/mypage/cancelList?page=' + @{${page}} + '\''"
+                                        th:text="${ page }" th:disabled="${ paging.page eq page }">
+                                </button>
+                            </th:block>
+
+                            <!-- 다음 페이지로 이동 -->
+                            <button th:onclick="'location.href=\'/mypage/cancelList?page=' + @{${paging.page + 1}} + '\''"
+                                    th:disabled="${ paging.page >= paging.maxPage }">>
+                            </button>
+
+                            <!-- 맨 끝으로 이동 -->
+                            <button th:onclick="'location.href=\'/mypage/cancelList?page=' + @{${paging.maxPage}} + '\''">
+                                >>
+                            </button>
+                        </th:block>
+                    </div>
+                </div>
+
+            </div>
+            <!--여기까지 본인 페이지 코드 작성-->
+        </section>
+    </div>
+</div>
+<!-- content -->
+
+<th:block layout:fragment="userScript">
+    <!-- Main JS -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/locales/bootstrap-datepicker.ko.min.js"></script>
+    <script src="/js/main.js"></script>
+
+    <script th:inline="javascript">
+        $('.input-daterange').datepicker({
+            format: "yyyy-mm-dd",
+            language: "ko",
+            todayHighlight: true
+        });
+
+    </script>
+</th:block>
+
+</body>
+</html>

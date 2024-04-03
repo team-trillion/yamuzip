@@ -54,7 +54,7 @@
                         </thead>
                         <tbody>
                         <tr th:each="user : ${userList}"
-                            th:onclick="|location.href='/user/detail?userCode=${user.userCode}'|">
+                            th:onclick="|location.href='detail?userCode=${user.userCode}'|">
                             <td th:text="${user.userCode}"></td>
                             <td th:text="${user.userId}"></td>
                             <td th:text="${user.userName}"></td>

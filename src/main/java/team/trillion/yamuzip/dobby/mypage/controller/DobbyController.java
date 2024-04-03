@@ -60,7 +60,7 @@ public class DobbyController {
     }
 
     // 도비 마이페이지 > 판매 관리
-    @GetMapping("/order")
+    // @GetMapping("/order")
     public String dobbyOrder() {
         return "dobby/order";
     }

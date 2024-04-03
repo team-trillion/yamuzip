@@ -38,4 +38,21 @@ public class OrderService {
     public OrderDetailDTO selectOrderDetail(int orderCode) {
         return orderMapper.selectOrderDetail(orderCode);
     }
+
+    public Map<String, Object> selectAllCancelList(int userCode, Map<String, String> searchMap, int page) {
+        searchMap.put("userCode", String.valueOf(userCode));
+        int totalCount = orderMapper.selectCancelCount(searchMap);
+
+        int limit = 5;         // 한 페이지에 보여줄 게시물의 수
+        int buttonAmount = 5;   // 한 번에 보여질 페이징 버튼의 수
+        SelectCriteria selectCriteria = Pagenation.getSelectCriteria(page, totalCount, limit, buttonAmount, searchMap);
+
+        List<OrderDTO> cancelList = orderMapper.selectAllCancelList(userCode, selectCriteria);
+
+        Map<String, Object> cancelListAndPaging = new HashMap<>();
+        cancelListAndPaging.put("paging", selectCriteria);
+        cancelListAndPaging.put("cancelList", cancelList);
+
+        return cancelListAndPaging;
+    }
 }
