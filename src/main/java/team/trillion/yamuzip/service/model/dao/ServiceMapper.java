@@ -1,6 +1,7 @@
 package team.trillion.yamuzip.service.model.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import team.trillion.yamuzip.service.model.dto.*;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 public interface ServiceMapper {
     List<ServiceDTO> getServiceList();
 
-    List<ServiceDTO> getServiceDetail(long serviceCode);
+    ServiceDTO getServiceDetail(long serviceCode);
 
     List<ImageDTO> getImages();
 
@@ -20,6 +21,21 @@ public interface ServiceMapper {
     List<CsDTO> getCs(long serviceCode);
 
 
-    void registerService(ServiceDTO service);
+    void registService(ServiceDTO service);
 
+    List<CategoryDTO> getParentCategoryList();
+
+    List<CategoryDTO> getSubcategoriesByParentId(@Param("parentId") Long parentId);
+
+    void uploadImg(ImageDTO img);
+
+    void registOption(OptionDTO option);
+
+    ServiceDTO getServiceById(@Param("serviceCode") Long serviceCode);
+
+    void modifyService(ServiceDTO service);
+
+    void modifyOption(OptionDTO opt);
+
+    void modifyImg(ImageDTO imageDTO);
 }
