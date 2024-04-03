@@ -37,6 +37,16 @@
             <!--여기부터 본인 페이지 코드 작성-->
 
             <!--nav 옆 (content 안에 nav 있음)-->
+            <div class="my-5">
+                <div class="row white-box">
+                    <div class="col-7">
+                        <span th:text="${#authentication.principal.userNickname}">*정산 받을 계좌를 등록해주세요.</span>
+                    </div>
+                    <div class="col-5 text-right">
+                        <button type="button" class="btn btn-light">계좌 수정</button>
+                    </div>
+                </div>
+            </div>
 
             <!--여기까지 본인 페이지 코드 작성-->
         </section>
