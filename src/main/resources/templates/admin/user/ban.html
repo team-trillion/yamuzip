@@ -1,10 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/admin}">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <th:block layout:fragment="userCss">
+        <style>
+            .dashboardText > p > a:hover,
+            .dashboardText > div > div > a:hover {
+                color: #003f62 !important;
+            }
+
+            svg.bi {
+                color: rgba(38, 38, 38, 0.5);
+            }
+        </style>
+    </th:block>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 </head>
+
 <body>
+<div id="fh5co-header">
+    <th:block layout:fragment="headerFragment"></th:block>
+</div>
+
+
+<div layout:fragment="content">
+    <div class="fh5co-hero" style="height: auto">
+        <!--                <div class="fh5co-overlay"></div>-->
+        <section class="container-sm" style="padding-top: 150px">
+
+            <!-- start dashboard content -->
+            <div class="dashboardText col-md-10 col-sm-9 col-xs-8">
+
+                <p class="h3 border-bottom border-2 pb-3 px-2" style="color: #003f62">회원관리</p>
+
+                <div class="container-fluid">
+                    <div class="row mt-5">
+                        <div class="col rounded px-5 border text-center">
+                            <tr th:each="user : ${userInfo}">
+
+                                <p class="h3 pt-4" style="color: #003f62" th:text="|${user.userName} 회원|"></p>
+                                <p class="h5 pt-2" style="color: #003f62">정지할 기간을 선택해 주세요.</p>
+                                <form action="/admin/user/banModify" method="post" name="banModifyControl" class="my-4">
+                                    <input type="datetime-local" name="unban" class="unbanBtn" th:value="${user.unban}"
+                                           th:attr="data-unban=${user.unban}"> <br>
+                                    <p class="h6 lh-base my-1">미선택 시 기본 정지 기간은 1년입니다.</p>
+                                    <input type="hidden" name="userCode" class="userCodeBtn1"
+                                           th:attr="data-user-code=${user.userCode}">
+                                    <input type="hidden" name="userStatus">
+                                    <input type="submit" name="submitBtn" value="저장" class="banBtn h5"><br>
+                                </form>
+
+                                <div class="container-fluid mb-5">
+                                    <form action="/admin/user/banModify" method="post" name="banCancelControl">
+<!--                                        <button type="button" class="btn btn-sm btn-secondary mt-3">회원정지해제</button>-->
+                                        <input type="hidden" name="userCode" class="userCodeBtn2"
+                                               th:attr="data-user-code=${user.userCode}">
+                                        <input type="hidden" name="userStatus">
+                                        <input type="hidden" name="unban">
+                                        <input type="submit" name="cancelBtn" value="회원정지해제" class="btn btn-sm btn-secondary mt-3">
+                                    </form>
+                                    <button type="button" class="btn btn-sm btn-primary mt-3"
+                                            th:onclick="|location.href='/admin/user/list'|">회원목록조회
+                                    </button>
+                                </div>
+                            </tr>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- container -->
+        </section>
+    </div>
+    <!-- End dashboard content -->
+</div>
+<!-- End Page Title -->
+
+</div>
+
+<th:block layout:fragment="userScript">
+    <!-- main js -->
+    <script src="/js/main.js"></script>
+    <!-- user ban -->
+    <script>
+        const userCodeBtn1 = document.querySelector('.userCodeBtn1');
+        const userCodeBtn2 = document.querySelector('.userCodeBtn2');
+        const $banModifyControl = document.banModifyControl;
+        const $banCancelControl = document.banCancelControl;
+
+        $banModifyControl.addEventListener('submit', function (event) {
+            event.preventDefault()
+
+            if (confirm(`회원을 정지기간을 수정하시겠습니까?`)) {
+                $banModifyControl.elements['userCode'].value = userCodeBtn1.getAttribute("data-user-code");
+                $banModifyControl.elements['userStatus'].value = 'B';
+                $banModifyControl.submit();
+            }
+        });
+
+        $banCancelControl.addEventListener('submit', function (event) {
+            event.preventDefault()
+
+            if (confirm(`회원 정지 상태를 해제하시겠습니까?`)) {
+                $banCancelControl.elements['userCode'].value = userCodeBtn2.getAttribute("data-user-code");
+                $banCancelControl.elements['userStatus'].value = 'A';
+                $banCancelControl.elements['unban'].value = null;
+                $banCancelControl.submit();
+            }
+        });
+
+    </script>
+
+</th:block>
 
 </body>
 </html>
