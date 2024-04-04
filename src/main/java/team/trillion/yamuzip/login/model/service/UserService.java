@@ -22,7 +22,6 @@ public class UserService {
 
 
 
-
     @Transactional
     public void regist(UserDTO user) {
         // 사용자 비밀번호가 null이 아닌지 확인
@@ -48,7 +47,6 @@ public class UserService {
         List<String> userIdList = userMapper.findUserId(name, email);
         return userIdList.isEmpty() ? Collections.emptyList() : userIdList;
     }
-
 
 
 

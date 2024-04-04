@@ -7,13 +7,17 @@
     <th:block layout:fragment="userCss">
     </th:block>
     <style>
-        .fh5co-overlay{display: none;}
+        .fh5co-overlay {
+            display: none;
+        }
+
         .form-box {
             border: 1px solid #ccc; /* 테두리 스타일 지정 */
             padding: 20px; /* 내부 여백 지정 */
             border-radius: 10px; /* 테두리 둥글기 설정 */
             margin: 20px; /* 바깥쪽 여백 지정 */
         }
+
         .form-floating p {
             text-align: left;
             margin: 0;
@@ -25,9 +29,8 @@
 
 
     </style>
-    <script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    </script>
 </head>
 
 <body>
@@ -43,91 +46,83 @@
                 <div class="fh5co-overlay"></div>
                 <section class="container-sm" style="padding-top: 150px;">
 
-                <!--여기부터 본인 페이지 코드 작성-->
+                    <!--여기부터 본인 페이지 코드 작성-->
 
                     <h1> 비밀번호 찾기 </h1>
                     <main class="form-signin">
-                        <form>
-                            <!--                            <img class="mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
-                            <!--                            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>-->
+                        <form onsubmit="submit(event)">
+
                             <div class="form-box">
                                 <div style="padding: 10px"></div>
                                 <p style="font-weight: bold">| 본인확인 이메일인증</p>
                                 <div style="padding: 10px"></div>
-<!--                                <div class="form-floating">-->
-<!--                                    <P>이름</P>-->
-<!--                                    <div style="padding: 5px"></div>-->
-<!--                                    <input type="text" class="form-control" id="name" placeholder="이름을 입력하세요">-->
-<!--                                    &lt;!&ndash;                                <label for="floatingInput">Email address</label>&ndash;&gt;-->
-<!--                                </div>-->
+
                                 <div class="form-floating">
                                     <p>아이디</p>
                                     <div style="padding: 5px"></div>
                                     <input type="text" class="form-control" id="id" placeholder="아이디를 입력하세요">
-                                    <!--                                <label for="floatingPassword">Password</label>-->
-                                </div>
 
-                                <div class="mb-3">
-                                    <label for="email">이메일</label>
-                                    <div class="input-group">
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="metadog@example.com" required="required">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button" name="email" id="" onclick="checkEmail()">인증</button>
-                                        </span>
-                                    </div>
-                                    <span class="emailchk"></span>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="email">이메일인증번호 확인</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="email" name="email" placeholder="인증번호를 입력해주세요" required="required">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button" name="email" id="check" onclick="checkEmail()">확인</button>
-                                        </span>
-                                    </div>
-                                    <span class="emailchk"></span>
-                                </div>
 
-                                <div class="checkbox mb-3">
-                                    <div style="padding: 25px"></div>
-                                    <!--                                <label>-->
-                                    <!--                                    <input type="checkbox" value="remember-me"> Remember me-->
-                                    <!--                                </label>-->
-                                </div>
-<!--                                <button class="w-100 btn btn-lg btn-primary" type="submit">비빌번호 찾기</button>-->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                    비밀번호 찾기
-                                </button>
-                            </div>
-                            <div style="padding: 70px">
-                                <!-- Modal -->
-                                <div style="padding: 70px"></div>
-                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">비밀번호 찾기</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>임시 비밀번호 발급 완료.</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <!--                                            <button type="button" class="btn btn-primary">Save changes</button>-->
-                                            </div>
+
+                                    <div class="mb-3">
+                                        <label for="email">이메일</label>
+                                        <div class="input-group">
+                                            <input type="email" class="form-control" id="email" name="email"
+                                                   placeholder="metadog@example.com" required="required">
+                                            <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" name="email"
+                                                    id="check">인증</button>
+                                        </span>
                                         </div>
+                                        <span class="emailchk"></span>
                                     </div>
+
+                                    <!--                                <div class="mb-3">-->
+                                    <!--                                    <label for="">이메일인증번호 </label>-->
+                                    <!--                                    <div class="input-group">-->
+                                    <!--                                        <input type="text" class="form-control" id="memailconfirm"   placeholder="인증번호를 입력해주세요">-->
+                                    <!--                                        <span class="input-group-btn">-->
+                                    <!--                                            <button class="btn btn-default" type="button" id="checkConfirmation" >확인</button>-->
+                                    <!--                                        </span>-->
+                                    <!--                                    </div>-->
+                                    <!--                                    <span class="emailchk"></span>-->
+                                    <!--                                </div>-->
+                                    <div class="mb-3">
+                                        <label for="memailconfirm">이메일 인증번호 </label>
+                                        <input type="text" class="form-control" id="memailconfirm"
+                                               placeholder="인증번호를 입력해주세요">
+                                        <span class="input-group-btn">
+<!--                                                                        <button class="btn btn-default" type="button" id="a" >확인</button>-->
+                                                                        </span>
+                                        <span id="memailconfirmTxt"></span>
+                                    </div>
+
+                                    <div class="checkbox mb-3">
+                                        <div style="padding: 25px"></div>
+
+                                    </div>
+
+
+                                    <!--                                <button class="w-100 btn btn-lg btn-primary" type="submit">비빌번호 찾기</button>-->
+                                    <button class="btn btn-primary" id="checkEmail" onclick="password()">
+                                        비밀번호 찾기
+                                    </button>
+                                </div>
+                                <div style="padding: 70px">
+                                    <!-- Modal -->
+                                    <div style="padding: 70px"></div>
+
+
                                 </div>
 
                             </div>
-                            <!--                            <p class="mt-5 mb-3 text-muted">© 2017–2021</p>-->
+
                         </form>
 
                     </main>
-                <!--여기까지 본인 페이지 코드 작성-->
+                    <!--여기까지 본인 페이지 코드 작성-->
                 </section>
             </div>
         </div>
@@ -139,7 +134,96 @@
 <!-- wrapper -->
 
 <th:block layout:fragment="userScript">
-<!--본인 페이지 js 작성-->
+    <!--본인 페이지 js 작성-->
+    <script th:inline="javascript">
+        // let $email = $('#email');
+
+
+        const $checkButton = document.getElementById("check");
+        const $pwdButton = document.getElementById("checkEmail");
+        console.log($checkButton);
+
+        $pwdButton.disabled = true;
+
+        function checkEmail() {
+
+            var $email = $('#email');
+            var $memailconfirm = $('#memailconfirm');
+            var $memailconfirmTxt = $('#memailconfirmTxt');
+
+            $.ajax({
+                type: "POST",
+                url: "findPwd/mailConfirm",
+                data: {
+                    "email": $email.val()
+                },
+                success: function (data) {
+                    alert("해당 이메일로 인증번호 발송이 완료되었습니다.");
+                    console.log("data: " + data);
+                    chkEmailConfirm(data, $memailconfirm, $memailconfirmTxt);
+
+                },
+                error: (e) => console.log(e)
+            });
+
+        }
+
+        $checkButton.addEventListener("click", checkEmail);
+
+        function chkEmailConfirm(data, $emailconfirm, $emailconfirmTxt) {
+            $emailconfirm.on("keyup", function () {
+                if (data != $emailconfirm.val()) {
+                    $pwdButton.disabled = true;
+                    emconfirmchk = false;
+                    $emailconfirmTxt.html("<span id='emconfirmchk'>인증번호가 잘못되었습니다</span>");
+                    $("#emconfirmchk").css({
+                        "color": "#FA3E3E",
+                        "font-weight": "bold",
+                        "font-size": "10px"
+                    });
+
+                } else {
+                    $pwdButton.disabled = false;
+                    emconfirmchk = true;
+                    $emailconfirmTxt.html("<span id='emconfirmchk'>인증번호 확인 완료</span>");
+                    $("#emconfirmchk").css({
+                        "color": "#0D6EFD",
+                        "font-weight": "bold",
+                        "font-size": "10px"
+                    });
+                }
+            });
+        }
+
+        function password() {
+            var $email = $('#email').val();
+            var $memailconfirm = $('#memailconfirm').val();
+
+            // if ($email.val().trim() === '' || $memailconfirm.trim() === '') {
+            //     alert("이메일 및 인증번호를 인증하세요.")
+            //     return;
+            // }
+
+            $.ajax({
+                type: "POST",
+                url: "findPwd/sendPasswordResetCode",
+                data: {
+                    "email": $email
+                },
+                success: function (tempPassword) {
+                    alert("임시 비밀번호가 발송되었습니다. 이메일을 확인해주세요.")
+
+                    console.log("임시 비밀번호 :" + tempPassword);
+
+                },
+                error: function (e) {
+                    console.log("Error:", e);
+                    alert("임시 비밀번호 발송에 실패 하였습니다. 관리자에게 문의하세오.")
+                }
+
+            });
+        }
+    </script>
 </th:block>
 
 </body>

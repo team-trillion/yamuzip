@@ -7,20 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import team.trillion.yamuzip.login.model.dao.MailServiceInter;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 @Service
-public class RegisterMail implements MailServiceInter  {
+public class RegisterMail implements MailServiceInter {
 
     @Autowired
     JavaMailSender emailsender;
 
-    private String ePw;
+    public String ePw;
 
     @Override
-    public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException{
+    public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException {
 
         MimeMessage message = emailsender.createMimeMessage();
 
@@ -44,11 +45,12 @@ public class RegisterMail implements MailServiceInter  {
         msgg += "</div>";
         message.setText(msgg, "utf-8", "html");// 내용, charset 타입, subtype
         // 보내는 사람의 이메일 주소, 보내는 사람 이름
-        message.setFrom(new InternetAddress("yamuzip@gmail.com", "GoodJob_Admin"));// 보내는 사람
+        message.setFrom(new InternetAddress("yamuzip@gmail.com", "YAMUZIP_Admin"));// 보내는 사람
 
 
         return message;
     }
+
     // 랜덤 인증 코드 전송
     @Override
     public String createKey() {
@@ -76,6 +78,7 @@ public class RegisterMail implements MailServiceInter  {
 
         return key.toString();
     }
+
     @Override
     public String sendSimpleMessage(String to) throws Exception {
 
@@ -95,32 +98,7 @@ public class RegisterMail implements MailServiceInter  {
     }
 
 
-    public MimeMessage findPasswordResetEmail(String to) throws MessagingException, UnsupportedEncodingException{
-        MimeMessage message = emailsender.createMimeMessage();
-
-        message.addRecipients(MimeMessage.RecipientType.TO, to);
-        message.setSubject("yamuzip 임시 비밀번호 입니다.");
-
-        String msgg = "";
-        msgg += "<div style='margin:100px;'>";
-        msgg += "<h1> 안녕하세요</h1>";
-        msgg += "<h1> yamuzip입니다</h1>";
-        msgg += "<br>";
-        msgg += "<p>아래 임시비밀번호를 비밀번호찾기 창으로 돌아가 입력해주세요<p>";
-        msgg += "<br>";
-        msgg += "<br>";
-        msgg += "<div align='center' style='border:1px solid black; font-family:verdana';>";
-        msgg += "<h3 style='color:blue;'>비밀번호 찾기 입니다.</h3>";
-        msgg += "<div style='font-size:130%'>";
-        msgg += "CODE : <strong>";
-        msgg += ePw + "</strong><div><br/> "; // 메일에 인증번호 넣기
-        msgg += "</div>";
-        message.setText(msgg, "utf-8", "html");// 내용, charset 타입, subtype
-        // 보내는 사람의 이메일 주소, 보내는 사람 이름
-        message.setFrom(new InternetAddress("yamuzip@gmail.com", "GoodJob_Admin"));// 보내는 사람
-
-
-        return message;
-    }
-
 }
+
+
+

@@ -2,19 +2,20 @@ package team.trillion.yamuzip.login.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import team.trillion.yamuzip.auth.service.AuthService;
 import team.trillion.yamuzip.login.model.dto.UserDTO;
 import team.trillion.yamuzip.login.model.service.UserService;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("")
@@ -26,18 +27,11 @@ public class UserController {
     private final MessageSourceAccessor messageSourceAccessor;
 
 
-
-
     @GetMapping("/login")
-    public String getLoginPage(){
+    public String getLoginPage() {
         return "login/login";
     }
 
-//    @PostMapping("/login")
-//    public String getLoginPage1(@RequestParam String userId , @RequestParam String userPwd){
-//
-//        return "redirect:/main";
-//    }
 
     @PostMapping("loginFailed")
     public String loginFailed(RedirectAttributes rttr) {
@@ -67,7 +61,9 @@ public class UserController {
     }
 
     @GetMapping("/findId")
-    public String findId() {return "/login/findId";}
+    public String findId() {
+        return "/login/findId";
+    }
 
 
     @PostMapping("/findId")
@@ -85,14 +81,17 @@ public class UserController {
     }
 
     @GetMapping("/findPwd")
-    public String findPwd(Model model) {
-        return "login/findPwd";}
+    public String findPwd() {
+        return "login/findPwd";
+    }
 
-
-
-
-
-
+    //    @GetMapping("/findPassword")
+//    public String findPassword(Model model){
+//        return "login/findPassword";}
+    @PostMapping("/finPwd")
+    public String findPwd1() {
+        return "login/login";
+    }
 
     protected Authentication createNewAuthentication(String userId) {
 
