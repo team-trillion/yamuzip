@@ -1,20 +1,31 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns="http://www.w3.org/1999/html"
+      layout:decorate="~{layout/layout}">
 
 <head>
     <th:block layout:fragment="userCss">
+        <style>
+            .white-box{
+                background: #F2F2F2;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0.5px 0.5px 2px 1px #eee;
+            }
+            .custom-width {
+                width: 100px; /* 원하는 너비를 지정하세요 */
+            }
+            .custom-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            }
+        </style>
     </th:block>
-    <style>
-        .white-box {
-            background: #F2F2F2;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0.5px 0.5px 2px 1px #eee;
-        }
-
-    </style>
 </head>
 
 <body>
@@ -27,107 +38,111 @@
 
         <div layout:fragment="content">
             <div class="fh5co-hero" style="height: auto;">
+                <!--                <div class="fh5co-overlay"></div>-->
                 <section class="container-sm" style="padding-top: 150px;">
 
                     <!--여기부터 본인 페이지 코드 작성-->
 
-                    <!-- 프로필바 -->
-                    <div class="container">
-                        <div class="row white-box">
-                            <div class="col-2 p-4 justify-content-center">
-                                <img src="/images/profile.png" alt="profile"
-                                     class="img-circle img-thumbnail w-50 center-block">
-                            </div>
-                            <div class="col d-flex align-items-start justify-content-center flex-column mb-2">
-                                <div class="pt-3">홍길동</div>
-                                <div class="pb-3">lhs1119@gmail.com</div>
-                            </div>
-                            <div class="col d-flex align-items-center justify-content-center">
-                                <button class="btn btn-primary">내 정보 등록/수정</button>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="container">
-                        <div class="mt-5">
-                            <nav>
-                                <ul class="nav nav-underline border border-start-0 border-top-0 border-end-0  ">
-                                    <li class="nav-item">
-                                        <a class="nav-link active border-2" aria-current="page" href="#">소개</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                            <div class="row">
-                                <p class="col m-5">
-                                    안녕하세요!
-                                    우리는 청결과 안락을 위한 전문 청소 서비스를 제공합니다.
 
-                                    고객의 요구에 맞춰 맞춤형 서비스를 제공하며,
-                                    친환경적인 청소제와 방법을 사용하여 환경과 건강에도 신경을 씁니다.
+                    <!-- 프로필 등록 페이지 -->
 
-                                    언제든지 편안한 공간을 원하시는 분들께 최상의 서비스를 제공하기 위해 준비되어 있습니다. 문의나 예약은 언제든지 환영합니다. 감사합니다.
-                                </p>
-                                <div class="col-3 m-5">
-                                    <div class="card">
-                                        <div class="card-body m-3">
-                                            <h3 class="card-title fs-3">도비 정보</h3>
-                                            <div class="card-text fs-4 d-flex justify-content-between">
-                                                <span>지역</span>
-                                                <span>서울시 종로구</span>
-                                            </div>
-                                            <div class="card-text fs-4 d-flex justify-content-between">
-                                                <span>영업일</span>
-                                                <span>월.화.수.목.금</span>
-                                            </div>
-                                            <div class="card-text fs-4 d-flex justify-content-between">
-                                                <span>전문 분야</span>
-                                                <span>이사.청소</span>
-                                            </div>
-                                            <div class="card-text fs-4 d-flex justify-content-between">
-                                                <span>경력</span>
-                                                <span>10년 이상</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mt-5">
-                                <nav>
-                                    <ul class="nav nav-underline border border-start-0 border-top-0 border-end-0  ">
-                                        <li class="nav-item">
-                                            <a class="nav-link active border-2" aria-current="page" href="#">서비스</a>
-                                        </li>
-                                    </ul>
+                    <div class="row">
+                        <div class="col-2">
+                            <nav id="navbar-example3" class="h-100 flex-column align-items-stretch pe-4 border-end">
+                                <nav class="nav nav-pills flex-column">
+                                    <a class="nav-link" href="#item-1">➀ 도비 소개</a>
+                                    <a class="nav-link" href="#item-2">➁ 서비스 지역</a>
+                                    <a class="nav-link" href="#item-3">➂ 영업일 및 휴무일</a>
+                                    <a class="nav-link" href="#item-4">➂ 전문분야 및 경력</a>
                                 </nav>
-                                <div class="row m-5 pb-5 border border-2 border-start-0 border-top-0 border-end-0">
-                                    <div class="card border-0">
-                                        <div class="row g-0">
-                                            <div class="col-md-4">
-                                                <img src="/images/profile.png" class="img-fluid rounded-start"
-                                                     alt="...">
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="card-body">
-                                                    <h5 class="card-title fs-3">서비스 이름</h5>
-                                                    <p class="card-text fs-4">This is a wider card with supporting text
-                                                        below as a natural lead-in to additional content. </p>
-                                                    <p class="card-text"><small class="text-body-secondary">Last updated
-                                                        3 mins ago</small></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--                                <div class="row m-5 pb-5 border border-2 border-start-0 border-top-0 border-end-0">-->
-                                <!--                                    <p href="#" class="text-center">+서비스 등록하기</p>-->
-                                <!--                                </div>-->
+                            </nav>
+                        </div>
 
-                            </div>
+                        <div class="col-10">
+                            <div data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0">
+                                <div id="item-1">
+
+<!--                                    도비 등록-->
+                                    <form id="userInfoForm" action="/dobby/profile" method="post" enctype="multipart/form-data">
+
+                                        <h4>➀ 도비 소개</h4>
+
+
+
+                                        <!-- 프로필 이미지 등록 -->
+
+                                        <div class="img">
+                                            <img id="image-box"
+                                                 class="img-thumbnail custom-circle center-block"
+                                                 th:src="${dobby.dobImg != null? dobby.dobImg : '/images/profile.png'}" alt="도비 프로필"/>
+                                        </div>
+
+                                        <div class="file_box">
+
+                                            <button type="button" class="btn btn-light mt-3 center-block"
+                                                    onclick="fileCancled()">이미지 제거</button>
+
+                                            <input id="image-file-box" type="file" value="이미지 업로드" name="profile"
+                                                   class="btn btn-light mt-3 center-block"
+                                                   onchange="viewURL()"/>
+                                            <label for="image-file-box" class="upload_btn "></label>
+
+                                        </div>
+
+
+
+
+                                        <div class="center-block pt-5" style="width: 500px;">
+                                            도비 닉네임
+                                            <input type="text" id="dobNickname" name="dobNickname" class="form-control" th:value="${dobby.dobNickname}" th:placeholder="${dobby.dobNickname}">
+                                        </div>
+
+                                        <div class="center-block pt-5" style="width: 500px;">
+                                            자기 소개
+                                            <input type="text" id="dobContent" name="dobContent" class="form-control" style="height: 100px; width: 800px;" th:value="${dobby.dobContent}" th:placeholder="${dobby.dobContent}">
+                                        </div>
+
+
+
+                                        <div id="item-2">
+                                            <h4 class="py-5">➁ 서비스 지역</h4>
+                                            <div class="center-block pt-5" style="width: 500px;">
+                                                지역<input type="text" name="dobArea" class="form-control" th:value="${dobby.dobArea}" th:placeholder="${dobby.dobArea}">
+                                            </div>
+
+                                        </div>
+                                        <div id="item-3">
+                                            <h4 class="py-5">➂ 영업일 및 휴무일</h4>
+                                            <div class="center-block pt-5" style="width: 500px;">
+                                                영업일<input type="text" name="workdayList" class="form-control" th:each="workday:${dobby.workdayList}" th:value="${workday.dayWeek}" th:placeholder="${workday.dayWeek}">
+                                            </div>
+
+                                        </div>
+                                        <div id="item-4">
+                                            <h4 class="py-5">➂ 전문분야 및 경력</h4>
+                                            <div class="center-block pt-5" style="width: 500px;">
+                                                전문 분야<input type="text" name="applyCareer" class="form-control" th:value="${dobby.applyCareer}" th:placeholder="${dobby.applyCareer}">
+                                            </div>
+                                            <div class="center-block pt-5" style="width: 500px;">
+                                                경력<input type="text" name="dobCareerDays" class="form-control" th:value="${dobby.dobCareerDays}" th:placeholder="${dobby.dobCareerDays}">
+                                            </div>
+
+                                        </div>
+
+                                        <div class=" p-5">
+                                            <button type="submit" class="btn btn-primary mt-3 float-end" data-bs-toggle="modal" data-bs-target="#profileChangeModal">
+                                                내 정보 저장
+                                            </button>
+                                        </div>
+
+                                    </form>
+
+                                </div>
+
                         </div>
                     </div>
                     <!--여기까지 본인 페이지 코드 작성-->
-
                 </section>
             </div>
         </div>
@@ -142,6 +157,34 @@
     <!--본인 페이지 js 작성-->
     <!-- Main JS -->
     <script src="/js/main.js"></script>
+    <script>
+        function viewURL() {
+            const $imageFile = document.querySelector("#image-file-box");
+            const fReader = new FileReader();
+            fReader.readAsDataURL($imageFile.files[0]);
+            fReader.onload = function (event) {
+                const img = document.querySelector("#image-box");
+                img.src = event.target.result;
+                console.log("path : ", event.target.result);
+            }
+        }
+
+        function fileCancled() {
+            const $fileImg = document.querySelector("#image-box");
+            const $imageFileBox = document.querySelector("#image-file-box");
+
+            $fileImg.src = "/images/temp/profile.png";
+            $imageFileBox.value = "";
+
+            /* 위에 html에 form태그 name => userModifyForm */
+            const $userModifyForm = document.forms.userModifyForm;
+
+            /* 제거했을때 넘어오는 코드 */
+            $userModifyForm.insertAdjacentHTML("beforeend", `<input type="hidden" name="profileDelete" value="true"/>`);
+        }
+
+        console.log(document.forms)
+    </script>
 </th:block>
 
 </body>
