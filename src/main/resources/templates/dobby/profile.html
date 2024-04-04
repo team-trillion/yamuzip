@@ -68,8 +68,6 @@
 
                                         <h4>➀ 도비 소개</h4>
 
-
-
                                         <!-- 프로필 이미지 등록 -->
 
                                         <div class="img">
@@ -115,7 +113,28 @@
                                         <div id="item-3">
                                             <h4 class="py-5">➂ 영업일 및 휴무일</h4>
                                             <div class="center-block pt-5" style="width: 500px;">
-                                                영업일<input type="text" name="workdayList" class="form-control" th:each="workday:${dobby.workdayList}" th:value="${workday.dayWeek}" th:placeholder="${workday.dayWeek}">
+
+                                                <div class="form-check form-check-inline">
+                                                    <label class="form-check-label" >일</label>
+                                                    <label class="form-check-label" >월</label>
+                                                    <label class="form-check-label" >화</label>
+                                                    <label class="form-check-label" >수</label>
+                                                    <label class="form-check-label" >목</label>
+                                                    <label class="form-check-label" >금</label>
+                                                    <label class="form-check-label" >토</label>
+                                                </div>
+
+                                                <div class="form-check form-check-inline" th:each="day : ${#numbers.sequence(0, 6)}" >
+                                                    <input class="form-check-input" type="checkbox"  th:value="${day}" th:checked="${workdayList.contains(day)}">
+<!--                                                    ${workdayList.add(dobby.dobCode,day)}-->
+                                                </div>
+
+
+<!--                                                <div class="form-check form-check-inline" th:each="day : ${#numbers.sequence(0, 6)}" >-->
+<!--                                                    <input class="form-check-input" type="checkbox"  th:value="${dobby.workdayList.set(dobby.dobCode,day)}" th:checked="${workdayList.contains(day)}">-->
+<!--                                                    <input class="form-check-input" type="checkbox"  th:value="${dobby.workdayList.add(workdayDTO.setDayWeek(day))}" th:checked="${workdayList.contains(day)}">-->
+<!--                                                </div>-->
+
                                             </div>
 
                                         </div>

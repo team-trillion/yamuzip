@@ -83,11 +83,13 @@
                                             </div>
                                             <div class="card-text fs-4 d-flex justify-content-between">
                                                 <span>영업일</span>
-                                                <span th:each="workday:${dobby.workdayList}" th:text="${workday.dayWeek}"></span>
+                                                <div class="text-right">
+                                                    <span th:each="workday:${dobby.workdayList}" th:text="${workday.getDayOfWeek()}"></span>
+                                                </div>
                                             </div>
                                             <div class="card-text fs-4 d-flex justify-content-between">
                                                 <span>전문 분야</span>
-                                                <span th:text="${dobby.applyCareer}"></span>
+                                                <span th:span="${dobby.applyCareer}"></span>
                                             </div>
                                             <div class="card-text fs-4 d-flex justify-content-between">
                                                 <span>경력</span>
