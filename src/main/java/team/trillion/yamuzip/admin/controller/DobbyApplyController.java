@@ -9,6 +9,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import team.trillion.yamuzip.admin.model.dto.DobbyApplyDTO;
 import team.trillion.yamuzip.admin.model.service.DobbyApplyService;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -35,12 +36,18 @@ public class DobbyApplyController {
 
     @PostMapping("/control")
     public String applyDobbyControl(@RequestParam Integer applyCode,
+                                    @RequestParam String userCode,
                                     @RequestParam String result,
-                                    @RequestParam LocalDateTime applyDone,
+                                    @RequestParam (required = false) LocalDateTime applyDone,
                                     @RequestParam String applyRejectReason) {
+
+        if (applyDone == null) {
+            applyDone = LocalDateTime.now();
+        }
 
         Map<String, Object> applyMap = new HashMap<>();
         applyMap.put("applyCode", applyCode);
+        applyMap.put("userCode", userCode);
         applyMap.put("result", result);
         applyMap.put("applyDone", applyDone);
         applyMap.put("applyRejectReason", applyRejectReason);

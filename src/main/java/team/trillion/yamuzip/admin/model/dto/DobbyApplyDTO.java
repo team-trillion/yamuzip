@@ -13,6 +13,7 @@ import java.util.Date;
 public class DobbyApplyDTO {
 
     private int applyCode;
+    private int userCode;
     private String userId;
     private String userName;
     private String phone;

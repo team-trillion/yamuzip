@@ -26,5 +26,7 @@ public class DobbyApplyService {
 
     public void applyControl(Map<String, Object> applyMap) {
         dobbyApplyMapper.applyControl(applyMap);
+        if(applyMap.get("result").equals("A"))
+            dobbyApplyMapper.addDobby(applyMap);
     }
 }

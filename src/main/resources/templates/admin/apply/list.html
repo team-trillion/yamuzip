@@ -41,8 +41,8 @@
                 <table class="table table-hover">
                     <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">아이디</th>
+                        <th scope="col">no</th>
+                        <th scope="col">회원번호</th>
                         <th scope="col">이름</th>
                         <th scope="col">전화번호</th>
                         <th scope="col">전문분야</th>
@@ -55,7 +55,7 @@
                     <tr th:each="apply : ${applyList}">
                         <!-- th:onclick="|location.href='/apply/detail?applyCode=${apply.applyCode}'|"> -->
                         <td th:text="${apply.applyCode}" class="applyCode align-middle"></td>
-                        <td th:text="${apply.userId}" class="align-middle"></td>
+                        <td th:text="${apply.userCode}" class="align-middle"></td>
                         <td th:text="${apply.userName}" class="align-middle"></td>
                         <td th:text="${apply.phone}" class="align-middle"></td>
                         <td th:text="${apply.applyCareer}" class="align-middle"></td>
@@ -67,8 +67,8 @@
                             </svg>
                         </button></td>
                         <td>
-                            <button type="button" class="approveBtn dBtn btn btn-sm mb-2" style="background-color: #e4eff5;" th:attr="data-apply-code=${apply.applyCode}">승인</button><br>
-                            <button type="button" class="rejectBtn dBtn btn btn-sm" style="background-color:#ffeaea;" th:attr="data-apply-code=${apply.applyCode}">거절</button>
+                            <button type="button" class="approveBtn dBtn btn btn-sm mb-2" style="background-color: #e4eff5;" th:attr="data-apply-code=${apply.applyCode}, data-user-code=${apply.userCode}">승인</button><br>
+                            <button type="button" class="rejectBtn dBtn btn btn-sm" style="background-color:#ffeaea;" th:attr="data-apply-code=${apply.applyCode}, data-user-code=${apply.userCode}">거절</button>
                         </td>
                     </tr>
                     </tbody>
@@ -76,13 +76,12 @@
 
                     <form action="/admin/apply/control" method="post" name="applyControl">
                         <input type="hidden" name="applyCode">
+                        <input type="hidden" name="userCode">
                         <input type="hidden" name="result">
                         <input type="hidden" name="applyDone">
                         <input type="hidden" name="applyRejectReason">
                     </form>
                 </div>
-
-<!--                <h1 th:text="${applyList}"></h1>-->
 
             </div>
             <!--여기까지 본인 페이지 코드 작성-->
@@ -151,15 +150,20 @@
         approveBtns.forEach(btn => btn.addEventListener('click', function() {
           if (confirm(`도비로 전환하시겠습니까?`)){
               $applyControl.elements['applyCode'].value = btn.getAttribute("data-apply-code");
+              $applyControl.elements['userCode'].value = btn.getAttribute("data-user-code");
               $applyControl.elements['result'].value = 'A';
+              $applyControl.elements['applyRejectReason'].value = null;
               $applyControl.submit();
           }
         }));
 
         rejectBtns.forEach(btn => btn.addEventListener('click', function() {
-            if (confirm(`도비신청을 거절하시겠습니까?`)){
+            const rejectReason = prompt(`도비신청을 거절하시겠습니까?`, "거절사유 입력");
+            if (rejectReason !== null){
               $applyControl.elements['applyCode'].value = btn.getAttribute("data-apply-code");
+              $applyControl.elements['userCode'].value = btn.getAttribute("data-user-code");
               $applyControl.elements['result'].value = 'R';
+              $applyControl.elements['applyRejectReason'].value = rejectReason;
               $applyControl.submit();
           }
         }));

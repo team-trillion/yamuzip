@@ -7,6 +7,7 @@
     <select id="findAllApply" resultType="team.trillion.yamuzip.admin.model.dto.DobbyApplyDTO">
         SELECT
             a.apply_code,
+            u.user_code,
             u.user_id,
             u.user_name,
             u.phone,
@@ -24,8 +25,15 @@
         UPDATE tbl_dob_apply
         SET apply_status = #{ result },
             apply_done = #{ applyDone },
-            apply_reject_reason = #{ applyRejectReason }
+            apply_reject_reason = #{ applyRejectReason },
+            user_code = #{ userCode }
         WHERE apply_code = #{ applyCode }
+    </update>
+
+    <update id="addDobby">
+        UPDATE tbl_user
+        SET auth =  'DOBBY'
+        WHERE user_code = #{ userCode };
     </update>
 
 

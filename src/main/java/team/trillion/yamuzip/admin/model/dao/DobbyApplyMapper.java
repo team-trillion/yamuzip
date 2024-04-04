@@ -13,4 +13,5 @@ public interface DobbyApplyMapper {
     DobbyApplyDTO selectApplyDetail(int applyCode);
 
     void applyControl(Map<String, Object> applyMap);
+    void addDobby(Map<String, Object> applyMap);
 }
