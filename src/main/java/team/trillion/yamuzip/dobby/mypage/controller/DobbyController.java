@@ -7,7 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import team.trillion.yamuzip.dobby.mypage.model.dto.AccountDTO;
 import team.trillion.yamuzip.dobby.mypage.model.dto.ModifyDTO;
+import team.trillion.yamuzip.dobby.mypage.model.dto.WorkdayDTO;
 import team.trillion.yamuzip.dobby.mypage.model.service.ModifyService;
 import team.trillion.yamuzip.login.model.dto.UserDTO;
 
@@ -48,6 +50,7 @@ public class DobbyController {
         }
         else {
             model.addAttribute("dobby", dobby);
+            model.addAttribute("workdayList", dobby.getWorkdayList().stream().map(WorkdayDTO::getDayWeek).toList());
 
             System.out.println(dobby);
 
@@ -84,7 +87,7 @@ public class DobbyController {
     }
 
     // 도비 마이페이지 > 수익 관리
-    @GetMapping("/calc")
+//    @GetMapping("/calc")
     public String dobbyCalc(Model model,
                             @AuthenticationPrincipal UserDTO user) {
         ModifyDTO dobby = modifyService.getDobby(user.getUserCode());
