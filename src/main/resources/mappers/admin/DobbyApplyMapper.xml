@@ -32,7 +32,7 @@
 
     <update id="addDobby">
         UPDATE tbl_user
-        SET auth =  'DOBBY'
+        SET auth = 'DOBBY'
         WHERE user_code = #{ userCode };
     </update>
 

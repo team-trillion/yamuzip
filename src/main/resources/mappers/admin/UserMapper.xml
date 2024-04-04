@@ -6,17 +6,59 @@
 
     <select id="findAllUser" resultType="team.trillion.yamuzip.admin.model.dto.UserDTO">
         SELECT
+            u.user_code,
+            u.user_name,
+            u.user_id,
+            u.phone,
+            COUNT(DISTINCT r.review_code) AS userRev,
+            COUNT(DISTINCT c.cs_code) AS userCs,
+            u.regist_datetime,
+            MAX(o.order_datetime) AS orderDatetime
+        FROM
+            tbl_user u
+                LEFT JOIN tbl_order o ON o.user_code = u.user_code
+                LEFT JOIN tbl_review r ON r.writer_user_code = u.user_code
+                LEFT JOIN tbl_cs c ON c.writer_user_code = u.user_code
+        WHERE
+            u.auth != 'ADMIN' AND u.user_status = 'A'
+        GROUP BY
+            u.user_code, u.user_name, u.user_id, u.phone, u.regist_datetime
+        ORDER BY
+            u.user_code
+    </select>
+
+    <select id="findAllBanUser" resultType="team.trillion.yamuzip.admin.model.dto.UserDTO">
+        SELECT
             user_code,
             user_name,
             user_id,
             phone,
-            regist_datetime
+            regist_datetime,
+            unban
+        FROM
+            tbl_user u
+        WHERE
+            auth != 'ADMIN' AND user_status = 'B'
+        ORDER BY
+            unban ASC
+    </select>
+
+    <update id="banControl">
+        UPDATE tbl_user
+        SET user_status = #{ userStatus },
+            unban = #{ unban }
+        WHERE user_code = #{ userCode }
+    </update>
+
+    <select id="findBanUser" resultType="team.trillion.yamuzip.admin.model.dto.UserDTO">
+        SELECT
+            user_code,
+            user_name,
+            unban
         FROM
             tbl_user
         WHERE
-            auth != 'ADMIN'
-        ORDER BY
-            user_code
+            user_code = #{ userCode }
     </select>
 
 

@@ -33,7 +33,7 @@
                 <p class="fs-5 pt-3 px-2">
                     <a href="/admin/dashboard/dashboard" class="text-black">관리자페이지</a> 〉 &nbsp;
                     <a href="/admin/dashboard/user" class="text-black">회원관리</a> 〉 &nbsp;
-                    <a href="" class="text-black fw-bolder">일반회원</a> &nbsp;
+                    <a href="" class="text-black fw-bolder">회원상태관리</a> &nbsp;
                 </p>
 
                 <div class="container-fluid border border-2 rounded p-5 mb-5">
@@ -45,27 +45,21 @@
                             <th scope="col">아이디</th>
                             <th scope="col">이름</th>
                             <th scope="col">전화번호</th>
-                            <th scope="col">리뷰</th>
-                            <th scope="col">문의</th>
-                            <th scope="col">가입일</th>
-                            <th scope="col">최근 결제일</th>
+                            <th scope="col">정지해제일</th>
                             <th scope="col">관리</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="user : ${userList}"
+                        <tr th:each="user : ${banUserList}"
                             th:onclick="|location.href='detail?userCode=${user.userCode}'|">
                             <td th:text="${user.userCode}"></td>
                             <td th:text="${user.userId}"></td>
                             <td th:text="${user.userName}"></td>
                             <td th:text="${user.phone}"></td>
-                            <td th:text="${user.userRev}"></td>
-                            <td th:text="${user.userCs}"></td>
-                            <td th:text="${#dates.format(user.registDatetime, 'yy.MM.dd')}"></td>
-                            <td th:text="${#dates.format(user.orderDatetime, 'yy.MM.dd')}"></td>
+                            <td th:text="${user.unban}"></td>
                             <td>
                                 <button type="button" class="banBtn badge dBtn btn btn-sm mb-2"
-                                        th:attr="data-user-code=${user.userCode}, data-user-name=${user.userName}" onclick="event.stopPropagation()">회원 정지</button>
+                                        th:attr="data-user-code=${user.userCode}, data-user-name=${user.userName}" onclick="event.stopPropagation()">정지 설정</button>
                         </tr>
                         </tbody>
                     </table>
@@ -94,11 +88,8 @@
         const $banControl = document.forms.banControl;
 
         banBtn.forEach(btn => btn.addEventListener('click', function() {
-            if (confirm(`회원을 정지하겠습니까?`)) {
                 $banControl.elements['userCode'].value = btn.getAttribute("data-user-code");
-                $banControl.elements['userStatus'].value = 'B';
                 $banControl.submit();
-            }
         }));
     </script>
 </th:block>
