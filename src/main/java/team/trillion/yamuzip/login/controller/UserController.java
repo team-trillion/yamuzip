@@ -15,15 +15,12 @@ import team.trillion.yamuzip.login.model.service.UserService;
 
 import java.util.*;
 
-@Controller
-// @RequestMapping("/login")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
     private final AuthService authService;
     private final MessageSourceAccessor messageSourceAccessor;
-
 
     @GetMapping("/login")
     public String getLoginPage(){
