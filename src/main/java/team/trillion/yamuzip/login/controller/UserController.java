@@ -23,7 +23,6 @@ public class UserController {
     private final AuthService authService;
     private final MessageSourceAccessor messageSourceAccessor;
 
-
     @GetMapping("/login")
     public String getLoginPage(){
         return "login/login";
