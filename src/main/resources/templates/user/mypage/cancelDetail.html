@@ -12,6 +12,12 @@
                 border-radius: 5px;
                 box-shadow: 0.5px 0.5px 2px 1px #eee;
             }
+            .custom-circle {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                overflow: hidden;
+            }
             /*thead > tr > th, td:not(.title) { text-align: center; }*/
             .service-table > tbody > tr > td { vertical-align: middle; line-height: 100px;}
             .form-control, .input-sm { padding : 5px 10px;}
@@ -74,7 +80,7 @@
                                         </tr>
                                         <tr>
                                             <th class="table-secondary">주문자</th>
-                                            <td class="table-light" sec:authentication="principal.userName"></td>
+                                            <td class="table-light" th:text="${orderDetail.userName}"></td>
                                         </tr>
                                         <tr>
                                             <th class="table-secondary">취소/거절일자</th>

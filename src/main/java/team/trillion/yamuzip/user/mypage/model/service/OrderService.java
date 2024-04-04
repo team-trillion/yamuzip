@@ -53,6 +53,9 @@ public class OrderService {
         cancelListAndPaging.put("paging", selectCriteria);
         cancelListAndPaging.put("cancelList", cancelList);
 
+        System.out.println("(service) userCode : " + userCode);
+        System.out.println("cancelList : " + cancelList);
+
         return cancelListAndPaging;
     }
 }

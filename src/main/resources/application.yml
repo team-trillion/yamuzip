@@ -1,21 +1,21 @@
 # spring datasource config
 spring:
   mail:
-    host: smtp.gmial.com
+    host: smtp.gmail.com
     port: 587
     username: yamzip@gmail.com
     password: yvppuwhsjtsbnygi
     properties:
       mail:
         smtp:
-          auth:
-            starttls:
-              enable:
-                required:
-                  connectiontimeout: 5000
-                  timeout: 5000
-                  writetimeout: 5000
-                  auth-code-expiration-mullis: 1800000
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+          auth-code-expiration-millis: 1800000
 
 
 
@@ -44,13 +44,19 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
     auto-mapping-behavior: full
+
 ##server:
 ##  port: 9000
 #  위에 두줄만 지워라
-
 
 # import api key
 imp:
   api:
     key: 7151635636482512
     secret: RHSjuju5fNQnqaD78p6KmyzUdSj2lIWlSVtf9G4ZTU6VJ8ewvhIRCO4QFmWQIUqnkYB2AWnhjty6FdQR
+
+
+# 프로필 이미지
+profile:
+  imageDir: src/main/resources/upload/
+

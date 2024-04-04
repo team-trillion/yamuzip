@@ -2,16 +2,14 @@ package team.trillion.yamuzip.order.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import team.trillion.yamuzip.common.exception.OrderFailedException;
 import team.trillion.yamuzip.order.model.dto.*;
 import team.trillion.yamuzip.order.model.service.OrderService;
-import team.trillion.yamuzip.user.mypage.model.service.PaymentService;
+import team.trillion.yamuzip.order.model.service.PaymentService;
 
 import java.io.IOException;
 import java.util.HashSet;

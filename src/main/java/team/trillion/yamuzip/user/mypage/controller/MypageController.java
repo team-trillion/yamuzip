@@ -15,8 +15,8 @@ public class MypageController {
     }
 
     // 유저 정보
-    @GetMapping("/profile")
-    public String userProfile() {
+//    @GetMapping("/profile")
+    public String modifyUser() {
         return "user/mypage/profile";
     }
 
@@ -29,7 +29,7 @@ public class MypageController {
     // 유저 마이페이지 > 주문 관리
     // @GetMapping("/order")
     public String userOrder() {
-        return "user/mypage/order";
+        return "user/mypage/orderList";
     }
 
     // 유저 마이페이지 > 리뷰 쓰기
