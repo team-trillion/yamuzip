@@ -253,9 +253,9 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
         INSERT INTO
-        tbl_service(service_title, service_price, category_code, service_content,service_explain,thumbnail_url)
+        tbl_service(service_title, service_price, category_code, service_content,service_explain,thumbnail_url,dob_code)
         VALUES
-        (#{ serviceTitle }, #{ servicePrice }, #{ categoryCode },#{ serviceContent }, #{serviceExplain},#{thumbnailUrl})
+        (#{ serviceTitle }, #{ servicePrice }, #{ categoryCode },#{ serviceContent }, #{serviceExplain},#{thumbnailUrl},#{dobCode})
     </insert>
 
     <insert id="uploadImg" parameterType="team.trillion.yamuzip.service.model.dto.ImageDTO">

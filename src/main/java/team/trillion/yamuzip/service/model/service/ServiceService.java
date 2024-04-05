@@ -46,6 +46,9 @@ public class ServiceService {
 
     @Transactional
     public void registService(ServiceDTO service, List<ImageDTO> img) {
+//        if (!isValidProductName(service.getServiceTitle())) {
+//            throw new IllegalArgumentException("서비스 제목에 특수 문자를 포함할 수 없습니다.");
+//        }
         serviceMapper.registService(service);
         service.getOption().forEach(opt -> {
             opt.setServiceCode(service.getServiceCode());
@@ -56,6 +59,15 @@ public class ServiceService {
             serviceMapper.uploadImg(imageDTO);
         });
 
+
+    }
+
+    private boolean isValidProductName(String serviceTitle) {
+        // 특수 문자를 포함하지 않는지 확인하는 정규 표현식
+        String regex = "^[a-zA-Z0-9ㄱ-ㅎ가-힣\\s]*$";
+
+        // 정규 표현식에 맞는지 검사
+        return serviceTitle.matches(regex);
     }
 
     @Transactional(readOnly = true)

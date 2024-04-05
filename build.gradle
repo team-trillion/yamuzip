@@ -28,6 +28,7 @@ dependencies {
 //    implementation 'org.springframework:spring-context-support:6.0.7'
 //    implementation 'com.sun.mail:jakarta.mail:2.0.1'
     // <------->
+
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'

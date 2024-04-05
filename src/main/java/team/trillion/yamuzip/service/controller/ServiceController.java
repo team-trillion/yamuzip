@@ -81,6 +81,7 @@ public class ServiceController {
 
     @PostMapping(value = "/serviceRegist")
     public String serviceRegist(@ModelAttribute ServiceDTO service,
+//                                @RequestParam(value = "dobCode",required = false) long dobCode,
                                 @RequestParam(value = "serviceDetailImg", required= false ) List<MultipartFile> serviceDetailImg,
                                 @RequestParam MultipartFile serviceThumbnail,
                                 Model model
@@ -122,13 +123,14 @@ public class ServiceController {
         }
 
         char section = 'S';
-        long serviceCode = service.getServiceCode();
+
 
         service.setThumbnailUrl("/uploadFiles/" + imgName);
         img.add(new ImageDTO(imgOriginName, imgName, "/uploadFiles/", section));
         log.info("img : {}", img);
         log.info("service : {}", service);
         /* 서비스 등록 */
+//        service.setDobCode(dobCode); // 도비 코드
         serviceService.registService(service, img);
         model.addAttribute("message", "이미지 업로드 완료");
 
