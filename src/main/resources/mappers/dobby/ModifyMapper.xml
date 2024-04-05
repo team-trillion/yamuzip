@@ -18,8 +18,8 @@
         SELECT
         a.dob_code,
         a.user_code,
-        a.dob_img,
         a.dob_nickname,
+        a.dob_img,
         a.dob_content,
         a.dob_area,
         a.dob_career_days,
@@ -30,12 +30,11 @@
         tbl_dobby a
         JOIN
         tbl_dob_apply b on(a.user_code = b.user_code)
-        JOIN
+        LEFT JOIN
         tbl_workday c on(a.dob_code = c.dob_code)
         WHERE
         a.user_code= #{userCode}
     </select>
-
 
     <update id="modifyDobby">
         UPDATE
@@ -49,5 +48,36 @@
         WHERE
         user_code = #{userCode}
     </update>
+
+
+
+<!--    <update id="modifyWorkday">-->
+<!--        UPDATE-->
+<!--        tbl_workday-->
+<!--        SET-->
+<!--        dob_code = #{dobCode},-->
+<!--        day_week = #{dayWeek}-->
+<!--        WHERE-->
+<!--        dob_code = #{dobCode}-->
+<!--    </update>-->
+
+
+   <insert id="registWorkday">
+       INSERT INTO
+            tbl_workday(dob_code, day_week)
+       VALUES
+            (#{dobCode}, #{dayWeek})
+   </insert>
+
+
+
+    <delete id="deleteWorkday" parameterType="map">
+        DELETE FROM
+            tbl_workday
+        WHERE
+            dob_code = #{dobCode}
+        AND
+            day_week = #{dayWeek}
+    </delete>
 
 </mapper>

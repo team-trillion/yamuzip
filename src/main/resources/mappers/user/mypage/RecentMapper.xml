@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.user.mypage.model.dao.RecentMapper">
+
+    <select id="recentList" resultType="team.trillion.yamuzip.user.mypage.model.dto.ServiceDTO">
+        SELECT
+        service_code,
+        dob_code,
+        category_code,
+        service_title,
+        service_price,
+        service_status,
+        thumbnail_url
+        FROM
+        tbl_service
+    </select>
+
+    <select id="recentTotal" resultType="team.trillion.yamuzip.user.mypage.model.dto.ServiceDTO">
+    </select>
+
+
+</mapper>

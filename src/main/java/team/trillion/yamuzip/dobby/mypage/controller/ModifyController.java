@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.trillion.yamuzip.auth.service.AuthService;
+import team.trillion.yamuzip.dobby.mypage.model.dto.ModifyTmpDTO;
 import team.trillion.yamuzip.dobby.mypage.model.dto.WorkdayDTO;
 import team.trillion.yamuzip.login.model.dto.UserDTO;
 import team.trillion.yamuzip.dobby.mypage.model.dto.ModifyDTO;
@@ -20,8 +21,6 @@ import team.trillion.yamuzip.dobby.mypage.model.service.ModifyService;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,7 +43,9 @@ public class ModifyController {
     public String modifyUser(Model model,
                              @AuthenticationPrincipal UserDTO user){
 
+        System.out.println("user.getUserCode() = " + user.getUserCode());
         ModifyDTO dobby = modifyService.getDobby(user.getUserCode());
+
         if(dobby == null) {
             model.addAttribute("dobby", new ModifyDTO());
         }
@@ -54,8 +55,8 @@ public class ModifyController {
 
             System.out.println(dobby);
             System.out.println(dobby.getWorkdayList());
-
         }
+        System.out.println("dobby : " + dobby);
 
         return "dobby/profile";
     }
@@ -63,21 +64,44 @@ public class ModifyController {
 
     /* 회원 정보 수정 */
     @PostMapping("/profile")
-    public String modifyUser(String dobNickname, String dobContent, String dobArea, String dobCareerDays,
+    public String modifyUser(@ModelAttribute ModifyTmpDTO modify,
                              @AuthenticationPrincipal UserDTO user,
                              Model model,
                              /* 프로필이미지 delete추가 */
                              @RequestParam(required = false)boolean profileDelete,
                              @RequestParam(required = false) MultipartFile profile) {
 
+        System.out.println(modify);
         /* 도비 정보 수정 */
 
-        ModifyDTO modifyDobby = new ModifyDTO();
-        modifyDobby.setUserCode(user.getUserCode());
-        modifyDobby.setDobNickname(dobNickname);
-        modifyDobby.setDobContent(dobContent);
-        modifyDobby.setDobArea(dobArea);
-        modifyDobby.setDobCareerDays(dobCareerDays);
+//        ModifyDTO modifyDobby = new ModifyDTO();
+//        modifyDobby.setUserCode(user.getUserCode());
+        modify.setUserCode(user.getUserCode());
+//        modifyDobby.setDobNickname(dobNickname);
+//        modifyDobby.setDobContent(dobContent);
+//        modifyDobby.setDobArea(dobArea);
+//        modifyDobby.setDobCareerDays(dobCareerDays);
+
+//        modifyDobby.setDobNickname(modify.getDobNickname());
+//        modifyDobby.setDobContent(modify.getDobContent());
+//        modifyDobby.setDobArea(modify.getDobArea());
+//        modifyDobby.setDobCareerDays(modify.getDobCareerDays());
+
+
+
+        /* 도비 WORKDAY 삭제 후 수정 */
+
+        List<String> workdayList = modify.getWorkdayList();
+        for (String day : workdayList) {
+            modifyService.deleteWorkday(modify.getDobCode(),Integer.parseInt(day));
+
+            WorkdayDTO modifyWorkday = new WorkdayDTO();
+            modifyWorkday.setDobCode(modify.getDobCode());
+            modifyWorkday.setDayWeek(Integer.parseInt(day));
+
+            modifyService.registWorkday(modifyWorkday);
+        }
+
 
         /* 도비 이미지 업로드 */
 
@@ -95,19 +119,20 @@ public class ModifyController {
             if (!dir.exists()) dir.mkdirs();
             try {
                 profile.transferTo(new File(finalFilePath));
-                model.addAttribute("userImg", "/upload/profile-images/" + savedName);
+                model.addAttribute("dobImg", "/upload/profile-images/" + savedName);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             String saveFileName = "/upload/profile-images/" + savedName;
-            modifyDobby.setDobImg(saveFileName);
-            model.addAttribute("modifyDobby", modifyDobby);
+            modify.setDobImg(saveFileName);
+            model.addAttribute("dobImg", modify);
         }
         if (profileDelete) {
-            modifyDobby.setDobImg("removed");
+            modify.setDobImg("removed");
         }
 
-        modifyService.modifyDobby(modifyDobby);
+        modifyService.modifyDobby(modify);
+        System.out.println(modify);
 
         SecurityContextHolder.getContext().setAuthentication(createNewAuthentication(user.getUserId()));
 
