@@ -1,43 +1,122 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
-
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin}">
 <head>
-    <th:block layout:fragment="userCss">
+    <th:block layout:fragments="userCss">
+        <style>
+            .white-box {
+                background: #F2F2F2;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0.5px 0.5px 2px 1px #eee;
+            }
+
+            .custom-circle {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                overflow: hidden;
+            }
+
+            thead > tr > th, td:not(.title) {
+                text-align: center;
+            }
+
+            .table > tbody > tr > td {
+                vertical-align: middle;
+                line-height: 100px;
+            }
+
+            .form-control, .input-sm {
+                padding: 5px 10px;
+            }
+
+            .img-col {
+                width: 100px;
+            }
+
+            .order-img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        </style>
     </th:block>
 </head>
 
 <body>
-<div id="fh5co-wrapper">
-    <div id="fh5co-page">
-        <div id="fh5co-header">
-            <th:block layout:fragment="headerFragment"></th:block>
-        </div>
-
-
-        <div layout:fragment="content">
-            <div class="fh5co-hero" style="height: auto">
-<!--                <div class="fh5co-overlay"></div>-->
-                <section class="container-sm" style="padding-top: 150px;">
-
-                <!--여기부터 본인 페이지 코드 작성-->
-
-
-
-                <!--여기까지 본인 페이지 코드 작성-->
-                </section>
-            </div>
-        </div>
-        <!-- content -->
-
-    </div>
-    <!-- page -->
+<div id="fh5co-header">
+    <th:block layout:fragment="headerFragment"></th:block>
 </div>
-<!-- wrapper -->
+
+<div layout:fragment="content">
+    <div class="fh5co-hero" style="height: auto;">
+        <section class="container-sm" style="padding-top: 150px;">
+            <!--여기부터 본인 페이지 코드 작성-->
+            <div class="row">
+                <div class=" col">
+                    <p class="fs-5 pt-3 px-2">
+                        <a href="/admin/dashboard" class="text-black">관리자페이지</a> 〉 &nbsp;
+                        <a href="/admin/dashboard/user" class="text-black">회원관리</a> 〉 &nbsp;
+                        <a href="/admin/user/list" class="text-black">일반회원조회</a>
+                    </p>
+
+                    <div class="container-fluid border border-2 rounded p-5 mb-5">
+                        <tr th:each="userInfo : ${userInfo}">
+                            <div class="col text-center m-5">
+                                <img th:src="${userInfo.userImg}" alt="profile" class="bd-placeholder-img card-img-top img-circle img-fluid"
+                                     style="width: 15rem; height: 15rem;">
+                                <h3 class="mt-5 fs-2 fw-bold mb-3 text-dark" th:text="${userInfo.userName}"></h3>
+                                <h3 class="pt-0 fs-4 fw-bold my-1 text-dark" th:text="${userInfo.email}"></h3>
+                            </div>
+                            <!--                                <div class="mx-5 mb-5" style="border-bottom: solid 0.5px #c4c4c4;"></div>-->
+                        </tr>
+                        <div class="container-fluid d-flex justify-content-evenly w-50">
+                            <div class="row text-dark my-5 lh-lg">
+                                <tr class="order-list" th:each="user : ${userInfo}">
+                                    <div class="col-6">이름</div>
+                                    <div class="col-6 text-end" th:text="${user.userName}"></div>
+                                    <div class="col-6">아이디</div>
+                                    <div class="col-6 text-end" th:text="${user.userId}"></div>
+                                    <div class="col-6">이메일</div>
+                                    <div class="col-6 text-end" th:text="${user.email}"></div>
+                                    <div class="col-6">전화번호</div>
+                                    <div class="col-6 text-end" th:text="${user.phone}"></div>
+                                    <div class="col-6">가입일</div>
+                                    <div class="col-6 text-end"
+                                         th:text="${#dates.format(user.registDatetime, 'yy.MM.dd')}"></div>
+                                    <div class="col-6">권한</div>
+                                    <div class="col-6 text-end" th:text="${user.auth.getUserAuth()}"></div>
+                                    <div class="col-6">지역</div>
+                                    <div class="col-6 text-end" th:text="${user.area}"></div>
+                                </tr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
 
 <th:block layout:fragment="userScript">
-<!--본인 페이지 js 작성-->
+    <!-- Main JS -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/locales/bootstrap-datepicker.ko.min.js"></script>
+    <script src="/js/main.js"></script>
+
+    <script th:inline="javascript">
+        $('.input-daterange').datepicker({
+            format: "yyyy-mm-dd",
+            language: "ko",
+            todayHighlight: true
+        });
+
+    </script>
 </th:block>
 
 </body>
