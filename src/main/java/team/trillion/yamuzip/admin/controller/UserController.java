@@ -8,12 +8,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import team.trillion.yamuzip.admin.model.dto.UserDTO;
+import team.trillion.yamuzip.admin.model.dto.UserOrderDTO;
+import team.trillion.yamuzip.admin.model.dto.UserReviewDTO;
 import team.trillion.yamuzip.admin.model.service.UserService;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @Controller
@@ -34,6 +38,17 @@ public class UserController {
         model.addAttribute("userList", userList);
 
         return "admin/user/list";
+    }
+
+    @GetMapping("/detail")
+    public String getUserDetail(@RequestParam int userCode,
+                                Model model) {
+
+        List<UserDTO> userInfo = userService.findDetailUser(userCode);
+
+        model.addAttribute("userInfo", userInfo);
+
+        return "admin/user/detail";
     }
 
     @GetMapping("/banList")
@@ -101,7 +116,60 @@ public class UserController {
         return "redirect:/admin/user/banList";
     }
 
-    @GetMapping("/detail")
-    public void getUserDetail() {}
+    @GetMapping("/detailOrder")
+    public String getUserOrder(@RequestParam int userCode,
+                                @RequestParam(defaultValue = "1") int page,
+                                @RequestParam(required = false) String start,
+                                @RequestParam(required = false) String end,
+                                @RequestParam(required = false) String searchCondition,
+                                @RequestParam(required = false) String searchValue,
+                                Model model) {
+
+        Map<String, String> searchMap = new HashMap<>();
+        if(searchCondition == null && !Objects.equals(searchValue, "") && searchValue != null)
+            searchCondition = "serviceTitle";
+        searchMap.put("searchCondition", searchCondition);
+        searchMap.put("searchValue", searchValue);
+        searchMap.put("start", start);
+        searchMap.put("end", end);
+
+        Map<String, Object> orderListAndPaging = userService.selectAllOrderList(userCode, searchMap, page);
+        model.addAttribute("paging", orderListAndPaging.get("paging"));
+
+        List<UserOrderDTO> orderList = (List<UserOrderDTO>) orderListAndPaging.get("orderList");
+        for(UserOrderDTO order : orderList) {
+            order.setOrderDateString(order.getOrderDatetime().format(DateTimeFormatter.ISO_LOCAL_DATE));
+        }
+
+        List<UserDTO> userInfo = userService.findDetailUser(userCode);
+
+        model.addAttribute("userCode", userCode);
+        model.addAttribute("orderList", orderList);
+        model.addAttribute("userInfo", userInfo);
+
+        return "admin/user/detailOrder";
+    }
+
+    @GetMapping("/detailReview")
+    public String getUserReview(@RequestParam int userCode,
+                               @RequestParam(defaultValue = "1") int page,
+                               Model model) {
+
+        Map<String, Object> reviewListAndPaging = userService.selectAllReviewList(userCode, page);
+        model.addAttribute("paging", reviewListAndPaging.get("paging"));
+
+        List<UserReviewDTO> reviewList = (List<UserReviewDTO>) reviewListAndPaging.get("reviewList");
+        for(UserReviewDTO review : reviewList) {
+            review.setReviewDateString(review.getReviewCreated().format(DateTimeFormatter.ISO_LOCAL_DATE));
+        }
+
+        List<UserDTO> userInfo = userService.findDetailUser(userCode);
+
+        model.addAttribute("userCode", userCode);
+        model.addAttribute("reviewList", reviewList);
+        model.addAttribute("userInfo", userInfo);
+
+        return "admin/user/detailReview";
+    }
 
 }
