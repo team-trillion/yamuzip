@@ -37,9 +37,22 @@
             <result property="servicePrice" column="service_price"/>
             <result property="serviceCreated" column="service_created"/>
         </association>
-
-
     </resultMap>
+
+<!--    <resultMap id="getOption" type="team.trillion.yamuzip.service.model.dto.OptionDTO">-->
+<!--        <id property="optionCode" column="option_code"/>-->
+<!--        <result property="optionName" column="option_name"/>-->
+<!--        <result property="optionPrice" column="option_price"/>-->
+<!--        <association property="service" javaType="team.trillion.yamuzip.service.model.dto.ServiceDTO">-->
+<!--            <id property="serviceCode" column="service_code"/>-->
+<!--            <result property="serviceTitle" column="service_title"/>-->
+<!--            <result property="serviceExplain" column="service_explain"/>-->
+<!--            <result property="serviceContent" column="service_content"/>-->
+<!--            <result property="servicePrice" column="service_price"/>-->
+<!--            <result property="serviceCreated" column="service_created"/>-->
+<!--        </association>-->
+
+<!--    </resultMap>-->
     <resultMap id="getReviews" type="team.trillion.yamuzip.service.model.dto.ReviewDTO">
         <id property="reviewCode" column="review_code"/>
         <result property="reviewCreated" column="review_created"/>
@@ -118,7 +131,7 @@
         FROM
         tbl_img
         WHERE
-        service_code = (#{serviceCode})
+       service_code = #{serviceCode}
 
     </select>
     <select id="getOptions" resultType="team.trillion.yamuzip.service.model.dto.OptionDTO">
@@ -128,7 +141,7 @@
         FROM
         tbl_option
         WHERE
-        service_code = #{serviceCode}
+      service_code = #{serviceCode}
     </select>
 
     <select id="getReviews" resultMap="getReviews">
@@ -186,8 +199,29 @@
         tbl_service
         JOIN tbl_dobby ON tbl_service.dob_code = tbl_dobby.dob_code
         WHERE
-        service_code = #{serviceCode}
+        tbl_service.service_code = #{serviceCode}
+    </select>
+    <select id="getImagesById"  >
+        SELECT
+            img_code,
+        img_url,
+        img_origin_name,
+        img_name
+        FROM
+        tbl_img
+        WHERE
+        service_code = #{serviceCode};
 
+    </select>
+    <select id="getOptionById" >
+        SELECT
+            option_code,
+        option_name,
+        option_price
+        FROM
+        tbl_option
+        WHERE
+        service_code = #{serviceCode};
 
     </select>
     <!--    서비스 총 개수-->
@@ -237,4 +271,47 @@
     </insert>
 
 
+    <update id="modifyService">
+        UPDATE
+            tbl_service
+        SET
+            service_code = #{serviceCode},
+            service_title = #{serviceTitle} ,
+            service_price = #{servicePrice},
+            category_code = #{categoryCode},
+            service_content = #{serviceContent},
+            service_explain = #{serviceExplain},
+            thumbnail_url = #{thumbnailUrl}
+        WHERE
+            service_code = #{serviceCode}
+    </update>
+    <update id="modifyOption">
+        UPDATE
+            tbl_option
+        SET
+
+        option_name = #{optionName},
+            option_price = #{optionPrice}
+        WHERE
+            option_code = #{optionCode}
+    </update>
+    <update id="modifyImg">
+        UPDATE
+            tbl_img
+        SET
+        img_url = #{imgUrl},
+            img_origin_name = #{imgOriginName},
+            img_name = #{imgName}
+        WHERE
+            img_code = #{imgCode}
+    </update>
+    <update id="removeService">
+
+        UPDATE
+            tbl_service
+        SET
+            service_status = 'R'
+        WHERE
+            service_code = #{serviceCode}
+    </update>
 </mapper>

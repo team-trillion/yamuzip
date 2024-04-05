@@ -1,17 +1,14 @@
 package team.trillion.yamuzip.service.controller;
 
-import jakarta.servlet.http.HttpSession;
+import ch.qos.logback.classic.Logger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.util.StringUtils;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.thymeleaf.spring6.context.SpringContextUtils;
-import team.trillion.yamuzip.service.model.dao.ServiceMapper;
+
 import team.trillion.yamuzip.service.model.dto.*;
 import team.trillion.yamuzip.service.model.service.ServiceService;
 
@@ -27,6 +24,7 @@ import java.util.UUID;
 
 @Slf4j
 @Controller
+
 @RequestMapping("/service")
 public class ServiceController {
 
@@ -83,7 +81,7 @@ public class ServiceController {
 
     @PostMapping(value = "/serviceRegist")
     public String serviceRegist(@ModelAttribute ServiceDTO service,
-                                @RequestParam List<MultipartFile> serviceDetailImg,
+                                @RequestParam(value = "serviceDetailImg", required= false ) List<MultipartFile> serviceDetailImg,
                                 @RequestParam MultipartFile serviceThumbnail,
                                 Model model
     ) {
@@ -101,13 +99,15 @@ public class ServiceController {
             String ext = imgOriginName.substring(imgOriginName.lastIndexOf("."));
             String imgName = UUID.randomUUID() + ext;
             char section = 'S';
-            img.add(new ImageDTO(imgOriginName, imgName, "/uploadFiles", section));
 
             try {
                 files.transferTo(new File(imgUrl + "/" + imgName));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+
+            img.add(new ImageDTO(imgOriginName, imgName, "/uploadFiles/", section));
+
         }
 
 
@@ -122,9 +122,10 @@ public class ServiceController {
         }
 
         char section = 'S';
-        service.setThumbnailUrl("/uploadFiles/" + imgName);
-        img.add(new ImageDTO(imgOriginName, imgName, "/uploadFiles", section));
+        long serviceCode = service.getServiceCode();
 
+        service.setThumbnailUrl("/uploadFiles/" + imgName);
+        img.add(new ImageDTO(imgOriginName, imgName, "/uploadFiles/", section));
         log.info("img : {}", img);
         log.info("service : {}", service);
         /* 서비스 등록 */
@@ -135,69 +136,85 @@ public class ServiceController {
     }
 
 
-    @GetMapping("/serviceModify/{serviceCode}")
-    public String showEditForm(@PathVariable Long serviceCode, Model model) {
+    @GetMapping("/serviceModifyList/{serviceCode}")
+    public String serviceModifyPage(@PathVariable long serviceCode, Model model) {
         ServiceDTO service = serviceService.getServiceById(serviceCode);
+        List<OptionDTO> option = serviceService.getOptionById(serviceCode);
+        List<ImageDTO> img = serviceService.getImagesById(serviceCode);
+        System.out.println(serviceCode + "-----+++----");
         model.addAttribute("service", service);
-        return "/service/serviceModify"; // 수정 폼으로 이동
+        model.addAttribute("options", option);
+        model.addAttribute("img", img);
+        return "service/serviceModify"; // 수정 폼으로 이동
     }
 
-    @PostMapping(value = "/serviceUpdate/")
-    public String serviceUpdate(@ModelAttribute ServiceDTO service,
-                                @RequestParam List<MultipartFile> serviceDetailImg,
+    @PostMapping(value = "/serviceModify/{serviceCode}")
+    public String serviceModify(@ModelAttribute ServiceDTO service,
+                                @RequestParam(value = "imgCode",required = false) Long[] imgcode,
+                                @RequestParam(value = "serviceDetailImg", required = false) List<MultipartFile> serviceDetailImg,
                                 @RequestParam MultipartFile serviceThumbnail,
-                                Model model
-    ) {
-
+                                Model model) {
         /* 이미지 업로드 및 수정 */
         String root = "src/main/resources";
         String imgUrl = root + "/uploadFiles";
         File dir = new File(imgUrl);
 
         if (!dir.exists()) dir.mkdirs();
-        List<ImageDTO> img = new ArrayList<>();
+        List<ImageDTO> imageList = new ArrayList<>();
 
-        for (MultipartFile files : serviceDetailImg) {
-            String imgOriginName = files.getOriginalFilename();
-            String ext = imgOriginName.substring(imgOriginName.lastIndexOf("."));
-            String imgName = UUID.randomUUID() + ext;
-            char section = 'S';
-            img.add(new ImageDTO(imgOriginName, imgName, "/uploadFiles", section));
-
-            try {
-                files.transferTo(new File(imgUrl + "/" + imgName));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-
-        // 수정된 썸네일 이미지 업로드
-        String imgOriginName = serviceThumbnail.getOriginalFilename();
-        String ext = imgOriginName.substring(imgOriginName.lastIndexOf("."));
-        String imgName = UUID.randomUUID() + ext;
-
+        // 썸네일 이미지 업로드 및 처리
+        // 썸네일 이미지의 경우 이미지 코드가 필요하지 않으므로 그대로 업로드
         try {
-            serviceThumbnail.transferTo(new File(imgUrl + "/" + imgName));
+            String thumbnailOriginName = serviceThumbnail.getOriginalFilename();
+            String thumbnailExt = thumbnailOriginName.substring(thumbnailOriginName.lastIndexOf("."));
+            String thumbnailImgName = UUID.randomUUID() + thumbnailExt;
+
+            serviceThumbnail.transferTo(new File(imgUrl + "/" + thumbnailImgName));
+            service.setThumbnailUrl("/uploadFiles/" + thumbnailImgName);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        char section = 'S';
-        service.setThumbnailUrl("/uploadFiles/" + imgName);
+        // 추가 이미지 업로드 및 처리
+        if (serviceDetailImg != null && !serviceDetailImg.isEmpty()) {
+            for (int i = 0; i < serviceDetailImg.size(); i++) {
+                MultipartFile file = serviceDetailImg.get(i);
+                Long imgCode = imgcode[i]; // 이미지 코드
+                String imgOriginName = file.getOriginalFilename();
+                String ext = imgOriginName.substring(imgOriginName.lastIndexOf("."));
+                String imgName = UUID.randomUUID() + ext;
 
-        // 수정된 이미지 정보와 함께 서비스 정보 업데이트
-        img.add(new ImageDTO(imgOriginName, imgName, "/uploadFiles", section));
+                char section = 'S';
+                try {
+                    file.transferTo(new File(imgUrl + "/" + imgName));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
-        log.info("img : {}", img);
-        log.info("service : {}", service);
+                ImageDTO imgDTO = new ImageDTO(imgCode, imgOriginName, imgName, "/uploadFiles/", section);
+                imageList.add(imgDTO);
+            }
+        }
 
-        /* 서비스 수정 */
-        serviceService.updateService(service, img);
+        // 이미지 정보와 함께 서비스 정보 업데이트
+        serviceService.updateService(service, imageList);
         model.addAttribute("message", "서비스 수정 완료");
+        log.debug("serviceDetailImg size: {}", serviceDetailImg != null ? serviceDetailImg.size() : 0);
+
+        // 서비스 삭제
 
         return "redirect:/"; // 수정 성공 후 이동할 페이지
     }
+
+    @PostMapping("/removeService/{serviceCode}")
+    public String removoService( @PathVariable("serviceCode") long serviceCode) {
+        serviceService.removeService(serviceCode);
+
+        return "redirect:/";
+    }
+
+
+
 }
 
 

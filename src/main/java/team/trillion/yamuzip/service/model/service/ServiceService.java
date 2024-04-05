@@ -2,6 +2,7 @@ package team.trillion.yamuzip.service.model.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 import team.trillion.yamuzip.service.model.dao.ServiceMapper;
 import team.trillion.yamuzip.service.model.dto.*;
 
@@ -63,25 +64,40 @@ public class ServiceService {
     }
 
 
-    public List<CategoryDTO> getSubcategoriesByParentId(Long parentId) {
+    public List<CategoryDTO> getSubcategoriesByParentId(long parentId) {
         return serviceMapper.getSubcategoriesByParentId(parentId);
     }
 
 
-    public ServiceDTO getServiceById(Long serviceCode) {
+    public ServiceDTO getServiceById(long serviceCode) {
         return serviceMapper.getServiceById(serviceCode);
     }
 
+    @Transactional
     public void updateService(ServiceDTO service, List<ImageDTO> img) {
         serviceMapper.modifyService(service);
         service.getOption().forEach(opt -> {
-            opt.setServiceCode(service.getServiceCode());
+            //insert delete update 걸러내기
             serviceMapper.modifyOption(opt);
+            System.out.println(opt+"----------###");
         });
         img.forEach(imageDTO -> {
-            imageDTO.setServiceCode(service.getServiceCode());
             serviceMapper.modifyImg(imageDTO);
+            System.out.println(imageDTO+"===========================");
         });
+    }
+
+
+    public List<OptionDTO> getOptionById(long serviceCode) {
+        return serviceMapper.getOptionById(serviceCode);
+    }
+    public List<ImageDTO> getImagesById(long serviceCode) {
+        return serviceMapper.getImagesById(serviceCode);
+    }
+
+    public void removeService(long serviceCode) {
+
+        serviceMapper.removeService(serviceCode);
     }
 }
 

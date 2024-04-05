@@ -31,11 +31,17 @@ public interface ServiceMapper {
 
     void registOption(OptionDTO option);
 
-    ServiceDTO getServiceById(@Param("serviceCode") Long serviceCode);
+    ServiceDTO getServiceById(long serviceCode);
 
     void modifyService(ServiceDTO service);
 
     void modifyOption(OptionDTO opt);
 
-    void modifyImg(ImageDTO imageDTO);
+    void modifyImg(ImageDTO img);
+
+    List<OptionDTO> getOptionById(long serviceCode);
+
+    List<ImageDTO> getImagesById(long serviceCode);
+
+    void removeService(long serviceCode);
 }

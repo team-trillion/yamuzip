@@ -5,6 +5,7 @@
 
 <head>
     <th:block layout:fragment="userCss">
+
         <style>
             .form-group {
                 width: 500px;
@@ -112,26 +113,28 @@
 
                     <!--여기부터 본인 페이지 코드 작성-->
                     <div class="container2">
-                        <form id="myForm" action="/service/serviceRegist" method="post" enctype="multipart/form-data">
-                            <div class="form-groupImg col-md-4">
-                                <div class="card" style="width: 18rem;">
-                                    <img src="/images/설치_2.png" class="card-img-top img-thumbnail" alt="...">
+                        <form th:action="|/service/serviceModify/${service.serviceCode}|" id="myForm"  method="post" enctype="multipart/form-data">
+                            <div class="form-groupImg col-md-4" >
+                                <div class="card" style="width: 18rem;" >
+                                    <img th:src="@{${service.thumbnailUrl}}" class="card-img-top " alt="img">
                                 </div>
                                 <label for="thumbnailImg">썸네일 등록</label>
-                                <input type="file" name="serviceThumbnail" id="thumbnailImg">
+                                <input type="file" th:value="${service.thumbnailUrl}" name="serviceThumbnail" id="thumbnailImg">
                                 <label>추가 이미지</label>
-                                <input type="file" name="serviceDetailImg" id="detailImg" multiple>
+                                <div th:each="serviceDetailImg: ${img}">
+                                    <input type="hidden" th:value="${serviceDetailImg.imgCode}" name="imgCode">
+                                    <img th:src="@{${serviceDetailImg.imgUrl}}" alt="Image">
+                                    <input type="file" th:value="${serviceDetailImg.imgUrl}" name="serviceDetailImg" accept="image/*">
+                                </div>
+
 
                             </div>
-
-
 
                             <div class="form-group col-md-8">
                                 <label>서비스 이름</label>
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="titleInput"
-                                           placeholder="title" name="serviceTitle">
-                                    <label for="titleInput">Title</label>
+                                    <input  th:value="${service.serviceTitle}" name="serviceTitle" type="text" class="form-control" id="titleInput">
+                                    <label for="titleInput" ></label>
                                 </div>
                             </div>
 
@@ -141,7 +144,7 @@
 
                                 <div class="form-floating mb-3">
                                     <input type="number" class="form-control" id="priceInput2"
-                                           placeholder="price" name="servicePrice">
+                                          name="servicePrice" th:value="${service.servicePrice}" placeholder="price" >
                                     <label for="PriceInput2">Price</label>
                                 </div>
                             </div>
@@ -149,8 +152,8 @@
                             <div class="form-group col-md-8">
                                 <label>간단 설명</label>
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="explainInput"
-                                           placeholder="간단 설명" name="serviceExplain">
+                                    <input th:value="${service.serviceExplain}" name="serviceExplain" type="text" class="form-control" id="explainInput"
+                                           placeholder="간단 설명" >
                                     <label for="explainInput">explain</label>
                                 </div>
 
@@ -160,14 +163,14 @@
                                 <div>
                                     <label for="parentCategory">Parent Category:</label>
                                     <select id="parentCategory" onchange="loadSubcategories(this)">
-                                        <option value="">Select a parent category</option>
+                                        <option  value="">Select a parent category</option>
                                         <!-- Parent categories will be loaded dynamically here -->
                                     </select>
                                 </div>
                                 <div>
                                     <label for="subCategory">Subcategory:</label>
-                                    <select id="subCategory" name="categoryCode">
-                                        <option value="">Select a subcategory</option>
+                                    <select id="subCategory" name="categoryCode" th:value="${service.categoryCode}">
+                                        <option  value="">Select a subcategory</option>
                                         <!-- Subcategories will be loaded dynamically here -->
                                     </select>
                                 </div>
@@ -176,27 +179,42 @@
                             <div class="form-group col-md-12">
                                 <label>OPTIONS</label>
                                 <div class="input_wrap">
-                                    <div class="input_list">
-                                        <input style="margin-right: 5px" type="text" name="option[0].optionName"
-                                               aria-label="optionName" class="form-control" placeholder="옵션명을 입력하세요.">
-                                        <input type="number" name="option[0].optionPrice" aria-label="optionPrice"
-                                               class="form-control" placeholder="추가 금액을 입력하세요.">
+                                    <div class="input_list" th:each="option, stat : ${options}">
+                                        <input type="hidden" th:name="${'option[' + stat.index + '].optionCode'}" th:value="${option.optionCode}">
+                                        <!-- 옵션명 입력 필드 -->
+                                        <input style="margin-right: 5px" type="text" aria-label="optionName" th:name="${'option[' + stat.index + '].optionName'}"
+                                               th:value="${option.optionName}" class="form-control" />
+                                        <!-- 옵션가격 입력 필드 -->
+                                        <input th:name="${'option[' + stat.index + '].optionPrice'}" type="number" aria-label="optionPrice" class="form-control" th:value= "${option.optionPrice}"
+                                               placeholder="추가 금액을 입력하세요."/>
+                                        <!-- 삭제 링크 -->
+                                        <a href="javascript:void(0);" class="remove_field" style="width:100px; display: flex; justify-content: center">삭제</a>
                                     </div>
                                 </div>
                                 <button class="add_field">추가하기</button>
+
                             </div>
+
 
                             <div class="form-group col-md-12">
                                 <div id="editor" style="height: 400px">
                                 </div>
-                                <input type="hidden" id="quill_html" name="serviceContent">
+                                <input name="serviceContent" th:value="${service.serviceContent}" type="hidden" id="quill_html" >
 
                             </div>
 
 
-                                <button type="submit" name="submitButton">등록</button>
+                                <button onclick="submitForm()">수정하기</button>
 
                         </form>
+                        <form th:action="@{/service/removeService/{serviceCode}(serviceCode=${serviceCode})}" method="post" enctype="multipart/form-data">
+
+                            <input type="hidden" name="serviceCode" th:value="${service.serviceCode}" id="serviceCode" />
+                            <button type="submit">서비스 삭제</button>
+<!--                            <button id="deleteButton" onclick="updateServiceStatus('${service.serviceCode}')">삭제</button>-->
+
+                        </form>
+
 
 
                     </div>
@@ -216,7 +234,35 @@
 
 
     <script>
-
+        // function updateServiceStatus() {
+        //     var serviceCode = document.getElementById("serviceCode").value;
+        //     const code = parseInt(serviceCode);
+        //
+        //     if (confirm('서비스 상태를 변경하시겠습니까?')) {
+        //         fetch(`/service/serviceModify/${code}`, {
+        //             method: 'POST', // POST 메서드 사용
+        //             headers: {
+        //                 'Content-Type': 'application/json' // JSON 형식의 데이터 전달
+        //             },
+        //             body: JSON.stringify({}) // 빈 객체 전달
+        //         })
+        //             .then(response => {
+        //                 if (!response.ok) {
+        //                     throw new Error('서버 응답이 실패했습니다.');
+        //                 }
+        //                 return response.json();
+        //             })
+        //             .then(data => {
+        //                 alert('서비스 상태가 변경되었습니다.');
+        //                 // 상태 변경 성공 후 추가적인 동작을 수행할 수 있습니다.
+        //                 // 예: 변경된 상태에 따른 UI 업데이트 등
+        //             })
+        //             .catch(error => {
+        //                 alert('서비스 상태 변경 중 에러가 발생했습니다.');
+        //                 console.error(error);
+        //             });
+        //     }
+        // }
 
 
 
@@ -272,7 +318,7 @@
         const wrapper = $('.input_wrap'); // 입력 필드를 포함하는 컨테이너 선택
         const addButton = $('.add_field'); // 추가 버튼 선택
         const maxFields = 3; // 최대 입력 필드 수 설정
-        let fieldCount = 1; // 현재 입력 필드 수
+        let fieldCount = [[${options.size()}]]; // 현재 입력 필드 수
 
         // '추가하기' 버튼 클릭 시 이벤트
         addButton.click(function (e) {
@@ -367,6 +413,18 @@
         quilljsediterInit();
 
     </script>
+    <script>
+        function submitForm() {
+            document.getElementById("myForm").submit();
+
+        }
+
+
+    </script>
+
+
+
+
 </th:block>
 
 
