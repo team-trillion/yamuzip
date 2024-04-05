@@ -6,27 +6,26 @@
 
     <select id="login" resultType="team.trillion.yamuzip.login.model.dto.UserDTO">
         SELECT
-            user_code,
-            user_id,
-            user_pwd,
-            user_name,
-            user_nickname,
-            user_img,
-            phone,
-            user_status,
-            auth,
-            email
+        user_code,
+        user_id,
+        user_pwd,
+        user_name,
+        user_nickname,
+        phone,
+        user_status,
+        auth,
+        email
         FROM
-            tbl_user
+        tbl_user
         WHERE
-            user_id= #{ userId }
+        user_id= #{ userId }
     </select>
 
     <insert id="regist">
         INSERT INTO
-            tbl_user (user_id, user_pwd, user_name, phone,email)
+        tbl_user (user_id, user_pwd, user_name, phone,email)
         VALUES
-            (#{userId}, #{userPwd}, #{userName}, #{phone}, #{email})
+        (#{userId}, #{userPwd}, #{userName}, #{phone}, #{email})
     </insert>
 
     <select id="getIds">
@@ -38,14 +37,41 @@
 
     <select id="findUserId" parameterType="map" resultType="string">
         SELECT
-            user_id
+        user_id
         FROM
-            tbl_user
+        tbl_user
         WHERE
-            user_name = #{name} AND email = #{email}
+        user_name = #{name} AND email = #{email}
     </select>
 
+    <update id="updatePasswordByEmail">
+        UPDATE
+        tbl_user
+        SET
+        user_pwd = #{user_pwd}
+        WHERE
+        email = #{email}
+    </update>
 
 
+    <select id="findByUsernameAndEmail" parameterType="map">
+        SELECT * FROM users WHERE username = #{username} AND email = #{email}
+    </select>
+
+    <select id="checkId">
+        SELECT
+        count(*)
+        FROM
+        tbl_user
+        WHERE
+        email = #{email}
+        AND
+        user_id = #{id}
+    </select>
+    <update id="passwordNew">
+        UPDATE
+        tbl_user
+        SET password= #{code} WHERE email = #{email}
+    </update>
 
 </mapper>
