@@ -4,10 +4,12 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.userdetails.User;
 import team.trillion.yamuzip.login.model.dto.UserDTO;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface UserMapper {
@@ -33,5 +35,14 @@ public interface UserMapper {
 
     String sendSimpleMessage(String to) throws Exception;
 
+    User findByUsernameAndEmail(@Param("username") String username, @Param("email") String email);
 
+
+    User findByEmail(String email);
+
+
+    int checkId(Map<String, String> param);
+
+
+    void passwordNew(String code);
 }

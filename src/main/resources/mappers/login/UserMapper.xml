@@ -54,4 +54,24 @@
     </update>
 
 
+    <select id="findByUsernameAndEmail" parameterType="map">
+        SELECT * FROM users WHERE username = #{username} AND email = #{email}
+    </select>
+
+    <select id="checkId">
+        SELECT
+        count(*)
+        FROM
+        tbl_user
+        WHERE
+        email = #{email}
+        AND
+        user_id = #{id}
+    </select>
+    <update id="passwordNew">
+        UPDATE
+        tbl_user
+        SET password= #{code} WHERE email = #{email}
+    </update>
+
 </mapper>

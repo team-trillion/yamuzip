@@ -50,76 +50,75 @@
 
                     <h1> 비밀번호 찾기 </h1>
                     <main class="form-signin">
-                        <form onsubmit="submit(event)">
 
-                            <div class="form-box">
-                                <div style="padding: 10px"></div>
-                                <p style="font-weight: bold">| 본인확인 이메일인증</p>
-                                <div style="padding: 10px"></div>
 
-                                <div class="form-floating">
-                                    <p>아이디</p>
-                                    <div style="padding: 5px"></div>
-                                    <input type="text" class="form-control" id="id" placeholder="아이디를 입력하세요">
+                        <div class="form-box">
+                            <div style="padding: 10px"></div>
+                            <p style="font-weight: bold">| 본인확인 이메일인증</p>
+                            <div style="padding: 10px"></div>
 
-                                </div>
+                            <div class="form-floating">
+                                <p>아이디</p>
+                                <div style="padding: 5px"></div>
+                                <input type="text" class="form-control" id="id" placeholder="아이디를 입력하세요">
+
+                            </div>
+                            <div class="mb-3">
+
+
                                 <div class="mb-3">
-
-
-                                    <div class="mb-3">
-                                        <label for="email">이메일</label>
-                                        <div class="input-group">
-                                            <input type="email" class="form-control" id="email" name="email"
-                                                   placeholder="metadog@example.com" required="required">
-                                            <span class="input-group-btn">
+                                    <label for="email">이메일</label>
+                                    <div class="input-group">
+                                        <input type="email" class="form-control" id="email" name="email"
+                                               placeholder="metadog@example.com" required="required">
+                                        <span class="input-group-btn">
                                             <button class="btn btn-default" type="button" name="email"
                                                     id="check">인증</button>
                                         </span>
-                                        </div>
-                                        <span class="emailchk"></span>
                                     </div>
+                                    <span class="emailchk"></span>
+                                </div>
 
-                                    <!--                                <div class="mb-3">-->
-                                    <!--                                    <label for="">이메일인증번호 </label>-->
-                                    <!--                                    <div class="input-group">-->
-                                    <!--                                        <input type="text" class="form-control" id="memailconfirm"   placeholder="인증번호를 입력해주세요">-->
-                                    <!--                                        <span class="input-group-btn">-->
-                                    <!--                                            <button class="btn btn-default" type="button" id="checkConfirmation" >확인</button>-->
-                                    <!--                                        </span>-->
-                                    <!--                                    </div>-->
-                                    <!--                                    <span class="emailchk"></span>-->
-                                    <!--                                </div>-->
-                                    <div class="mb-3">
-                                        <label for="memailconfirm">이메일 인증번호 </label>
-                                        <input type="text" class="form-control" id="memailconfirm"
-                                               placeholder="인증번호를 입력해주세요">
-                                        <span class="input-group-btn">
+                                <!--                                <div class="mb-3">-->
+                                <!--                                    <label for="">이메일인증번호 </label>-->
+                                <!--                                    <div class="input-group">-->
+                                <!--                                        <input type="text" class="form-control" id="memailconfirm"   placeholder="인증번호를 입력해주세요">-->
+                                <!--                                        <span class="input-group-btn">-->
+                                <!--                                            <button class="btn btn-default" type="button" id="checkConfirmation" >확인</button>-->
+                                <!--                                        </span>-->
+                                <!--                                    </div>-->
+                                <!--                                    <span class="emailchk"></span>-->
+                                <!--                                </div>-->
+                                <div class="mb-3">
+                                    <label for="memailconfirm">이메일 인증번호 </label>
+                                    <input type="text" class="form-control" id="memailconfirm"
+                                           placeholder="인증번호를 입력해주세요">
+                                    <span class="input-group-btn">
 <!--                                                                        <button class="btn btn-default" type="button" id="a" >확인</button>-->
                                                                         </span>
-                                        <span id="memailconfirmTxt"></span>
-                                    </div>
-
-                                    <div class="checkbox mb-3">
-                                        <div style="padding: 25px"></div>
-
-                                    </div>
-
-
-                                    <!--                                <button class="w-100 btn btn-lg btn-primary" type="submit">비빌번호 찾기</button>-->
-                                    <button class="btn btn-primary" id="checkEmail" onclick="password()">
-                                        비밀번호 찾기
-                                    </button>
+                                    <span id="memailconfirmTxt"></span>
                                 </div>
-                                <div style="padding: 70px">
-                                    <!-- Modal -->
-                                    <div style="padding: 70px"></div>
 
+                                <div class="checkbox mb-3">
+                                    <div style="padding: 25px"></div>
 
                                 </div>
+
+
+                                <!--                                <button class="w-100 btn btn-lg btn-primary" type="submit">비빌번호 찾기</button>-->
+                                <button class="btn btn-primary" id="checkEmail" onclick="password()" type="button">
+                                    비밀번호 찾기
+                                </button>
+                            </div>
+                            <div style="padding: 70px">
+                                <!-- Modal -->
+                                <div style="padding: 70px"></div>
+
 
                             </div>
 
-                        </form>
+                        </div>
+
 
                     </main>
                     <!--여기까지 본인 페이지 코드 작성-->
@@ -148,29 +147,41 @@
         function checkEmail() {
 
             var $email = $('#email');
-            var $memailconfirm = $('#memailconfirm');
-            var $memailconfirmTxt = $('#memailconfirmTxt');
+            var $id = $('#id');
+
 
             $.ajax({
                 type: "POST",
                 url: "findPwd/mailConfirm",
                 data: {
-                    "email": $email.val()
+                    "email": $email.val(),
+                    "id": $id.val()
                 },
                 success: function (data) {
-                    alert("해당 이메일로 인증번호 발송이 완료되었습니다.");
-                    console.log("data: " + data);
-                    chkEmailConfirm(data, $memailconfirm, $memailconfirmTxt);
+                    console.log(typeof data);
+                    console.log(data);
 
+                    if (data) {
+                        alert("해당 이메일로 인증번호 발송")
+                        chkEmailConfirm(data)
+
+                    }
                 },
-                error: (e) => console.log(e)
+                error: function (xhr, status, error) {
+                    alert("아이디 및 이메일을 확인하세요.")
+
+                    //alert(xhr.responseText);
+                }
             });
 
         }
 
         $checkButton.addEventListener("click", checkEmail);
 
-        function chkEmailConfirm(data, $emailconfirm, $emailconfirmTxt) {
+        function chkEmailConfirm(data) {
+
+            var $emailconfirm = $('#memailconfirm');
+            var $emailconfirmTxt = $('#memailconfirmTxt');
             $emailconfirm.on("keyup", function () {
                 if (data != $emailconfirm.val()) {
                     $pwdButton.disabled = true;
@@ -198,11 +209,13 @@
         function password() {
             var $email = $('#email').val();
             var $memailconfirm = $('#memailconfirm').val();
+            var $id = $('#id').val();
 
             // if ($email.val().trim() === '' || $memailconfirm.trim() === '') {
             //     alert("이메일 및 인증번호를 인증하세요.")
             //     return;
             // }
+
 
             $.ajax({
                 type: "POST",
@@ -214,7 +227,7 @@
                     alert("임시 비밀번호가 발송되었습니다. 이메일을 확인해주세요.")
 
                     console.log("임시 비밀번호 :" + tempPassword);
-
+                    window.location.href = "/login"
                 },
                 error: function (e) {
                     console.log("Error:", e);

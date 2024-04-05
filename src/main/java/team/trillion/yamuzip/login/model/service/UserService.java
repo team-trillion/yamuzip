@@ -1,8 +1,6 @@
 package team.trillion.yamuzip.login.model.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +17,6 @@ public class UserService {
 
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-
 
 
     @Transactional
@@ -42,12 +39,11 @@ public class UserService {
     }
 
 
-
     public List<String> findUserId(String name, String email) {
         List<String> userIdList = userMapper.findUserId(name, email);
         return userIdList.isEmpty() ? Collections.emptyList() : userIdList;
     }
 
-
+    //비밀번호찾기 이메일값확인
 
 }

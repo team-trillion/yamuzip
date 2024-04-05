@@ -8,7 +8,7 @@ import java.io.UnsupportedEncodingException;
 
 public interface FindMailServiceinter {
 
-    MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException;
+    MimeMessage createMessage(String to, String ePw) throws MessagingException, UnsupportedEncodingException;
 
     // 랜덤 인증 코드 전송
     String createKey();
@@ -17,5 +17,6 @@ public interface FindMailServiceinter {
 
     String sendPasswordResetCode(String to) throws Exception;
 
-    MimeMessage createpsswordResetMessage(String to) throws MessagingException, UnsupportedEncodingException;
+    MimeMessage createpsswordResetMessage(String to, String str) throws MessagingException, UnsupportedEncodingException;
+
 }
