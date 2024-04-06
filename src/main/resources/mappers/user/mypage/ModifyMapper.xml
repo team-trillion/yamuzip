@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.user.mypage.model.dao.ModifyMapper">
+
+    <update id="modifyUser">
+        UPDATE
+        tbl_user
+        SET
+        user_img = #{userImg},
+        user_nickname = #{userNickname},
+        user_name = #{userName},
+        phone = #{phone},
+        email = #{email}
+        WHERE
+        user_id = #{userId}
+    </update>
+
+    <update id="modifyImg" parameterType="java.lang.String">
+        UPDATE
+        tbl_user
+        SET
+        user_img = #{userImg}
+        WHERE
+        user_id = #{userId}
+    </update>
+</mapper>

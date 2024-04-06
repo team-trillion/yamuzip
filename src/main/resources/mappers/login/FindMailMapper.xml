@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.login.model.dao.FindMailServiceinter">
+
+
+    <select id="login" resultType="team.trillion.yamuzip.login.model.dto.UserDTO">
+        SELECT
+        user_code,
+        user_id,
+        user_pwd,
+        user_name,
+        user_nickname,
+        phone,
+        user_status,
+        auth,
+        email
+        FROM
+        tbl_user
+        WHERE
+        user_id= #{ userId }
+    </select>
+
+    <update id="updatePasswordByEmail">
+        UPDATE
+        tbl_user
+        SET
+        user_pwd = #{user_pwd}
+        WHERE
+        email = #{email}
+    </update>
+
+
+</mapper>

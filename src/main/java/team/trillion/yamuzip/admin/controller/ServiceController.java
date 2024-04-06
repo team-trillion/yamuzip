@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import team.trillion.yamuzip.admin.model.dto.ServiceDTO;
 import team.trillion.yamuzip.admin.model.service.ServiceService;
 
@@ -31,8 +32,11 @@ public class ServiceController {
         return "admin/service/list";
     }
 
-    @GetMapping("/detail")
-    public void getServiceDetail() {}
+//    @GetMapping("/detail")
+//    public String getServiceDetail(@RequestParam int serviceCode, Model model) {
+//
+//        return "/service/serviceDetail";
+//    }
 
     @GetMapping("/hide")
     public void hideService() {}

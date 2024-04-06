@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns="http://www.w3.org/1999/html"
+      layout:decorate="~{layout/layout}">
 
 <head>
     <th:block layout:fragment="userCss">
-    </th:block>
     <style>
         .white-box{
             background: #F2F2F2;
@@ -17,7 +19,15 @@
         .custom-width {
             width: 100px; /* 원하는 너비를 지정하세요 */
         }
+
+        .custom-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
     </style>
+    </th:block>
 </head>
 
 <body>
@@ -53,37 +63,57 @@
                             <div data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0">
                                 <div id="item-1">
                                     <h4>➀ 내 정보</h4>
-                                    <div>
-                                        <img src="/images/profile.png" alt="profile" class="img-circle img-thumbnail custom-width center-block">
-                                    </div>
 
-                                    <button type="button" class="btn btn-primary mt-3 center-block" data-bs-toggle="modal" data-bs-target="#profileChangeModal">
-                                        프로필 변경
-                                    </button>
+                                    <form id="userInfoForm" action="/mypage/profile" method="post" enctype="multipart/form-data">
+
+                                        <!-- 프로필 이미지 등록 -->
+
+                                        <div class="img">
+                                            <img id="image-box"
+                                                 class="img-thumbnail custom-circle center-block"
+                                                 th:src="${#authentication.principal.userImg != null
+                                            ? #authentication.principal.userImg : '/images/profile.png'}" alt="유저 프로필"/>
+                                        </div>
+
+                                        <div class="file_box">
+
+                                            <button type="button" class="btn btn-light mt-3 center-block"
+                                                    onclick="fileCancled()">이미지 제거</button>
+
+                                            <input id="image-file-box" type="file" value="이미지 업로드" name="profile"
+                                                   class="btn btn-light mt-3 center-block"
+                                                   onchange="viewURL()"/>
+                                            <label for="image-file-box" class="upload_btn "></label>
+
+                                        </div>
 
 
-                                    <div class="center-block pt-5" style="width: 500px;">
-                                        <input type="nickname" class="form-control" id="floatingInput" placeholder="닉네임">
-                                    </div>
 
-                                    <div class="center-block pt-5" style="width: 500px;">
-                                        <input type="name" class="form-control"  placeholder="이름">
-                                    </div>
+                                        <!-- 프로필 정보 등록 -->
 
-                                    <div class="center-block pt-5" style="width: 500px;">
-                                        <input type="phone" class="form-control"  placeholder="전화번호">
-                                    </div>
+                                        <div class="center-block pt-5" style="width: 500px;">
+                                            닉네임<input type="text" id="userNickname" name="userNickname" class="form-control" th:value="${#authentication.principal.userNickname}" th:placeholder="${#authentication.principal.userNickname}">
+                                        </div>
 
-                                    <div class="center-block pt-5" style="width: 500px;">
-                                        <input type="email" class="form-control"  placeholder="이메일">
-                                    </div>
+                                        <div class="center-block pt-5" style="width: 500px;">
+                                            이름<input type="text" id="userName" name="userName" class="form-control" th:value="${#authentication.principal.userName}" th:placeholder="${#authentication.principal.userName}">
+                                        </div>
 
-                                    <div class=" p-5">
-                                        <button type="button" class="btn btn-primary mt-3 float-end" data-bs-toggle="modal" data-bs-target="#profileChangeModal">
-                                            내 정보 저장
-                                        </button>
-                                    </div>
+                                        <div class="center-block pt-5" style="width: 500px;">
+                                            전화번호<input type="text" name="phone" class="form-control" th:value="${#authentication.principal.phone}" th:placeholder="${#authentication.principal.phone}">
+                                        </div>
 
+                                        <div class="center-block pt-5" style="width: 500px;">
+                                            이메일<input type="text" name="email" class="form-control" th:value="${#authentication.principal.email}" th:placeholder="${#authentication.principal.email}">
+                                        </div>
+
+                                        <div class=" p-5">
+                                            <button type="submit" class="btn btn-primary mt-3 float-end" data-bs-toggle="modal" data-bs-target="#profileChangeModal">
+                                                내 정보 저장
+                                            </button>
+                                        </div>
+
+                                    </form>
                                 </div>
 
                                 <div id="item-2">
@@ -129,6 +159,34 @@
     <!--본인 페이지 js 작성-->
     <!-- Main JS -->
     <script src="/js/main.js"></script>
+    <script>
+        function viewURL() {
+            const $imageFile = document.querySelector("#image-file-box");
+            const fReader = new FileReader();
+            fReader.readAsDataURL($imageFile.files[0]);
+            fReader.onload = function (event) {
+                const img = document.querySelector("#image-box");
+                img.src = event.target.result;
+                console.log("path : ", event.target.result);
+            }
+        }
+
+        function fileCancled() {
+            const $fileImg = document.querySelector("#image-box");
+            const $imageFileBox = document.querySelector("#image-file-box");
+
+            $fileImg.src = "/images/profile.png";
+            $imageFileBox.value = "";
+
+            /* 위에 html에 form태그 name => userModifyForm */
+            const $userModifyForm = document.forms.userModifyForm;
+
+            /* 제거했을때 넘어오는 코드 */
+            $userModifyForm.insertAdjacentHTML("beforeend", `<input type="hidden" name="profileDelete" value="true"/>`);
+        }
+
+        console.log(document.forms)
+    </script>
 </th:block>
 
 </body>

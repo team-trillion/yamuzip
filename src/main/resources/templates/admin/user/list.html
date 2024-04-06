@@ -54,23 +54,27 @@
                         </thead>
                         <tbody>
                         <tr th:each="user : ${userList}"
-                            th:onclick="|location.href='/user/detail?userCode=${user.userCode}'|">
+                            th:onclick="|location.href='detail?userCode=${user.userCode}'|">
                             <td th:text="${user.userCode}"></td>
                             <td th:text="${user.userId}"></td>
                             <td th:text="${user.userName}"></td>
                             <td th:text="${user.phone}"></td>
-                            <td>1</td>
-                            <td>1</td>
-                            <!--                            <td th:text="${user.review}"></td>-->
-                            <!--                            <td th:text="${user.cs}"></td>-->
+                            <td th:text="${user.userRev}"></td>
+                            <td th:text="${user.userCs}"></td>
                             <td th:text="${#dates.format(user.registDatetime, 'yy.MM.dd')}"></td>
-                            <!--                            <td th:text="${user.payDate}"></td>-->
-                            <td>1</td>
+                            <td th:text="${#dates.format(user.orderDatetime, 'yy.MM.dd')}"></td>
                             <td>
-                                <button type="button" class="badge dBtn btn btn-sm mb-2">회원 정지</button>
+                                <button type="button" class="banBtn badge dBtn btn btn-sm mb-2"
+                                        th:attr="data-user-code=${user.userCode}, data-user-name=${user.userName}" onclick="event.stopPropagation()">회원 정지</button>
                         </tr>
                         </tbody>
                     </table>
+
+                    <form action="/admin/user/ban" method="post" name="banControl">
+                        <input type="hidden" name="userCode">
+                        <input type="hidden" name="unban">
+                        <input type="hidden" name="userStatus">
+                    </form>
 
                 </div>
             </div>
@@ -84,6 +88,19 @@
 <th:block layout:fragment="userScript">
     <!-- main js -->
     <script src="/js/main.js"></script>
+    <!-- user ban -->
+    <script>
+        const banBtn = document.querySelectorAll('.banBtn');
+        const $banControl = document.forms.banControl;
+
+        banBtn.forEach(btn => btn.addEventListener('click', function() {
+            if (confirm(`회원을 정지하겠습니까?`)) {
+                $banControl.elements['userCode'].value = btn.getAttribute("data-user-code");
+                $banControl.elements['userStatus'].value = 'B';
+                $banControl.submit();
+            }
+        }));
+    </script>
 </th:block>
 
 </body>

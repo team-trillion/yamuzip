@@ -36,6 +36,10 @@ public class SecurityConfig {
                     auth.requestMatchers("/order/**", "/mypage/**").hasAnyAuthority("GENERAL", "DOBBY", "ADMIN");
                     auth.requestMatchers(HttpMethod.POST, "/menu/**").hasAuthority("ADMIN");
                     auth.requestMatchers("/admin/**").hasAuthority("ADMIN");
+                    auth.requestMatchers("/signup/**").hasAnyAuthority("GENERAL", "DOBBY", "ADMIN");
+                    auth.requestMatchers("/mypage/**").hasAnyAuthority( "GENERAL", "DOBBY", "ADMIN");
+                    auth.requestMatchers("/notice/regist", "/notice/modify", "notice/delete").hasAuthority("ADMIN");
+
                     /* 위에 서술 된 패턴 외의 요청은 인증 되지 않은 사용자도 요청 허가 */
                     auth.anyRequest().permitAll();
                 })
@@ -44,7 +48,7 @@ public class SecurityConfig {
                     /* 로그인 페이지 설정 */
                     login.loginPage("/login");
                     /* 성공 시 랜딩 페이지 설정 */
-                    login.defaultSuccessUrl("/");
+                    login.defaultSuccessUrl("/main");
                     /* 로그인 실패 시 랜딩 페이지 설정 */
                     login.failureForwardUrl("/error/login");
                     login.usernameParameter("userId");

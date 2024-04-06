@@ -7,6 +7,7 @@ import team.trillion.yamuzip.admin.model.dao.UserMapper;
 import team.trillion.yamuzip.admin.model.dto.UserDTO;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -22,4 +23,17 @@ public class UserService {
     public List<UserDTO> findAllUser() {
         return userMapper.findAllUser();
     }
+
+    public void banControl(Map<String, Object> banMap) {
+        userMapper.banControl(banMap);
+    }
+
+    public UserDTO findBanUser(int userCode) {
+        return userMapper.findBanUser(userCode);
+    }
+
+    public List<UserDTO> findAllBanUser() {
+        return userMapper.findAllBanUser();
+    }
+
 }

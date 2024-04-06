@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="team.trillion.yamuzip.dobby.model.dao.DobbyRegistMapper">
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.dobby.regist.model.dao.RegistMapper">
 
     <insert id="registDobby">
         INSERT INTO tbl_dob_apply(user_code, apply_career)
-        VALUES (#{userCode}, #{applyCareer})
+        VALUES (#{userCode},#{applyCareer})
     </insert>
 
-    <select id="selectDobbyApplyByUserCode">
-        SELECT COUNT(*)
-        FROM tbl_dob_apply
-        WHERE user_code = #{userCode}
+    <select id="applyStatus">
+        SELECT
+            count(user_code)
+        FROM
+            tbl_dob_apply
+        WHERE
+            user_code = (#{userCode})
+        AND
+            apply_status = 'C';
     </select>
+
+
+
+<!--    <select id="selectApplyByUserCode">-->
+<!--        SELECT COUNT(*)-->
+<!--        FROM tbl_dob_apply-->
+<!--        WHERE user_code = #{userCode}-->
+<!--    </select>-->
 </mapper>

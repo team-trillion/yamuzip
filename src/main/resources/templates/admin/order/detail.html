@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin}">
 
 <head>
     <th:block layout:fragment="userCss">
@@ -9,39 +9,152 @@
 </head>
 
 <body>
-<div id="fh5co-wrapper">
-    <div id="fh5co-page">
-        <div id="fh5co-header">
-            <th:block layout:fragment="headerFragment"></th:block>
-        </div>
-
-
-        <div layout:fragment="content">
-            <div class="fh5co-hero">
-                <div class="fh5co-overlay"></div>
-                <section class="container-sm" style="background-color: yellow; padding-top: 150px;">
-
-                <!--여기부터 본인 페이지 코드 작성-->
-
-                    <h1>hello</h1>
-
-                    <p>표시를 위해 노란색 배경 적용했어요~ 22번 줄 style에서 background-color만 제거하시면 됩니다 퐈이튕!!!</p>
-                    <p>style.css는 웬만하면 건들지 않기! 꼭 상의하고 변경하기</p>
-                    <p>페이지에 필요한 css가 새로 있다면 head태그에 있는 usercss 블럭 태그 안에 작성하시면 됩니다!</p>
-
-                <!--여기까지 본인 페이지 코드 작성-->
-                </section>
-            </div>
-        </div>
-        <!-- content -->
-
-    </div>
-    <!-- page -->
+<div id="fh5co-header">
+    <th:block layout:fragment="headerFragment"></th:block>
 </div>
-<!-- wrapper -->
+
+
+<div layout:fragment="content">
+    <div class="fh5co-hero" style="height: auto;">
+        <!--                <div class="fh5co-overlay"></div>-->
+        <section class="container-sm" style="padding-top: 150px;">
+
+            <!--여기부터 본인 페이지 코드 작성-->
+
+            <div class="container">
+                <!--                            <h1 class="fs-1 fw-bord mb-4">관리자 페이지</h1>-->
+                <div class="border-bottom border-dark my-1 mb-3"></div>
+
+                <!-- start dashboard content -->
+                <div class="dashboardText col-md-10 col-sm-9 col-xs-8">
+                    <p class="fs-5 pt-3 px-2">
+                        <a href="#" class="text-black">관리자페이지</a> 〉 &nbsp;
+                        <a href="#" class="text-black">정산관리</a> 〉 &nbsp;
+                        <a href="#" class="text-black">주문내역</a> &nbsp;
+                    </p>
+
+                    <div class="container-fluid border border-2 rounded py-3 my-5">
+
+                        <div class="row border-bottom">
+                            <div class="col-md-12">
+                                <!--                                <h2><a href="javascript:history.back(-1)"><</a>서비스 정보</h2>-->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h4 class="my-2">서비스 정보</h4>
+                                        <table class="table" style="height: 100%;">
+                                            <tr>
+                                                <th class="table-secondary">주문번호</th>
+                                                <td class="table-light" th:text="${orderDetail.orderCode}"></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="table-secondary">정산계좌</th>
+                                                <td class="table-light" th:text="${calcDetail.accBank + calcDetail.accNumber +
+                                                '(예금주:' + calcDetail.userName + ')'}"></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="table-secondary">서비스내용</th>
+                                                <td class="table-light" th:text="${calcDetail.serviceTitle}"></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="table-secondary">주문일자</th>
+                                                <td class="table-light"
+                                                    th:text="${#dates.format(orderDetail.orderCode, 'yyyy.MM.dd')}"></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 class="my-2">정산 내용</h4>
+                                        <table class="table" style="height: 100%;">
+                                            <tr>
+                                                <th class="table-secondary text-center"
+                                                    style="height: 20%; width: 30%;">서비스단가
+                                                </th>
+                                                <td class="table-light" th:text="${calcDetail.payPrice}"></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="table-secondary text-center" style="height: 20%;">중개수수료</th>
+                                                <td class="table-light" th:text="${calcDetail.chargePrice}"></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" rowspan="2" class="table-light" th:inline="text">
+                                                    <div class="row">
+                                                        <div class="card-title col-8">- 서비스 기본가</div>
+                                                        <div class="text-end col-4">[[${calcDetail.payPrice}]]원</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="card-title col-8">- 중개 수수료</div>
+                                                        <div class="text-end col-4">[[${calcDetail.chargePrice}]]원</div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <h4 class="text-end mt-5 pt-5 fw-bold">총 결제금액 <span
+                                        th:text="${calcDetail.calResult}"></span>원<br>
+                                    <button id="cal-btn" type="button"
+                                            class="btn btn-primary btn-modal mt-3" data-toggle="modal"
+                                            data-target="#applyModal">
+                                        정산 완료
+                                    </button></h4>
+
+
+                                <div class="container-fluid py-3 my-5">
+
+                                    <h6 class="fs-5 border-bottom pb-1 border-secondary-emphasis"
+                                        style="color: #0a5a88">명세서</h6>
+
+
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <table class="table text-center mb-5">
+                            <thead class="table-light border-top border-dark">
+                            <tr>
+                                <th scope="col" class="text-center">주문번호</th>
+                                <th scope="col" class="text-center">주문상태</th>
+                                <th scope="col" class="text-center">결제상태</th>
+                                <th scope="col" class="text-center">결제금액</th>
+                                <th scope="col" class="text-center">서비스제목</th>
+                                <th scope="col" class="text-center">주문일</th>
+                                <th scope="col" class="text-center">결제일</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="order : ${orderDetail}"
+                                th:onclick="|location.href='/admin/order/detail?orderCode=${order.orderCode}'|">
+                                <td th:text="${order.orderCode}" class="align-middle"></td>
+                                <td th:text="${order.serviceTitle}" class="align-middle"></td>
+<!--                                &lt;!&ndash;                                    <td th:text="${order.orderStatus.getOrderStatus()}" class="badge text-bg-primary align-middle"></td>&ndash;&gt;-->
+<!--                                <td th:text="${order.payStatus}" class="badge text-bg-primary align-middle"></td>-->
+<!--                                <td th:text="${order.payPrice}" class="align-middle"></td>-->
+<!--                                <td th:text="${order.serviceTitle}" class="align-middle"></td>-->
+<!--                                <td th:text="${#dates.format(order.orderDatetime, 'yy.MM.dd')}"-->
+<!--                                    class="align-middle"></td>-->
+<!--                                <td th:text="${#dates.format(order.payDatetime, 'yy.MM.dd')}"-->
+<!--                                    class="align-middle"></td>-->
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+                <!-- End dashboard content -->
+
+            </div>
+
+        </section>
+    </div>
+</div>
+<!-- content -->
 
 <th:block layout:fragment="userScript">
-<!--본인 페이지 js 작성-->
+    <!-- main js -->
+    <script src="/js/main.js"></script>
 </th:block>
 
 </body>

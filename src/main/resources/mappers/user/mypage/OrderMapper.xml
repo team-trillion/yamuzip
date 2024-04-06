@@ -29,12 +29,12 @@
                 user_code = #{ userCode }
             AND
                 order_status != 'C'
+            AND
+                order_status != 'R'
         </where>
         ORDER BY
             order_datetime DESC
     </select>
-
-
 
     <select id="selectAllOrderList" resultType="team.trillion.yamuzip.user.mypage.model.dto.OrderDTO">
         SELECT
@@ -66,6 +66,8 @@
                 user_code = #{ userCode }
             AND
                 order_status != 'C'
+            AND
+                order_status != 'R'
         </where>
         ORDER BY
             a.order_datetime DESC
@@ -77,6 +79,10 @@
             a.order_code,
             a.order_datetime,
             a.reserve_datetime,
+            a.cancel_datetime,
+            a.reject_datetime,
+            a.cancel_reason,
+            a.reject_reason,
             a.order_status,
             a.total_price,
             b.service_title,
@@ -99,6 +105,76 @@
             tbl_option e on a.option_code = e.option_code
         WHERE
             a.order_code = #{ orderCode };
+    </select>
+
+    <select id="selectCancelCount" resultType="_int" parameterType="hashmap">
+        SELECT
+            COUNT(*)
+        FROM
+            tbl_order a
+        <if test="searchCondition == 'serviceTitle'">
+            JOIN
+            tbl_service b ON(a.service_code = b.service_code)
+        </if>
+        <where>
+            <if test="searchCondition == 'serviceTitle'">
+                b.service_title LIKE CONCAT('%', #{ searchValue }, '%')
+            </if>
+            <if test="start != '' and start != null">
+                AND
+                a.order_datetime > #{ start }
+            </if>
+            <if test="end != '' and end != null">
+                AND
+                #{ end } > DATE_ADD(a.order_datetime, INTERVAL -1 DAY)
+            </if>
+            AND
+                user_code = #{ userCode }
+            AND
+                order_status = 'C'
+            OR
+                order_status = 'R'
+        </where>
+        ORDER BY
+        order_datetime DESC
+    </select>
+
+    <select id="selectAllCancelList" resultType="team.trillion.yamuzip.user.mypage.model.dto.OrderDTO">
+        SELECT
+            a.order_code,
+            a.user_code,
+            a.service_code,
+            b.thumbnail_url,
+            b.service_title,
+            a.order_datetime,
+            a.order_status,
+            a.total_price
+        FROM
+            tbl_order a
+        JOIN
+            tbl_service b on (a.service_code = b.service_code)
+        <where>
+            <if test="selectCriteria.searchCondition == 'serviceTitle'">
+                b.service_title LIKE CONCAT('%', #{ selectCriteria.searchValue }, '%')
+            </if>
+            <if test="selectCriteria.start != '' and selectCriteria.start != null">
+                AND
+                a.order_datetime > #{ selectCriteria.start }
+            </if>
+            <if test="selectCriteria.end != '' and selectCriteria.end != null">
+                AND
+                #{ selectCriteria.end } > DATE_ADD(a.order_datetime, INTERVAL -1 DAY)
+            </if>
+            AND
+                user_code = #{ userCode }
+            AND
+                (order_status = 'C'
+                OR
+                order_status = 'R')
+        </where>
+        ORDER BY
+            a.order_datetime DESC
+        LIMIT #{selectCriteria.offset}, #{selectCriteria.limit}
     </select>
 
 </mapper>

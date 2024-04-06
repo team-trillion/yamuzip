@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.admin.model.dao.CalcMapper">
+
+    <select id="findAllCalc" resultType="team.trillion.yamuzip.admin.model.dto.CalcDTO">
+        WITH CalcList AS (
+            SELECT
+                DATE_FORMAT(o.reserve_datetime, '%Y-%m') AS selectMonth,
+                a.acc_name,
+                a.acc_number,
+                a.acc_bank,
+                o.order_code,
+                p.pay_status,
+                p.pay_price,
+                s.service_title,
+                o.order_datetime,
+                p.pay_datetime,
+                O.reserve_datetime,
+                IFNULL(c.cal_status, 0) as cal_status
+            FROM
+                tbl_order o
+                    LEFT JOIN tbl_payment p ON o.order_code = p.order_code
+                    LEFT JOIN tbl_service s ON o.service_code = s.service_code
+                    LEFT JOIN tbl_account a ON s.dob_code = a.dob_code
+                    LEFT JOIN (SELECT cal_code AS cal_status, pay_code FROM tbl_calc_fin) c ON c.pay_code = p.pay_code
+            WHERE
+                DATE_FORMAT(o.reserve_datetime, '%Y-%m') = #{ selectMonth }
+        )
+        SELECT * FROM CalcList
+        ORDER BY selectMonth DESC;
+
+    </select>
+
+    <select id="selectCalcDetail" resultType="team.trillion.yamuzip.admin.model.dto.CalcDetailDTO">
+        SELECT
+            s.service_title,
+            s.service_explain,
+            s.thumbnail_url,
+            o.reserve_datetime,
+            o.order_code,
+            p.pay_code,
+            p.pay_price,
+            a.acc_code,
+            a.acc_number,
+            a.acc_bank,
+            d.dob_code,
+            u.user_name,
+            CAST(p.pay_price * 0.10 AS DECIMAL(10,0)) AS charge_price,
+            CAST((p.pay_price - (p.pay_price * 0.10)) AS DECIMAL(10,0)) AS cal_result,
+            IFNULL(c.cal_status, 0) as cal_status
+        FROM
+            tbl_order o
+                JOIN tbl_service s on s.service_code = o.service_code
+                JOIN tbl_payment p on p.order_code = o.order_code
+                LEFT JOIN (select cal_code as cal_status,
+                                  pay_code
+                           from tbl_calc_fin) c on (c.pay_code = p.pay_code)
+                JOIN tbl_dobby d on s.dob_code = d.dob_code
+                LEFT JOIN (select user_name, user_code
+                           from tbl_user) u on d.user_code = u.user_code
+                LEFT JOIN tbl_account a on (d.dob_code = a.dob_code)
+        WHERE
+            o.order_code = #{ orderCode };
+    </select>
+
+    <select id="selectMonthlyDetail" resultType="team.trillion.yamuzip.admin.model.dto.CalcMonthlyDTO">
+        WITH MonthlyCalc AS (
+            SELECT
+                DATE_FORMAT(o.reserve_datetime, '%Y-%m') AS selectMonth,
+                SUM(CAST(p.pay_price * 0.10 AS DECIMAL(10,0))) AS chargeResult,
+                SUM(CAST((p.pay_price - (p.pay_price * 0.10)) AS DECIMAL(10,0))) AS salesResult,
+                COUNT(o.order_code) AS payCount,
+                COUNT(o.cancel_datetime) AS cancelCount,
+                COUNT(DISTINCT s.dob_code) AS dobResult,
+                COUNT(DISTINCT u.user_code) AS userResult,
+                SUM(CASE WHEN o.cancel_datetime IS NOT NULL THEN p.pay_price ELSE 0 END) AS cancelResult
+            FROM
+                tbl_order o
+                    JOIN tbl_service s ON s.service_code = o.service_code
+                    JOIN tbl_payment p ON p.order_code = o.order_code
+                    LEFT JOIN tbl_calc_fin c ON c.pay_code = p.pay_code
+                    JOIN tbl_dobby d ON s.dob_code = d.dob_code
+                    LEFT JOIN tbl_user u ON o.user_code = u.user_code
+                    LEFT JOIN tbl_account a ON d.dob_code = a.dob_code
+            WHERE
+                DATE_FORMAT(o.reserve_datetime, '%Y-%m') = #{ selectMonth }
+            GROUP BY
+                DATE_FORMAT(o.reserve_datetime, '%Y-%m')
+
+        )
+        SELECT * FROM MonthlyCalc
+        ORDER BY selectMonth DESC;
+
+    </select>
+
+<!--  전월 정보 확인  -->
+<!--    <select id="selectUnMonthlyDetail" resultType="team.trillion.yamuzip.admin.model.dto.CalcMonthlyDTO">-->
+<!--        WITH UnMonthlyCalc AS (-->
+<!--            SELECT-->
+<!--                DATE_FORMAT(DATE_SUB(o.reserve_datetime, INTERVAL 1 MONTH), '%Y-%m') AS calcMonth,-->
+<!--                COUNT(CASE WHEN o.cancel_datetime IS NULL AND cf.cal_code IS NULL THEN 1 END) AS unProcessedCount,-->
+<!--                COUNT(CASE WHEN o.cancel_datetime IS NULL AND cf.cal_code IS NULL AND MONTH(o.reserve_datetime) > MONTH(DATE_SUB(o.reserve_datetime, INTERVAL 1 MONTH)) THEN 1 END) AS unSettledCount,-->
+<!--                SUM(CASE WHEN o.cancel_datetime IS NULL AND cf.cal_code IS NULL AND MONTH(o.reserve_datetime) > MONTH(DATE_SUB(o.reserve_datetime, INTERVAL 1 MONTH)) THEN p.pay_price ELSE 0 END) AS unSettledResult-->
+<!--            FROM-->
+<!--                tbl_order o-->
+<!--                    JOIN tbl_service s ON s.service_code = o.service_code-->
+<!--                    JOIN tbl_payment p ON p.order_code = o.order_code-->
+<!--                    LEFT JOIN tbl_calc_fin cf ON cf.pay_code = p.pay_code-->
+<!--                    JOIN tbl_dobby d ON s.dob_code = d.dob_code-->
+<!--                    LEFT JOIN tbl_user u ON d.user_code = u.user_code-->
+<!--                    LEFT JOIN tbl_account a ON d.dob_code = a.dob_code-->
+<!--            WHERE-->
+<!--                o.reserve_datetime BETWEEN DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 2 MONTH), '%Y-%m-01') AND LAST_DAY(DATE_SUB(NOW(), INTERVAL 1 MONTH))-->
+<!--            GROUP BY-->
+<!--                DATE_FORMAT(DATE_SUB(o.reserve_datetime, INTERVAL 1 MONTH), '%Y-%m')-->
+<!--        )-->
+<!--        SELECT * FROM UnMonthlyCalc-->
+<!--        ORDER BY calcMonth DESC;-->
+<!--    </select>-->
+
+</mapper>

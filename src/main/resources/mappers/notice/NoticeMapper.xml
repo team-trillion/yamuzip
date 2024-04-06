@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.notice.model.dao.NoticeMapper">
+
+    <select id="getNoticeCount">
+        SELECT
+            COUNT(*)
+        FROM
+            tbl_notice
+        WHERE
+            notice_status = 'A'
+        AND
+            notice_fixed = 'N'
+    </select>
+
+    <select id="getFixedList" resultType="team.trillion.yamuzip.notice.model.dto.NoticeDTO">
+        SELECT
+            a.notice_code,
+            a.notice_content,
+            a.notice_created,
+            a.notice_hits,
+            a.notice_title,
+            a.notice_fixed,
+            a.notice_status,
+            a.writer_user_code,
+            b.user_nickname,
+            a.notice_modify
+        FROM
+            tbl_notice a
+            JOIN
+            tbl_user b on (a.writer_user_code = b.user_code)
+        WHERE
+            notice_status = 'A'
+        AND
+            notice_fixed = 'Y'
+        ORDER BY
+            a.notice_code DESC
+    </select>
+
+    <select id="getNoticeList" resultType="team.trillion.yamuzip.notice.model.dto.NoticeDTO">
+        SELECT
+            a.notice_code,
+            a.notice_content,
+            a.notice_created,
+            a.notice_hits,
+            a.notice_title,
+            a.notice_fixed,
+            a.notice_status,
+            a.writer_user_code,
+            b.user_nickname,
+            a.notice_modify
+        FROM
+            tbl_notice a
+            JOIN
+            tbl_user b on (a.writer_user_code = b.user_code)
+        WHERE
+            notice_status = 'A'
+        AND
+            notice_fixed = 'N'
+        ORDER BY
+            a.notice_code DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <update id="incrementNoticeHits">
+        UPDATE
+            tbl_notice
+        SET
+            notice_hits = notice_hits + 1
+        WHERE
+            notice_code = #{ noticeCode }
+    </update>
+
+    <select id="getNoticeDetail" resultType="team.trillion.yamuzip.notice.model.dto.NoticeDTO">
+        SELECT
+            a.notice_code,
+            a.notice_content,
+            a.notice_created,
+            a.notice_hits,
+            a.notice_title,
+            a.notice_fixed,
+            a.notice_status,
+            a.writer_user_code,
+            b.user_nickname,
+            a.notice_modify
+        FROM
+            tbl_notice a
+        JOIN
+            tbl_user b on (a.writer_user_code = b.user_code)
+        WHERE
+            a.notice_code = #{ noticeCode }
+    </select>
+
+    <insert id="registNotice">
+        INSERT INTO
+            tbl_notice (notice_content, notice_title, notice_fixed, writer_user_code)
+        VALUES
+            (#{noticeContent}, #{noticeTitle}, #{noticeFixed}, #{writerUserCode})
+    </insert>
+
+    <update id="modifyNotice">
+        UPDATE
+            tbl_notice
+        SET
+            notice_content = #{noticeContent},
+            notice_title = #{noticeTitle},
+            notice_fixed = #{noticeFixed},
+            writer_user_code = #{writerUserCode},
+            notice_modify = CURRENT_TIMESTAMP
+        WHERE
+            notice_code = #{noticeCode}
+    </update>
+
+    <update id="deleteNotice">
+        UPDATE
+            tbl_notice
+        SET
+            notice_status = 'R'
+        WHERE
+            notice_code = #{noticeCode}
+    </update>
+
+</mapper>

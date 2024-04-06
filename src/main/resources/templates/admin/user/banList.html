@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin}">
+
+<head>
+    <th:block layout:fragment="userCss">
+        <style>
+            .dBtn {
+                border: solid 1px #b0b0b0;
+                width: 85%;
+                background-color: #f8f8f8;
+                color: #222222;
+                font-weight: normal;
+                border-radius: 3%;
+            }
+        </style>
+    </th:block>
+</head>
+
+<body>
+<div id="fh5co-header">
+    <th:block layout:fragment="headerFragment"></th:block>
+</div>
+
+
+<div layout:fragment="content">
+    <div class="fh5co-hero" style="height: auto">
+        <!--                <div class="fh5co-overlay"></div>-->
+        <section class="container-sm" style="padding-top: 150px;">
+
+            <div class=" col-md-10 col-sm-9 col-xs-8">
+                <p class="fs-5 pt-3 px-2">
+                    <a href="/admin/dashboard/dashboard" class="text-black">관리자페이지</a> 〉 &nbsp;
+                    <a href="/admin/dashboard/user" class="text-black">회원관리</a> 〉 &nbsp;
+                    <a href="" class="text-black fw-bolder">회원상태관리</a> &nbsp;
+                </p>
+
+                <div class="container-fluid border border-2 rounded p-5 mb-5">
+
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">아이디</th>
+                            <th scope="col">이름</th>
+                            <th scope="col">전화번호</th>
+                            <th scope="col">정지해제일</th>
+                            <th scope="col">관리</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user : ${banUserList}"
+                            th:onclick="|location.href='detail?userCode=${user.userCode}'|">
+                            <td th:text="${user.userCode}"></td>
+                            <td th:text="${user.userId}"></td>
+                            <td th:text="${user.userName}"></td>
+                            <td th:text="${user.phone}"></td>
+                            <td th:text="${user.unban}"></td>
+                            <td>
+                                <button type="button" class="banBtn badge dBtn btn btn-sm mb-2"
+                                        th:attr="data-user-code=${user.userCode}, data-user-name=${user.userName}" onclick="event.stopPropagation()">정지 설정</button>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <form action="/admin/user/ban" method="post" name="banControl">
+                        <input type="hidden" name="userCode">
+                        <input type="hidden" name="unban">
+                        <input type="hidden" name="userStatus">
+                    </form>
+
+                </div>
+            </div>
+
+            <!--여기까지 본인 페이지 코드 작성-->
+        </section>
+    </div>
+</div>
+<!-- content -->
+
+<th:block layout:fragment="userScript">
+    <!-- main js -->
+    <script src="/js/main.js"></script>
+    <!-- user ban -->
+    <script>
+        const banBtn = document.querySelectorAll('.banBtn');
+        const $banControl = document.forms.banControl;
+
+        banBtn.forEach(btn => btn.addEventListener('click', function() {
+                $banControl.elements['userCode'].value = btn.getAttribute("data-user-code");
+                $banControl.submit();
+        }));
+    </script>
+</th:block>
+
+</body>
+</html>

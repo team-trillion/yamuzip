@@ -3,8 +3,10 @@ package team.trillion.yamuzip.admin.model.dto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import team.trillion.yamuzip.common.enums.OrderStatus;
+import team.trillion.yamuzip.common.enums.PayStatus;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -12,16 +14,13 @@ import java.time.LocalDateTime;
 public class OrderDTO {
 
     private int orderCode;
-    private int serviceCode;
-    private int userCode;
-    private LocalDateTime orderDatetime;
-    private int totalPrice;
-    private LocalDateTime reserveDatetime;
-    private int optionCode;
-    private LocalDateTime approvalDatetime;
-    private LocalDateTime cancelDatetime;
-    private LocalDateTime rejectDatetime;
-    private String cancelReason;
-    private String rejectReason;
+    private int payPrice;
+
+    private String serviceTitle;
+    private Date orderDatetime;
+    private Date payDatetime;
+
+    private OrderStatus orderStatus;
+    private PayStatus payStatus;
 
 }

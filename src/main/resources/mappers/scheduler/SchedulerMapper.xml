@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.common.scheduler.dao.SchedulerMapper">
+
+    <select id="getUntreatedOrder" resultType="team.trillion.yamuzip.common.scheduler.dto.OrderDTO">
+        SELECT
+            a.order_code,
+            b.pay_code,
+            a.order_status,
+            a.reserve_datetime
+        FROM
+            tbl_order a
+                JOIN
+            tbl_payment b ON a.order_code = b.order_code
+        WHERE
+            order_status = 'O'
+        AND
+            reserve_datetime <![CDATA[<=]]> CURRENT_TIMESTAMP;
+    </select>
+
+    <update id="setOrderStatusFinish">
+        UPDATE
+            tbl_order
+        SET
+            order_status = 'F'
+        WHERE
+            order_code IN (
+                SELECT a.order_code
+                FROM ( SELECT order_code
+                        FROM tbl_order
+                        WHERE order_status = 'A'
+                        AND reserve_datetime <![CDATA[<=]]> DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -1 DAY)
+                ) a
+            )
+    </update>
+
+</mapper>

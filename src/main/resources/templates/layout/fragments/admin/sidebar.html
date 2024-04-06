@@ -8,7 +8,7 @@
 
 <div th:fragment="sideBar">
 
-    <div class="col-md-2 col-sm-3 col-xs-4 p-3" style="margin-top: 150px; padding-left: 20%;">
+    <div class="col-md-2 col-sm-3 col-xs-4 p-3" style="margin-top: 150px; padding-left: 20%; z-index: 100">
 
         <ul class="sideBar list-unstyled rounded border border-dark-subtle bg-Emphasis p-5" style="padding-top: 150px;">
             <div class="mb-4"><p class="h5 mb-1 fs-4 fw-bord text-dark"><a href="/admin/dashboard/user">회원 관리</a></p>
@@ -23,6 +23,8 @@
                         <li><a href="/admin/apply/list"
                                class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">신규
                             도비 신청</a></li>
+                        <li><a href="/admin/user/banList"
+                               class="text-body-tertiary link-body-emphasis d-inline-flex text-decoration-none rounded">정지 상태 관리</a></li>
                     </ul>
                 </div>
             </div>

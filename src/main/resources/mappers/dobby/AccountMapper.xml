@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.dobby.mypage.model.dao.AccountMapper">
+
+    <insert id="insertAccount">
+        INSERT
+        INTO tbl_account
+        (dob_code, acc_code, acc_number, acc_bank, acc_name)
+        VALUES
+        (#{dobCode}, #{accCode}, #{accNumber}, #{accBank}, #{accName})
+    </insert>
+
+    <select id="getAccount" resultType="team.trillion.yamuzip.dobby.mypage.model.dto.AccountDTO">
+        SELECT
+            dob_code,
+            acc_code,
+            acc_number,
+            acc_bank,
+            acc_name,
+            acc_status
+        FROM
+            tbl_account
+        WHERE
+            dob_code= #{dobCode}
+        AND
+            acc_status = 'A'
+    </select>
+
+    <update id="modifyAccount">
+        UPDATE
+        tbl_account
+        SET
+        acc_status = 'U'
+        WHERE
+        dob_code = #{dobCode}
+        AND
+        acc_status = 'A'
+    </update>
+</mapper>

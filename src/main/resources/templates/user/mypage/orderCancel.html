@@ -1,0 +1,87 @@
+<div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <form action="/order/cancel" method="post">
+                <input type="hidden" name="orderCode" th:value="${orderDetail.orderCode}"/>
+                <div class="modal-header">
+                    <h2 class="modal-title" id="applyModalLabel">
+                        주문 취소 신청 : 주문번호 <span th:text="${orderDetail.orderCode}"></span>
+                    </h2>
+                    * 주문하신 서비스의 예약일 7일 이전까지 주문 취소가 가능합니다.<br>
+                    * 카드로 결제하신 경우 카드사 취소 어쩌고저쩌고<br>
+                </div>
+                <div class="modal-body">
+                    <h4>서비스 정보</h4>
+                    <table class="table service-table">
+                        <thead>
+                        <tr>
+                            <th colspan="2">서비스 정보</th>
+                            <th>옵션</th>
+                            <th>예약일</th>
+                            <th style="width: 150px;">취소사유</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="img-col"><img class="order-img" th:src="${orderDetail.thumbnailUrl}"/></td>
+                            <td th:text="${orderDetail.serviceTitle}"></td>
+                            <td th:text="|${orderDetail.optionName}(+${orderDetail.optionPrice}원)|"
+                                th:if="${orderDetail.optionName != null}"></td>
+                            <td th:text="없음" th:unless="${orderDetail.optionName != null}"></td>
+                            <td th:text="${orderDetail.reserveDateString}"></td>
+                            <td>
+                                <select class="form-select form-select-lg" name="cancelReason" id="cancelReason" required>
+                                    <option selected value="">취소사유 선택</option>
+                                    <option value="단순변심">단순변심</option>
+                                    <option value="일정변경">일정변경</option>
+                                    <option value="etc">기타</option>
+                                </select>
+                                <textarea class="form-control" name="cancelReasonEtc" id="cancelReasonEtc"></textarea>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <hr>
+
+                    <h4>환불 정보</h4>
+                    <table class="table">
+                        <tr>
+                            <th class="table-secondary">결제방법</th>
+                            <td class="table-light" th:text="${orderDetail.payType.getPayType()}"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" rowspan="2" class="table-light" th:inline="text">
+                                <div class="row">
+                                    <div class="card-title col-8">- 서비스 기본가</div>
+                                    <div class="text-end col-4">[[${orderDetail.servicePrice}]]원</div>
+                                </div>
+                                <div class="row">
+                                    <div class="card-title col-8">- 옵션 추가 금액</div>
+                                    <div class="text-end col-4">+ [[${orderDetail.optionPrice}]]원</div>
+                                </div>
+                                <div class="row">
+                                    <div class="card-title col-8"></div>
+                                    <div class="text-end col-4"><h4>총 결제금액 [[${orderDetail.totalPrice}]]원</h4></div>
+                                </div>
+                                <!--
+                                <div class="row">
+                                    <div class="card-title col-8">- 취소 수수료 5%</div>
+                                    <div class="text-end col-4">- [[${#numbers.formatInteger(orderDetail.totalPrice * 0.05, 1)}]]원</div>
+                                </div>
+                                -->
+                            </td>
+                        </tr>
+                    </table>
+                    <h3 class="text-right">총 환불 예정액 [[${orderDetail.totalPrice}]]원</h3>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="closeBtn btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                        닫기
+                    </button>
+                    <button type="submit" class="btn btn-primary">주문 취소</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

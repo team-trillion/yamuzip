@@ -13,9 +13,11 @@
             font-size: 16px;
         }
     </style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <script>
+    <script >
+        let isIdDuplicate = false;
+        let isIdChecked = false;
         async function receiveFetch() {
             const $userId = document.querySelector("#userId");
             const userIdValue = $userId.value;
@@ -34,7 +36,8 @@
             const responseJson = await response.json();
             console.log(responseJson);
 
-            let isIdDuplicate = false; // 아이디 중복 여부를 나타내는 변수
+
+            isIdDuplicate = false; // 아이디 중복 여부를 나타내는 변수
 
             for (let i = 0; i < responseJson.length; i++) {
                 console.log(responseJson[i]);
@@ -42,31 +45,104 @@
                     isIdDuplicate = true; // 아이디가 중복됨을 나타내고 반복문 종료
                     break;
                 }
+
             }
 
             if (isIdDuplicate) {
                 alert("중복되는 아이디입니다. 회원가입을 진행할수 없습니다.");
-                // document.querySelector("#registerButton").style.display = "none";
+
+                document.querySelector("#registerButton").style.display = "none";
             } else {
                 alert("사용 가능한 아이디입니다.");
+                isIdChecked = true;
                 document.querySelector("#registerButton").style.display = "block";
             }
         }
 
-        function check() {
+        let emconfirmchk = false;
+        function handleSubmit(event ) {
+
+            if (!isIdChecked) {
+                alert("아이디 중복 확인을 해주세요.")
+                event.preventDefault();
+                return;
+            }
+
             let userPwd = $("#userPwd").val();
             let userPwd1 = $("#userPwd1").val();
 
-            if (userPwd!==userPwd1) {
-                $("#check2").show();
-            } else {
-                $("#check2").hide();
+            if (userPwd !== userPwd1) {
+                alert("비밀번호가 일치하지 않습니다.")
+                event.preventDefault();
+                return;
+            }
+
+            if(!emconfirmchk) {
+                alert('인증번호가 일치하지 않습니다.')
+                event.preventDefault();
+                return;
             }
         }
-        $(document).ready(function (){
-            $("#check2").hide();
-            $("#userPwd, #userPwd1").on("keyup", check);
-        });
+
+        function isSamePassword(){
+            let userPwd = $("#userPwd").val();
+            let userPwd1 = $("#userPwd1").val();
+            const isPass = document.querySelector("#check2");
+
+            if(userPwd != userPwd1){
+                isPass.hidden = false;
+            }else{
+                isPass.hidden = true;
+            }
+        }
+
+        function checkEmail() {
+            var $checkButton = $('#check');
+            var $email = $('#email');
+            var $memailconfirm = $('#memailconfirm');
+            var $memailconfirmTxt = $('#memailconfirmTxt');
+
+            $.ajax({
+                type: "POST",
+                url: "login/mailConfirm",
+                data: {
+                    "email": $email.val()
+                },
+                success: function (data) {
+                    alert("해당 이메일로 인증번호 발송이 완료되었습니다.");
+                    console.log("data: " + data);
+                    chkEmailConfirm(data, $memailconfirm, $memailconfirmTxt);
+
+                },
+                error : (e) => console.log(e)
+            });
+
+        }
+
+        function chkEmailConfirm(data, $emailconfirm, $emailconfirmTxt) {
+            $emailconfirm.on("keyup", function () {
+                if (data != $emailconfirm.val()) {
+                    emconfirmchk = false;
+                    $emailconfirmTxt.html("<span id='emconfirmchk'>인증번호가 잘못되었습니다</span>");
+                    $("#emconfirmchk").css({
+                        "color": "#FA3E3E",
+                        "font-weight": "bold",
+                        "font-size": "10px"
+                    });
+
+                } else {
+                    emconfirmchk = true;
+                    $emailconfirmTxt.html("<span id='emconfirmchk'>인증번호 확인 완료</span>");
+                    $("#emconfirmchk").css({
+                        "color": "#0D6EFD",
+                        "font-weight": "bold",
+                        "font-size": "10px"
+                    });
+                }
+            });
+        }
+
+
     </script>
 
 </head>
@@ -93,7 +169,7 @@
                             <div class="input-form col-md-12 mx-auto">
                                 <h4 class="mb-3">회원가입</h4>
                                 <form action="regist" method="post"  name="userInfo"
-                                      onsubmit="return checkValue()">
+                                      onsubmit="handleSubmit(event)">
                                     <div class="row">
                                         <div class=" mb-3">
                                             <label for="userId" style="display: block;">아이디</label>
@@ -123,24 +199,33 @@
                                         <div class=" mb-3">
                                             <label for="userPwd1">비밀번호 확인</label> <input type="password"
                                                                                               class="form-control" id="userPwd1"
-                                                                                              placeholder="비밀번호를 다시 한번 입력해주세요" value="" required><span
+                                                                                              placeholder="비밀번호를 다시 한번 입력해주세요"
+                                                                                         oninput="isSamePassword()"
+                                                                                         value="" required><span
                                                 class="pwchk"></span>
 
                                         </div>
 
-                                        <div class="mb-3" id="check2" >PASSWORD 가 동일하지 않습니다</div>
+                                        <div class="mb-3" id="check2" hidden>PASSWORD 가 동일하지 않습니다</div>
 
                                     </div>
                                     <div class="mb-3">
                                         <label for="email">이메일</label>
-                                        <div class="input-group" >
+                                        <div class="input-group">
                                             <input type="email" class="form-control" id="email" name="email" placeholder="metadog@example.com" required="required">
                                             <span class="input-group-btn">
-                                             <button class="btn btn-default" type="button" name="email" onclick="email">인증</button>
-                                             </span>
+                                            <button class="btn btn-default" type="button" name="email" id="check" onclick="checkEmail()">인증</button>
+                                        </span>
                                         </div>
                                         <span class="emailchk"></span>
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="memailconfirm" >인증번호를 입력해주세요</label>
+                                        <input type="text" class="form-control" id="memailconfirm" placeholder="인증번호를 입력해주세요">
+<!--                                        <button class="btn btn-default" type="button" id="a" onclick="b">확인</button>-->
+                                        <span id="memailconfirmTxt"></span>
+                                    </div>
+
 
                                     <div class="mb-3">
                                         <label for="phone">휴대폰 번호</label> <input type="text"
@@ -148,25 +233,9 @@
                                             class="phchk"></span>
                                     </div>
 
-<!--                                    <div class="mb-3">-->
-<!--                                        <label for="address">우편번호 <span class="text-muted">&nbsp;(선택사항)</span>-->
-<!--                                            <span class="text-muted">-->
-<!--								<button type="button" class="btn" id="check_btn" onclick="#">찾기</button>-->
-<!--						</span>-->
-<!--                                        </label> <input type="text" class="form-control" id="address"-->
-<!--                                                        placeholder="찾기를 눌러 주소를 입력하세요">-->
-<!--                                    </div>-->
-
-<!--                                    <div class="mb-3">-->
-<!--                                        <label for="address2">주소<span class="text-muted">&nbsp;(선택사항)</span></label>-->
-<!--                                        <input type="text" class="form-control" id="address2"-->
-<!--                                               placeholder="주소를 입력해주세요.">-->
-<!--                                    </div>-->
                                     <div class="mb-4"></div>
 
-
-
-                                    <button class="btn btn-primary btn-lg btn-block" type="submit" id="registerButton">가입
+                                    <button class="btn btn-primary btn-lg btn-block" type="submit" id="registerButton" >가입
                                         완료</button>
                                 </form>
                                 <br>
@@ -176,9 +245,7 @@
                             </div>
                         </div>
 
-<!--                        <footer class="my-3 text-center text-small">-->
-<!--                            <p class="mb-1">&copy; 2021 YD</p>-->
-<!--                        </footer>-->
+
                     </div>
 
 
@@ -186,10 +253,6 @@
                     </body>
 
 
-
-<!--                    <p>표시를 위해 노란색 배경 적용했어요~ 22번 줄 style에서 background-color만 제거하시면 됩니다 퐈이튕!!!</p>-->
-<!--                    <p>style.css는 웬만하면 건들지 않기! 꼭 상의하고 변경하기</p>-->
-<!--                    <p>페이지에 필요한 css가 새로 있다면 head태그에 있는 usercss 블럭 태그 안에 작성하시면 됩니다!</p>-->
 
                 <!--여기까지 본인 페이지 코드 작성-->.
 

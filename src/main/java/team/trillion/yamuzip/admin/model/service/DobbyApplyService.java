@@ -7,6 +7,7 @@ import team.trillion.yamuzip.admin.model.dao.DobbyApplyMapper;
 import team.trillion.yamuzip.admin.model.dto.DobbyApplyDTO;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -14,7 +15,6 @@ import java.util.List;
 public class DobbyApplyService {
 
     private final DobbyApplyMapper dobbyApplyMapper;
-    public DobbyApplyDTO selectApplyDetail;
 
     public DobbyApplyService(DobbyApplyMapper dobbyApplyMapper) {
         this.dobbyApplyMapper = dobbyApplyMapper;
@@ -24,4 +24,9 @@ public class DobbyApplyService {
         return dobbyApplyMapper.findAllApply();
     }
 
+    public void applyControl(Map<String, Object> applyMap) {
+        dobbyApplyMapper.applyControl(applyMap);
+        if(applyMap.get("result").equals("A"))
+            dobbyApplyMapper.addDobby(applyMap);
+    }
 }

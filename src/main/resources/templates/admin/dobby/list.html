@@ -49,12 +49,11 @@
                         <th scope="col">보유서비스</th>
                         <th scope="col">가입일</th>
                         <th scope="col">최근 결제일</th>
-                        <th scope="col">관리</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="dobby : ${dobbyList}"
-                        th:onclick="|location.href='/dobby/detail?dobCode=${dobby.dobCode}'|">
+                        th:onclick="|location.href='detail?dobCode=${dobby.dobCode}'|">
                         <td th:text="${dobby.dobCode}"></td>
                         <td th:text="${dobby.userId}"></td>
                         <td th:text="${dobby.dobNickname}"></td>
@@ -64,7 +63,6 @@
                         <td th:text="${#dates.format(dobby.registDatetime, 'yy.MM.dd')}"></td>
                         <td th:text="${#dates.format(dobby.orderDatetime, 'yy.MM.dd')}"></td>
                         <td>
-                            <button type="button" class="badge dBtn btn btn-sm mb-2">회원 정지</button>
                     </tr>
                     </tbody>
                 </table>
