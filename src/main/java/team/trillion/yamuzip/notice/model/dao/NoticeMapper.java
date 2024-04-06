@@ -19,7 +19,7 @@ public interface NoticeMapper {
 
     void modifyNotice(NoticeDTO notice);
 
-    void deleteNotice(int noticeCode);
+    int deleteNotice(int noticeCode);
 
     List<NoticeDTO> getFixedList();
 }
