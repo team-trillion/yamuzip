@@ -16,6 +16,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public String errorView(Exception e, Model model) {
+        e.printStackTrace();
         model.addAttribute("errorMessage", e.getMessage());
         return "common/error";
     }

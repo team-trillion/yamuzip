@@ -6,6 +6,15 @@
 <head>
     <th:block layout:fragment="userCss">
         <style>
+            /* 썸네일 이미지 크기 조정 */
+            #imagePreview img {
+                max-width: 100px; /* 이미지 최대 너비 */
+                max-height: 100px; /* 이미지 최대 높이 */
+            }
+            #imagePreview2 img {
+                max-width: 100px; /* 이미지 최대 너비 */
+                max-height: 100px; /* 이미지 최대 높이 */
+            }
             .form-group {
                 width: 500px;
             }
@@ -114,21 +123,28 @@
                     <div class="container2">
                         <form id="myForm" action="/service/serviceRegist" method="post" enctype="multipart/form-data">
                             <div class="form-groupImg col-md-4">
-                                <div class="card" style="width: 18rem;">
-                                    <img src="/images/설치_2.png" class="card-img-top img-thumbnail" alt="...">
-                                </div>
-                                <label for="thumbnailImg">썸네일 등록</label>
-                                <input type="file" name="serviceThumbnail" id="thumbnailImg">
-                                <label for="detailImg">추가 이미지</label>
+
+                                <div id="imagePreview"></div>
+                                <label for="imageInput">썸네일 등록</label>
+                                <input type="file"  name="serviceThumbnail" id="imageInput">
+
+                                <div id="imagePreview2"></div>
+
+                                <label>추가 이미지</label>
                                 <input type="file" name="serviceDetailImg" id="detailImg" multiple>
+                                <div id="warningMessage" style="display: none; color: red;"></div>
+
                             </div>
+
+
 
                             <div class="form-group col-md-8">
                                 <label>서비스 이름</label>
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="titleInput"
+                                    <input type="text" class="form-control" id="serviceTitle"
                                            placeholder="title" name="serviceTitle">
-                                    <label for="titleInput">Title</label>
+                                    <label for="serviceTitle">Title</label>
+                                    <div id="titleErrorMessage" style="display: none; color: red;"></div>
                                 </div>
                             </div>
 
@@ -137,18 +153,22 @@
                                 <label>서비스 가격</label>
 
                                 <div class="form-floating mb-3">
-                                    <input type="number" class="form-control" id="priceInput2"
+                                    <input type="number" class="form-control" id="servicePrice"
                                            placeholder="price" name="servicePrice">
-                                    <label for="PriceInput2">Price</label>
+                                    <label for="servicePrice">Price</label>
+                                    <div id="priceErrorMessage" style="display: none; color: red;"></div>
+
                                 </div>
                             </div>
 
                             <div class="form-group col-md-8">
                                 <label>간단 설명</label>
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="explainInput"
+                                    <input type="text" class="form-control" id="serviceExplain"
                                            placeholder="간단 설명" name="serviceExplain">
-                                    <label for="explainInput">explain</label>
+                                    <label for="serviceExplain">explain</label>
+                                    <div id="serviceExplainErrorMessage" style="display: none; color: red;"></div>
+
                                 </div>
 
                             </div>
@@ -162,10 +182,9 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label for="subCategory">Subcategory:</label>
-                                    <select id="subCategory" name="categoryCode">
+                                    <label for="categoryCode">Subcategory:</label>
+                                    <select id="categoryCode" name="categoryCode">
                                         <option value="">Select a subcategory</option>
-                                        <!-- Subcategories will be loaded dynamically here -->
                                     </select>
                                 </div>
 
@@ -175,9 +194,13 @@
                                 <div class="input_wrap">
                                     <div class="input_list">
                                         <input style="margin-right: 5px" type="text" name="option[0].optionName"
-                                               aria-label="optionName" class="form-control" placeholder="옵션명을 입력하세요.">
-                                        <input type="number" name="option[0].optionPrice" aria-label="optionPrice"
+                                               aria-label="optionName" id="optionName" class="form-control" placeholder="옵션명을 입력하세요.">
+
+                                        <input type="number" id="optionPrice" name="option[0].optionPrice" aria-label="optionPrice"
                                                class="form-control" placeholder="추가 금액을 입력하세요.">
+                                        <div id="optionNameErrorMessage" style="display: none; color: red;"></div>
+                                        <div id="optionPriceErrorMessage" style="display: none; color: red;"></div>
+
                                     </div>
                                 </div>
                                 <button class="add_field">추가하기</button>
@@ -186,7 +209,7 @@
                             <div class="form-group col-md-12">
                                 <div id="editor" style="height: 400px">
                                 </div>
-                                <input type="hidden" id="quill_html" name="serviceContent">
+                                <input type="hidden" id="serviceContent" name="serviceContent">
 
                             </div>
 
@@ -224,7 +247,7 @@
     <script>
         function loadSubcategories(parentCategory) {
             const parentId = parentCategory.value;
-            const subCategorySelect = document.getElementById('subCategory');
+            const subCategorySelect = document.getElementById('categoryCode');
             console.log(parentId)
 
             // Clear previous subcategory options
@@ -268,7 +291,7 @@
     <script>
         const wrapper = $('.input_wrap'); // 입력 필드를 포함하는 컨테이너 선택
         const addButton = $('.add_field'); // 추가 버튼 선택
-        const maxFields = 5; // 최대 입력 필드 수 설정
+        const maxFields = 3; // 최대 입력 필드 수 설정
         let fieldCount = 1; // 현재 입력 필드 수
 
         // '추가하기' 버튼 클릭 시 이벤트
@@ -277,22 +300,49 @@
             if (fieldCount < maxFields) { // 최대 필드 수 체크
                 fieldCount++; // 필드 수 증가
                 // 새 입력 필드 추가
-                wrapper.append(`
-<div class="input_list">
-  <input style="margin-right: 5px" type="text" name="option[${fieldCount - 1}].optionName" aria-label="optionName" class="form-control" placeholder="옵션명을 입력하세요.">
-  <input type="number" name="option[${fieldCount - 1}].optionPrice" aria-label="optionPrice" class="form-control" placeholder="추가 금액을 입력하세요.">
-  <a href="javascript:void(0);" class="remove_field" style="width:100px;   display: flex; justify-content: center">삭제</a>
-</div>
-        `);
+                const newField = `
+            <div class="input_list">
+                <input style="margin-right: 5px" type="text" name="option[${fieldCount - 1}].optionName" aria-label="optionName" class="form-control optionName" placeholder="옵션명을 입력하세요.">
+                <div class="error-message" style="display: none; color: red;">옵션 이름에 특수 문자를 포함할 수 없습니다.</div>
+                <input type="number" name="option[${fieldCount - 1}].optionPrice" aria-label="optionPrice" class="form-control optionPrice" placeholder="추가 금액을 입력하세요.">
+              <div class="optionPriceErrorMessage" style="display: none; color: red;">옵션 가격은 1억원을 초과할 수 없습니다.</div>
+                <a href="javascript:void(0);" class="remove_field" style="width:100px;   display: flex; justify-content: center">삭제</a>
+            </div>
+        `;
+                wrapper.append(newField);
             }
         });
 
         // '삭제' 링크 클릭 시 이벤트
         wrapper.on('click', '.remove_field', function (e) {
             e.preventDefault(); // 페이지 리로드 방지
-            $(this).parent('.input_list').remove(); // 필드 제거
+            $(this).closest('.input_list').remove(); // 필드 제거
             fieldCount--; // 필드 수 감소
         });
+
+        // 입력 필드에 대한 유효성 검사
+        wrapper.on('input', '.optionName', function() {
+            const value = $(this).val(); // 입력된 값 가져오기
+            const regex = /^[a-zA-Z0-9ㄱ-ㅎ가-힣\s]*$/; // 특수 문자를 포함하지 않는 정규 표현식
+
+            if (!regex.test(value)) { // 유효성 검사
+                $(this).siblings('.error-message').show();
+            } else {
+                $(this).siblings('.error-message').hide();
+            }
+        });
+        wrapper.on('input', '.optionPrice', function() {
+            const value = $(this).val(); // 입력된 값 가져오기
+            const maxPrice = 100000000; //
+
+            if (value >= maxPrice) { // 유효성 검사
+                $(this).siblings('.optionPriceErrorMessage').show();
+            } else {
+                $(this).siblings('.optionPriceErrorMessage').hide();
+            }
+        });
+
+
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -318,7 +368,7 @@
 
             quill = new Quill('#editor', option);
             quill.on('text-change', function() {
-                document.getElementById("quill_html").value = quill.root.innerHTML;
+                document.getElementById("serviceContent").value = quill.root.innerHTML;
             });
             quill.getModule('toolbar').addHandler('image', function () {
                 selectLocalImage();
@@ -362,6 +412,135 @@
         }
 
         quilljsediterInit();
+
+    </script>
+
+    <script>
+        document.getElementById("myForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // 폼 제출 이벤트 기본 동작 막기
+
+            const regex = /^[a-zA-Z0-9ㄱ-ㅎ가-힣\s]*$/; // 특수 문자를 포함하지 않는 정규 표현식
+            const serviceTitle = document.getElementById("serviceTitle").value;
+            const optionName = document.getElementById("optionName").value;
+            const serviceExplain = document.getElementById("serviceExplain").value;
+            const serviceContent = document.getElementById("serviceContent").value;
+            const servicePrice = parseInt(document.getElementById("servicePrice").value);
+            const optionPrice = parseInt(document.getElementById("optionPrice").value);
+            const categoryCode = parseInt(document.getElementById("categoryCode").value);
+            const maxPrice = 100000000; // 1억원
+
+// 입력 필드에 대한 유효성 검사
+            if (!serviceTitle || !servicePrice || !serviceExplain || !serviceContent || !optionName || !optionPrice || !categoryCode) {
+                alert('모든 필드를 입력하세요.');
+                event.preventDefault(); // 폼 제출을 막습니다.
+            } else if (isNaN(servicePrice) || isNaN(optionPrice)) {
+                alert('가격은 숫자로 입력하세요.');
+                event.preventDefault(); // 폼 제출을 막습니다.
+            } else if (!regex.test(serviceTitle) || !regex.test(optionName) || !regex.test(serviceExplain)) {
+                alert('특수 문자를 포함할 수 없습니다.');
+                event.preventDefault(); // 폼 제출을 막습니다.
+            } else if (servicePrice >= maxPrice) {
+                // 가격이 1억원 이상인 경우 오류 메시지 표시
+                alert('서비스 가격은 1억원을 초과할 수 없습니다.');
+                event.preventDefault(); // 폼 제출을 막습니다.
+            } else if (optionPrice >= maxPrice) {
+                // 가격이 1억원 이상인 경우 오류 메시지 표시
+                alert('옵션 가격은 1억원을 초과할 수 없습니다.');
+                event.preventDefault(); // 폼 제출을 막습니다.
+            } else {
+                // 모든 유효성 검사를 통과한 경우 폼 제출
+                document.getElementById("myForm").submit();
+            }
+        })
+
+    </script>
+    <script>
+        // 썸네일 이미지 업로드 입력 필드
+        const thumbnailInput = document.getElementById('imageInput');
+        // 추가 이미지 업로드 입력 필드
+        const detailImageInput = document.getElementById('detailImg');
+        // 이미지 미리보기를 표시할 요소
+        const imagePreview = document.getElementById('imagePreview');
+        const imagePreview2 = document.getElementById('imagePreview2');
+
+        // 썸네일 이미지 업로드 입력 필드에서 변경 이벤트 감지
+        thumbnailInput.addEventListener('change', function(event) {
+            // 선택된 파일이 있는지 확인
+            if (thumbnailInput.files && thumbnailInput.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    // 이미지를 미리보기에 표시
+                    const imgElement = document.createElement('img');
+                    imgElement.setAttribute('src', e.target.result);
+                    imagePreview.innerHTML = ''; // 이미지 미리보기 초기화
+                    imagePreview.appendChild(imgElement);
+                };
+
+                // 선택된 파일 읽기
+                reader.readAsDataURL(thumbnailInput.files[0]);
+            }
+        });
+
+        // 추가 이미지 업로드 입력 필드에서 변경 이벤트 감지
+        detailImageInput.addEventListener('change', function(event) {
+            // 선택된 파일이 있는지 확인
+            if (detailImageInput.files) {
+                imagePreview2.innerHTML = ''; // 이미지 미리보기 초기화
+
+                // 선택된 모든 파일에 대해 루프를 실행하여 이미지를 미리보기에 표시
+                for (let i = 0; i < detailImageInput.files.length; i++) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imgElement = document.createElement('img');
+                        imgElement.setAttribute('src', e.target.result);
+                        imagePreview2.appendChild(imgElement);
+                    };
+                    // 선택된 파일 읽기
+                    reader.readAsDataURL(detailImageInput.files[i]);
+                }
+            }
+        });
+
+
+    </script>
+
+    <script>
+
+
+        // 등록 버튼
+        const submitButton = document.getElementsByName('submitButton')[0];
+        const maxFiles = 5; // 최대 5개 파일
+
+        // 등록 버튼에 클릭 이벤트 리스너 추가
+        submitButton.addEventListener('click', function(event) {
+
+            // 썸네일 이미지 업로드 입력 필드
+            const thumbnailInput = document.getElementById('imageInput');
+            // 추가 이미지 업로드 입력 필드
+            const detailImageInput = document.getElementById('detailImg');
+            // 경고 메시지를 표시할 요소
+            const warningMessage = document.getElementById('warningMessage');
+            // 추가 이미지 업로드 입력 필드에서 선택된 파일 수
+            const detailFilesCount = detailImageInput.files.length;
+
+            // 선택된 파일 수가 최대 파일 수를 초과하는 경우
+            if (detailFilesCount > maxFiles) {
+                alert(`추가 이미지는 최대 ${maxFiles}개까지 선택할 수 있습니다.`);
+                // 등록 작업을 중단
+                event.preventDefault();
+            }
+            // 선택된 파일이 없으면 경고 메시지 표시
+            if (!thumbnailInput.files.length && !detailImageInput.files.length) {
+                warningMessage.innerText = '이미지를 선택하세요.';
+                warningMessage.style.display = 'block';
+                // 등록 작업을 중단
+                event.preventDefault();
+            } else {
+                // 선택된 파일이 있는 경우 경고 메시지 숨기기
+                warningMessage.style.display = 'none';
+            }
+        });
 
     </script>
 </th:block>
