@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+    <th:block layout:fragment="userCss">
+        <style>
+            h1, h2, h3 { font-weight: 900; color: #003363; }
+            h4 { margin-bottom: 15px; font-weight: 700; color: #003363; }
+
+            .cs-table { border-top: 3px solid black; border-bottom: 2px solid black; margin-top: 5px;}
+            .cs-table thead { height: 55px; border-bottom: 2px solid; }
+            .cs-table thead tr th { vertical-align: middle; text-align: center; }
+            .cs-table tbody tr td { vertical-align: middle; text-align: center; border-bottom-width: 0;}
+
+            .cs-type { padding: 3px 7px; background-color: #003363; border-radius: 5px;
+                       font-size: 0.9em; color: white; }
+
+            .hide { display: none; }
+            .fas { font-size: 0.8em; }
+            #paging button { border: unset; background-color: unset;}
+        </style>
+    </th:block>
+</head>
+
+<body>
+<div id="fh5co-wrapper">
+    <div id="fh5co-page">
+        <div id="fh5co-header">
+            <th:block layout:fragment="headerFragment"></th:block>
+        </div>
+
+
+        <div layout:fragment="content">
+                <section class="container-sm" style="padding-top: 150px; height: auto; padding-bottom: 100px;">
+
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-10" style="float:none; margin: 0 auto;">
+                                <h1 class="text-center">고객센터 1:1 문의</h1>
+                                    <div class="text-right">
+                                        <button type="button" class="btn btn-secondary btn-sm admin-btn"
+                                                sec:authorize="hasAuthority('ADMIN')">관리
+                                        </button>
+                                        <button type="button" class="btn btn-primary btn-sm" onclick="location.href='/cs/regist'"
+                                                sec:authorize="isAuthenticated()">글쓰기
+                                        </button>
+                                    </div>
+                                <table class="table cs-table">
+                                    <thead>
+                                    <tr class="align-middle">
+                                        <th th:width="40px" class="check-column hide">
+                                            <input type="checkbox" id="allCheckBox" onclick="allChecked()">
+                                        </th>
+                                        <th th:width="80px">번호</th>
+                                        <th th:width="120px">문의유형</th>
+                                        <th>제목</th>
+                                        <th th:width="150px">작성자</th>
+                                        <th th:width="150px">작성일자</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <th:block th:if="${!csList.isEmpty()}">
+                                        <tr class="cs-list" th:each="cs : ${csList}">
+                                            <td class="check-column hide">
+                                                <input type="checkbox" name="chk" class="chk" onclick="chkClicked()">
+                                            </td>
+                                            <td th:text="${cs.csCode}"></td>
+                                            <td th:width="120px">
+                                                <span th:text="${cs.csType}" class="cs-type"></span>
+                                            </td>
+                                            <td class="title" style="text-align:left; cursor: pointer;" th:onclick="|location.href='/cs/detail?csCode=${cs.csCode}'|">
+                                                <th:block th:text="${cs.csTitle}"></th:block>
+                                                <i th:if="${cs.isSecret}" class="fas fa-lock"></i>
+                                            </td>
+                                            <td th:text="${cs.userNickname}"></td>
+                                            <td th:text="${cs.csCreatedString}"></td>
+                                        </tr>
+                                    </th:block>
+                                    <th:block th:unless="${!csList.isEmpty()}">
+                                        <tr>
+                                            <td colspan="6">등록된 문의가 없습니다.</td>
+                                        </tr>
+                                    </th:block>
+                                    </tbody>
+                                </table>
+                                <th:block sec:authorize="hasAuthority('ADMIN')">
+                                    <div class="text-left">
+                                        <button type="button" class="btn btn-secondary btn-sm delete-btn hide">삭제</button>
+                                    </div>
+                                </th:block>
+                            </div>
+                        </div>
+
+                        <div id="paging" align="center" style="margin-top: 20px;">
+                            <th:block th:if="${ paging.searchCondition == null  || paging.searchValue == null }">
+                                <!-- 맨 앞으로 이동 -->
+                                <button th:onclick="'location.href=\'/cs?page=1\''">&lt;&lt;</button>
+
+                                <!-- 이전 페이지로 이동 -->
+                                <button th:onclick="'location.href=\'/cs?page=' + @{${paging.page - 1}} + '\''"
+                                        th:disabled="${ paging.page <= 1 }">&lt;
+                                </button>
+
+                                <!-- 숫자 버튼 -->
+                                <th:block th:each="page : ${ #numbers.sequence(paging.startPage, paging.endPage)}">
+                                    <button th:onclick="'location.href=\'/cs?page=' + @{${page}} + '\''"
+                                            th:text="${ page }" th:disabled="${ paging.page eq page }">
+                                    </button>
+                                </th:block>
+
+                                <!-- 다음 페이지로 이동 -->
+                                <button th:onclick="'location.href=\'/cs?page=' + @{${paging.page + 1}} + '\''"
+                                        th:disabled="${ paging.page >= paging.maxPage }">>
+                                </button>
+
+                                <!-- 맨 끝으로 이동 -->
+                                <button th:onclick="'location.href=\'/cs?page=' + @{${paging.maxPage}} + '\''">
+                                    >>
+                                </button>
+                            </th:block>
+                        </div>
+                    </div>
+
+                </section>
+        </div>
+        <!-- content -->
+
+    </div>
+    <!-- page -->
+</div>
+<!-- wrapper -->
+
+<th:block layout:fragment="userScript">
+<!--본인 페이지 js 작성-->
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+        })
+        const message = '[[${message}]]';
+        message && Toast.fire({
+            title: message
+        });
+    </script>
+
+    <script th:inline="javascript">
+        const $adminBtn = document.querySelector(".admin-btn");
+        const $deleteBtn = document.querySelector(".delete-btn");
+        const $checkColumn = document.getElementsByClassName("check-column");
+
+        console.log($adminBtn);
+        console.log($checkColumn);
+        $adminBtn.addEventListener("click", function () {
+            for(let i = 0; i < $checkColumn.length; i++) {
+                $checkColumn[i].classList.toggle("hide");
+            }
+            $deleteBtn.classList.toggle("hide");
+        });
+    </script>
+
+    <script th:inline="javascript">
+        function allChecked(target){
+            const checkbox = document.getElementById('allCheckBox');
+            const is_checked = checkbox.checked;
+
+            if(is_checked){
+                chkAllChecked()
+            }
+            else{
+                chkAllUnChecked()
+            }
+        }
+
+        function chkClicked(){
+            //체크박스 전체개수
+            const allCount = document.querySelectorAll(".chk").length;
+
+            //체크된 체크박스 전체개수
+            const query = 'input[name="chk"]:checked'
+            const selectedElements = document.querySelectorAll(query);
+            const selectedElementsCnt = selectedElements.length;
+
+            //체크박스 전체개수와 체크된 체크박스 전체개수가 같으면 전체 체크박스 체크
+            document.getElementById('allCheckBox').checked = allCount === selectedElementsCnt;
+        }
+
+        //체크박스 전체 체크
+        function chkAllChecked(){
+            document.querySelectorAll(".chk").forEach(function(v) {
+                v.checked = true;
+            });
+        }
+        //체크박스 전체 체크 해제
+        function chkAllUnChecked(){
+            document.querySelectorAll(".chk").forEach(function(v) {
+                v.checked = false;
+            });
+        }
+    </script>
+</th:block>
+
+</body>
+</html>

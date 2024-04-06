@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+    <th:block layout:fragment="userCss">
+        <style>
+            h1, h2, h3 { font-weight: 900; color: #003363; }
+            h4 { margin-bottom: 15px; font-weight: 700; color: #003363; }
+
+            .cs-table { border-top: 3px solid black; border-bottom: 2px solid black; margin-top: 5px;}
+            .cs-table thead { height: 55px; border-bottom: 2px solid; }
+            .cs-table thead tr th { vertical-align: middle; text-align: center; }
+            .cs-table tbody tr td { vertical-align: middle; padding: 30px; border-bottom-width: 0;}
+
+            .cs-type { padding: 3px 7px; background-color: #003363; border-radius: 5px;
+                       font-size: 0.9em; color: white; }
+            .fas { font-size: 0.8em; }
+
+            #paging button { border: unset; background-color: unset;}
+        </style>
+    </th:block>
+</head>
+
+<body>
+<div id="fh5co-wrapper">
+    <div id="fh5co-page">
+        <div id="fh5co-header">
+            <th:block layout:fragment="headerFragment"></th:block>
+        </div>
+
+
+        <div layout:fragment="content">
+                <section class="container-sm" style="padding-top: 150px; height: auto; padding-bottom: 100px;">
+
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-10" style="float:none; margin: 0 auto;">
+                                <h1 class="text-center">고객센터 1:1 문의</h1>
+                                <th:block sec:authorize="isAuthenticated()" th:if="${cs.writerUserCode == #authentication.principal.userCode}">
+                                    <div class="text-right">
+                                        <button type="button" class="btn btn-secondary btn-sm"
+                                                th:onclick="|location.href='/cs/modify?csCode=${cs.csCode}'|">수정</button>
+                                        <button type="button" class="btn btn-primary btn-sm deleteBtn">삭제</button>
+                                    </div>
+                                </th:block>
+                                <th:block sec:authorize="hasAuthority('ADMIN')">
+                                    <div class="text-right">
+                                        <button type="button" class="btn btn-primary btn-sm deleteBtn">삭제</button>
+                                    </div>
+                                </th:block>
+                                <table class="table cs-table">
+                                    <thead>
+                                    <tr class="align-middle">
+                                        <th th:width="120px">
+                                            <span th:text="${cs.csType}" class="cs-type">문의유형</span>
+                                        </th>
+                                        <th style="text-align:left;">
+                                            <th:block th:text="${cs.csTitle}">제목</th:block>
+                                            <i th:if="${cs.isSecret}" class="fas fa-lock"></i>
+                                        </th>
+                                        <th th:width="150px" th:text="${cs.userNickname}">작성자</th>
+                                        <th th:width="150px" th:text="${cs.csCreatedString}">작성일자</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td colspan="4" th:utext="${cs.csContent}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <span><a href="javascript:history.back(-1)">< 목록으로</a></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+        </div>
+        <!-- content -->
+
+    </div>
+    <!-- page -->
+</div>
+<!-- wrapper -->
+
+<th:block layout:fragment="userScript">
+<!--본인 페이지 js 작성-->
+
+    <script th:inline="javascript">
+        const $deleteBtn = document.querySelector(".deleteBtn");
+        const $csCode = [[${cs.csCode}]];
+
+        const deleteSwal = function() {
+            Swal.fire({
+                title: "정말 삭제하시겠습니까?",
+                text: "이 작업은 되돌릴 수 없습니다.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "삭제",
+                cancelButtonText: "취소"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch('/cs/delete', {
+                        method : 'POST',
+                        headers : {
+                            'Content-Type' : 'application/json; charset=UTF-8'
+                        },
+                        body : JSON.stringify($csCode)
+                    })
+                        .then(res => res.text())
+                        .then(data => {
+                            console.log(data)
+                            Swal.fire({
+                                title: data,
+                                icon: "success"
+                            }).then( function (){
+                                location.href = "/cs"
+                            });
+                        })
+                        .catch(err => console.log(err));
+                }
+            });
+        }
+        $deleteBtn.addEventListener("click", deleteSwal);
+
+    </script>
+</th:block>
+
+</body>
+</html>
