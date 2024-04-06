@@ -31,7 +31,7 @@
 
             <div class=" col-md-10 col-sm-9 col-xs-8">
                 <p class="fs-5 pt-3 px-2">
-                    <a href="/admin/dashboard/dashboard" class="text-black">관리자페이지</a> 〉 &nbsp;
+                    <a href="/admin/dashboard" class="text-black">관리자페이지</a> 〉 &nbsp;
                     <a href="/admin/dashboard/user" class="text-black">회원관리</a> 〉 &nbsp;
                     <a href="" class="text-black fw-bolder">도비회원</a>  &nbsp;
                 </p>
@@ -53,19 +53,20 @@
                     </thead>
                     <tbody>
                     <tr th:each="dobby : ${dobbyList}"
-                        th:onclick="|location.href='detail?dobCode=${dobby.dobCode}'|">
-                        <td th:text="${dobby.dobCode}"></td>
+                        th:onclick="|location.href='detailService?dobCode=${dobby.dobCode}&userCode=${dobby.userCode}'|">
+                        <td th:text="${dobby.dobCode}" th:attr="dobCode=${dobby.dobCode}"></td>
                         <td th:text="${dobby.userId}"></td>
                         <td th:text="${dobby.dobNickname}"></td>
                         <td th:text="${dobby.userName}"></td>
                         <td th:text="${dobby.phone}"></td>
-                        <td th:text="${dobby.dobbyServiceCount}"></td>
+                        <td th:text="|${dobby.dobbyServiceCount}건|"></td>
                         <td th:text="${#dates.format(dobby.registDatetime, 'yy.MM.dd')}"></td>
                         <td th:text="${#dates.format(dobby.orderDatetime, 'yy.MM.dd')}"></td>
                         <td>
                     </tr>
                     </tbody>
                 </table>
+
             </div>
             </div>
 

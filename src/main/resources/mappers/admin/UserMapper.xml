@@ -175,7 +175,7 @@
         FROM
             tbl_review a
                 LEFT JOIN tbl_user b ON a.writer_user_code = b.user_code
-                LEFT JOIN tbl_order c ON b.user_code = c.user_code
+                LEFT JOIN tbl_order c ON a.order_code = c.order_code
                 LEFT JOIN tbl_service d ON c.service_code = d.service_code
         WHERE
             a.review_status = 'A'

@@ -13,6 +13,7 @@ import java.util.List;
 public class DobbyDTO {
 
     private int dobCode;
+    private int userCode;
     private String userId;
     private String dobNickname;
     private String userName;

@@ -1,144 +1,122 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
-
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin}">
 <head>
-    <th:block layout:fragment="userCss">
-    </th:block>
-    <style>
-        .white-box{
-            background: #F2F2F2;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0.5px 0.5px 2px 1px #eee;
-        }
+    <th:block layout:fragments="userCss">
+        <style>
+            .white-box {
+                background: #F2F2F2;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0.5px 0.5px 2px 1px #eee;
+            }
 
-    </style>
+            .custom-circle {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                overflow: hidden;
+            }
+
+            thead > tr > th, td:not(.title) {
+                text-align: center;
+            }
+
+            .table > tbody > tr > td {
+                vertical-align: middle;
+                line-height: 100px;
+            }
+
+            .form-control, .input-sm {
+                padding: 5px 10px;
+            }
+
+            .img-col {
+                width: 100px;
+            }
+
+            .order-img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        </style>
+    </th:block>
 </head>
 
 <body>
-<div id="fh5co-wrapper">
-    <div id="fh5co-page">
-        <div id="fh5co-header">
-            <th:block layout:fragment="headerFragment"></th:block>
-        </div>
-
-
-        <div layout:fragment="content">
-            <div class="fh5co-hero"  style="height: auto;">
-                <!--                                <div class="fh5co-overlay"></div>-->
-                <section class="container-sm" style="padding-top: 150px;">
-
-                    <!--여기부터 본인 페이지 코드 작성-->
-
-                    <!-- 프로필바 -->
-                    <div class="container" >
-                        <div class="row white-box">
-                            <div class="col-2 p-4 justify-content-center">
-                                <img src="/images/profile.png" alt="profile" class="img-circle img-thumbnail w-50 center-block">
-                            </div>
-                            <div class="col d-flex align-items-start justify-content-center flex-column mb-2">
-                                <div class="pt-3">홍길동</div>
-                                <div class="pb-3">lhs1119@gmail.com</div>
-                            </div>
-                            <div class="col d-flex align-items-center justify-content-center">
-                                <button class="btn btn-primary" >내 정보 등록/수정</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="container">
-                        <div class="mt-5">
-                            <nav>
-                                <ul class="nav nav-underline border border-start-0 border-top-0 border-end-0  ">
-                                    <li class="nav-item">
-                                        <a class="nav-link active border-2" aria-current="page" href="#">소개</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                            <div class="row">
-                                <p class="col m-5">
-                                    안녕하세요!
-                                    우리는 청결과 안락을 위한 전문 청소 서비스를 제공합니다.
-
-                                    고객의 요구에 맞춰 맞춤형 서비스를 제공하며,
-                                    친환경적인 청소제와 방법을 사용하여 환경과 건강에도 신경을 씁니다.
-
-                                    언제든지 편안한 공간을 원하시는 분들께 최상의 서비스를 제공하기 위해 준비되어 있습니다. 문의나 예약은 언제든지 환영합니다. 감사합니다.
-                                </p>
-                                <div class="col-3 m-5">
-                                    <div class="card">
-                                        <div class="card-body m-3">
-                                            <h3 class="card-title fs-3">도비 정보</h3>
-                                            <div class="card-text fs-4 d-flex justify-content-between">
-                                                <span>지역</span>
-                                                <span>서울시 종로구</span>
-                                            </div>
-                                            <div class="card-text fs-4 d-flex justify-content-between">
-                                                <span>영업일</span>
-                                                <span>월.화.수.목.금</span>
-                                            </div>
-                                            <div class="card-text fs-4 d-flex justify-content-between">
-                                                <span>전문 분야</span>
-                                                <span>이사.청소</span>
-                                            </div>
-                                            <div class="card-text fs-4 d-flex justify-content-between">
-                                                <span>경력</span>
-                                                <span>10년 이상</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mt-5">
-                                <nav>
-                                    <ul class="nav nav-underline border border-start-0 border-top-0 border-end-0  ">
-                                        <li class="nav-item">
-                                            <a class="nav-link active border-2" aria-current="page" href="#">서비스</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                                <div class="row m-5 pb-5 border border-2 border-start-0 border-top-0 border-end-0">
-                                    <div class="card border-0">
-                                        <div class="row g-0">
-                                            <div class="col-md-4">
-                                                <img src="/images/profile.png" class="img-fluid rounded-start" alt="...">
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="card-body">
-                                                    <h5 class="card-title fs-3">서비스 이름</h5>
-                                                    <p class="card-text fs-4">This is a wider card with supporting text below as a natural lead-in to additional content. </p>
-                                                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--                                <div class="row m-5 pb-5 border border-2 border-start-0 border-top-0 border-end-0">-->
-                                <!--                                    <p href="#" class="text-center">+서비스 등록하기</p>-->
-                                <!--                                </div>-->
-
-                            </div>
-                        </div>
-                    </div>
-                    <!--여기까지 본인 페이지 코드 작성-->
-
-                </section>
-            </div>
-        </div>
-        <!-- content -->
-
-    </div>
-    <!-- page -->
+<div id="fh5co-header">
+    <th:block layout:fragment="headerFragment"></th:block>
 </div>
-<!-- wrapper -->
+
+<div layout:fragment="content">
+    <div class="fh5co-hero" style="height: auto;">
+        <section class="container-sm" style="padding-top: 150px;">
+            <!--여기부터 본인 페이지 코드 작성-->
+            <div class="row">
+                <div class=" col">
+                    <p class="fs-5 pt-3 px-2">
+                        <a href="/admin/dashboard" class="text-black">관리자페이지</a> 〉 &nbsp;
+                        <a href="/admin/dashboard/user" class="text-black">회원관리</a> 〉 &nbsp;
+                        <a href="/admin/user/list" class="text-black">일반회원조회</a>
+                    </p>
+
+                    <div class="container-fluid border border-2 rounded p-5 mb-5">
+                        <tr th:each="userInfo : ${userDetail}">
+                            <div class="col text-center m-5">
+                                <img th:src="${userInfo.userImg}" alt="profile" class="bd-placeholder-img card-img-top img-circle img-fluid"
+                                     style="width: 15rem; height: 15rem;">
+                                <h3 class="mt-5 fs-2 fw-bold mb-3 text-dark" th:text="${userInfo.userName}"></h3>
+                                <h3 class="pt-0 fs-4 fw-bold my-1 text-dark" th:text="${userInfo.email}"></h3>
+                            </div>
+                            <!--                                <div class="mx-5 mb-5" style="border-bottom: solid 0.5px #c4c4c4;"></div>-->
+                        </tr>
+                        <div class="container-fluid d-flex justify-content-evenly w-50">
+                            <div class="row text-dark my-5 lh-lg">
+                                <tr class="order-list" th:each="user : ${userDetail}">
+                                    <div class="col-6">이름</div>
+                                    <div class="col-6 text-end" th:text="${user.userName}"></div>
+                                    <div class="col-6">아이디</div>
+                                    <div class="col-6 text-end" th:text="${user.userId}"></div>
+                                    <div class="col-6">이메일</div>
+                                    <div class="col-6 text-end" th:text="${user.email}"></div>
+                                    <div class="col-6">전화번호</div>
+                                    <div class="col-6 text-end" th:text="${user.phone}"></div>
+                                    <div class="col-6">가입일</div>
+                                    <div class="col-6 text-end"
+                                         th:text="${#dates.format(user.registDatetime, 'yy.MM.dd')}"></div>
+                                    <div class="col-6">권한</div>
+                                    <div class="col-6 text-end" th:text="${user.auth.getUserAuth()}"></div>
+                                    <div class="col-6">지역</div>
+                                    <div class="col-6 text-end" th:text="${user.area}"></div>
+                                </tr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
 
 <th:block layout:fragment="userScript">
-    <!--본인 페이지 js 작성-->
     <!-- Main JS -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/locales/bootstrap-datepicker.ko.min.js"></script>
     <script src="/js/main.js"></script>
+
+    <script th:inline="javascript">
+        $('.input-daterange').datepicker({
+            format: "yyyy-mm-dd",
+            language: "ko",
+            todayHighlight: true
+        });
+
+    </script>
 </th:block>
 
 </body>
