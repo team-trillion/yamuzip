@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import team.trillion.yamuzip.dobby.mypage.model.dto.AccountDTO;
 import team.trillion.yamuzip.dobby.mypage.model.dto.ModifyDTO;
+import team.trillion.yamuzip.dobby.mypage.model.dto.ModifyTmpDTO;
 import team.trillion.yamuzip.dobby.mypage.model.dto.WorkdayDTO;
 import team.trillion.yamuzip.dobby.mypage.model.service.ModifyService;
 import team.trillion.yamuzip.login.model.dto.UserDTO;

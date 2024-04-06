@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import team.trillion.yamuzip.dobby.mypage.model.dto.ModifyDTO;
+import team.trillion.yamuzip.dobby.mypage.model.dto.ModifyTmpDTO;
 import team.trillion.yamuzip.dobby.mypage.model.service.ModifyService;
 import team.trillion.yamuzip.dobby.mypage.model.service.OrderService;
 import team.trillion.yamuzip.dobby.mypage.model.dto.OrderCountDTO;
