@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.cs.model.dao.CSMapper">
+
+    <select id="getCSCount">
+        SELECT
+            COUNT(*)
+        FROM
+            tbl_cs
+        WHERE
+            cs_status = 'A'
+    </select>
+
+    <select id="getCSList" resultType="team.trillion.yamuzip.cs.model.dto.CSDTO">
+        SELECT
+            a.cs_code,
+            a.section,
+            a.cs_created,
+            a.cs_status,
+            a.cs_type,
+            a.cs_secret,
+            a.cs_modify,
+            a.cs_title,
+            a.cs_content,
+            a.writer_user_code,
+            b.user_nickname
+        FROM
+            tbl_cs a
+                JOIN
+            tbl_user b on (a.writer_user_code = b.user_code)
+        WHERE
+            a.cs_status = 'A'
+        ORDER BY
+            a.cs_code DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+
+    <select id="getCSDetail" resultType="team.trillion.yamuzip.cs.model.dto.CSDTO">
+        SELECT
+            a.cs_code,
+            a.section,
+            a.cs_created,
+            a.cs_status,
+            a.cs_type,
+            a.cs_secret,
+            a.cs_modify,
+            a.cs_title,
+            a.cs_content,
+            a.writer_user_code,
+            b.user_nickname
+        FROM
+            tbl_cs a
+        JOIN
+            tbl_user b on (a.writer_user_code = b.user_code)
+        WHERE
+            a.cs_code = #{ csCode }
+    </select>
+
+    <insert id="registCS">
+        INSERT INTO
+            tbl_cs (section, cs_type, cs_secret, cs_title, cs_content, writer_user_code)
+        VALUES
+            ('C', #{csType}, #{csSecret}, #{csTitle}, #{csContent}, #{writerUserCode})
+    </insert>
+
+    <update id="modifyCS">
+        UPDATE
+            tbl_cs
+        SET
+            cs_type = #{csType},
+            cs_secret = #{csSecret},
+            cs_title = #{csTitle},
+            cs_content = #{csContent},
+            cs_modify = CURRENT_TIMESTAMP
+        WHERE
+            cs_code = #{csCode}
+    </update>
+
+    <update id="deleteCS">
+        UPDATE
+            tbl_cs
+        SET
+            cs_status = 'R'
+        WHERE
+            cs_code = #{csCode}
+    </update>
+
+</mapper>
