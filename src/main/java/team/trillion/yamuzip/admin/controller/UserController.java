@@ -51,9 +51,6 @@ public class UserController {
                              @RequestParam String userStatus,
                              @RequestParam (required = false) LocalDateTime unban) {
 
-        System.out.println(userCode);
-        System.out.println(userStatus);
-
         if (unban == null) {
             unban = LocalDateTime.now().plusYears(1);
         }

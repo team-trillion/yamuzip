@@ -3,13 +3,13 @@ package team.trillion.yamuzip.admin.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import team.trillion.yamuzip.admin.model.dto.ServiceDTO;
 import team.trillion.yamuzip.admin.model.service.ServiceService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -32,18 +32,21 @@ public class ServiceController {
         return "admin/service/list";
     }
 
-//    @GetMapping("/detail")
-//    public String getServiceDetail(@RequestParam int serviceCode, Model model) {
-//
-//        return "/service/serviceDetail";
-//    }
+    @PostMapping("/status")
+    public String statusControl(@RequestParam Integer serviceCode,
+                                 @RequestParam String serviceStatus) {
 
-    @GetMapping("/hide")
-    public void hideService() {}
+        System.out.println(serviceCode);
+        System.out.println(serviceStatus);
 
-    @GetMapping("/open")
-    public void openService() {}
+        Map<String, Object> serviceMap = new HashMap<>();
+        serviceMap.put("serviceCode", serviceCode);
+        serviceMap.put("serviceStatus", serviceStatus);
+        serviceService.statusControl(serviceMap);
 
-    @GetMapping("/delete")
+        return "redirect:/admin/service/list";
+    }
+
+    @GetMapping("/remove")
     public void deleteService() {}
 }
