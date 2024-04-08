@@ -4,6 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="team.trillion.yamuzip.service.model.dao.ServiceMapper">
 
+
     <resultMap id="selectService" type="team.trillion.yamuzip.service.model.dto.ServiceDTO">
         <id property="serviceCode" column="service_code"/>
         <result property="serviceTitle" column="service_title"/>
@@ -20,7 +21,34 @@
             <result property="dobCareerDays" column="dob_career_days"/>
             <result property="dobContent" column="dob_content"/>
         </association>
+        <association property="category" javaType="team.trillion.yamuzip.service.model.dto.CategoryDTO">
+            <id property="categoryCode" column="category_code"/>
+            <result property="categoryName" column="category_name"/>
+            <result property="refCategoryCode" column="ref_category_code"/>
+        </association>
 
+    </resultMap>
+    <resultMap id="selectServiceDetail" type="team.trillion.yamuzip.service.model.dto.ServiceDTO">
+        <id property="serviceCode" column="service_code"/>
+        <result property="serviceTitle" column="service_title"/>
+        <result property="serviceExplain" column="service_explain"/>
+        <result property="serviceContent" column="service_content"/>
+        <result property="servicePrice" column="service_price"/>
+        <result property="serviceCreated" column="service_created"/>
+        <association property="dobby" javaType="team.trillion.yamuzip.service.model.dto.DobbyDTO">
+            <id property="dobCode" column="dob_code"/>
+            <result property="dobNickName" column="dob_nickname"/>
+            <result property="dobImage" column="dob_image"/>
+            <result property="dobContent" column="dob_content"/>
+            <result property="dobArea" column="dob_area"/>
+            <result property="dobCareerDays" column="dob_career_days"/>
+            <result property="dobContent" column="dob_content"/>
+        </association>
+        <association property="category" javaType="team.trillion.yamuzip.service.model.dto.CategoryDTO">
+            <id property="categoryCode" column="category_code"/>
+            <result property="categoryName" column="category_name"/>
+            <result property="refCategoryCode" column="ref_category_code"/>
+        </association>
 
     </resultMap>
 
@@ -84,55 +112,246 @@
 
     </resultMap>
 
-    <select id="getServiceList" resultMap="selectService">
-        SELECT
-        service_code,
-        dob_nickname,
-        service_title,
-        service_explain,
-        service_content,
-        service_price,
-        service_created
-        FROM
-        tbl_service
-        JOIN tbl_dobby ON tbl_service.dob_code = tbl_dobby.dob_code
-        WHERE
-        service_status = 'A'
-        ORDER BY
-        service_code
-    </select>
-    <select id="getServiceDetail" resultMap="selectService">
-        SELECT
-        service_code,
-        dob_nickname,
-        dob_area,
-        dob_career_days,
-        dob_content,
-        service_title,
-        service_explain,
-        service_content,
-        service_price,
-        service_created
-        FROM
-        tbl_service
-        JOIN tbl_dobby ON tbl_service.dob_code = tbl_dobby.dob_code
-        WHERE
-        service_status = 'A'
-        and
-        service_code = #{ serviceCode }
-        ORDER BY
-        service_code
-    </select>
-    <select id="getImages" resultMap="getImages">
-        SELECT
-        img_url,
-        img_origin_name,
-        img_name
-        FROM
-        tbl_img
-        WHERE
-       service_code = #{serviceCode}
 
+<select id="getServiceList" resultMap="selectService">
+        SELECT
+            service_code,
+            dob_nickname,
+            service_title,
+            service_explain,
+            service_content,
+            service_price,
+            service_created,
+            thumbnail_url,
+            category_name,
+            views
+        FROM
+            tbl_service
+                JOIN tbl_dobby ON tbl_service.dob_code = tbl_dobby.dob_code
+                JOIN
+            tbl_category ON tbl_service.category_code = tbl_category.category_code
+        WHERE
+            service_status = 'A'
+        ORDER BY
+            service_code
+    </select>
+    <select id="getServiceListSortedByParentCategory" resultMap="selectService">
+        SELECT
+            service_code,
+            dob_nickname,
+            service_title,
+            service_explain,
+            service_content,
+            service_price,
+            service_created,
+            thumbnail_url,
+            category_name,
+            views
+        FROM
+            tbl_service
+                JOIN tbl_dobby ON tbl_service.dob_code = tbl_dobby.dob_code
+                JOIN
+            tbl_category ON tbl_service.category_code = tbl_category.category_code
+        WHERE
+            service_status = 'A'
+        and
+            ref_category_code = #{categoryCode}
+        ORDER BY
+            service_code
+    </select>
+
+    <select id="getServiceListSortedByPrice" resultMap="selectService">
+     <![CDATA[
+        SELECT
+            service_code,
+            dob_nickname,
+            service_title,
+            service_explain,
+            service_content,
+            service_price,
+            service_created,
+            thumbnail_url,
+            category_name,
+            views
+        FROM
+            tbl_service
+                JOIN tbl_dobby ON tbl_service.dob_code = tbl_dobby.dob_code
+                JOIN tbl_category ON tbl_service.category_code = tbl_category.category_code
+        WHERE
+            service_status = 'A'
+                and
+            (service_price >= 0 AND service_price <= 100000 AND #{servicePrice} = '010')
+           OR
+            (service_price > 100000 AND service_price <= 250000 AND #{servicePrice} = '1025')
+           OR
+            (service_price > 250000 AND #{servicePrice} = '250000')
+        ORDER BY
+            service_code;
+        ]]>
+
+    </select>
+
+
+    <select id="getServiceListSortedByCareerDays3y" resultMap="selectService">
+        SELECT
+            service_code,
+            dob_nickname,
+            service_title,
+            service_explain,
+            service_content,
+            service_price,
+            service_created,
+            thumbnail_url,
+            category_name,
+            views,
+            dob_area,
+            dob_career_days
+        FROM
+            tbl_service
+                JOIN tbl_dobby ON tbl_service.dob_code = tbl_dobby.dob_code
+                JOIN
+            tbl_category ON tbl_service.category_code = tbl_category.category_code
+        WHERE
+            service_status = 'A'
+          and
+            tbl_dobby.dob_career_days >= #{dobCareerDays}
+        ORDER BY
+            service_code ;
+    </select>
+    <select id="getServiceListSortedByCareerDays" resultMap="selectService">
+        SELECT
+            service_code,
+            dob_nickname,
+            service_title,
+            service_explain,
+            service_content,
+            service_price,
+            service_created,
+            thumbnail_url,
+            category_name,
+            views,
+            dob_area,
+            dob_career_days
+        FROM
+            tbl_service
+                JOIN tbl_dobby ON tbl_service.dob_code = tbl_dobby.dob_code
+                JOIN
+            tbl_category ON tbl_service.category_code = tbl_category.category_code
+        WHERE
+            service_status = 'A'
+          and
+            tbl_dobby.dob_career_days  LIKE CONCAT('%',#{dobCareerDays}, '%')
+        ORDER BY
+            service_code ;
+    </select>
+
+<select id="getServiceListSortedByArea" resultMap="selectService">
+        SELECT
+            service_code,
+            dob_nickname,
+            service_title,
+            service_explain,
+            service_content,
+            service_price,
+            service_created,
+            thumbnail_url,
+            category_name,
+            views,
+            dob_area
+        FROM
+            tbl_service
+                JOIN tbl_dobby ON tbl_service.dob_code = tbl_dobby.dob_code
+                JOIN
+            tbl_category ON tbl_service.category_code = tbl_category.category_code
+        WHERE
+            service_status = 'A'
+        and
+            dob_area LIKE CONCAT('%', #{dobArea}, '%')
+        ORDER BY
+            service_code ;
+    </select>
+
+<select id="getServiceListSortedByRecent" resultMap="selectService">
+        SELECT
+            service_code,
+            dob_nickname,
+            service_title,
+            service_explain,
+            service_content,
+            service_price,
+            service_created,
+            thumbnail_url,
+            category_name,
+            views
+        FROM
+            tbl_service
+                JOIN tbl_dobby ON tbl_service.dob_code = tbl_dobby.dob_code
+                JOIN
+            tbl_category ON tbl_service.category_code = tbl_category.category_code
+        WHERE
+            service_status = 'A'
+        ORDER BY
+            service_created ;
+    </select>
+<select id="getServiceListSortedByViews" resultMap="selectService">
+        SELECT
+        service_code,
+        dob_nickname,
+        service_title,
+        service_explain,
+        service_content,
+        service_price,
+        service_created,
+        thumbnail_url,
+        category_name,
+        views
+        FROM
+        tbl_service
+        JOIN tbl_dobby ON tbl_service.dob_code = tbl_dobby.dob_code
+        JOIN
+        tbl_category ON tbl_service.category_code = tbl_category.category_code
+        WHERE
+        service_status = 'A'
+        ORDER BY
+        views DESC;
+    </select>
+    <select id="getServiceDetail" resultMap="selectServiceDetail">
+        SELECT
+            service_code,
+            dob_nickname,
+            dob_area,
+            dob_career_days,
+            dob_content,
+            service_title,
+            service_explain,
+            service_content,
+            service_price,
+            service_created,
+            thumbnail_url,
+            tbl_category.category_name,
+            views
+        FROM
+            tbl_service
+                JOIN
+            tbl_dobby ON tbl_service.dob_code = tbl_dobby.dob_code
+                JOIN
+            tbl_category ON tbl_service.category_code = tbl_category.category_code
+        WHERE
+
+            service_code = #{serviceCode}
+        ORDER BY
+            service_code
+    </select>
+
+    <select id="getImages" resultType="team.trillion.yamuzip.service.model.dto.ImageDTO">
+        SELECT
+            img_url,
+            img_origin_name,
+            img_name
+        FROM
+            tbl_img
+        WHERE
+            service_code = #{serviceCode}
     </select>
     <select id="getOptions" resultType="team.trillion.yamuzip.service.model.dto.OptionDTO">
         SELECT
@@ -224,13 +443,7 @@
         service_code = #{serviceCode};
 
     </select>
-    <!--    서비스 총 개수-->
-    <select id="serviceGetTotal" resultType="_int">
-        select count(*) from tbl_service
-        <if test="keyword != null">
-            where product_title like '%' || #{keyword} || '%'
-        </if>
-    </select>
+
     <resultMap id="categoryResultMap" type="team.trillion.yamuzip.service.model.dto.CategoryDTO">
         <id property="categoryCode" column="category_code" />
         <result property="categoryName" column="category_name" />
@@ -314,4 +527,23 @@
         WHERE
             service_code = #{serviceCode}
     </update>
+
+
+<update id="viewsCount">
+    UPDATE
+        tbl_service
+    SET
+        views = views + 1
+    WHERE
+        service_code = #{serviceCode}
+</update>
+
+    <select id="getTotalService" resultType="_int">
+        SELECT
+            count(*)
+        FROM
+            tbl_service
+        WHERE
+            service_status = 'A'
+    </select>
 </mapper>

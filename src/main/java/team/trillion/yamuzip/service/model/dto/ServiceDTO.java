@@ -13,7 +13,10 @@ import java.util.List;
 public class ServiceDTO {
     private long serviceCode;
     private long dobCode;
+    private String dobArea;
+    private String dobCreerDays;
     private DobbyDTO dobby;
+    private CategoryDTO category;
     private int categoryCode;
     private String serviceTitle;
     private String serviceExplain;
@@ -26,4 +29,7 @@ public class ServiceDTO {
     private CsRepDTO csRep;
     private ImageDTO image;
     private String thumbnailUrl;
+    private int views;
+
+
 }

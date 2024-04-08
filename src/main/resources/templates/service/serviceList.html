@@ -5,6 +5,8 @@
 
 <head>
     <th:block layout:fragment="userCss">
+
+
         <style>
             .categoryBar {
                 background-color: #ffffff; /* 흰색 배경색 */
@@ -105,10 +107,10 @@
                                 금액
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">전체</a>
-                                <a class="dropdown-item" href="#">0원 ~ 100,000원</a>
-                                <a class="dropdown-item" href="#">100,000원 ~ 250,000원</a>
-                                <a class="dropdown-item" href="#">250,000원 이상 </a>
+                                <a class="dropdown-item" href="/service/serviceList">전체</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortPrice?servicePrice=010">0원 ~ 100,000원</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortPrice?servicePrice=1025">100,000원 ~ 250,000원</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortPrice?servicePrice=250000">250,000원 이상 </a>
                             </div>
                         </div>
                         <div class="dropdown">
@@ -118,13 +120,25 @@
                                 지역
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                <a class="dropdown-item" href="#">전체</a>
-                                <a class="dropdown-item" href="#">서울</a>
-                                <a class="dropdown-item" href="#">경기도</a>
-                                <a class="dropdown-item" href="#">충청도</a>
-                                <a class="dropdown-item" href="#">전라도</a>
-
+                                <a class="dropdown-item" href="/service/serviceList">전체</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortArea?dobArea=서울">서울</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortArea?dobArea=인천">인천</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortArea?dobArea=부산">부산</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortArea?dobArea=대구">대구</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortArea?dobArea=울산">울산</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortArea?dobArea=대전">대전</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortArea?dobArea=광주">광주</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortArea?dobArea=경기">경기도</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortArea?dobArea=충북">충청북도</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortArea?dobArea=충남">충청남도</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortArea?dobArea=전북">전라북도</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortArea?dobArea=전남">전라남도</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortArea?dobArea=경북">경상북도</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortArea?dobArea=경남">경상남도</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortArea?dobArea=강원">강원도</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortArea?dobArea=제주">제주도</a>
                             </div>
+
                         </div>
                         <div class="dropdown">
                             <button class="categoryBar btn rounded-pill px-5 dropdown-toggle" type="button"
@@ -133,34 +147,39 @@
                                 경력
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-                                <a class="dropdown-item" href="#">전체</a>
-                                <a class="dropdown-item" href="#">신입 ~ 1년차</a>
-                                <a class="dropdown-item" href="#">1년차 ~ 3년차</a>
-                                <a class="dropdown-item" href="#">3년차 이상</a>
+                                <a class="dropdown-item" href="/service/serviceList">전체</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortCareer?dobCareerDays=신입">신입</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortCareer?dobCareerDays=1">1년차</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortCareer?dobCareerDays=2">2년차</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortCareer?dobCareerDays=3">3년차 이상</a>
                             </div>
                         </div>
                     </div>
                     <div class="box1 d-flex justify-content-between">
-                        <div><h5>0개의<span id="postCount"> 서비스</span></h5></div>
+                        <div>총 <span th:text="${totalService}"> </span>개의 서비스</div>
                         <div class="btn-group btn-group-custom">
                             <button type="button" class="selectCategory btn btn-secondary dropdown-toggle"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                조회
+                                정렬
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">조회순</a>
-                                <a class="dropdown-item" href="#">최신순</a>
+                                <a  class="dropdown-item" href="/service/serviceList/sortViews">조회순</a>
+                                <a class="dropdown-item" href="/service/serviceList/sortRecent">최신순</a>
                                 <a class="dropdown-item" href="#">인기순</a>
                             </div>
                         </div>
                     </div>
 
                     <!-- 상품 리스트 -->
+
+
                     <div class="row">
                         <div class="col-4" th:each="service:${serviceList}">
+                            <p>조회수 :  <span id="viewsCount" th:text="${service.views}"></span></p>
 
                             <div class="card" style="width: 35rem; height: auto">
-                                <img src="/images/설치_2.png" class="card-img-top img-thumbnail" alt="...">
+
+                                <img th:src="@{${service.thumbnailUrl}}" class="card-img-top img-thumbnail" alt="이미지">
                                 <div class="card-body m-0 border">
                                     <!-- 닉네임 출력 -->
                                     <p id="dobName" class="card-name p-2 badge"
@@ -169,16 +188,15 @@
                                         <b th:text="${service.dobby.dobNickName}"></b>
                                     </p>
 
-                                    <!-- 상세 페이지로 이동하는 링크 -->
-                                    <a class="card-title p-3" style="color: #003363"
-                                       th:href="@{'/service/serviceDetail/{serviceCode}'(serviceCode=${service.serviceCode})}">
-                                        <!-- Thymeleaf 문법을 사용하여 서비스 제목 출력 -->
+                                    <a class="card-title p-3" style="color: #003363" th:href="@{'/service/serviceDetail?serviceCode=' + ${service.serviceCode}}"
+                                      >
                                         <b th:text="${service.serviceTitle}"></b>
-                                    </a></div>
+                                    </a>
+
+                                </div>
 
                                 <!-- 서비스 설명 출력 -->
                                 <p class="card-text p-3 border" style="border-radius: 5px">
-                                    <!-- Thymeleaf 문법을 사용하여 서비스 설명 출력 -->
                                     <span th:text="${service.serviceExplain}">
             서비스내용 Some quick example text to build on the card title and make up the bulk of the card's content.
         </span>
@@ -186,13 +204,11 @@
 
                                 <div class="card-foot">
                                     <p class="heart p-3">♥️</p>
-                                    <!-- Thymeleaf 문법을 사용하여 서비스 가격 출력 -->
                                     <p class="infoFoot card-text p-3" th:text="${service.servicePrice}"></p>
                                 </div>
 
                                 <div class="infoTab cardText mb-4 p-3">
-                                    <span class="badge bg-primary">하위 카테고리</span>
-                                    <span class="badge bg-primary">상위 카테고리</span>
+                                    <span class="badge bg-primary" th:text="${service.category.categoryName}"></span>
                                 </div>
 
                                 <p class="aver p-3">★4.9(12)</p>
@@ -219,21 +235,23 @@
 
 <th:block layout:fragment="userScript">
     <!--본인 페이지 js 작성-->
-    <th:block layout:fragment="userScript">
 
 
-    </th:block>
+
+    <!--        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+
+
+
+
+
     <!-- Main JS -->
-    <script src="/js/main.js"></script>
+    <!--    <script src="/js/main.js"></script>-->
 </th:block>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<script>
-
-    console.log([[${serviceList}]])
-    console.log([[${serviceList[0]}]])
-</script>
 </body>
 </html>

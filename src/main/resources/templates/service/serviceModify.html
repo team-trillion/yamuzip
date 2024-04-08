@@ -123,7 +123,6 @@
                                 <label>추가 이미지</label>
                                 <div th:each="serviceDetailImg: ${img}">
                                     <input type="hidden" th:value="${serviceDetailImg.imgCode}" name="imgCode">
-                                    <img th:src="@{${serviceDetailImg.imgUrl}}" alt="Image">
                                     <input type="file" th:value="${serviceDetailImg.imgUrl}" name="serviceDetailImg" accept="image/*">
                                 </div>
 
