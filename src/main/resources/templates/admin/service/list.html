@@ -62,21 +62,24 @@
                                     </button>
                                     <button type="button" class="hideBtn btn btn-sm mb-2" style="background-color: #f3f3f3;"
                                             th:if="${service.serviceStatus.getServiceStatus().equals('활성화')}"
-                                            th:attr="data-service-code=${service.serviceCode}" onclick="event.stopPropagation()">숨김
+                                            th:attr="data-order-status=${service.orderStatus},
+                                                     data-service-code=${service.serviceCode}" onclick="event.stopPropagation()">숨김
                                     </button>
                                     <br>
                                     <button type="button" class="removeBtn btn btn-sm" style="background-color:#fff4f4;"
                                             th:if="${service.serviceStatus.getServiceStatus().equals('숨김')} or ${service.serviceStatus.getServiceStatus().equals('활성화')}"
-                                            th:attr="data-service-code=${service.serviceCode}" onclick="event.stopPropagation()">삭제</button>
+                                            th:attr="data-order-status=${service.orderStatus},
+                                                     data-service-code=${service.serviceCode}" onclick="event.stopPropagation()">삭제</button>
                                 </td>
+                                <form action="/admin/service/status" method="post" name="statusControl">
+                                    <input type="hidden" name="serviceCode">
+                                    <input type="hidden" name="serviceStatus">
+                                    <input type="hidden" name="orderStatus">
+                                </form>
                             </tr>
                             </tbody>
                         </table>
 
-                        <form action="/admin/service/status" method="post" name="statusControl">
-                            <input type="hidden" name="serviceCode">
-                            <input type="hidden" name="serviceStatus">
-                        </form>
                     </div>
                 </div>
             </div>
@@ -99,6 +102,13 @@
         const $serviceControl = document.forms.statusControl;
 
         hideBtn.forEach(btn => btn.addEventListener('click', function() {
+            let orderCount = parseInt(btn.getAttribute("data-order-status"), 10);
+
+            if (orderCount !== 0) {
+                alert(`주문 중이거나 예약 중인 서비스입니다.`)
+                return;
+            }
+
             if (confirm(`서비스를 정지하시겠습니까?`)) {
                 $serviceControl.elements['serviceCode'].value = btn.getAttribute("data-service-code");
                 $serviceControl.elements['serviceStatus'].value = 'H';
@@ -115,6 +125,13 @@
         }));
 
         removeBtn.forEach(btn => btn.addEventListener('click', function() {
+            let orderCount = parseInt(btn.getAttribute("data-order-status"), 10);
+
+            if (orderCount !== 0) {
+                alert(`주문 중이거나 예약 중인 서비스입니다.`)
+                return;
+            }
+
             if (confirm(`서비스를 삭제하시겠습니까?`)) {
                 $serviceControl.elements['serviceCode'].value = btn.getAttribute("data-service-code");
                 $serviceControl.elements['serviceStatus'].value = 'R';

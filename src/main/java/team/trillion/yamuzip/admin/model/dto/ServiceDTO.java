@@ -14,6 +14,7 @@ import java.util.Date;
 public class ServiceDTO {
 
     private int serviceCode;
+    private int orderStatus;
     private String dobNickname;
     private String serviceTitle;
     private ServiceStatus serviceStatus;

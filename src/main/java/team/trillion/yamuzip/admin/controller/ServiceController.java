@@ -38,21 +38,14 @@ public class ServiceController {
 
     @PostMapping("/status")
     public String statusControl(@RequestParam Integer serviceCode,
-                                @RequestParam String serviceStatus,
-                                @RequestParam (required = false) String orderStatus,
-                                RedirectAttributes rttr) {
+                                @RequestParam String serviceStatus) {
 
-        if (orderStatus == null) {
+        Map<String, Object> serviceMap = new HashMap<>();
+        serviceMap.put("serviceCode", serviceCode);
+        serviceMap.put("serviceStatus", serviceStatus);
+        serviceService.statusControl(serviceMap);
 
-            Map<String, Object> serviceMap = new HashMap<>();
-            serviceMap.put("serviceCode", serviceCode);
-            serviceMap.put("serviceStatus", serviceStatus);
-            serviceService.statusControl(serviceMap);
-
-        } else {
-            rttr.addFlashAttribute("message", messageSourceAccessor.getMessage(""));
-        }
-            return "redirect:/admin/service/list";
+        return "redirect:/admin/service/list";
     }
 
 }
