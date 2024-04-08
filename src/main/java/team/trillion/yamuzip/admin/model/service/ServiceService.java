@@ -26,6 +26,5 @@ public class ServiceService {
 
     public void statusControl(Map<String, Object> serviceMap) {
         serviceMapper.statusControl(serviceMap);
-        System.out.println(serviceMap);
     }
 }
