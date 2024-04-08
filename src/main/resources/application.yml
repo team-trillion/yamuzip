@@ -23,7 +23,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost/yamuzip
     username: root
-    password: gksthf2^^
+    password: qlqjs120
 
   # spring thymeleaf
   thymeleaf:
