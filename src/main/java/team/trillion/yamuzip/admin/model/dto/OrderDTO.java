@@ -6,7 +6,7 @@ import lombok.ToString;
 import team.trillion.yamuzip.common.enums.OrderStatus;
 import team.trillion.yamuzip.common.enums.PayStatus;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -14,12 +14,15 @@ import java.util.Date;
 public class OrderDTO {
 
     private int orderCode;
-    private int payPrice;
+    private int serviceCode;
 
     private String serviceTitle;
-    private Date orderDatetime;
-    private Date payDatetime;
+    private int totalPrice;
+    private int userCode;
+    private String userId;
 
+    private LocalDateTime orderDatetime;
+    private String orderDateString;
     private OrderStatus orderStatus;
     private PayStatus payStatus;
 

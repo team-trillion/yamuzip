@@ -4,35 +4,49 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="team.trillion.yamuzip.admin.model.dao.OrderMapper">
 
-<!--    <resultMap id="orderResultResultMap" type="team.trillion.yamuzip.admin.model.dto.OrderResultDTO">-->
-<!--        <id property="orderCode" column="order_code"/>-->
-<!--    </resultMap>-->
-
-    <select id="findAllOrder" resultType="team.trillion.yamuzip.admin.model.dto.OrderDTO">
+    <!-- order list -->
+    <select id="getOrderCount">
         SELECT
-            o.order_code,
-            p.pay_price,
-            s.service_title,
-            o.order_datetime,
-            p.pay_datetime
+            COUNT(*)
         FROM
-            tbl_order o
-                LEFT JOIN tbl_payment p on (o.order_code = p.order_code)
-                LEFT JOIN tbl_service s on (o.service_code = s.service_code)
+            tbl_order
+    </select>
+
+    <select id="getOrderList" resultType="team.trillion.yamuzip.admin.model.dto.OrderDTO">
+        SELECT
+            a.order_code,
+            a.user_code,
+            a.service_code,
+            b.service_title,
+            a.order_datetime,
+            a.order_status,
+            c.pay_status,
+            a.total_price
+        FROM
+            tbl_order a
+                JOIN tbl_service b on (a.service_code = b.service_code)
+                JOIN tbl_payment c on (a.order_code = c.order_code)
         ORDER BY
-            order_code;
+            a.order_datetime DESC
+            LIMIT #{offset}, #{limit}
     </select>
 
     <select id="selectOrderDetail" resultType="team.trillion.yamuzip.admin.model.dto.OrderDetailDTO">
         SELECT
             o.order_code,
             o.order_datetime,
+            o.reserve_datetime,
+            o.reject_datetime,
             o.cancel_datetime,
             o.cancel_reason,
             o.order_status,
+            o.total_price,
             u.user_name,
             p.pay_type,
-            s.service_title
+            p.pay_status,
+            s.service_title,
+            s.thumbnail_url,
+            s.service_explain
         FROM
             tbl_order o
                 JOIN tbl_service s on s.service_code = o.service_code

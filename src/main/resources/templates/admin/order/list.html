@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="card border-dark">
                                     <div class="card-header text-success fw-bold">
-                                        예약완료
+                                        예약승인
                                     </div>
                                     <div class="card-body p-4">
                                         <h6 class="card-title">도비와의 일정 조정이<br>예약 완료된 상태</h6>
@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="card border-dark">
                                     <div class="card-header text-danger fw-bold">
-                                        예약불가
+                                        주문거절
                                     </div>
                                     <div class="card-body p-4">
                                         <h6 class="card-title">서비스 신청 이전<br>예약이 불가한 상태</h6>
@@ -93,24 +93,61 @@
                                     <th scope="col" class="text-center">결제금액</th>
                                     <th scope="col" class="text-center">서비스제목</th>
                                     <th scope="col" class="text-center">주문일</th>
-                                    <th scope="col" class="text-center">결제일</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr th:each="order : ${orderList}"
                                     th:onclick="|location.href='/admin/order/detail?orderCode=${order.orderCode}'|">
                                     <td th:text="${order.orderCode}" class="align-middle"></td>
-<!--                                    <td th:text="${order.orderStatus.getOrderStatus()}" class="badge text-bg-primary align-middle"></td>-->
-                                    <td th:text="${order.payStatus}" class="badge text-bg-primary align-middle"></td>
-                                    <td th:text="${order.payPrice}" class="align-middle"></td>
+                                    <td th:text="${order.orderStatus.getOrderStatus()}"
+                                        th:if="${order.orderStatus.getOrderStatus().equals('주문신청')}" class="fw-bold fs-5 text-secondary align-middle"></td>
+                                    <td th:text="${order.orderStatus.getOrderStatus()}"
+                                        th:if="${order.orderStatus.getOrderStatus().equals('예약승인')}" class="fw-bold fs-5 text-success align-middle"></td>
+                                    <td th:text="${order.orderStatus.getOrderStatus()}"
+                                        th:if="${order.orderStatus.getOrderStatus().equals('서비스완료')}" class="fw-bold fs-5 text-primary align-middle"></td>
+                                    <td th:text="${order.orderStatus.getOrderStatus()}"
+                                        th:if="${order.orderStatus.getOrderStatus().equals('예약취소')}" class="fw-bold fs-5 text-warning align-middle"></td>
+                                    <td th:text="${order.orderStatus.getOrderStatus()}"
+                                        th:if="${order.orderStatus.getOrderStatus().equals('주문거절')}" class="fw-bold fs-5 text-danger align-middle"></td>
+                                    <td th:text="${order.payStatus.getPayStatus()}"
+                                        th:if="${order.payStatus.getPayStatus().equals('결제완료')}" class="align-middle fs-5" style="color: #003f62"></td>
+                                    <td th:text="${order.payStatus.getPayStatus()}"
+                                        th:if="${order.payStatus.getPayStatus().equals('환불완료')}" class="align-middle fs-5" style="color: #222222"></td>
+                                    <td th:text="${order.totalPrice}" class="align-middle"></td>
                                     <td th:text="${order.serviceTitle}" class="align-middle"></td>
-                                    <td th:text="${#dates.format(order.orderDatetime, 'yy.MM.dd')}"
-                                        class="align-middle"></td>
-                                    <td th:text="${#dates.format(order.payDatetime, 'yy.MM.dd')}"
-                                        class="align-middle"></td>
+                                    <td th:text="${order.orderDateString}" class="align-middle"></td>
                                 </tr>
                                 </tbody>
                             </table>
+
+                            <div id="paging" align="center" style="margin-top: 20px;">
+                                <th:block th:if="${ paging.searchCondition == null  || paging.searchValue == null }">
+                                    <!-- 맨 앞으로 이동 -->
+                                    <button th:onclick="'location.href=\'/admin/order/list?page=1\''">&lt;&lt;</button>
+
+                                    <!-- 이전 페이지로 이동 -->
+                                    <button th:onclick="'location.href=\'/admin/order/list?page=' + @{${paging.page - 1}} + '\''"
+                                            th:disabled="${ paging.page <= 1 }">&lt;
+                                    </button>
+
+                                    <!-- 숫자 버튼 -->
+                                    <th:block th:each="page : ${ #numbers.sequence(paging.startPage, paging.endPage)}">
+                                        <button th:onclick="'location.href=\'/admin/order/list?page=' + @{${page}} + '\''"
+                                                th:text="${ page }" th:disabled="${ paging.page eq page }">
+                                        </button>
+                                    </th:block>
+
+                                    <!-- 다음 페이지로 이동 -->
+                                    <button th:onclick="'location.href=\'/admin/order/list?page=' + @{${paging.page + 1}} + '\''"
+                                            th:disabled="${ paging.page >= paging.maxPage }">>
+                                    </button>
+
+                                    <!-- 맨 끝으로 이동 -->
+                                    <button th:onclick="'location.href=\'/admin/order/list?page=' + @{${paging.maxPage}} + '\''">
+                                        >>
+                                    </button>
+                                </th:block>
+                            </div>
 
                         </div>
 
@@ -126,6 +163,18 @@
 <th:block layout:fragment="userScript">
     <!-- main js -->
     <script src="/js/main.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/locales/bootstrap-datepicker.ko.min.js"></script>
+    <script th:inline="javascript">
+        $('.input-daterange').datepicker({
+            format: "yyyy-mm-dd",
+            language: "ko",
+            todayHighlight: true
+        });
+    </script>
 </th:block>
 
 </body>
