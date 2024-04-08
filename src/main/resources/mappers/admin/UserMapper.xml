@@ -27,6 +27,26 @@
             u.user_code
     </select>
 
+    <!-- user detail -->
+    <select id="findDetailUser" resultType="team.trillion.yamuzip.admin.model.dto.UserDTO">
+        SELECT
+            u.user_code,
+            u.user_img,
+            u.user_name,
+            u.user_id,
+            u.email,
+            u.phone,
+            u.regist_datetime,
+            IFNULL(u.auth, '해당없음') as auth,
+            IFNULL(d.dob_area, '정보없음') as area
+        FROM
+            tbl_user u
+                LEFT JOIN tbl_dobby d ON d.user_code = u.user_code
+        WHERE
+            u.user_code = #{ userCode }
+    </select>
+
+    <!-- user ban -->
     <select id="findAllBanUser" resultType="team.trillion.yamuzip.admin.model.dto.UserDTO">
         SELECT
             user_code,
@@ -59,6 +79,112 @@
             tbl_user
         WHERE
             user_code = #{ userCode }
+    </select>
+
+    <!-- user detail order -->
+    <select id="selectOrderCount" resultType="_int" parameterType="hashmap">
+        SELECT
+        COUNT(*)
+        FROM
+        tbl_order a
+        <if test="searchCondition == 'serviceTitle'">
+            JOIN
+            tbl_service b ON(a.service_code = b.service_code)
+        </if>
+        <where>
+            <if test="searchCondition == 'serviceTitle'">
+                b.service_title LIKE CONCAT('%', #{ searchValue }, '%')
+            </if>
+            <if test="start != '' and start != null">
+                AND
+                a.order_datetime > #{ start }
+            </if>
+            <if test="end != '' and end != null">
+                AND
+                #{ end } > DATE_ADD(a.order_datetime, INTERVAL -1 DAY)
+            </if>
+            AND
+            user_code = #{ userCode }
+            AND
+            order_status != 'C'
+            AND
+            order_status != 'R'
+        </where>
+        ORDER BY
+        order_datetime DESC
+    </select>
+
+    <select id="selectAllOrderList" resultType="team.trillion.yamuzip.admin.model.dto.UserOrderDTO">
+        SELECT
+        a.order_code,
+        a.user_code,
+        a.service_code,
+        b.thumbnail_url,
+        b.service_title,
+        a.order_datetime,
+        a.order_status,
+        a.total_price
+        FROM
+        tbl_order a
+        JOIN
+        tbl_service b on (a.service_code = b.service_code)
+        <where>
+            <if test="selectCriteria.searchCondition == 'serviceTitle'">
+                b.service_title LIKE CONCAT('%', #{ selectCriteria.searchValue }, '%')
+            </if>
+            <if test="selectCriteria.start != '' and selectCriteria.start != null">
+                AND
+                a.order_datetime > #{ selectCriteria.start }
+            </if>
+            <if test="selectCriteria.end != '' and selectCriteria.end != null">
+                AND
+                #{ selectCriteria.end } > DATE_ADD(a.order_datetime, INTERVAL -1 DAY)
+            </if>
+            AND
+            user_code = #{ userCode }
+            AND
+            order_status != 'C'
+            AND
+            order_status != 'R'
+        </where>
+        ORDER BY
+        a.order_datetime DESC
+        LIMIT #{selectCriteria.offset}, #{selectCriteria.limit}
+    </select>
+
+    <!-- user detail review -->
+    <select id="getReviewCount">
+        SELECT
+            COUNT(*)
+        FROM
+            tbl_review
+        WHERE
+            review_status = 'A'
+    </select>
+
+    <select id="getReviewList" resultType="team.trillion.yamuzip.admin.model.dto.UserReviewDTO">
+        SELECT
+            a.review_code,
+            a.review_content,
+            a.review_created,
+            a.review_grade,
+            a.writer_user_code,
+            b.user_nickname,
+            d.service_title,
+            MAX(d.thumbnail_url) AS thumbnail_url
+        FROM
+            tbl_review a
+                LEFT JOIN tbl_user b ON a.writer_user_code = b.user_code
+                LEFT JOIN tbl_order c ON a.order_code = c.order_code
+                LEFT JOIN tbl_service d ON c.service_code = d.service_code
+        WHERE
+            a.review_status = 'A'
+          AND b.user_code = #{ userCode }
+        GROUP BY
+            a.review_code, a.review_content, a.review_created, a.writer_user_code, b.user_nickname, d.service_title
+        ORDER BY
+            a.review_code DESC
+            LIMIT #{selectCriteria.offset}, #{selectCriteria.limit}
     </select>
 
 

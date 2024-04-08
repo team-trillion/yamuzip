@@ -7,6 +7,7 @@
     <select id="findAllDobby" resultType="team.trillion.yamuzip.admin.model.dto.DobbyDTO">
         SELECT
             d.dob_code,
+            u.user_code,
             u.user_id,
             d.dob_nickname,
             u.user_name,
@@ -55,6 +56,112 @@
                 LEFT JOIN tbl_order o on (s.service_code = o.service_code)
         WHERE
             d.dob_code = #{ dobCode };
+    </select>
+
+    <!-- dobby detail service -->
+    <select id="selectServiceCount" resultType="_int" parameterType="hashmap">
+        SELECT
+        COUNT(*)
+        FROM
+        tbl_service a
+        <if test="searchCondition == 'serviceTitle'">
+            JOIN
+            tbl_dobby b ON(a.dob_code = b.dob_code)
+        </if>
+        <where>
+            <if test="searchCondition == 'serviceTitle'">
+                a.service_title LIKE CONCAT('%', #{ searchValue }, '%')
+            </if>
+            <if test="start != '' and start != null">
+                AND
+                a.service_created > #{ start }
+            </if>
+            <if test="end != '' and end != null">
+                AND
+                #{ end } > DATE_ADD(a.service_created, INTERVAL -1 DAY)
+            </if>
+            AND
+            dob_code = #{ dobCode }
+            AND
+            service_status != 'U'
+            AND
+            service_status != 'R'
+        </where>
+        ORDER BY
+        service_created DESC
+    </select>
+
+    <select id="selectAllServiceList" resultType="team.trillion.yamuzip.admin.model.dto.DobbyServiceDTO">
+        SELECT
+        a.service_code,
+        a.thumbnail_url,
+        a.service_title,
+        a.service_created,
+        a.service_price,
+        b.user_code,
+        b.dob_code,
+        c.order_status
+        FROM
+        tbl_service a
+        JOIN
+        tbl_dobby b on (a.dob_code = b.dob_code)
+        JOIN
+        tbl_order c on (a.service_code = c.service_code)
+        <where>
+            <if test="selectCriteria.searchCondition == 'serviceTitle'">
+                a.service_title LIKE CONCAT('%', #{ selectCriteria.searchValue }, '%')
+            </if>
+            <if test="selectCriteria.start != '' and selectCriteria.start != null">
+                AND
+                a.service_created > #{ selectCriteria.start }
+            </if>
+            <if test="selectCriteria.end != '' and selectCriteria.end != null">
+                AND
+                #{ selectCriteria.end } > DATE_ADD(a.service_created, INTERVAL -1 DAY)
+            </if>
+            AND
+            a.dob_code = #{ dobCode }
+            AND
+            service_status != 'U'
+            AND
+            service_status != 'R'
+        </where>
+        ORDER BY
+        a.service_created DESC
+        LIMIT #{selectCriteria.offset}, #{selectCriteria.limit}
+    </select>
+
+    <!-- user detail calculate -->
+    <select id="getCalcCount">
+        SELECT
+            COUNT(*)
+        FROM
+            tbl_calculate
+        WHERE
+            dob_code = #{ dobCode }
+    </select>
+
+    <select id="getCalcList" resultType="team.trillion.yamuzip.admin.model.dto.DobbyCalcDTO">
+        SELECT
+            a.service_code,
+            a.service_title,
+            b.reserve_datetime as payDatetime,
+            b.total_price,
+            a.thumbnail_url,
+            IFNULL(d.cal_status, 0) as cal_status
+        FROM
+            tbl_service a
+                LEFT JOIN tbl_order b ON a.service_code = b.service_code
+                JOIN tbl_payment c on c.order_code = b.order_code
+                LEFT JOIN (select cal_code as cal_status,
+                                  pay_code
+                           from tbl_calc_fin) d on (c.pay_code = d.pay_code)
+                JOIN tbl_dobby e on a.dob_code = e.dob_code
+        WHERE
+            a.dob_code = #{ dobCode }
+        ORDER BY
+            d.cal_status DESC
+            LIMIT #{selectCriteria.offset}, #{selectCriteria.limit}
     </select>
 
 

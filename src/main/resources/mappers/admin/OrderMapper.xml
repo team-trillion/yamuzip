@@ -35,8 +35,9 @@
             s.service_title
         FROM
             tbl_order o
-                JOIN
-            tbl_service s on s.service_code = o.service_code
+                JOIN tbl_service s on s.service_code = o.service_code
+                LEFT JOIN tbl_payment p on (o.order_code = p.order_code)
+                LEFT JOIN tbl_user u on u.user_code = o.user_code
         WHERE
             o.order_code = #{ orderCode };
     </select>

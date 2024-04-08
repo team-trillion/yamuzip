@@ -3,7 +3,7 @@ package team.trillion.yamuzip.admin.model.dto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import team.trillion.yamuzip.login.model.Authority;
+import team.trillion.yamuzip.common.enums.UserAuth;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -26,6 +26,7 @@ public class UserDTO {
     private char userStatus;
     private LocalDateTime unban;
     private String userImg;
-    private Authority auth;
+    private UserAuth auth;
+    private String area;
     private String email;
 }

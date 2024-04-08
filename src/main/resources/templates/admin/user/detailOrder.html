@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin}">
+<head>
+    <th:block layout:fragments="userCss">
+        <style>
+            thead > tr > th, td:not(.title) {
+                text-align: center;
+            }
+
+            .table > tbody > tr > td {
+                vertical-align: middle;
+                line-height: 100px;
+            }
+
+            .form-control, .input-sm {
+                padding: 5px 10px;
+            }
+
+            .img-col {
+                width: 100px;
+            }
+
+            .order-img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        </style>
+    </th:block>
+</head>
+
+<body>
+<div id="fh5co-header">
+    <th:block layout:fragment="headerFragment"></th:block>
+</div>
+
+<div layout:fragment="content">
+    <div class="fh5co-hero" style="height: auto;">
+        <section class="container-sm" style="padding-top: 150px;">
+            <!--여기부터 본인 페이지 코드 작성-->
+            <div class="row">
+                <div class=" col">
+                    <p class="fs-5 pt-3 px-2">
+                        <a href="/admin/dashboard" class="text-black">관리자페이지</a> 〉 &nbsp;
+                        <a href="/admin/dashboard/user" class="text-black">회원관리</a> 〉 &nbsp;
+                        <a href="/admin/user/list" class="text-black">일반회원조회</a>
+                    </p>
+
+                    <div class="container-fluid border border-2 rounded p-5 mb-5">
+                        <form action="/admin/user/detail" method="get">
+                        <input type="hidden" name="userCode" th:value="${userCode}">
+                        </form>
+                        <tr th:each="userInfo : ${userInfo}">
+                            <div class="col text-center m-5">
+                                <img src="/images/profile.png" alt="profile" class="img-circle img-thumbnail w-25">
+                                <h3 class="pt-3 fs-4 fw-bord mb-3" th:text="${userInfo.userName}"></h3>
+                                <h3 class="pt-0 fs-4 fw-bord my-1" th:text="${userInfo.email}"></h3>
+                            </div>
+                            <div class="col rounded px-5 text-center mb-5">
+                                <button type="button" class="btn btn-light shadow-sm border-body-tertiary btn mb-4"
+                                        th:onclick="|location.href='/admin/user/detail?userCode=${userCode}'|">회원 상세 정보
+                                </button>
+                            </div>
+<!--                                <div class="mx-5 mb-5" style="border-bottom: solid 0.5px #c4c4c4;"></div>-->
+                        </tr>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" data-bs-toggle="tab" type="button" role="tab"
+                                            th:onclick="|location.href='/admin/user/detailOrder?userCode=${userCode}'|">진행 서비스</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" data-bs-toggle="tab" type="button" role="tab"
+                                            th:onclick="|location.href='/admin/user/detailReview?userCode=${userCode}'|">작성한 리뷰
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" data-bs-toggle="tab" type="button" role="tab"
+                                            th:onclick="|location.href='/admin/user/detailCs?userCode=${userCode}'|">작성한 문의
+                                    </button>
+                                </li>
+                        </ul>
+                        <div class="col mt-5">
+
+                            <div class="mt-5 mb-5 white-box">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <form id="searchForm" class="form-inline" action="/admin/user/detailOrder" method="get">
+                                            <nav class="navbar navbar-expand-lg text-right">
+                                                <div class="collapse navbar-collapse">
+                                                    <div class="input-group input-daterange w-50" id="datepicker">
+                                                        <input type="text" class="form-control input-sm" name="start"
+                                                               placeholder="연도. 월. 일." th:value="${ paging.start }"/>
+                                                        <span class="input-group-addon input-sm bg-light">-</span>
+                                                        <input type="text" class="form-control input-sm" name="end"
+                                                               placeholder="연도. 월. 일." th:value="${ paging.end }"/>
+                                                    </div>
+                                                    <input class="form-control input-sm w-25" type="text"
+                                                           id="searchValue"
+                                                           name="searchValue"
+                                                           placeholder="서비스명으로 검색" th:value="${ paging.searchValue }"/>
+                                                    <button class="btn btn-primary btn-sm" type="submit">조회</button>
+                                                </div>
+                                            </nav>
+                                        </form>
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>주문번호</th>
+                                                <th colspan="2">서비스 정보</th>
+                                                <th>주문일자</th>
+                                                <th>주문금액</th>
+                                                <th>주문상태</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr class="order-list" th:each="order : ${orderList}"
+                                                th:onclick="|location.href='/admin/order/detail?orderCode=${order.orderCode}'|">
+                                                <td th:text="${order.orderCode}"></td>
+                                                <td class="img-col"><img class="order-img align-middle img-thumbnail"
+                                                                         th:src="${order.thumbnailUrl}"/></td>
+                                                <td class="title" th:text="${order.serviceTitle}"></td>
+                                                <td th:text="${order.orderDateString}"></td>
+                                                <td th:text="|${order.totalPrice}원|"></td>
+                                                <td th:text="${order.orderStatus.getOrderStatus()}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div id="paging" align="center" style="margin-top: 20px;">
+                                    <th:block
+                                            th:if="${ paging.searchCondition != null and paging.searchValue != null }">
+                                        <!-- 맨 앞으로 이동 -->
+                                        <button th:onclick="'location.href=\'/admin/user/detailOrder?' + @{${userCode} + 'page=1&searchCondition=' + @{${paging.searchCondition}} + '&searchValue=' + @{${paging.searchValue}} + '\''">
+                                            &lt;&lt;
+                                        </button>
+
+                                        <!-- 이전 페이지로 이동 -->
+                                        <button th:onclick="'location.href=\'/admin/user/detailOrder?page=' + @{${paging.page - 1}} + '&searchCondition=' + @{${paging.searchCondition}} + '&searchValue=' + @{${paging.searchValue}} + '\''"
+                                                th:disabled="${ paging.page <= 1 }">&lt;
+                                        </button>
+
+                                        <!-- 숫자 버튼 -->
+                                        <th:block
+                                                th:each="page : ${ #numbers.sequence(paging.startPage, paging.endPage)}">
+                                            <button th:onclick="'location.href=\'/admin/user/detailOrder?page=' + @{${page}} + '&searchCondition=' + @{${paging.searchCondition}} + '&searchValue=' + @{${paging.searchValue}} + '\''"
+                                                    th:text="${ page }" th:disabled="${ paging.page eq page }">
+                                            </button>
+                                        </th:block>
+
+                                        <!-- 다음 페이지로 이동 -->
+                                        <button
+                                                th:onclick="'location.href=\'/admin/user/detailOrder?page=' + @{${paging.page + 1}} + '&searchCondition=' + @{${paging.searchCondition}} + '&searchValue=' + @{${paging.searchValue}} + '\''"
+                                                th:disabled="${ paging.page >= paging.maxPage }">>
+                                        </button>
+
+                                        <!-- 맨 끝으로 이동 -->
+                                        <button th:onclick="'location.href=\'/admin/user/detailOrder?page=' + @{${paging.maxPage}} + '&searchCondition=' + @{${paging.searchCondition}} + '&searchValue=' + @{${paging.searchValue}} + '\''">
+                                            >>
+                                        </button>
+                                    </th:block>
+
+                                    <th:block
+                                            th:if="${ paging.searchCondition == null  || paging.searchValue == null }">
+                                        <!-- 맨 앞으로 이동 -->
+                                        <button th:onclick="'location.href=\'/admin/user/detailOrder?' + @{${userCode}} + 'page=1\''">&lt;&lt;</button>
+
+                                        <!-- 이전 페이지로 이동 -->
+                                        <button th:onclick="'location.href=\'/admin/user/detailOrder?page=' + @{${paging.page - 1}} + '\''"
+                                                th:disabled="${ paging.page <= 1 }">&lt;
+                                        </button>
+
+                                        <!-- 숫자 버튼 -->
+                                        <th:block
+                                                th:each="page : ${ #numbers.sequence(paging.startPage, paging.endPage)}">
+                                            <button th:onclick="'location.href=\'/admin/user/detailOrder?page=' + @{${page}} + '\''"
+                                                    th:text="${ page }" th:disabled="${ paging.page eq page }">
+                                            </button>
+                                        </th:block>
+
+                                        <!-- 다음 페이지로 이동 -->
+                                        <button th:onclick="'location.href=\'/admin/user/detailOrder?page=' + @{${paging.page + 1}} + '\''"
+                                                th:disabled="${ paging.page >= paging.maxPage }">>
+                                        </button>
+
+                                        <!-- 맨 끝으로 이동 -->
+                                        <button th:onclick="'location.href=\'/admin/user/detailOrder?page=' + @{${paging.maxPage}} + '\''">
+                                            >>
+                                        </button>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </div>
+</div>
+<!-- content -->
+
+<th:block layout:fragment="userScript">
+    <!-- Main JS -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/locales/bootstrap-datepicker.ko.min.js"></script>
+    <script src="/js/main.js"></script>
+
+    <script th:inline="javascript">
+        $('.input-daterange').datepicker({
+            format: "yyyy-mm-dd",
+            language: "ko",
+            todayHighlight: true
+        });
+
+    </script>
+</th:block>
+
+</body>
+</html>
