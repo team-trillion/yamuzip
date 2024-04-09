@@ -112,7 +112,13 @@
 
     </resultMap>
 
+<select id="getOrderStatus" resultMap="">
+    SELECT
 
+    FROM
+
+
+</select>
 <select id="getServiceList" resultMap="selectService">
         SELECT
             service_code,

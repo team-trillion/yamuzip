@@ -39,6 +39,7 @@ public class SecurityConfig {
                     auth.requestMatchers("/signup/**").hasAnyAuthority("GENERAL", "DOBBY", "ADMIN");
                     auth.requestMatchers("/mypage/**").hasAnyAuthority( "GENERAL", "DOBBY", "ADMIN");
                     auth.requestMatchers("/notice/regist", "/notice/modify", "notice/delete").hasAuthority("ADMIN");
+                    auth.requestMatchers("/service/serviceRegist/", "/service/serviceModify/**","/service/serviceModifyList/**").hasAuthority("DOBBY");
 
                     /* 위에 서술 된 패턴 외의 요청은 인증 되지 않은 사용자도 요청 허가 */
                     auth.anyRequest().permitAll();

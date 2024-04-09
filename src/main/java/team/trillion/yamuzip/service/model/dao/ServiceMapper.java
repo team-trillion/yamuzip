@@ -62,4 +62,5 @@ public interface ServiceMapper {
 
     int getTotalService();
 
+    void getOrderStatus(long serviceCode);
 }

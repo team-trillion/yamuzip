@@ -113,6 +113,8 @@ public class ServiceService {
 
     public void removeService(long serviceCode) {
 
+        serviceMapper.getOrderStatus(serviceCode);
+
         serviceMapper.removeService(serviceCode);
     }
 

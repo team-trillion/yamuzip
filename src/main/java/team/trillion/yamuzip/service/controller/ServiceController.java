@@ -239,6 +239,7 @@ public class ServiceController {
         // 썸네일 이미지의 경우 이미지 코드가 필요하지 않으므로 그대로 업로드
         try {
             String thumbnailOriginName = serviceThumbnail.getOriginalFilename();
+            assert thumbnailOriginName != null;
             String thumbnailExt = thumbnailOriginName.substring(thumbnailOriginName.lastIndexOf("."));
             String thumbnailImgName = UUID.randomUUID() + thumbnailExt;
 
