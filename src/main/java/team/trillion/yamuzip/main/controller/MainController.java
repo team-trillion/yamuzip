@@ -30,11 +30,6 @@ public class MainController {
         return "main";
     }
 
-    @GetMapping("/admin")
-    public String ex() {
-        return "admin/dashboard/dashboard";
-    }
-
 //    @GetMapping("/regist")
 //    public String sadf() {return "user/regist";}
 
