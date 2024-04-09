@@ -3,8 +3,6 @@ package team.trillion.yamuzip.admin.model.dto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import team.trillion.yamuzip.service.model.dto.ServiceDTO;
-import team.trillion.yamuzip.service.model.dto.UserDTO;
 
 import java.time.LocalDateTime;
 
@@ -12,17 +10,20 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 public class CSDTO {
-
-    private long csCode;
-    private char section;
-    private UserDTO user;
-    private LocalDateTime csCreated;
-    private char csStatus;
-    private String csType;
-    private char csSecret;
-    private LocalDateTime csModify;
+    private int csCode;
     private String csTitle;
     private String csContent;
-    private ServiceDTO serviceCode;
 
+    private int writerUserCode;
+    private String userNickname;
+
+    private String section;
+    private String csStatus;
+    private String csType;
+    private String csSecret;
+    private Boolean isSecret;
+
+    private LocalDateTime csCreated;
+    private String csCreatedString;
+    private LocalDateTime csModify;
 }
