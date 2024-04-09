@@ -61,7 +61,7 @@
                                class="position-absolute top-0 start-0 fs-5 border-bottom pb-1 border-secondary-emphasis"
                                style="color: #0a5a88">회원 현황</a>
                             <div class="p-1 my-4">
-                                <canvas id="userChart"></canvas>
+                                <canvas id="orderChart"></canvas>
                             </div>
                         </div>
                         <div class="col-7 bg-body p-3">
@@ -69,7 +69,7 @@
                                class="position-absolute top-0 start-70 fs-5 border-bottom pb-1 border-secondary-emphasis"
                                style="color: #0a5a88">정산 현황</a>
                             <div class="p-3 my-5">
-                                <canvas id="calChart"></canvas>
+                                <canvas id="statusChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -133,6 +133,11 @@
     <!-- main js -->
     <script src="/js/main.js"></script>
 
+    <script th:inline="javascript" defer>
+        const chartData1 = [[${registList}]];
+        const chartData2 = [[${orderList}]];
+        const chartData3 = [[${statusList}]];
+    </script>
     <!-- chart -->
     <script src="/js/chart.js"></script>
 

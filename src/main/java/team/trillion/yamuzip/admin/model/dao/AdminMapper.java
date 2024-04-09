@@ -10,4 +10,7 @@ public interface AdminMapper {
 
     List<ChartDTO> selectWeeklyRegist();
 
+    List<ChartDTO> selectMonthlyOrderByCategory();
+
+    List<ChartDTO> selectMonthlyOrderByStatus();
 }

@@ -1,33 +1,49 @@
-    // --- 방문자 통계
-    const ctx = document.getElementById('visitChart').getContext('2d');
+const adminChartLabel1 = chartData1.map(data => data.registDateString)
+const adminChartData1 = chartData1.map(data => data.userCount)
+const adminChartLabel2 = chartData2.map(data => data.categoryName)
+const adminChartData2 = chartData2.map(data => data.orderCount)
+const adminChartLabel3 = chartData3.map(data => data.statusName)
+const adminChartData3 = chartData3.map(data => data.statusCount)
+
+
+// --- 가입자 통계
+    const ctx = document.getElementById('registChart').getContext('2d');
     const chart = new Chart(ctx, {
     // 차트 종류
     type: 'line',
 
     // 차트 데이터
     data: {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    labels: adminChartLabel1,
     datasets: [{
-    label: '요일별 방문자 차트',
+    label: '최근 가입 회원 수',
     backgroundColor: 'transparent',
     borderColor: '#25BDDE',
-    data: [0, 10, 5, 2, 20, 30, 45]
+    data: adminChartData1
 }]
 },
     // 옵션
-    options: {}
+        options:{
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        stepSize: 0.5
+                    }
+                }]
+            }
+        }
 });
     // --- 회원 현황
-    const ctx2 = document.getElementById('userChart').getContext('2d');
+    const ctx2 = document.getElementById('orderChart').getContext('2d');
     const chart2 = new Chart(ctx2, {
     type: 'bar',
 
     data: {
-    labels: ['일반', '도비', '대기', '정지', '탈퇴'],
+    labels: adminChartLabel2,
     datasets: [{
     axis: 'y',
-    label: '회원현황',
-    data: [65, 59, 80, 81, 56],
+    label: '최근 한 달 주문현황',
+    data: adminChartData2,
     fill: false,
     backgroundColor: [
     'rgb(70,105,214, 0.2)',
@@ -46,24 +62,24 @@
     borderWidth: 1
 }],
 },
-    options: {
-    indexAxis: 'y'
-}
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true // Y축이 0부터 시작하도록 설정
+                }
+            }
+        }
 });
 
     // --- 정산 현황
-    const ctx3 = document.getElementById('calChart').getContext('2d');
+    const ctx3 = document.getElementById('statusChart').getContext('2d');
     const chart3 = new Chart(ctx3, {
     type: 'doughnut',
     data: {
-    labels: [
-    '정산 완료',
-    '정산 미완료',
-    '정산 취소'
-    ],
+    labels: adminChartLabel3,
     datasets: [{
-    label: '이번달 정산 현황',
-    data: [50, 100, 70],
+    label: '최근 한 달 주문상태',
+    data: adminChartData3,
     backgroundColor: [
     'rgb(25,211,231)',
     'rgb(106,180,252)',

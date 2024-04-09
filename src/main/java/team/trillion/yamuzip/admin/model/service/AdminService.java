@@ -22,4 +22,12 @@ public class AdminService {
     public List<ChartDTO> selectWeeklyRegist() {
         return adminMapper.selectWeeklyRegist();
     }
+
+    public List<ChartDTO> selectMonthlyOrderByCategory() {
+        return adminMapper.selectMonthlyOrderByCategory();
+    }
+
+    public List<ChartDTO> selectMonthlyOrderByStatus() {
+        return adminMapper.selectMonthlyOrderByStatus();
+    }
 }

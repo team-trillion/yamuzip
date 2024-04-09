@@ -19,4 +19,60 @@
         WHERE rn <![CDATA[<=]]> 7;
     </select>
 
+    <select id="selectMonthlyOrderByCategory" resultType="team.trillion.yamuzip.admin.model.dto.ChartDTO">
+        WITH RECURSIVE CategoryPath AS (
+            SELECT
+                category_code,
+                category_name,
+                ref_category_code
+            FROM
+                tbl_category
+            WHERE
+                ref_category_code IS NULL -- 상위 카테고리 선택
+            UNION ALL
+            SELECT
+                c.category_code,
+                p.category_name, -- 상위 카테고리 이름을 유지
+                c.ref_category_code
+            FROM
+                tbl_category c
+                    JOIN CategoryPath p ON c.ref_category_code = p.category_code
+        )
+        SELECT
+            cp.category_name,
+            COUNT(a.order_code) AS orderCount
+        FROM
+            tbl_order AS a
+                JOIN tbl_service AS b ON a.service_code = b.service_code
+                JOIN CategoryPath AS cp ON b.category_code = cp.category_code
+        WHERE
+            a.order_datetime BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW()
+          AND a.order_status = 'O'
+        GROUP BY
+            cp.category_name
+        ORDER BY
+            orderCount DESC;
+    </select>
+
+    <select id="selectMonthlyOrderByStatus" resultType="team.trillion.yamuzip.admin.model.dto.ChartDTO">
+        SELECT
+            CASE order_status
+                WHEN 'A' THEN '예약승인'
+                WHEN 'O' THEN '주문완료'
+                WHEN 'R' THEN '서비스거절'
+                WHEN 'C' THEN '예약취소'
+                WHEN 'F' THEN '서비스완료'
+                ELSE '알 수 없음'
+                END AS statusName,
+            COUNT(*) AS statusCount
+        FROM
+            tbl_order
+        WHERE
+            order_datetime BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW()
+        GROUP BY
+            order_status
+        ORDER BY
+            statusCount DESC;
+    </select>
+
 </mapper>
