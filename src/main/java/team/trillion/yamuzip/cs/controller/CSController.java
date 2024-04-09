@@ -1,12 +1,15 @@
 package team.trillion.yamuzip.cs.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import team.trillion.yamuzip.common.exception.ReadAccessDeniedException;
 import team.trillion.yamuzip.cs.model.dto.CSDTO;
+import team.trillion.yamuzip.cs.model.dto.CSReplyDTO;
+import team.trillion.yamuzip.cs.model.service.CSReplyService;
 import team.trillion.yamuzip.cs.model.service.CSService;
 import team.trillion.yamuzip.login.model.dto.UserDTO;
 import team.trillion.yamuzip.notice.model.dto.NoticeDTO;
@@ -24,6 +27,7 @@ import static team.trillion.yamuzip.login.model.Authority.ADMIN;
 public class CSController {
 
     private final CSService csService;
+    private final CSReplyService csReplyService;
 
     @GetMapping
     public String getCSList(@RequestParam(defaultValue = "1") int page,
@@ -51,6 +55,11 @@ public class CSController {
         cs.setCsCreatedString(cs.getCsCreated().format(DateTimeFormatter.ISO_LOCAL_DATE));
         cs.setIsSecret(cs.getCsSecret().equals("Y"));
         model.addAttribute("cs", cs);
+
+        CSReplyDTO csReply = csReplyService.getCSReply(csCode);
+        if(csReply != null)
+            csReply.setCsRepCreatedString(csReply.getCsRepCreated().format(DateTimeFormatter.ISO_LOCAL_DATE));
+        model.addAttribute("csReply", csReply);
 
         return "cs/detail";
     }
@@ -97,5 +106,15 @@ public class CSController {
     public String deleteCS(@RequestBody int csCode) {
         csService.deleteCS(csCode);
         return "성공적으로 삭제되었습니다.";
+    }
+
+    @PostMapping("/deleteCSList")
+    public ResponseEntity<?> deleteCSList(@RequestBody List<Integer> csCodes){
+        if(csService.deleteCSList(csCodes)) {
+            return ResponseEntity.ok("성공적으로 삭제되었습니다.");
+        }
+        else {
+            return ResponseEntity.status(500).build();
+        }
     }
 }

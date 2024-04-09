@@ -49,13 +49,18 @@ public class CSService {
         csMapper.modifyCS(cs);
     }
 
+    @Transactional
     public void deleteCS(int csCode) {
         csMapper.deleteCS(csCode);
     }
 
-    // @Transactional
-    // public void deleteNotice(int noticeCode) {
-    //     noticeMapper.deleteNotice(noticeCode);
-    // }
+    @Transactional
+    public boolean deleteCSList(List<Integer> csCodes) {
+        int result = 0;
+        for(Integer csCode : csCodes) {
+            result += csMapper.deleteCS(csCode);
+        }
+        return result == csCodes.size();
+    }
 
 }
