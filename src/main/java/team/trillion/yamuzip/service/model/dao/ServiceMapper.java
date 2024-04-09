@@ -12,7 +12,7 @@ public interface ServiceMapper {
 
     ServiceDTO getServiceDetail(long serviceCode);
 
-    List<ImageDTO> getImages();
+    List<ImageDTO> getImages(long serviceCode);
 
     List<OptionDTO> getOptions(long serviceCode);
 
@@ -44,4 +44,23 @@ public interface ServiceMapper {
     List<ImageDTO> getImagesById(long serviceCode);
 
     void removeService(long serviceCode);
+
+    int viewsCount(long serviceCode);
+
+    List<ServiceDTO> getServiceListSortedByViews();
+
+    List<ServiceDTO> getServiceListSortedByRecent();
+    List<ServiceDTO> getServiceListSortedByCareerDays(String dobCareerDays);
+
+    List<ServiceDTO> getServiceListSortedByArea(String area);
+
+    List<ServiceDTO> getServiceListSortedByCareerDays3y(String dobCareerDays);
+
+    List<ServiceDTO> getServiceListSortedByPrice(int price);
+
+    List<ServiceDTO> getServiceListSortedByParentCategory(int category);
+
+    int getTotalService();
+
+    void getOrderStatus(long serviceCode);
 }

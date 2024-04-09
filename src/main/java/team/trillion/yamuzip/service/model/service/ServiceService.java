@@ -2,7 +2,6 @@ package team.trillion.yamuzip.service.model.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 import team.trillion.yamuzip.service.model.dao.ServiceMapper;
 import team.trillion.yamuzip.service.model.dto.*;
 
@@ -23,12 +22,17 @@ public class ServiceService {
 
 
     public ServiceDTO getServiceDetail(long serviceCode) {
+
+
         return  serviceMapper.getServiceDetail(serviceCode);
     }
 
-    public List<ImageDTO> getImages() {
-        return serviceMapper.getImages();
+
+
+    public List<ImageDTO> getImages(long serviceCode) {
+        return serviceMapper.getImages(serviceCode);
     }
+
 
     public List<OptionDTO> getOptions(long serviceCode) {
         return serviceMapper.getOptions(serviceCode);
@@ -109,7 +113,49 @@ public class ServiceService {
 
     public void removeService(long serviceCode) {
 
+        serviceMapper.getOrderStatus(serviceCode);
+
         serviceMapper.removeService(serviceCode);
+    }
+
+
+
+    public int viewsCount(long serviceCode) {
+        return serviceMapper.viewsCount(serviceCode);
+
+    }
+
+    public List<ServiceDTO> getServiceListSortedByViews( ) {
+        return serviceMapper.getServiceListSortedByViews();
+    }
+
+    public List<ServiceDTO> getServiceListSortedByRecent() {
+        return serviceMapper.getServiceListSortedByRecent();
+    }
+    public List<ServiceDTO> getServiceListSortedByCareerDays(String dobCareerDays) {
+        return serviceMapper.getServiceListSortedByCareerDays(dobCareerDays);
+    }
+
+    public List<ServiceDTO> getServiceListSortedByArea(String area) {
+        return serviceMapper.getServiceListSortedByArea(area);
+    }
+
+    public List<ServiceDTO> getServiceListSortedByCareerDays3y(String dobCareerDays ) {
+        return serviceMapper.getServiceListSortedByCareerDays3y(dobCareerDays);
+    }
+
+    public List<ServiceDTO> getServiceListSortedByPrice(int price) {
+
+        return serviceMapper.getServiceListSortedByPrice(price);
+    }
+
+    public List<ServiceDTO> getServiceListSortedByParentCategory(int category) {
+        return serviceMapper.getServiceListSortedByParentCategory(category);
+    }
+
+    public int getTotalSerivce() {
+
+        return serviceMapper.getTotalService();
     }
 }
 

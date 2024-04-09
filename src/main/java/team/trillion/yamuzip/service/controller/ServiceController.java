@@ -17,10 +17,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -40,17 +38,78 @@ public class ServiceController {
     @GetMapping("/serviceList")
     public String getServiceList(Model model) {
         List<ServiceDTO> serviceList = serviceService.getServiceList();
-        List<ImageDTO> serviceImages = serviceService.getImages();
-
-        model.addAttribute("serviceImages", serviceImages);
+        int totalService = serviceService.getTotalSerivce();
         model.addAttribute("serviceList", serviceList);
+        model.addAttribute("totalService", totalService);
         return "service/serviceList";
     }
+    @GetMapping("/serviceList/sortViews")
+    public String getServiceByViewsList(Model model) {
+        List<ServiceDTO> serviceList =  serviceService.getServiceListSortedByViews();
+        model.addAttribute("serviceList", serviceList);
 
-    @GetMapping("/serviceDetail/{serviceCode}")
-    public String getServiceDetail(@PathVariable("serviceCode") long serviceCode, Model model) {
+        return "service/serviceList";
+    }
+    @GetMapping("/serviceList/sortRecent")
+    public String getServiceByRecentList(Model model) {
+        List<ServiceDTO> serviceList =  serviceService.getServiceListSortedByRecent();
+        model.addAttribute("serviceList", serviceList);
+
+        return "service/serviceList";
+    }
+    @GetMapping("/serviceList/sortArea")
+    public String getServiceByAreaList(@RequestParam("dobArea")String area, Model model) {
+        List<ServiceDTO> serviceList =  serviceService.getServiceListSortedByArea(area);
+        model.addAttribute("serviceList", serviceList);
+
+        return "service/serviceList";
+    }
+    @GetMapping("/serviceList/sortCareer")
+    public String getServiceByCareerList(@RequestParam("dobCareerDays")String career, Model model) {
+        List<ServiceDTO> serviceList;
+        // 경력 범위에 따라 적절한 서비스 목록을 가져오는 서비스 메서드 호출
+        if ("신입".equals(career)) {
+            serviceList = serviceService.getServiceListSortedByCareerDays("신입");
+        } else if ("1".equals(career)) {
+            serviceList = serviceService.getServiceListSortedByCareerDays("1");
+        } else if ("2".equals(career)) {
+            serviceList = serviceService.getServiceListSortedByCareerDays("2");
+        } else if ("3".equals(career)) {
+            serviceList = serviceService.getServiceListSortedByCareerDays3y("3");
+        } else {
+            // 기본적으로 전체 서비스 목록을 가져오도록 설정
+            serviceList = serviceService.getServiceList();
+        }
+        model.addAttribute("serviceList", serviceList);
+
+        return "service/serviceList";
+    }
+    @GetMapping("/serviceList/sortPrice")
+    public String getServiceByPriceList(@RequestParam("servicePrice")int price, Model model) {
+        List<ServiceDTO> serviceList;
+
+            // 기본적으로 전체 서비스 목록을 가져오도록 설정
+            serviceList = serviceService.getServiceListSortedByPrice(price);
+
+        model.addAttribute("serviceList", serviceList);
+
+        return "service/serviceList";
+    }
+    @GetMapping("/serviceList/sortCategory")
+    public String getServiceByCategoryList(@RequestParam("categoryCode")int category, Model model) {
+        List<ServiceDTO> serviceList;
+
+        // 기본적으로 전체 서비스 목록을 가져오도록 설정
+        serviceList = serviceService.getServiceListSortedByParentCategory(category);
+
+        model.addAttribute("serviceList", serviceList);
+
+        return "service/serviceList";
+    }
+    @GetMapping("/serviceDetail")
+    public String getServiceDetail(@RequestParam("serviceCode") long serviceCode, Model model) {
         ServiceDTO serviceDetailList = serviceService.getServiceDetail(serviceCode);
-        List<ImageDTO> serviceImages = serviceService.getImages();
+        List<ImageDTO> serviceImages = serviceService.getImages(serviceCode);
         List<OptionDTO> serviceOptions = serviceService.getOptions(serviceCode);
         List<ReviewDTO> reviews = serviceService.getReviews(serviceCode);
         List<CsDTO> cs = serviceService.getCs(serviceCode);
@@ -59,7 +118,20 @@ public class ServiceController {
         model.addAttribute("serviceOptions", serviceOptions);
         model.addAttribute("reviews", reviews);
         model.addAttribute("cs", cs);
+
+
         return "service/serviceDetail";
+    }
+
+    @GetMapping("/serviceDetail/views")
+    @ResponseBody
+    public String getViewsCount(@RequestParam long serviceCode) {
+        Integer viewsCount = serviceService.viewsCount(serviceCode);
+        if (viewsCount != null) {
+            return "{\"viewsCount\": " + viewsCount + "}";
+        } else {
+            return "{}"; // 또는 다른 적절한 오류 처리
+        }
     }
 
     @GetMapping("/serviceRegist")
@@ -123,8 +195,7 @@ public class ServiceController {
         }
 
         char section = 'S';
-
-
+        service.setDobCode(1);
         service.setThumbnailUrl("/uploadFiles/" + imgName);
         img.add(new ImageDTO(imgOriginName, imgName, "/uploadFiles/", section));
         log.info("img : {}", img);
@@ -168,6 +239,7 @@ public class ServiceController {
         // 썸네일 이미지의 경우 이미지 코드가 필요하지 않으므로 그대로 업로드
         try {
             String thumbnailOriginName = serviceThumbnail.getOriginalFilename();
+            assert thumbnailOriginName != null;
             String thumbnailExt = thumbnailOriginName.substring(thumbnailOriginName.lastIndexOf("."));
             String thumbnailImgName = UUID.randomUUID() + thumbnailExt;
 
