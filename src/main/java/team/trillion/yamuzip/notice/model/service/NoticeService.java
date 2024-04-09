@@ -53,9 +53,16 @@ public class NoticeService {
     }
 
     @Transactional
-    public void deleteNotice(int noticeCode) {
-        noticeMapper.deleteNotice(noticeCode);
+    public int deleteNotice(int noticeCode) {
+        return noticeMapper.deleteNotice(noticeCode);
     }
 
-
+    @Transactional
+    public boolean deleteNotices(List<Integer> noticeCodes) {
+        int result = 0;
+        for(Integer noticeCode : noticeCodes) {
+            result += noticeMapper.deleteNotice(noticeCode);
+        }
+        return result == noticeCodes.size();
+    }
 }

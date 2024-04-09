@@ -16,6 +16,8 @@
             .notice-table tbody tr td { vertical-align: middle; text-align: center; border-bottom-width: 0;}
 
             .hide { display: none; }
+            .new { padding: 3px 5px; background-color: #003363; border-radius: 5px;
+                font-size: 0.5em; font-weight: 900; vertical-align: middle; color: white; }
 
             #paging button { border: unset; background-color: unset;}
         </style>
@@ -60,11 +62,16 @@
                                     <tbody>
                                     <tr class="fixed-list table-secondary" th:each="notice : ${fixedList}">
                                         <td class="check-column hide">
-                                            <input type="checkbox" name="chk" class="chk" onclick="chkClicked()">
+                                            <input type="checkbox" name="chk" class="chk"
+                                                   th:data-notice-code="${notice.noticeCode}" onclick="chkClicked()">
                                         </td>
                                         <td th:text="${notice.noticeCode}"></td>
-                                        <td class="title" style="text-align:left; cursor: pointer;" th:text="${notice.noticeTitle}"
+                                        <td class="title" style="text-align:left; cursor: pointer;"
                                             th:onclick="|location.href='/notice/detail?noticeCode=${notice.noticeCode}'|">
+                                            <th:block th:text="${notice.noticeTitle}"></th:block>
+                                            <span th:if="${notice.noticeCreated.isAfter(#temporals.createNow().minusHours(48))}"
+                                                      th:text="N" class="new">
+                                            </span>
                                         </td>
                                         <td th:text="${notice.userNickname}"></td>
                                         <td th:text="${notice.noticeCreatedString}"></td>
@@ -72,11 +79,16 @@
                                     </tr>
                                     <tr class="notice-list" th:each="notice : ${noticeList}">
                                         <td class="check-column hide">
-                                            <input type="checkbox" name="chk" class="chk" onclick="chkClicked()">
+                                            <input type="checkbox" name="chk" class="chk"
+                                                   th:data-notice-code="${notice.noticeCode}" onclick="chkClicked()">
                                         </td>
                                         <td th:text="${notice.noticeCode}"></td>
-                                        <td class="title" style="text-align:left; cursor: pointer;" th:text="${notice.noticeTitle}"
+                                        <td class="title" style="text-align:left; cursor: pointer;"
                                             th:onclick="|location.href='/notice/detail?noticeCode=${notice.noticeCode}'|">
+                                            <th:block th:text="${notice.noticeTitle}"></th:block>
+                                            <span th:if="${notice.noticeCreated.isAfter(#temporals.createNow().minusHours(48))}"
+                                                      th:text="N" class="new">
+                                            </span>
                                         </td>
                                         <td th:text="${notice.userNickname}"></td>
                                         <td th:text="${notice.noticeCreatedString}"></td>
@@ -138,8 +150,6 @@
         const $deleteBtn = document.querySelector(".delete-btn");
         const $checkColumn = document.getElementsByClassName("check-column");
 
-        console.log($adminBtn);
-        console.log($checkColumn);
         $adminBtn.addEventListener("click", function () {
             for(let i = 0; i < $checkColumn.length; i++) {
                 $checkColumn[i].classList.toggle("hide");
@@ -186,6 +196,68 @@
                 v.checked = false;
             });
         }
+    </script>
+
+    <script th:inline="javascript">
+
+        const deleteNotices = function () {
+            const query = 'input[name="chk"]:checked'
+            const selectedElements = document.querySelectorAll(query);
+
+            const noticeCodesArray = [];
+            selectedElements.forEach(element => {
+                noticeCodesArray.push(element.dataset.noticeCode);
+            });
+            console.log(noticeCodesArray);
+
+            fetch('/notice/deleteNotices', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(noticeCodesArray),
+            })
+                .then(res => {
+                    if (!res.ok) {
+                        throw Error("삭제 중 문제가 발생했습니다.<br>다시 시도해주세요.");
+                    }
+                    return res.text();
+                })
+                .then(data => {
+                    Swal.fire({
+                        title: data,
+                        icon: "success"
+                    }).then( function (){
+                        location.href = "/notice"
+                    });
+                })
+                .catch(err => {
+                    Swal.fire({
+                        title: err.message,
+                        icon: "error"
+                    }).then( function (){
+                        location.href = "/notice"
+                    });
+                })
+        };
+
+        $deleteBtn.addEventListener("click", function() {
+                Swal.fire({
+                    title: "정말 삭제하시겠습니까?",
+                    text: "이 작업은 되돌릴 수 없습니다.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "삭제",
+                    cancelButtonText: "취소"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteNotices();
+                    }
+                });
+            }
+        )
     </script>
 </th:block>
 
