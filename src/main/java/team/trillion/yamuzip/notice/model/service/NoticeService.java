@@ -65,4 +65,8 @@ public class NoticeService {
         }
         return result == noticeCodes.size();
     }
+
+    public List<NoticeDTO> getMainNotice() {
+        return noticeMapper.getMainNotice();
+    }
 }
