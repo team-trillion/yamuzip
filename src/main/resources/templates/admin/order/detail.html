@@ -49,7 +49,7 @@
                         <h3 class="fs-2 border-bottom border-3 pb-1 border-secondary-emphasis"
                             style="color: #0a5a88">주문 내용</h3>
 
-                        <div class="row border-bottom">
+                        <div class="row">
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -88,7 +88,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="2" rowspan="2" class="table-light">
-                                                    <div class="row">
+                                                    <div class="row px-3">
                                                         <div class="card-title col-8">- 서비스 기본가</div>
                                                         <div class="text-end col-4">[[${orderDetail.totalPrice}]]원</div>
                                                     </div>
@@ -101,7 +101,6 @@
                                 <h4 class="text-end mt-5 pt-5 fw-bold">총 결제금액 <span
                                         th:text="${orderDetail.totalPrice}"></span>원<br>
                                 </h4>
-
 
                                 <div class="container-fluid py-3 my-5">
                                     <table class="table" style="height: 100%;">
@@ -117,13 +116,18 @@
                                         <tbody>
                                             <td class="img-col"><img class="order-img align-middle img-thumbnail"
                                                                      th:src="${orderDetail.thumbnailUrl}"/></td>
-                                            <td class="fs-3 align-middle" th:text="${orderDetail.serviceTitle}"></td>
-                                            <td class="fs-3 align-middle"></td>
-                                            <td th:text="${orderDetail.reserveDateString}" class="fs-3 align-middle"></td>
-                                            <td th:text="${orderDetail.orderStatus.getOrderStatus()}" class="fs-3 align-middle"></td>
+                                            <td class="align-middle" th:text="${orderDetail.serviceTitle}"></td>
+                                            <td class="align-middle"></td>
+                                            <td th:text="${orderDetail.reserveDateString}" class="align-middle"></td>
+                                            <td th:text="${orderDetail.orderStatus.getOrderStatus()}" class="align-middle"></td>
                                         </tbody>
                                     </table>
                                 </div>
+
+                                <h3 class="border-top border-2 pt-5 border-secondary-emphasis text-center"
+                                    style="color: #0a5a88">
+                                <button type="button" class="btn btn-light">주문 취소</button>
+                                </h3>
 
                             </div>
                         </div>
