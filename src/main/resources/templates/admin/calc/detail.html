@@ -47,8 +47,8 @@
                             </div>
                             <div class="col-8">
                                 <h3 th:text="${calcDetail.serviceTitle}" class="my-0"></h3>
-                                <h4 th:text="|예약일시 : ${#dates.format(calcDetail.reserveDatetime, 'yyyy년 MM월 dd일 HH시 mm분')}|"
-                                    class="my-0"></h4>
+<!--                                <h4 th:text="|예약일시 : ${#dates.format(calcDetail.reserveDatetime, 'yyyy년 MM월 dd일 HH시 mm분')}|"-->
+<!--                                    class="my-0"></h4>-->
                                 <p th:text="${calcDetail.serviceExplain}"></p>
                             </div>
                         </div>
@@ -82,8 +82,8 @@
                                             </tr>
                                             <tr>
                                                 <th class="table-secondary">서비스제공일</th>
-                                                <td class="table-light"
-                                                    th:text="${#dates.format(calcDetail.reserveDatetime, 'yyyy.MM.dd')}"></td>
+<!--                                                <td class="table-light"-->
+<!--                                                    th:text="${#dates.format(calcDetail.reserveDatetime, 'yyyy.MM.dd')}"></td>-->
                                             </tr>
                                         </table>
                                     </div>
