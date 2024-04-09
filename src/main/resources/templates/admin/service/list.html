@@ -27,8 +27,8 @@
 
             <div class=" col-md-10 col-sm-9 col-xs-8">
                 <p class="fs-5 pt-3 px-2">
-                    <a href="/admin/dashboard/dashboard" class="text-black">서비스관리</a> 〉 &nbsp;
-                    <a href="" class="text-black fw-bolder">전체서비스조회</a> &nbsp;
+                    <a href="/admin/dashboard" class="text-black">서비스관리</a> 〉 &nbsp;
+                    <a href="#" class="text-black fw-bolder">전체서비스조회</a> &nbsp;
                 </p>
 
                 <div class="container-fluid border border-2 rounded p-5">
@@ -38,9 +38,9 @@
                             <thead>
                             <tr>
                                 <th colspan="2" scope="col">#</th>
-                                <th scope="col">아이디</th>
+                                <th scope="col">도비닉네임</th>
                                 <th scope="col">제목</th>
-                                <th scope="col">카테고리</th>
+                                <th scope="col">상태</th>
                                 <th scope="col">등록일</th>
                                 <th scope="col">관리</th>
                             </tr>
@@ -50,20 +50,36 @@
                                 th:onclick="|location.href='/service/serviceDetail/${service.serviceCode}'|">
                                 <td th:text="${service.serviceCode}" class="align-middle"></td>
                                 <td> <img th:src="@{${service.thumbnailUrl}}" alt="thumbnail" class="align-middle img-thumbnail"/></td>
-                                <td th:text="${service.dobCode}" class="align-middle"></td>
+                                <td th:text="${service.dobNickname}" class="align-middle"></td>
                                 <td th:text="${service.serviceTitle}" class="align-middle"></td>
-                                <td th:text="${service.categoryCode}" class="align-middle"></td>
+                                <td th:text="${service.serviceStatus.getServiceStatus()}" class="align-middle"></td>
                                 <td th:text="${#dates.format(service.serviceCreated, 'yy.MM.dd')}"
                                     class="align-middle"></td>
-                                <td>
-                                    <button type="button" class="dBtn btn btn-sm mb-2" style="background-color: #e5e5e5;">숨김
+                                <td class="align-middle">
+                                    <button type="button" class="activeBtn btn btn-sm mb-2" style="background-color: #e9eff8;"
+                                            th:if="${service.serviceStatus.getServiceStatus().equals('숨김')} or ${service.serviceStatus.getServiceStatus().equals('삭제')}"
+                                            th:attr="data-service-code=${service.serviceCode}" onclick="event.stopPropagation()">활성
+                                    </button>
+                                    <button type="button" class="hideBtn btn btn-sm mb-2" style="background-color: #f3f3f3;"
+                                            th:if="${service.serviceStatus.getServiceStatus().equals('활성화')}"
+                                            th:attr="data-order-status=${service.orderStatus},
+                                                     data-service-code=${service.serviceCode}" onclick="event.stopPropagation()">숨김
                                     </button>
                                     <br>
-                                    <button type="button" class="dBtn btn btn-sm" style="background-color:#ffeaea;">삭제</button>
+                                    <button type="button" class="removeBtn btn btn-sm" style="background-color:#fff4f4;"
+                                            th:if="${service.serviceStatus.getServiceStatus().equals('숨김')} or ${service.serviceStatus.getServiceStatus().equals('활성화')}"
+                                            th:attr="data-order-status=${service.orderStatus},
+                                                     data-service-code=${service.serviceCode}" onclick="event.stopPropagation()">삭제</button>
                                 </td>
+                                <form action="/admin/service/status" method="post" name="statusControl">
+                                    <input type="hidden" name="serviceCode">
+                                    <input type="hidden" name="serviceStatus">
+                                    <input type="hidden" name="orderStatus">
+                                </form>
                             </tr>
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </div>
@@ -78,6 +94,51 @@
 <th:block layout:fragment="userScript">
     <!-- main js -->
     <script src="/js/main.js"></script>
+    <!-- hide and delete -->
+    <script>
+        const hideBtn = document.querySelectorAll('.hideBtn');
+        const removeBtn = document.querySelectorAll('.removeBtn');
+        const activeBtn = document.querySelectorAll('.activeBtn');
+        const $serviceControl = document.forms.statusControl;
+
+        hideBtn.forEach(btn => btn.addEventListener('click', function() {
+            let orderCount = parseInt(btn.getAttribute("data-order-status"), 10);
+
+            if (orderCount !== 0) {
+                alert(`주문 중이거나 예약 중인 서비스입니다.`)
+                return;
+            }
+
+            if (confirm(`서비스를 정지하시겠습니까?`)) {
+                $serviceControl.elements['serviceCode'].value = btn.getAttribute("data-service-code");
+                $serviceControl.elements['serviceStatus'].value = 'H';
+                $serviceControl.submit();
+            }
+        }));
+
+        activeBtn.forEach(btn => btn.addEventListener('click', function() {
+            if (confirm(`서비스를 활성화하시겠습니까?`)) {
+                $serviceControl.elements['serviceCode'].value = btn.getAttribute("data-service-code");
+                $serviceControl.elements['serviceStatus'].value = 'A';
+                $serviceControl.submit();
+            }
+        }));
+
+        removeBtn.forEach(btn => btn.addEventListener('click', function() {
+            let orderCount = parseInt(btn.getAttribute("data-order-status"), 10);
+
+            if (orderCount !== 0) {
+                alert(`주문 중이거나 예약 중인 서비스입니다.`)
+                return;
+            }
+
+            if (confirm(`서비스를 삭제하시겠습니까?`)) {
+                $serviceControl.elements['serviceCode'].value = btn.getAttribute("data-service-code");
+                $serviceControl.elements['serviceStatus'].value = 'R';
+                $serviceControl.submit();
+            }
+        }));
+    </script>
 </th:block>
 
 </body>

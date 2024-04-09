@@ -1,15 +1,17 @@
 package team.trillion.yamuzip.admin.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import team.trillion.yamuzip.admin.model.dto.ServiceDTO;
 import team.trillion.yamuzip.admin.model.service.ServiceService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -17,9 +19,11 @@ import java.util.List;
 public class ServiceController {
 
     private final ServiceService serviceService;
+    private final MessageSourceAccessor messageSourceAccessor;
 
-    public ServiceController(ServiceService serviceService) {
+    public ServiceController(ServiceService serviceService, MessageSourceAccessor messageSourceAccessor) {
         this.serviceService = serviceService;
+        this.messageSourceAccessor = messageSourceAccessor;
     }
 
     @GetMapping("/list")
@@ -32,18 +36,16 @@ public class ServiceController {
         return "admin/service/list";
     }
 
-//    @GetMapping("/detail")
-//    public String getServiceDetail(@RequestParam int serviceCode, Model model) {
-//
-//        return "/service/serviceDetail";
-//    }
+    @PostMapping("/status")
+    public String statusControl(@RequestParam Integer serviceCode,
+                                @RequestParam String serviceStatus) {
 
-    @GetMapping("/hide")
-    public void hideService() {}
+        Map<String, Object> serviceMap = new HashMap<>();
+        serviceMap.put("serviceCode", serviceCode);
+        serviceMap.put("serviceStatus", serviceStatus);
+        serviceService.statusControl(serviceMap);
 
-    @GetMapping("/open")
-    public void openService() {}
+        return "redirect:/admin/service/list";
+    }
 
-    @GetMapping("/delete")
-    public void deleteService() {}
 }

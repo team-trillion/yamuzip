@@ -6,16 +6,27 @@
 
     <select id="findAllService" resultType="team.trillion.yamuzip.admin.model.dto.ServiceDTO">
         SELECT
-            service_code,
-            dob_code,
-            service_title,
-            category_code,
-            service_created,
-            thumbnail_url
+            a.service_code,
+            b.dob_nickname,
+            a.service_title,
+            a.service_status,
+            a.service_created,
+            SUM(CASE WHEN c.order_status IN ('R', 'F', 'C') THEN 0 ELSE 1 END) AS order_status, -- 'O' 또는 'A' 상태인 경우만 집계
+            a.thumbnail_url
         FROM
-            tbl_service
+            tbl_service a
+                LEFT JOIN tbl_dobby b ON (a.dob_code = b.dob_code)
+                LEFT JOIN tbl_order c ON (a.service_code = c.service_code)
+        GROUP BY
+            a.service_code, b.dob_nickname, a.service_title, a.service_status, a.service_created, a.thumbnail_url
         ORDER BY
-            service_code
+            a.service_code;
     </select>
+
+    <update id="statusControl">
+        UPDATE tbl_service
+        SET service_status = #{ serviceStatus }
+        WHERE service_code = #{ serviceCode }
+    </update>
 
 </mapper>
