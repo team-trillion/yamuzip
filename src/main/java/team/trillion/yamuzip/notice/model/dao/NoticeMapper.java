@@ -22,4 +22,6 @@ public interface NoticeMapper {
     int deleteNotice(int noticeCode);
 
     List<NoticeDTO> getFixedList();
+
+    List<NoticeDTO> getMainNotice();
 }

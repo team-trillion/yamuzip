@@ -64,6 +64,26 @@
         LIMIT #{offset}, #{limit}
     </select>
 
+    <select id="getMainNotice" resultType="team.trillion.yamuzip.notice.model.dto.NoticeDTO">
+        SELECT
+            notice_code,
+            notice_content,
+            notice_created,
+            notice_hits,
+            notice_title,
+            notice_fixed,
+            notice_status,
+            writer_user_code,
+            notice_modify
+        FROM
+            tbl_notice
+        WHERE
+            notice_status = 'A'
+        ORDER BY
+            notice_code DESC
+        LIMIT 3
+    </select>
+
     <update id="incrementNoticeHits">
         UPDATE
             tbl_notice
