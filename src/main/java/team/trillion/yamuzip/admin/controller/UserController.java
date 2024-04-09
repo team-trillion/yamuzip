@@ -63,11 +63,8 @@ public class UserController {
 
     @PostMapping("/ban")
     public String banControl(@RequestParam Integer userCode,
-                             @RequestParam String userStatus,
+                             @RequestParam (defaultValue = "B") String userStatus,
                              @RequestParam (required = false) LocalDateTime unban) {
-
-        System.out.println(userCode);
-        System.out.println(userStatus);
 
         if (unban == null) {
             unban = LocalDateTime.now().plusYears(1);
@@ -84,22 +81,12 @@ public class UserController {
 
     @GetMapping("/ban")
     public String banUser(@RequestParam Integer userCode,
-                          @RequestParam String userStatus,
-                          @RequestParam (required = false) LocalDateTime unban,
                           Model model) {
-
-        Map<String, Object> banMap = new HashMap<>();
-        banMap.put("userCode", userCode);
-        banMap.put("userStatus", userStatus);
-        banMap.put("unban", unban);
-        userService.banControl(banMap);
 
         UserDTO userInfo = userService.findBanUser(userCode);
         model.addAttribute("userInfo", userInfo);
-        System.out.println(userInfo);
 
         return "admin/user/ban";
-
     }
 
     @PostMapping("/banModify")

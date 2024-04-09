@@ -2,10 +2,8 @@ package team.trillion.yamuzip.admin.model.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import team.trillion.yamuzip.admin.model.dao.UserMapper;
 import team.trillion.yamuzip.admin.model.dto.UserDTO;
-import team.trillion.yamuzip.admin.model.dto.UserReviewDTO;
 import team.trillion.yamuzip.common.paging.Pagenation;
 import team.trillion.yamuzip.common.paging.SelectCriteria;
 import team.trillion.yamuzip.user.mypage.model.dto.OrderDTO;
