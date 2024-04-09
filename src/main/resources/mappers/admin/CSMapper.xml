@@ -15,26 +15,48 @@
 
     <select id="getCSList" resultType="team.trillion.yamuzip.admin.model.dto.CSDTO">
         SELECT
-            a.cs_code,
-            a.section,
-            a.cs_created,
-            a.cs_status,
-            a.cs_type,
-            a.cs_secret,
-            a.cs_modify,
-            a.cs_title,
-            a.cs_content,
-            a.writer_user_code,
-            b.user_nickname
+        a.cs_code,
+        a.section,
+        a.cs_created,
+        a.cs_status,
+        a.cs_type,
+        a.cs_secret,
+        a.cs_modify,
+        a.cs_title,
+        a.cs_content,
+        a.writer_user_code,
+        b.user_nickname
         FROM
-            tbl_cs a
-                JOIN
-            tbl_user b on (a.writer_user_code = b.user_code)
+        tbl_cs a
+        JOIN
+        tbl_user b on (a.writer_user_code = b.user_code)
         WHERE
-            a.cs_status = 'A'
+        a.cs_status = 'A'
         ORDER BY
-            a.cs_code DESC
+        a.cs_code DESC
         LIMIT #{offset}, #{limit}
+    </select>
+
+
+    <select id="getCSDetail" resultType="team.trillion.yamuzip.admin.model.dto.CSDTO">
+        SELECT
+        a.cs_code,
+        a.section,
+        a.cs_created,
+        a.cs_status,
+        a.cs_type,
+        a.cs_secret,
+        a.cs_modify,
+        a.cs_title,
+        a.cs_content,
+        a.writer_user_code,
+        b.user_nickname
+        FROM
+        tbl_cs a
+        JOIN
+        tbl_user b on (a.writer_user_code = b.user_code)
+        WHERE
+        a.cs_code = #{ csCode }
     </select>
 
 </mapper>

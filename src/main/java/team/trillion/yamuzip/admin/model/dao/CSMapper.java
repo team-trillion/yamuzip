@@ -8,7 +8,10 @@ import java.util.List;
 
 @Mapper
 public interface CSMapper {
+
     int getCSCount();
 
     List<CSDTO> getCSList(SelectCriteria selectCriteria);
+
+    CSDTO getCSDetail(int csCode);
 }

@@ -38,4 +38,9 @@ public class CSService {
 
         return csListAndPaging;
     }
+
+    public CSDTO getCSDetail(int csCode) {
+        return csMapper.getCSDetail(csCode);
+    }
+
 }

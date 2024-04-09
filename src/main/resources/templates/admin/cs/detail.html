@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin}">
+
+<head>
+    <th:block layout:fragment="userCss">
+        <style>
+            h1, h2, h3 { font-weight: 900; color: #003363; }
+            h4 { margin-bottom: 15px; font-weight: 700; color: #003363; }
+
+            .cs-table { border-top: 3px solid black; border-bottom: 2px solid black; margin-top: 5px;}
+            .cs-table thead { height: 55px; border-bottom: 2px solid; }
+            .cs-table thead tr th { vertical-align: middle; text-align: center; }
+            .cs-table tbody tr td { vertical-align: middle; padding: 30px; border-bottom-width: 0;}
+
+            .cs-type { padding: 3px 7px; background-color: #003363; border-radius: 5px;
+                       font-size: 0.9em; color: white; }
+            .fas { font-size: 0.8em; }
+
+            .reply { padding: 30px; margin-bottom: 20px; background-color: #e7eef5; border-radius: 5px; }
+            .answer { padding: 2px 6px 5px 7px; margin: 0 5px;
+                border-radius: 50px; background-color: #003363; color: white; font-weight: 900;}
+            .reply-content { padding-top: 20px; }
+
+            #paging button { border: unset; background-color: unset;}
+        </style>
+    </th:block>
+</head>
+
+<body>
+<div id="fh5co-wrapper">
+    <div id="fh5co-page">
+        <div id="fh5co-header">
+            <th:block layout:fragment="headerFragment"></th:block>
+        </div>
+
+
+        <div layout:fragment="content">
+                <section class="container-sm" style="padding-top: 150px; height: auto; padding-bottom: 100px;">
+
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-10" style="float:none; margin: 0 auto;">
+                                <h1 class="text-center">고객센터 1:1 문의</h1>
+                                <th:block sec:authorize="isAuthenticated()" th:if="${cs.writerUserCode == #authentication.principal.userCode}">
+                                    <div class="text-right">
+<!--                                        <button type="button" class="btn btn-secondary btn-sm"-->
+<!--                                                th:onclick="|location.href='/cs/modify?csCode=${cs.csCode}'|">수정</button>-->
+                                        <button type="button" class="btn btn-primary btn-sm deleteBtn">삭제</button>
+                                    </div>
+                                </th:block>
+                                <th:block sec:authorize="hasAuthority('ADMIN')" th:if="${cs.writerUserCode != #authentication.principal.userCode}">
+                                    <div class="text-right">
+                                        <button type="button" class="btn btn-primary btn-sm deleteBtn">삭제</button>
+                                    </div>
+                                </th:block>
+                                <table class="table cs-table">
+                                    <thead>
+                                    <tr class="align-middle">
+                                        <th th:width="120px">
+                                            <span th:text="${cs.csType}" class="cs-type">문의유형</span>
+                                        </th>
+                                        <th style="text-align:left;">
+                                            <th:block th:text="${cs.csTitle}">제목</th:block>
+                                            <i th:if="${cs.isSecret}" class="fas fa-lock"></i>
+                                        </th>
+                                        <th th:width="150px" th:text="${cs.userNickname}">작성자</th>
+                                        <th th:width="150px" th:text="${cs.csCreatedString}">작성일자</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td colspan="4" th:utext="${cs.csContent}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="reply">
+                                    <!-- 답변 작성부 -->
+                                    <th:block th:if="${csReply == null}">
+                                        <form name="reply-write" action="/admin/csReply/regist" method="post" sec:authorize="hasAuthority('ADMIN')">
+                                            <h3>문의 답변 작성</h3>
+                                            <input type="hidden" name="csCode" th:value="${cs.csCode}">
+                                            <textarea class="form-control" rows="3" style="resize: none;" name="csRepContent"></textarea>
+                                            <div class="text-right" style="margin-top: 5px;">
+                                                <button type="submit" class="btn btn-primary btn-sm">등록</button>
+                                            </div>
+                                        </form>
+                                    </th:block>
+
+                                    <!-- 답변 조회부-->
+                                    <th:block th:unless="${csReply == null}">
+                                        <span class="answer">A</span>
+                                        <span class="fw-bold" th:text="${csReply?.userNickname}"></span>님의 답변입니다. ―
+                                        <span class="text-right" th:text="${csReply?.csRepCreatedString}"></span>
+                                        <p class="reply-content" th:utext="${csReply?.csRepContent}"></p>
+                                        <div class="text-right" sec:authorize="hasAuthority('ADMIN')">
+                                            <button type="button" class="btn btn-secondary btn-sm" id="modifyReply">수정</button>
+                                            <button type="button" class="btn btn-secondary btn-sm" id="deleteReply">삭제</button>
+                                        </div>
+                                    </th:block>
+                                </div>
+
+                                <span><a href="/admin/cs/list">< 목록으로</a></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+        </div>
+        <!-- content -->
+
+    </div>
+    <!-- page -->
+</div>
+<!-- wrapper -->
+
+<th:block layout:fragment="userScript">
+<!--본인 페이지 js 작성-->
+
+    <!-- 문의사항 삭제 -->
+    <script th:inline="javascript">
+        const $deleteBtn = document.querySelector(".deleteBtn");
+        const $csCode = [[${cs.csCode}]];
+
+        const deleteSwal = function() {
+            Swal.fire({
+                title: "정말 삭제하시겠습니까?",
+                text: "이 작업은 되돌릴 수 없습니다.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "삭제",
+                cancelButtonText: "취소"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch('/cs/delete', {
+                        method : 'POST',
+                        headers : {
+                            'Content-Type' : 'application/json; charset=UTF-8'
+                        },
+                        body : JSON.stringify($csCode)
+                    })
+                        .then(res => res.text())
+                        .then(data => {
+                            console.log(data)
+                            Swal.fire({
+                                title: data,
+                                icon: "success"
+                            }).then( function (){
+                                location.href = "/admin/cs/list"
+                            });
+                        })
+                        .catch(err => console.log(err));
+                }
+            });
+        }
+        $deleteBtn.addEventListener("click", deleteSwal);
+    </script>
+
+    <!-- 문의사항 수정 -->
+    <script th:inline="javascript">
+
+        const content = document.querySelector(".reply-content");
+        const deleteReply = document.querySelector("#deleteReply");
+        const modifyReply = document.querySelector("#modifyReply");
+
+        modifyReply.addEventListener("click", function () {
+
+            const textarea = document.createElement('textarea');
+            textarea.value = content.innerHTML;
+            textarea.classList.add("form-control");
+            textarea.style.resize = 'none';
+            textarea.style.margin = '20px 0 5px 0';
+            content.after(textarea);
+
+            const registReply = document.createElement('button');
+            registReply.innerHTML = '등록';
+            registReply.classList.add("btn");
+            registReply.classList.add("btn-primary");
+            registReply.classList.add("btn-sm");
+            registReply.type = 'button';
+            modifyReply.before(registReply);
+
+            registReply.addEventListener("click", function () {
+                fetch('/admin/csReply/modify', {
+                    method : 'POST',
+                    headers : {
+                        'Content-Type' : 'application/json; charset=UTF-8'
+                    },
+                    body : JSON.stringify({
+                        "csCode" : $csCode,
+                        "csRepCode" : [[${csReply?.csRepCode}]],
+                        "csRepContent" : textarea.value
+                    })
+                })
+                    .then( () => {
+                        location.reload();
+                    })
+            });
+
+            content.style.display = 'none';
+            deleteReply.style.display = 'none';
+            modifyReply.style.display = 'none';
+        });
+
+        deleteReply.addEventListener("click", function() {
+            Swal.fire({
+                title: "정말 삭제하시겠습니까?",
+                text: "이 작업은 되돌릴 수 없습니다.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "삭제",
+                cancelButtonText: "취소"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch('/admin/csReply/delete', {
+                        method : 'POST',
+                        headers : {
+                            'Content-Type' : 'application/json; charset=UTF-8'
+                        },
+                        body : JSON.stringify({
+                            "csCode" : $csCode,
+                            "csRepCode" : [[${csReply?.csRepCode}]]
+                        })
+                    })
+                        .then(() => {
+                            location.reload();
+                        })
+                }
+            });
+        })
+
+    </script>
+</th:block>
+
+</body>
+</html>
