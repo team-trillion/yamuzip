@@ -18,5 +18,5 @@ public interface CSMapper {
 
     void modifyCS(CSDTO cs);
 
-    void deleteCS(int csCode);
+    int deleteCS(int csCode);
 }

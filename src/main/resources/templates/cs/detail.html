@@ -19,6 +19,11 @@
                        font-size: 0.9em; color: white; }
             .fas { font-size: 0.8em; }
 
+            .reply { padding: 30px; margin-bottom: 20px; background-color: #e7eef5; border-radius: 5px; }
+            .answer { padding: 2px 6px 5px 7px; margin: 0 5px;
+                border-radius: 50px; background-color: #003363; color: white; font-weight: 900;}
+            .reply-content { padding-top: 20px; }
+
             #paging button { border: unset; background-color: unset;}
         </style>
     </th:block>
@@ -47,7 +52,7 @@
                                         <button type="button" class="btn btn-primary btn-sm deleteBtn">삭제</button>
                                     </div>
                                 </th:block>
-                                <th:block sec:authorize="hasAuthority('ADMIN')">
+                                <th:block sec:authorize="hasAuthority('ADMIN')" th:if="${cs.writerUserCode != #authentication.principal.userCode}">
                                     <div class="text-right">
                                         <button type="button" class="btn btn-primary btn-sm deleteBtn">삭제</button>
                                     </div>
@@ -72,7 +77,35 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <span><a href="javascript:history.back(-1)">< 목록으로</a></span>
+
+                                <div class="reply">
+                                    <!-- 답변 작성부 -->
+                                    <th:block th:if="${csReply == null}">
+                                        <form name="reply-write" action="/csReply/regist" method="post" sec:authorize="hasAuthority('ADMIN')">
+                                            <h3>문의 답변 작성</h3>
+                                            <input type="hidden" name="csCode" th:value="${cs.csCode}">
+                                            <textarea class="form-control" rows="3" style="resize: none;" name="csRepContent"></textarea>
+                                            <div class="text-right" style="margin-top: 5px;">
+                                                <button type="submit" class="btn btn-primary btn-sm">등록</button>
+                                            </div>
+                                        </form>
+                                        <div sec:authorize="hasAnyAuthority('GENERAL', 'DOBBY')">등록된 답변이 없습니다.</div>
+                                    </th:block>
+
+                                    <!-- 답변 조회부-->
+                                    <th:block th:unless="${csReply == null}">
+                                        <span class="answer">A</span>
+                                        <span class="fw-bold" th:text="${csReply?.userNickname}"></span>님의 답변입니다. ―
+                                        <span class="text-right" th:text="${csReply?.csRepCreatedString}"></span>
+                                        <p class="reply-content" th:utext="${csReply?.csRepContent}"></p>
+                                        <div class="text-right" sec:authorize="hasAuthority('ADMIN')">
+                                            <button type="button" class="btn btn-secondary btn-sm" id="modifyReply">수정</button>
+                                            <button type="button" class="btn btn-secondary btn-sm" id="deleteReply">삭제</button>
+                                        </div>
+                                    </th:block>
+                                </div>
+
+                                <span><a href="/cs">< 목록으로</a></span>
                             </div>
                         </div>
                     </div>
@@ -89,6 +122,7 @@
 <th:block layout:fragment="userScript">
 <!--본인 페이지 js 작성-->
 
+    <!-- 문의사항 삭제 -->
     <script th:inline="javascript">
         const $deleteBtn = document.querySelector(".deleteBtn");
         const $csCode = [[${cs.csCode}]];
@@ -127,6 +161,82 @@
             });
         }
         $deleteBtn.addEventListener("click", deleteSwal);
+    </script>
+
+    <!-- 문의사항 수정 -->
+    <script th:inline="javascript">
+
+        const content = document.querySelector(".reply-content");
+        const deleteReply = document.querySelector("#deleteReply");
+        const modifyReply = document.querySelector("#modifyReply");
+
+        modifyReply.addEventListener("click", function () {
+
+            const textarea = document.createElement('textarea');
+            textarea.value = content.innerHTML;
+            textarea.classList.add("form-control");
+            textarea.style.resize = 'none';
+            textarea.style.margin = '20px 0 5px 0';
+            content.after(textarea);
+
+            const registReply = document.createElement('button');
+            registReply.innerHTML = '등록';
+            registReply.classList.add("btn");
+            registReply.classList.add("btn-primary");
+            registReply.classList.add("btn-sm");
+            registReply.type = 'button';
+            modifyReply.before(registReply);
+
+            registReply.addEventListener("click", function () {
+                fetch('/csReply/modify', {
+                    method : 'POST',
+                    headers : {
+                        'Content-Type' : 'application/json; charset=UTF-8'
+                    },
+                    body : JSON.stringify({
+                        "csCode" : $csCode,
+                        "csRepCode" : [[${csReply?.csRepCode}]],
+                        "csRepContent" : textarea.value
+                    })
+                })
+                    .then( () => {
+                        location.reload();
+                    })
+            });
+
+            content.style.display = 'none';
+            deleteReply.style.display = 'none';
+            modifyReply.style.display = 'none';
+        });
+
+        deleteReply.addEventListener("click", function() {
+            Swal.fire({
+                title: "정말 삭제하시겠습니까?",
+                text: "이 작업은 되돌릴 수 없습니다.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "삭제",
+                cancelButtonText: "취소"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch('/csReply/delete', {
+                        method : 'POST',
+                        headers : {
+                            'Content-Type' : 'application/json; charset=UTF-8'
+                        },
+                        body : JSON.stringify({
+                            "csCode" : $csCode,
+                            "csRepCode" : [[${csReply?.csRepCode}]]
+                        })
+                    })
+                        .then(() => {
+                            location.reload();
+                        })
+                }
+            });
+        })
 
     </script>
 </th:block>

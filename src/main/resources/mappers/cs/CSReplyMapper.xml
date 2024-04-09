@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.cs.model.dao.CSReplyMapper">
+
+    <select id="getCSReply" resultType="team.trillion.yamuzip.cs.model.dto.CSReplyDTO">
+        SELECT
+            a.cs_rep_code,
+            a.cs_rep_content,
+            a.cs_rep_created,
+            a.cs_rep_status,
+            a.cs_code,
+            a.writer_user_code,
+            b.user_nickname,
+            a.cs_rep_modify
+        FROM
+            tbl_cs_rep a
+        JOIN
+            tbl_user b on (a.writer_user_code = b.user_code)
+        WHERE
+            a.cs_rep_status = 'A'
+        AND
+            a.cs_code = #{csCode}
+    </select>
+
+    <insert id="registReply">
+        INSERT INTO
+            tbl_cs_rep (cs_rep_content, cs_code, writer_user_code)
+        VALUES
+            (#{csRepContent}, #{csCode}, #{writerUserCode})
+    </insert>
+
+    <update id="modifyReply">
+        UPDATE
+            tbl_cs_rep
+        SET
+            cs_rep_content = #{csRepContent}
+        WHERE
+            cs_rep_code = #{csRepCode}
+        AND
+            cs_code = #{csCode}
+    </update>
+
+    <update id="deleteReply">
+        UPDATE
+            tbl_cs_rep
+        SET
+            cs_rep_status = 'R'
+        WHERE
+            cs_rep_code = #{csRepCode}
+        AND
+            cs_code = #{csCode}
+    </update>
+
+</mapper>
