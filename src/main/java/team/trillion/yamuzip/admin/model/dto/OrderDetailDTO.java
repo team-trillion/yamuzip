@@ -15,27 +15,32 @@ import java.time.LocalDateTime;
 public class OrderDetailDTO {
 
     private int orderCode;
-    private int serviceCode;
-
-    private String serviceTitle;
-    private String thumbnailUrl;
-    private int totalPrice;
-    private PayType payType;
-
-    private int userCode;
-    private String userName;
-    private String userId;
-
     private LocalDateTime orderDatetime;
     private String orderDateString;
+    private int userCode;
+    private String userName;
+    private OrderStatus orderStatus;
+
+    private PayType payType;
+    private PayStatus payStatus;
+    private String payStatusString;
+    private int servicePrice;
+    private int optionPrice;
+    private int totalPrice;
+
+    private String thumbnailUrl;
+    private String serviceTitle;
+    private String optionName;
+
     private LocalDateTime reserveDatetime;
     private String reserveDateString;
-    private LocalDateTime cancelDatetime;
-    private String cancelDateString;
+
     private LocalDateTime rejectDatetime;
     private String rejectDateString;
+    private String rejectReason;
 
-    private OrderStatus orderStatus;
-    private PayStatus payStatus;
+    private LocalDateTime cancelDatetime;
+    private String cancelDateString;
+    private String cancelReason;
 
 }

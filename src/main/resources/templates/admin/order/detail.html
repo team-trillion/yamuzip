@@ -18,6 +18,14 @@
             img {
                 width: 150px;
             }
+            h1, h2, h3 { font-weight: 700; color: #003363; }
+            h4 { margin-bottom: 15px; font-weight: 700; color: #003363; }
+            textarea { resize: none; max-width: 200px; }
+
+            .modal-body > div{display: none;}
+            .modal-body > div.show{display: block;}
+            .modal-header {display: block;}
+
         </style>
     </th:block>
 </head>
@@ -126,26 +134,40 @@
 
                                 <h3 class="border-top border-2 pt-5 border-secondary-emphasis text-center"
                                     style="color: #0a5a88">
-                                <button type="button" class="btn btn-light">주문 취소</button>
+                                    <button id="cancel-btn" type="button" class="btn btn-light btn-modal" data-toggle="modal" data-target="#applyModal">
+                                        주문 취소
+                                    </button>
                                 </h3>
 
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
+            <div th:replace="~{admin/order/cancel.html}"></div>
 
         </section>
     </div>
-    <!-- End dashboard content -->
-
 </div>
 
 <th:block layout:fragment="userScript">
     <!-- main js -->
     <script src="/js/main.js"></script>
+
+    <script>
+        $(function(){
+            //입력박스 숨어있다가
+            $("#cancelReasonEtc").hide();
+            $("#cancelReason").change(function() {
+                //기타를 선택하면 등장
+                if($("#cancelReason").val() == "etc") {
+                    $("#cancelReasonEtc").show();
+                }  else {
+                    $("#cancelReasonEtc").hide();
+                }
+            })
+        });
+    </script>
 </th:block>
 
 </body>
