@@ -98,9 +98,11 @@ public class NoticeController {
     @ResponseBody
     @PostMapping("/deleteNotices")
     public ResponseEntity<?> deleteNotices(@RequestBody List<Integer> noticeCodes) {
-        if(noticeService.deleteNotices(noticeCodes))
+        if(noticeService.deleteNotices(noticeCodes)) {
             return ResponseEntity.ok("성공적으로 삭제되었습니다.");
-        else
-            return ResponseEntity.status(500).body("삭제에 실패했습니다.");
+        }
+        else {
+            return ResponseEntity.status(500).build();
+        }
     }
 }

@@ -199,7 +199,8 @@
     </script>
 
     <script th:inline="javascript">
-        $deleteBtn.addEventListener("click", function () {
+
+        const deleteNotices = function () {
             const query = 'input[name="chk"]:checked'
             const selectedElements = document.querySelectorAll(query);
 
@@ -216,14 +217,47 @@
                 },
                 body: JSON.stringify(noticeCodesArray),
             })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Success:', data);
+                .then(res => {
+                    if (!res.ok) {
+                        throw Error("삭제 중 문제가 발생했습니다.<br>다시 시도해주세요.");
+                    }
+                    return res.text();
                 })
-                .catch(error => {
-                    console.error('Error:', error);
+                .then(data => {
+                    Swal.fire({
+                        title: data,
+                        icon: "success"
+                    }).then( function (){
+                        location.href = "/notice"
+                    });
+                })
+                .catch(err => {
+                    Swal.fire({
+                        title: err.message,
+                        icon: "error"
+                    }).then( function (){
+                        location.href = "/notice"
+                    });
+                })
+        };
+
+        $deleteBtn.addEventListener("click", function() {
+                Swal.fire({
+                    title: "정말 삭제하시겠습니까?",
+                    text: "이 작업은 되돌릴 수 없습니다.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "삭제",
+                    cancelButtonText: "취소"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteNotices();
+                    }
                 });
-        })
+            }
+        )
     </script>
 </th:block>
 
