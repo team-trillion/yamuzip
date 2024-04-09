@@ -39,7 +39,7 @@
 
                     <!--여기부터 본인 페이지 코드 작성-->
 
-<!--                    <form> -->
+
                     <!-- 프로필바 -->
                     <div class="container">
                         <div class="row white-box">
@@ -47,11 +47,11 @@
                                 <div class="img">
                                     <img id="image-box"
                                          class="img-thumbnail custom-circle center-block"
-                                         th:src="${dobby.dobImg != null? dobby.dobImg : '/images/profile.png'}" alt="도비 프로필"/>
+                                         th:src="${dobby?.dobImg != null? dobby?.dobImg : '/images/profile.png'}" alt="도비 프로필"/>
                                 </div>
                             </div>
                             <div class="col d-flex align-items-start justify-content-center flex-column mb-2">
-                                <div class="p-3" th:text="${dobby.dobNickname}"></div>
+                                <div class="p-3" th:text="${dobby?.dobNickname}"></div>
                                 <div class="p-3" th:text="${#authentication.principal.phone}"></div>
                             </div>
                             <div class="col d-flex align-items-center justify-content-center">
@@ -70,8 +70,8 @@
                                 </ul>
                             </nav>
                             <div class="row">
-<!--                                도비 소개-->
-                                <p class="col m-5" th:text="${dobby.dobContent}">
+                                <!-- 도비 소개-->
+                                <p class="col m-5" th:text="${dobby?.dobContent}">
                                 </p>
                                 <div class="col-3 m-5">
                                     <div class="card">
@@ -79,21 +79,21 @@
                                             <h3 class="card-title fs-3">도비 정보</h3>
                                             <div class="card-text fs-4 d-flex justify-content-between">
                                                 <span>지역</span>
-                                                <span th:text="${dobby.dobArea}"></span>
+                                                <span th:text="${dobby?.dobArea}"></span>
                                             </div>
                                             <div class="card-text fs-4 d-flex justify-content-between">
                                                 <span>영업일</span>
                                                 <div class="text-right">
-                                                    <span th:each="workday:${dobby.workdayList}" th:text="${workday.getDayOfWeek()}"></span>
+                                                    <span th:each="workday:${dobby?.workdayList}" th:text="${workday?.getDayOfWeek()}"></span>
                                                 </div>
                                             </div>
                                             <div class="card-text fs-4 d-flex justify-content-between">
                                                 <span>전문 분야</span>
-                                                <span th:span="${dobby.applyCareer}"></span>
+                                                <span th:span="${dobby?.applyCareer}"></span>
                                             </div>
                                             <div class="card-text fs-4 d-flex justify-content-between">
                                                 <span>경력</span>
-                                                <span th:text="${dobby.dobCareerDays}"></span>
+                                                <span th:text="${dobby?.dobCareerDays}"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -108,20 +108,21 @@
                                         </li>
                                     </ul>
                                 </nav>
-                                <div class="row m-5 pb-5 border border-2 border-start-0 border-top-0 border-end-0">
-                                    <div class="card border-0">
-                                        <div class="row g-0">
+
+                                <!-- 서비스 조회 -->
+                                <div class="row m-5 pb-5 border border-2 border-start-0 border-top-0 border-end-0" th:each="service : ${serviceList}">
+                                    <div class="card border-0" >
+                                        <div class="row g-0" >
                                             <div class="col-md-4">
-                                                <img src="/images/profile.png" class="img-fluid rounded-start"
-                                                     alt="...">
+                                                <img class="img-fluid rounded-start"
+                                                     th:src="${service?.thumbnailUrl}" alt="서비스 이미지"
+                                                     onClick="location.href='profile'">
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="card-body">
-                                                    <h5 class="card-title fs-3">서비스 이름</h5>
-                                                    <p class="card-text fs-4">This is a wider card with supporting text
-                                                        below as a natural lead-in to additional content. </p>
-                                                    <p class="card-text"><small class="text-body-secondary">Last updated
-                                                        3 mins ago</small></p>
+                                                    <h5 class="card-title fs-3" th:text="${service?.serviceTitle}">서비스 이름</h5>
+                                                    <p class="card-text fs-4 text-truncate"  th:text="${service?.serviceContent}">서비스 내용</p>
+                                                    <p class="card-text"><small class="text-body-secondary" th:text="${service?.servicePrice}"></small></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -135,7 +136,7 @@
                         </div>
                     </div>
                     <!--여기까지 본인 페이지 코드 작성-->
-<!--                    </form>-->
+
 
                 </section>
             </div>
