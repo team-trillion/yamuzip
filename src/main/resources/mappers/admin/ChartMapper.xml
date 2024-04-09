@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.admin.model.dao.AdminMapper">
+
+    <select id="selectWeeklyRegist" resultType="team.trillion.yamuzip.admin.model.dto.ChartDTO">
+        WITH Ranked AS (
+            SELECT
+                COUNT(*) AS userCount,
+                DATE(regist_datetime) AS registDate,
+                ROW_NUMBER() OVER (ORDER BY DATE(regist_datetime) DESC) AS rn
+            FROM tbl_user
+            GROUP BY
+                DATE(regist_datetime)
+            )
+        SELECT registDate, userCount
+        FROM Ranked
+        WHERE rn <![CDATA[<=]]> 7;
+    </select>
+
+</mapper>
