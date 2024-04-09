@@ -20,6 +20,10 @@
                 border-radius: 50%;
                 overflow: hidden;
             }
+            img {
+                width: 100px;
+                height: 100px;
+            }
         </style>
     </th:block>
 </head>
@@ -36,7 +40,52 @@
         <section class="container-sm">
             <!--여기부터 본인 페이지 코드 작성-->
 
-            <!--nav 옆 (content 안에 nav 있음)-->
+<!--            <p class="fs-5 pt-3 px-2">-->
+<!--                <a href="/admin/dashboard/dashboard" class="text-black">서비스관리</a> 〉 &nbsp;-->
+<!--                <a href="" class="text-black fw-bolder">전체서비스조회</a> &nbsp;-->
+<!--            </p>-->
+
+            <div class="container-fluid border rounded p-5 mt-5">
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                        <tr>
+                            <th scope="col">서비스 번호</th>
+                            <th scope="col">서비스 정보</th>
+                            <th scope="col"></th>
+                            <th scope="col">등록일자</th>
+                            <th scope="col">판매여부</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="service : ${serviceList}"
+                            th:onclick="|location.href='/serviceInfo/${service.serviceCode}'|">
+
+                            <td th:text="${service?.serviceCode}"></td>
+                            <td class="img-col"><img class="order-img" th:src="${service?.thumbnailUrl}"/></td>
+                            <td class="title" th:text="${service?.serviceTitle}"></td>
+                            <td th:text="${#dates.format(service?.serviceCreated, 'yy.MM.dd')}"></td>
+                            <td th:text="${service.serviceStatus}"></td>
+                            <td>
+                                <button type="button" class="dBtn btn btn-sm mb-2" style="background-color: #e5e5e5;">수정
+                                </button>
+                                <br>
+                                <button type="button" class="dBtn btn btn-sm" style="background-color:#ffeaea;">삭제</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="12" class="text-center p-5">+서비스 등록하기</td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+
+                </div>
+            </div>
+
 
             <!--여기까지 본인 페이지 코드 작성-->
         </section>

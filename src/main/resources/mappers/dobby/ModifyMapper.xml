@@ -14,6 +14,7 @@
         <id column="{dayWeek=day_week, dobCode=dob_code}"/>
     </resultMap>
 
+
     <select id="getDobby" resultMap="modifyResultMap">
         SELECT
         a.dob_code,
@@ -36,6 +37,7 @@
         a.user_code= #{userCode}
     </select>
 
+
     <update id="modifyDobby">
         UPDATE
         tbl_dobby
@@ -50,25 +52,12 @@
     </update>
 
 
-
-<!--    <update id="modifyWorkday">-->
-<!--        UPDATE-->
-<!--        tbl_workday-->
-<!--        SET-->
-<!--        dob_code = #{dobCode},-->
-<!--        day_week = #{dayWeek}-->
-<!--        WHERE-->
-<!--        dob_code = #{dobCode}-->
-<!--    </update>-->
-
-
    <insert id="registWorkday">
        INSERT INTO
             tbl_workday(dob_code, day_week)
        VALUES
             (#{dobCode}, #{dayWeek})
    </insert>
-
 
 
     <delete id="deleteWorkday" parameterType="map">

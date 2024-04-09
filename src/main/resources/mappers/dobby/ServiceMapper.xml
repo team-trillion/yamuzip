@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.dobby.mypage.model.dao.ServiceMapper">
+
+
+    <select id="getDetailService" resultType="team.trillion.yamuzip.dobby.mypage.model.dto.ServiceDTO">
+        SELECT
+            dob_code,
+            service_code,
+            category_code,
+            service_title,
+            service_explain,
+            service_content,
+            service_price,
+            service_status,
+            service_created,
+            thumbnail_url
+        FROM
+            tbl_service
+        WHERE
+            dob_code= #{dobCode}
+        AND
+            serviceCode = #{serviceCode}
+    </select>
+
+
+    <!-- 내 서비스 > 판매 여부 조회 -->
+    <select id="getService" resultType="team.trillion.yamuzip.dobby.mypage.model.dto.ServiceDTO">
+        SELECT
+            a.dob_code,
+            a.service_code,
+            a.category_code,
+            a.service_title,
+            a.service_explain,
+            a.service_content,
+            a.service_price,
+            a.service_created,
+            a.thumbnail_url,
+            CASE WHEN EXISTS (SELECT service_status
+                              FROM tbl_service
+                              WHERE a.service_status = 'A')
+                              THEN 'Y' ELSE 'N' END as service_status
+        FROM
+            tbl_service a
+        WHERE
+            dob_code= #{dobCode}
+        ORDER BY
+            service_created
+    </select>
+
+</mapper>

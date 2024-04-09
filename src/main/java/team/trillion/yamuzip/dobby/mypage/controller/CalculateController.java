@@ -11,23 +11,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import team.trillion.yamuzip.auth.service.AuthService;
 import team.trillion.yamuzip.dobby.mypage.model.dto.AccountDTO;
+import team.trillion.yamuzip.dobby.mypage.model.dto.CalculateDTO;
 import team.trillion.yamuzip.dobby.mypage.model.dto.ModifyDTO;
-import team.trillion.yamuzip.dobby.mypage.model.dto.ModifyTmpDTO;
+import team.trillion.yamuzip.dobby.mypage.model.dto.ServiceStatusDTO;
 import team.trillion.yamuzip.dobby.mypage.model.service.AccountService;
+import team.trillion.yamuzip.dobby.mypage.model.service.CalculateService;
 import team.trillion.yamuzip.dobby.mypage.model.service.ModifyService;
 import team.trillion.yamuzip.login.model.dto.UserDTO;
 
-import java.util.function.Predicate;
+import java.util.List;
 
 @Slf4j
 @Controller
 @RequestMapping("/dobby")
 @RequiredArgsConstructor
-public class AccountController {
+public class CalculateController {
 
-    private final AccountService accountService;
     private final ModifyService modifyService;
+    private final AccountService accountService;
+    private final CalculateService calculateService;
+
     private final AuthService authenticationService;
+
 
 
     // 도비 마이페이지 > 수익 관리
@@ -44,15 +49,20 @@ public class AccountController {
         System.out.println(accountDobby);
         model.addAttribute("accountDobby", accountDobby);
 
-//        if(dobby == null) {
-//            model.addAttribute("dobby", new ModifyDTO());
-//        }
-//        else {
-//            model.addAttribute("dobby", dobby);
-//
-//            System.out.println(dobby);
-//
-//        }
+        /* 출금 가능 수익금 조회 */
+        CalculateDTO totalAvailablePrice = calculateService.getAvailableForWithdrawal(dobby.getDobCode());
+        System.out.println(totalAvailablePrice);
+        model.addAttribute("totalAvailablePrice", totalAvailablePrice);
+
+        /* 출금 완료 수익금 조회 */
+        CalculateDTO totalCompletedPrice = calculateService.getWithdrawalsCompleted(dobby.getDobCode());
+        System.out.println(totalCompletedPrice);
+        model.addAttribute("totalCompletedPrice", totalCompletedPrice);
+
+        /* 서비스 정산 여부 조회 */
+        List<ServiceStatusDTO> settlementStatusList = calculateService.SettlementStatus(dobby.getDobCode());
+        System.out.println("미정산된 서비스" + settlementStatusList);
+        model.addAttribute("settlementStatusList", settlementStatusList);
 
         return "dobby/calc";
     }
@@ -66,6 +76,7 @@ public class AccountController {
                               @RequestParam String accName,
                               @AuthenticationPrincipal UserDTO user) {
 
+        /* 도비 계좌 등록 */
         ModifyDTO dobby = modifyService.getDobby(user.getUserCode());
         AccountDTO modifyDobby = new AccountDTO();
         modifyDobby.setDobCode(dobby.getDobCode());
