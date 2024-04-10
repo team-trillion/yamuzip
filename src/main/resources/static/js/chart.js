@@ -81,11 +81,17 @@ const adminChartData3 = chartData3.map(data => data.statusCount)
     label: '최근 한 달 주문상태',
     data: adminChartData3,
     backgroundColor: [
-    'rgb(25,211,231)',
     'rgb(106,180,252)',
+    'rgb(99,146,244)',
+    'rgb(25,211,231)',
+    'rgb(22,129,206)',
     'rgb(113,138,231)'
     ],
     hoverOffset: 4
 }]
-}
+}, options: {
+            legend: {
+                display: false
+            }
+        }
 });
