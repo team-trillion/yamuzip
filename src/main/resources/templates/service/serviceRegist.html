@@ -399,7 +399,7 @@
                     dataType: 'json',
                     success: function (data) {
                         const range = quill.getSelection(); // 사용자가 선택한 에디터 범위
-                        data.uploadPath = data.uploadPath.replace(/\\/g, '/');
+                          data.uploadPath = data.uploadPath.replace(/\\/g, '/');
                         quill.insertEmbed(range.index, 'uploadFile', "/service/serviceRegist?fileName=" + data.uploadPath +"/"+ data.uuid +"_"+ data.fileName);
 
                     },

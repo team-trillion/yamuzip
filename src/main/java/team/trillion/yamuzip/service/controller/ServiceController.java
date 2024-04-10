@@ -283,7 +283,7 @@ public class ServiceController {
 
         // 서비스 삭제
 
-        return "redirect:/"; // 수정 성공 후 이동할 페이지
+         return "redirect:/"; // 수정 성공 후 이동할 페이지
     }
 
     @PostMapping("/removeService/{serviceCode}")
