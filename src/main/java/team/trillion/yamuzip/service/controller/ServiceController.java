@@ -231,7 +231,7 @@ public class ServiceController {
     public String serviceModify(@ModelAttribute ServiceDTO service,
                                 @RequestParam(value = "imgCode",required = false) Long[] imgcode,
                                 @RequestParam(value = "serviceDetailImg", required = false) List<MultipartFile> serviceDetailImg,
-                                @RequestParam MultipartFile serviceThumbnail,
+                                @RequestParam (value = "serviceThumbnail", required = false)MultipartFile serviceThumbnail,
                                 Model model) {
         /* 이미지 업로드 및 수정 */
         String root = "src/main/resources";
@@ -246,7 +246,10 @@ public class ServiceController {
         try {
             String thumbnailOriginName = serviceThumbnail.getOriginalFilename();
             assert thumbnailOriginName != null;
-            String thumbnailExt = thumbnailOriginName.substring(thumbnailOriginName.lastIndexOf("."));
+            String thumbnailExt = "";
+            if (thumbnailOriginName != null && !thumbnailOriginName.isEmpty() && thumbnailOriginName.contains(".")) {
+                thumbnailExt = thumbnailOriginName.substring(thumbnailOriginName.lastIndexOf("."));
+            }
             String thumbnailImgName = UUID.randomUUID() + thumbnailExt;
 
             serviceThumbnail.transferTo(new File(imgUrl + "/" + thumbnailImgName));
@@ -261,18 +264,22 @@ public class ServiceController {
                 MultipartFile file = serviceDetailImg.get(i);
                 Long imgCode = imgcode[i]; // 이미지 코드
                 String imgOriginName = file.getOriginalFilename();
-                String ext = imgOriginName.substring(imgOriginName.lastIndexOf("."));
-                String imgName = UUID.randomUUID() + ext;
 
-                char section = 'S';
-                try {
-                    file.transferTo(new File(imgUrl + "/" + imgName));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                if (imgOriginName != null && !imgOriginName.isEmpty() && imgOriginName.contains(".")) {
+                    String ext = imgOriginName.substring(imgOriginName.lastIndexOf("."));
+                    String imgName = UUID.randomUUID() + ext;
+
+                    char section = 'S';
+                    try {
+                        file.transferTo(new File(imgUrl + "/" + imgName));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    ImageDTO imgDTO = new ImageDTO(imgCode, imgOriginName, imgName, "/static/uploadFiles/", section);
+                    imageList.add(imgDTO);
                 }
 
-                ImageDTO imgDTO = new ImageDTO(imgCode, imgOriginName, imgName, "/static/uploadFiles/", section);
-                imageList.add(imgDTO);
             }
         }
 

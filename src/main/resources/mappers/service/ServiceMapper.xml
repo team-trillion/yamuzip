@@ -221,7 +221,8 @@
 
 
 </select>
-    <select id="getServiceListSortedByPrice" resultMap="selectService">
+
+<select id="getServiceListSortedByPrice" resultMap="selectService">
      <![CDATA[
         SELECT service_code,
                dob_nickname,
@@ -245,7 +246,16 @@
         ]]>
 
     </select>
+    <resultMap id="orderCountMap" type="java.lang.Integer">
+        <id property="orderCount" column="order_count"/>
+    </resultMap>
 
+    <select id="getOrderStatus" resultMap="orderCountMap">
+        SELECT COUNT(*) AS order_count
+        FROM tbl_order
+        WHERE service_code = #{serviceCode};
+
+    </select>
 
     <select id="getServiceListSortedByCareerDays3y" resultMap="selectService">
         SELECT service_code,
