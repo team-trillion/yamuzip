@@ -157,6 +157,23 @@ public class ServiceService {
 
         return serviceMapper.getTotalService();
     }
+
+    public DobbyDTO getDobby(long userCode) {
+
+        return serviceMapper.getDobby(userCode);
+    }
+
+    public void likeService(Long serviceCode, long userCode) {
+        serviceMapper.likeService(serviceCode,userCode);
+    }
+
+    public void unlikeService(Long serviceCode, long userCode) {
+        serviceMapper.unlikeService(serviceCode, userCode);
+    }
+
+    public List<ServiceDTO> getServiceListSortedByWish() {
+       return serviceMapper.getServiceListSortedByWish();
+    }
 }
 
 

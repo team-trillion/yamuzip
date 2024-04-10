@@ -1,23 +1,20 @@
 package team.trillion.yamuzip.service.controller;
 
-import ch.qos.logback.classic.Logger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import team.trillion.yamuzip.login.model.dto.UserDTO;
 import team.trillion.yamuzip.service.model.dto.*;
 import team.trillion.yamuzip.service.model.service.ServiceService;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Slf4j
@@ -60,6 +57,13 @@ public class ServiceController {
     @GetMapping("/serviceList/sortArea")
     public String getServiceByAreaList(@RequestParam("dobArea")String area, Model model) {
         List<ServiceDTO> serviceList =  serviceService.getServiceListSortedByArea(area);
+        model.addAttribute("serviceList", serviceList);
+
+        return "service/serviceList";
+    }
+    @GetMapping("/serviceList/sortWish")
+    public String getServiceByWishList( Model model) {
+        List<ServiceDTO> serviceList = serviceService.getServiceListSortedByWish();
         model.addAttribute("serviceList", serviceList);
 
         return "service/serviceList";
@@ -153,12 +157,15 @@ public class ServiceController {
 
     @PostMapping(value = "/serviceRegist")
     public String serviceRegist(@ModelAttribute ServiceDTO service,
-//                                @RequestParam(value = "dobCode",required = false) long dobCode,
+                           @AuthenticationPrincipal UserDTO user,
                                 @RequestParam(value = "serviceDetailImg", required= false ) List<MultipartFile> serviceDetailImg,
                                 @RequestParam MultipartFile serviceThumbnail,
                                 Model model
     ) {
-
+        long userCode= user.getUserCode();
+       DobbyDTO dobby =  serviceService.getDobby(userCode);
+       long dobCode = dobby.getDobCode();
+        model.addAttribute("dobby", dobby);
         /* 이미지 업로드 */
         String root = "src/main/resources";
         String imgUrl = root + "/uploadFiles";
@@ -195,13 +202,12 @@ public class ServiceController {
         }
 
         char section = 'S';
-        service.setDobCode(1);
+        service.setDobCode(dobCode);
         service.setThumbnailUrl("/uploadFiles/" + imgName);
         img.add(new ImageDTO(imgOriginName, imgName, "/uploadFiles/", section));
         log.info("img : {}", img);
         log.info("service : {}", service);
         /* 서비스 등록 */
-//        service.setDobCode(dobCode); // 도비 코드
         serviceService.registService(service, img);
         model.addAttribute("message", "이미지 업로드 완료");
 
@@ -265,7 +271,7 @@ public class ServiceController {
                     throw new RuntimeException(e);
                 }
 
-                ImageDTO imgDTO = new ImageDTO(imgCode, imgOriginName, imgName, "/uploadFiles/", section);
+                ImageDTO imgDTO = new ImageDTO(imgCode, imgOriginName, imgName, "/static/uploadFiles/", section);
                 imageList.add(imgDTO);
             }
         }

@@ -120,12 +120,18 @@
             margin-top: -100px;
         }
 
-        .img {
-            width: 500px;
-            height: 500px;
+        .empty-heart::before {
+            content: "♡"; /* 빈 하트 */
         }
-        #pageCount {
-            font-size: 10px;
+
+        .full-heart::before {
+            content: "♥️"; /* 채워진 하트 */
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 400px; /* 높이는 원하는 값으로 조정합니다. */
+            object-fit: cover; /* 이미지를 컨테이너에 맞추기 위해 사용합니다. */
         }
     </style>
 </head>
@@ -146,7 +152,7 @@
                     <!--여기부터 본인 페이지 코드 작성-->
 
                     <section class="py-5">
-                      <p>조회수 :  <span id="viewsCount" th:text="${serviceDetailList.views}"></span></p>
+                        <p>조회수 : <span id="viewsCount" th:text="${serviceDetailList.views}"></span></p>
 
                         <div class="container px-4 px-lg-5 my-5">
                             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
@@ -158,55 +164,43 @@
                             </nav>
                             <div class="row gx-4 gx-lg-5 align-items-center">
                                 <div class="col-md-6">
-                                    <div id="carouselExampleIndicators" class="carousel carousel-dark slide">
-                                        <div class="carousel-indicators">
-                                            <button type="button" data-bs-target="#carouselExampleIndicators"
-                                                    data-bs-slide-to="0" class="active" aria-current="true"
-                                                    aria-label="Slide 1"></button>
-                                            <button type="button" data-bs-target="#carouselExampleIndicators"
-                                                    data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                            <button type="button" data-bs-target="#carouselExampleIndicators"
-                                                    data-bs-slide-to="2" aria-label="Slide 3"></button>
-                                        </div>
-                                        <div class="carousel-inner w-100 h-100">
-                                            <div class="carousel-item active" th:each="images:${serviceImages}">
-                                                <img th:src="@{${images.imgUrl}}" class="d-block w-100" alt="...">
+                                    <div id="carouselExampleFade" class="carousel slide carousel-fade">
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active" th:each = "images:${serviceImages}">
+                                                <img src="..." class="d-block w-100" alt="..." th:src="@{${images.imgUrl}}">
                                             </div>
-<!--                                            <div class="carousel-item">-->
-<!--                                                <img src="/images/main_icon1.png" class="d-block w-100" alt="...">-->
-<!--                                            </div>-->
-<!--                                            <div class="carousel-item">-->
-<!--                                                <img src="/images/설치_2.png" class="d-block w-100" alt="...">-->
-<!--                                            </div>-->
+
                                         </div>
-                                        <button class="carousel-control-prev" type="button"
-                                                data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
                                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                             <span class="visually-hidden">Previous</span>
                                         </button>
-                                        <button class="carousel-control-next" type="button"
-                                                data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
                                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                             <span class="visually-hidden">Next</span>
                                         </button>
                                     </div>
 
                                 </div>
-                                <div class="col-md-6" >
+                                <div class="col-md-6">
                                     <div class="card shadow-sm" style="width: 100%; height: auto">
-                                        <div class="card-body" style="width: 100%" >
+                                        <div class="card-body" style="width: 100%">
 
-                                            <h1 class="infoTab display-5 mt-3" th:text="${serviceDetailList.serviceTitle}">서비스 이름
+                                            <h1 class="infoTab display-5 mt-3"
+                                                th:text="${serviceDetailList.serviceTitle}">서비스 이름
                                                 어쩌구</h1>
-                                            <p class="infoTab lead border-top" th:text="${serviceDetailList.serviceExplain}">서비스
+                                            <p class="infoTab lead border-top"
+                                               th:text="${serviceDetailList.serviceExplain}">서비스
                                                 설명</p>
                                             <div class="infoTab cardText mb-3">
-                                                <span class="badge bg-primary" th:text="${serviceDetailList.category.categoryName}">카테고리</span>
+                                                <span class="badge bg-primary"
+                                                      th:text="${serviceDetailList.category.categoryName}">카테고리</span>
 
                                             </div>
                                             <div class="priceBox fs-5 mb-5 display-5 ">
-                                                <span class="infoTab heart">♥️</span>
-                                                <span id="priceTag" class="price" th:text="${serviceDetailList.servicePrice}"><b>31,600~</b></span>
+                                                <span id="like" class="btn heart empty-heart"></span>
+                                                <span id="priceTag" class="price"
+                                                      th:text="${serviceDetailList.servicePrice}"><b>31,600~</b></span>
                                             </div>
                                             <div class="orderBox">
                                                 <button class="order btn-block" type="button">주문하기</button>
@@ -228,7 +222,7 @@
                                 </nav>
                             </div>
                             <div class="profileCard col-md-2">
-                                <img src="/images/main_icon1.png" class="cardImg card-img-top p-3 img-thumbnail"
+                                <img th:src="${serviceDetailList.dobby.dobImage}" class="cardImg card-img-top p-3 img-thumbnail"
                                      alt="...">
                             </div>
                             <div class="profileCard col-md-4 border p-5 shadow-sm"
@@ -241,7 +235,7 @@
                                         <p class="card-text border-bottom" th:inline="text"><b>지역</b> :
                                             [[${serviceDetailList.dobby.dobArea}]]</p>
                                         <p class="card-text font-weight-bold"
-                                           th:text="${serviceDetailList.dobby.dobContent}"> </p>
+                                           th:text="${serviceDetailList.dobby.dobContent}"></p>
 
                                     </div>
                                 </div>
@@ -250,7 +244,7 @@
 
                         <div class="infoRow row">
                             <h1>Info</h1>
-                            <div class="col-md-6" id="serviceContext" >
+                            <div class="col-md-6" id="serviceContext">
                                 <p th:utext="${serviceDetailList.serviceContent}">🔥구매 전 필독사항🔥
 
                                     ✔️핸드메이드 특성상 눈,코,입,귀 등
@@ -276,7 +270,7 @@
                                 <div class="bg-body rounded shadow-sm">
                                     <h6 class="border-bottom pb-2 mb-0">옵션</h6>
                                     <div class="d-flex text-body-secondary pt-3">
-                                        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded"  width="20"
+                                        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="20"
                                              height="20" xmlns="http://www.w3.org/2000/svg" role="img"
                                              aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice"
                                              focusable="false"><title>Placeholder</title>
@@ -284,12 +278,13 @@
                                             <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
                                         </svg>
                                         <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-                                        <label for="option">옵션 선택:</label>
-                                        <select name="option" id="option" th:field="*{serviceOptions}">
-                                            <!-- Thymeleaf 반복문을 통해 옵션 목록 표시 -->
-                                            <option value="none">선택안함</option>
-                                            <option th:each="opt : ${serviceOptions}" th:value="${opt.optionPrice}" th:text="${opt.optionName} + ' - 추가 금액: ' + ${opt.optionPrice}"></option>
-                                        </select>
+                                            <label for="option">옵션 선택:</label>
+                                            <select name="option" id="option" th:field="*{serviceOptions}">
+                                                <!-- Thymeleaf 반복문을 통해 옵션 목록 표시 -->
+                                                <option value="none">선택안함</option>
+                                                <option th:each="opt : ${serviceOptions}" th:value="${opt.optionPrice}"
+                                                        th:text="${opt.optionName} + ' - 추가 금액: ' + ${opt.optionPrice}"></option>
+                                            </select>
 
 
                                         </div>
@@ -360,28 +355,29 @@
                             </div>
                         </div>
 
-        </section>
-        </section>
+                    </section>
+                </section>
+            </div>
+
+
+            <!--여기까지 본인 페이지 코드 작성-->
+        </div>
     </div>
-
-
-    <!--여기까지 본인 페이지 코드 작성-->
-</div>
-</div>
-<!-- content -->
+    <!-- content -->
 
 </div>
 <!-- page -->
-</div>
+
 <!-- wrapper -->
 
 <th:block layout:fragment="userScript">
     <!--본인 페이지 js 작성-->
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
+         const urlParams = new URLSearchParams(window.location.search);
         const serviceCode = urlParams.get('serviceCode');
         console.log(serviceCode + " @@@@@@@")
-       function fetchViewsCount(serviceCode) {
+
+        function fetchViewsCount(serviceCode) {
             fetch(`/service/serviceDetail/views?serviceCode=${serviceCode}`)
                 .then(response => {
                     if (!response.ok) {
@@ -396,16 +392,97 @@
         }
 
 
-        window.onload = function() {
+        window.onload = function () {
             fetchViewsCount(serviceCode);
         };
 
     </script>
+    <script>
+        document.getElementById("like").addEventListener("click", function () {
+            var likeButton = document.getElementById("like");
+            if (likeButton.classList.contains("empty-heart")) {
+                likeButton.classList.remove("empty-heart");
+                likeButton.classList.add("full-heart");
+            } else {
+                likeButton.classList.remove("full-heart");
+                likeButton.classList.add("empty-heart");
+            }
+        });
 
+    </script>
+    <script>
+        document.getElementById("like").addEventListener("click", function () {
+            var likeButton = document.getElementById("like");
 
+            console.log(serviceCode + "@!#@!#@!#@")
+            // 서비스가 찜되었는지 여부 확인
+            var isLiked = likeButton.classList.contains("empty-heart");
+
+            // 찜 토글
+            if (isLiked) {
+                // 서비스가 찜되어 있으면 찜을 해제하도록 요청
+                unlikeService(serviceCode);
+            } else {
+                // 서비스가 찜되어 있지 않으면 찜을 추가하도록 요청
+                likeService(serviceCode);
+            }
+        });
+
+        // 찜 추가 요청 함수
+        function likeService(serviceCode) {
+            console.log(serviceCode)
+            // 서버에 찜 추가 요청 보내기 (예: Ajax 요청)
+            // fetch 또는 axios를 사용하여 서버로 POST 요청을 보낼 수 있습니다.
+            fetch("/likeService?serviceCode=" + serviceCode, {
+                method: "POST",
+                body: JSON.stringify({serviceCode: serviceCode}),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(response => {
+                // 응답 처리
+                if (response.ok) {
+                    // 성공적으로 처리되었을 때의 동작
+                    likeButton.classList.remove("empty-heart");
+                    likeButton.classList.add("full-heart");
+                } else {
+                    // 오류가 발생했을 때의 동작
+                    console.error("Failed to like service.");
+                }
+            }).catch(error => {
+                console.error("Error:", error);
+            });
+        }
+
+        // 찜 삭제 요청 함수
+        function unlikeService(serviceCode) {
+            // 서버에 찜 삭제 요청 보내기 (예: Ajax 요청)
+            // fetch 또는 axios를 사용하여 서버로 POST 요청을 보낼 수 있습니다.
+            fetch("/unlikeService?serviceCode=" + serviceCode, {
+                method: "POST",
+                body: JSON.stringify({serviceCode: serviceCode}),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(response => {
+                // 응답 처리
+                if (response.ok) {
+                    // 성공적으로 처리되었을 때의 동작
+                    likeButton.classList.remove("full-heart");
+                    likeButton.classList.add("empty-heart");
+                } else {
+                    // 오류가 발생했을 때의 동작
+                    console.error("Failed to unlike service.");
+                }
+            }).catch(error => {
+                console.error("Error:", error);
+            });
+        }
+
+    </script>
     <!-- Main JS -->
     <script src="/js/main.js"></script>
-<!--    const carousel = new bootstrap.Carousel('#myCarousel')-->
+    <!--    const carousel = new bootstrap.Carousel('#myCarousel')-->
 </th:block>
 
 </body>

@@ -30,6 +30,5 @@ public class ServiceDTO {
     private ImageDTO image;
     private String thumbnailUrl;
     private int views;
-
-
+   private WishDTO wish;
 }
