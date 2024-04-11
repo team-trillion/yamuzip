@@ -145,6 +145,25 @@
         WHERE service_status = 'A'
         ORDER BY service_code
     </select>
+    <select id="getServiceListPaging" resultMap="selectService">
+        SELECT service_code,
+               dob_nickname,
+               service_title,
+               service_explain,
+               service_content,
+               service_price,
+               service_created,
+               thumbnail_url,
+               category_name,
+               views
+        FROM tbl_service
+                 JOIN tbl_dobby ON tbl_service.dob_code = tbl_dobby.dob_code
+                 JOIN
+             tbl_category ON tbl_service.category_code = tbl_category.category_code
+        WHERE service_status = 'A'
+        ORDER BY service_code
+        LIMIT #{start}, #{pageSize}
+    </select>
     <select id="getServiceListSortedByParentCategory" resultMap="selectService">
         SELECT
             service_code,
@@ -210,6 +229,7 @@
         WHERE service_code = #{serviceCode};
 
     </select>
+
 
 
     <select id="getServiceListSortedByCareerDays3y" resultMap="selectService">

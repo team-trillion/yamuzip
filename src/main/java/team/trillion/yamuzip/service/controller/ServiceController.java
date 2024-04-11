@@ -35,11 +35,22 @@ public class ServiceController {
     @GetMapping("/serviceList")
     public String getServiceList(Model model) {
         List<ServiceDTO> serviceList = serviceService.getServiceList();
+        List<List<ReviewDTO>> allReviews = new ArrayList<>();
+
+        for (ServiceDTO serviceDTO : serviceList) {
+            long serviceCode = serviceDTO.getServiceCode();
+            log.info(serviceCode + "__________________");
+            List<ReviewDTO> reviews = serviceService.getReviews(serviceCode);
+            allReviews.add(reviews);
+        }
+
         int totalService = serviceService.getTotalSerivce();
         model.addAttribute("serviceList", serviceList);
+        model.addAttribute("allReviews", allReviews);
         model.addAttribute("totalService", totalService);
         return "service/serviceList";
     }
+
     @GetMapping("/serviceList/sortViews")
     public String getServiceByViewsList(Model model) {
         List<ServiceDTO> serviceList =  serviceService.getServiceListSortedByViews();
