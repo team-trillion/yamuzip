@@ -42,14 +42,14 @@
 
                         <div class="row">
                             <div class="col-4">
-                                <img th:src="@{${calcDetail.thumbnailUrl}}" alt="thumbnail"
+                                <img th:src="@{${calcDetail?.thumbnailUrl}}" alt="thumbnail"
                                      class="align-middle img-thumbnail"/>
                             </div>
                             <div class="col-8">
-                                <h3 th:text="${calcDetail.serviceTitle}" class="my-0"></h3>
+                                <h3 th:text="${calcDetail?.serviceTitle}" class="my-0"></h3>
 <!--                                <h4 th:text="|예약일시 : ${#dates.format(calcDetail.reserveDatetime, 'yyyy년 MM월 dd일 HH시 mm분')}|"-->
 <!--                                    class="my-0"></h4>-->
-                                <p th:text="${calcDetail.serviceExplain}"></p>
+                                <p th:text="${calcDetail?.serviceExplain}"></p>
                             </div>
                         </div>
 
@@ -69,21 +69,21 @@
                                         <table class="table" style="height: 100%;">
                                             <tr>
                                                 <th class="table-secondary">공급자</th>
-                                                <td class="table-light" th:text="${calcDetail.userName}"></td>
+                                                <td class="table-light" th:text="${calcDetail?.userName}"></td>
                                             </tr>
                                             <tr>
                                                 <th class="table-secondary">정산계좌</th>
-                                                <td class="table-light" th:text="${calcDetail.accBank + calcDetail.accNumber +
+                                                <td class="table-light" th:text="${calcDetail?.accBank + ' ' + calcDetail.accNumber + ' ' +
                                                 '(예금주:' + calcDetail.userName + ')'}"></td>
                                             </tr>
                                             <tr>
                                                 <th class="table-secondary">서비스내용</th>
-                                                <td class="table-light" th:text="${calcDetail.serviceTitle}"></td>
+                                                <td class="table-light" th:text="${calcDetail?.serviceTitle}"></td>
                                             </tr>
                                             <tr>
                                                 <th class="table-secondary">서비스제공일</th>
-<!--                                                <td class="table-light"-->
-<!--                                                    th:text="${#dates.format(calcDetail.reserveDatetime, 'yyyy.MM.dd')}"></td>-->
+                                                <td class="table-light"
+                                                    th:text="${#dates.format(calcDetail?.reserveDatetime, 'yyyy.MM.dd')}"></td>
                                             </tr>
                                         </table>
                                     </div>
@@ -94,21 +94,21 @@
                                                 <th class="table-secondary text-center"
                                                     style="height: 20%; width: 30%;">서비스단가
                                                 </th>
-                                                <td class="table-light" th:text="${calcDetail.payPrice}"></td>
+                                                <td class="table-light" th:text="${calcDetail?.payPrice}"></td>
                                             </tr>
                                             <tr>
                                                 <th class="table-secondary text-center" style="height: 20%;">중개수수료</th>
-                                                <td class="table-light" th:text="${calcDetail.chargePrice}"></td>
+                                                <td class="table-light" th:text="${calcDetail?.chargePrice}"></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="2" rowspan="2" class="table-light" th:inline="text">
                                                     <div class="row">
                                                         <div class="card-title col-8">- 서비스 기본가</div>
-                                                        <div class="text-end col-4">[[${calcDetail.payPrice}]]원</div>
+                                                        <div class="text-end col-4">[[${calcDetail?.payPrice}]]원</div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="card-title col-8">- 중개 수수료</div>
-                                                        <div class="text-end col-4">[[${calcDetail.chargePrice}]]원</div>
+                                                        <div class="text-end col-4">[[${calcDetail?.chargePrice}]]원</div>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -116,7 +116,7 @@
                                     </div>
                                 </div>
                                 <h4 class="text-end mt-5 pt-5 fw-bold">총 결제금액 <span
-                                        th:text="${calcDetail.calResult}"></span>원<br>
+                                        th:text="${calcDetail?.calResult}"></span>원<br>
                                     <button id="cal-btn" type="button"
                                             class="btn btn-primary btn-modal mt-3" data-toggle="modal"
                                             data-target="#applyModal">

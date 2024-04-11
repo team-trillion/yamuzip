@@ -217,6 +217,7 @@
                                 정산미완료
                             </td>
                             <td th:text="|${#numbers.formatInteger(calc.payPrice - (calc.payPrice * 0.01), 3, 'COMMA')}|" class="align-middle"></td>
+<!--                            <td th:text="${calc.payPrice}" class="align-middle"></td>-->
                             <td th:text="${calc.accName}" class="align-middle"></td>
                             <td th:text="${calc.accNumber}" class="align-middle"></td>
                             <td th:text="${calc.accBank}" class="align-middle"></td>
