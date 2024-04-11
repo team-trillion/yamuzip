@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.user.mypage.model.dao.WishMapper">
+
+    <select id="getWish" resultType="team.trillion.yamuzip.user.mypage.model.dto.WishDTO">
+        SELECT
+        a.wish_code,
+        a.user_code,
+        a.service_code,
+        b.service_title,
+        b.service_explain,
+        b.service_content,
+        b.service_price,
+        b.thumbnail_url,
+        c.dob_nickname
+        FROM
+        tbl_wish a
+        JOIN
+        tbl_service b ON a.service_code = b.service_code
+        JOIN
+        tbl_dobby c ON b.dob_code = c.dob_code
+        WHERE
+        a.user_code = #{userCode}
+    </select>
+
+</mapper>
