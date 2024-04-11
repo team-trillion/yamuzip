@@ -21,5 +21,6 @@ public class SelectCriteria {
     private String searchValue;
     private String start;
     private String end;
+    private String orderStatus;
 
 }
