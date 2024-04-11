@@ -78,10 +78,40 @@
                                 </div>
                             </div>
 
-                            <div class="btn-group-sm pb-3" role="group" aria-label="Basic example">
-                                <button type="button" class="btn btn-light">전체</button>
-                                <button type="button" class="btn btn-light">최근1년</button>
-                                <button type="button" class="btn btn-light">이번달</button>
+                            <div class="row">
+                            <div class="col-3 align-middle">
+                            <div class="btn-group-sm pb-3 dropdown-toggle m-4" role="group" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button type="button" class="btn btn-secondary">상태별조회</button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="status dropdown-item" href="#" data-status="Z">전체</a></li>
+                                    <li><a class="status dropdown-item text-secondary" href="#" data-status="O" data-text-color="fw-bold fs-5 text-secondary align-middle">주문신청</a></li>
+                                    <li><a class="status dropdown-item text-success" href="#" data-status="A" data-text-color="fw-bold fs-5 text-success align-middle">예약승인</a></li>
+                                    <li><a class="status dropdown-item text-primary" href="#" data-status="F" data-text-color="fw-bold fs-5 text-primary align-middle">서비스완료</a></li>
+                                    <li><a class="status dropdown-item text-warning" href="#" data-status="C" data-text-color="fw-bold fs-5 text-warning align-middle">예약취소</a></li>
+                                    <li><a class="status dropdown-item text-danger" href="#" data-status="R" data-text-color="fw-bold fs-5 text-danger align-middle">주문거절</a></li>
+                                </ul>
+                            </div>
+                            </div>
+                            <div class="col-9">
+                            <form id="searchForm" class="form-inline mt-1" action="/admin/order/list" method="get">
+                                <nav class="navbar navbar-expand-lg text-right">
+                                    <div class="collapse navbar-collapse">
+                                        <div class="input-group input-daterange w-50" id="datepicker">
+                                            <input type="text" class="form-control input-sm" name="start"
+                                                   placeholder="연도. 월. 일." th:value="${ paging.start }"/>
+                                            <span class="input-group-addon input-sm bg-light">-</span>
+                                            <input type="text" class="form-control input-sm" name="end"
+                                                   placeholder="연도. 월. 일." th:value="${ paging.end }"/>
+                                        </div>
+                                        <input class="form-control input-sm w-25" type="text"
+                                               id="searchValue"
+                                               name="searchValue"
+                                               placeholder="서비스명으로 검색" th:value="${ paging.searchValue }"/>
+                                        <button class="btn btn-primary btn-sm" type="submit">조회</button>
+                                    </div>
+                                </nav>
+                            </form>
+                            </div>
                             </div>
 
                             <table class="table text-center mb-5">
@@ -95,7 +125,7 @@
                                     <th scope="col" class="text-center">주문일</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="tbody">
                                 <tr th:each="order : ${orderList}"
                                     th:onclick="|location.href='/admin/order/detail?orderCode=${order.orderCode}'|">
                                     <td th:text="${order.orderCode}" class="align-middle"></td>
@@ -175,6 +205,10 @@
             todayHighlight: true
         });
     </script>
+    <script th:inline="javascript">
+        const list = [[${orderList}]]
+    </script>
+    <script src="/js/order.js"></script>
 </th:block>
 
 </body>

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import team.trillion.yamuzip.dobby.mypage.model.dto.*;
 import team.trillion.yamuzip.dobby.mypage.model.service.ModifyService;
+import team.trillion.yamuzip.dobby.mypage.model.service.OrderStatusService;
 import team.trillion.yamuzip.dobby.mypage.model.service.ServiceService;
 import team.trillion.yamuzip.login.model.dto.UserDTO;
 
@@ -26,6 +27,7 @@ public class DobbyController {
 
     private final ModifyService modifyService;
     private final ServiceService serviceService;
+    private final OrderStatusService orderStatusService;
 
 
     // 도비 마이페이지 메인
@@ -42,6 +44,10 @@ public class DobbyController {
             System.out.println(dobby);
 
         }
+
+        List <OrderStatusDTO> orderStatusList = orderStatusService.orderStatus(dobby.getDobCode());
+        model.addAttribute("orderStatusList", orderStatusList);
+
         return "dobby/main";
     }
 

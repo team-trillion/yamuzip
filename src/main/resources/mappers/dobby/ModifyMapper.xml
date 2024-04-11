@@ -17,38 +17,46 @@
 
     <select id="getDobby" resultMap="modifyResultMap">
         SELECT
-        a.dob_code,
-        a.user_code,
-        a.dob_nickname,
-        a.dob_img,
-        a.dob_content,
-        a.dob_area,
-        a.dob_career_days,
-        b.apply_career,
-        c.day_week,
-        c.dob_code
+            a.dob_code,
+            a.user_code,
+            a.dob_nickname,
+            a.dob_img,
+            a.dob_content,
+            a.dob_area,
+            a.dob_career_days,
+            b.apply_career,
+            b.apply_status,
+            c.day_week,
+            c.dob_code
         FROM
-        tbl_dobby a
-        JOIN
-        tbl_dob_apply b on(a.user_code = b.user_code)
-        LEFT JOIN
-        tbl_workday c on(a.dob_code = c.dob_code)
+            tbl_dobby a
+            JOIN
+            tbl_dob_apply b on(a.user_code = b.user_code)
+            LEFT JOIN
+            tbl_workday c on(a.dob_code = c.dob_code)
         WHERE
-        a.user_code= #{userCode}
+            a.user_code= #{userCode}
+            AND
+            b.apply_status = 'A'
     </select>
 
 
     <update id="modifyDobby">
         UPDATE
-        tbl_dobby
+            tbl_dobby a
+            JOIN
+            tbl_dob_apply b ON a.user_code = b.user_code
         SET
-        dob_img = #{dobImg},
-        dob_nickname = #{dobNickname},
-        dob_content = #{dobContent},
-        dob_area = #{dobArea},
-        dob_career_days = #{dobCareerDays}
+            <if test="dobImg != null">
+                a.dob_img = #{dobImg},
+            </if>
+            a.dob_nickname = #{dobNickname},
+            a.dob_content = #{dobContent},
+            a.dob_area = #{dobArea},
+            a.dob_career_days = #{dobCareerDays},
+            b.apply_career = #{applyCareer}
         WHERE
-        user_code = #{userCode}
+            a.user_code = #{userCode};
     </update>
 
 
@@ -59,14 +67,20 @@
             (#{dobCode}, #{dayWeek})
    </insert>
 
-
-    <delete id="deleteWorkday" parameterType="map">
+    <delete id="deleteWorkday">
         DELETE FROM
             tbl_workday
         WHERE
             dob_code = #{dobCode}
-        AND
-            day_week = #{dayWeek}
     </delete>
+
+<!--    <delete id="deleteWorkday" parameterType="map">-->
+<!--        DELETE FROM-->
+<!--        tbl_workday-->
+<!--        WHERE-->
+<!--        dob_code = #{dobCode}-->
+<!--        AND-->
+<!--        day_week = #{dayWeek}-->
+<!--    </delete>-->
 
 </mapper>

@@ -8,7 +8,9 @@
         UPDATE
         tbl_user
         SET
-        user_img = #{userImg},
+        <if test="userImg != null">
+            user_img = #{userImg},
+        </if>
         user_nickname = #{userNickname},
         user_name = #{userName},
         phone = #{phone},

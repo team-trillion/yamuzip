@@ -14,7 +14,8 @@
         phone,
         user_status,
         auth,
-        email
+        email,
+        user_img
         FROM
         tbl_user
         WHERE

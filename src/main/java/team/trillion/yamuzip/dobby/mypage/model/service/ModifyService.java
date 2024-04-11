@@ -40,12 +40,15 @@ public class ModifyService {
 
     // 도비 WORKDAY 삭제
 
-    public void deleteWorkday(int dobCode, int dayWeek) {
-        Map<String, Integer> workday = new HashMap<>();
-        workday.put("dobCode", dobCode);
-        workday.put("dayWeek", dayWeek);
-        modifyMapper.deleteWorkday(workday);
+    public void deleteWorkday(int dobCode) {
+        modifyMapper.deleteWorkday(dobCode);
     }
 
+//public void deleteWorkday(int dobCode, int dayWeek) {
+//        Map<String, Integer> workday = new HashMap<>();
+//        workday.put("dobCode", dobCode);
+//        workday.put("dayWeek", dayWeek);
+//        modifyMapper.deleteWorkday(workday);
+//    }
 
 }

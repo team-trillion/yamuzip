@@ -15,25 +15,47 @@
                         <li>
                             <a href="#" class="fh5co-sub-down">전체카테고리</a>
                             <ul class="fh5co-sub-menu">
-                                <li><a href="#">서비스</a>
+                                <li><a href="#">공지사항</a></li>
+                                <li><a href="#">고객센터</a></li>
+                                <li><a href="/service/serviceList/sortCategory?categoryCode=1">청소</a>
                                     <ul class="fh5co-sub-menu">
-                                        <li><a href="/service/serviceList" target="_blank">전체서비스</a></li>
-                                        <li><a href="/service/serviceList/sortCategory?categoryCode=1" target="_blank">청소</a></li>
-                                        <li><a href="/service/serviceList/sortCategory?categoryCode=2" target="_blank">수리</a></li>
-                                        <li><a href="/service/serviceList/sortCategory?categoryCode=3" target="_blank">이사</a></li>
-                                        <li><a href="/service/serviceList/sortCategory?categoryCode=4" target="_blank">설치</a></li>
-                                        <li><a href="/service/serviceList/sortCategory?categoryCode=5" target="_blank">인테리어</a></li>
+                                        <li><a href="/service/serviceList/sortCategory?categoryCode=6" target="_blank">가구 청소</a></li>
+                                        <li><a href="/service/serviceList/sortCategory?categoryCode=7" target="_blank">가전제품 청소</a></li>
+                                        <li><a href="/service/serviceList/sortCategory?categoryCode=8" target="_blank">하수구 청소</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="#">공지사항</a></li>
-                                <li><a href="#">로그인</a></li>
-                                <li><a href="#">회원가입</a></li>
+                                <li><a href="/service/serviceList/sortCategory?categoryCode=2">수리</a>
+                                    <ul class="fh5co-sub-menu">
+                                        <li><a href="/service/serviceList/sortCategory?categoryCode=9" target="_blank">컴퓨터 수리</a></li>
+                                        <li><a href="/service/serviceList/sortCategory?categoryCode=10" target="_blank">가전제품 수리</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="/service/serviceList/sortCategory?categoryCode=3">이사</a>
+                                    <ul class="fh5co-sub-menu">
+                                        <li><a href="/service/serviceList/sortCategory?categoryCode=11" target="_blank">가정 이사</a></li>
+                                        <li><a href="/service/serviceList/sortCategory?categoryCode=12" target="_blank">원룸/소형 이사</a></li>
+                                        <li><a href="/service/serviceList/sortCategory?categoryCode=13" target="_blank">사무실 이사</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="/service/serviceList/sortCategory?categoryCode=4">설치</a>
+                                    <ul class="fh5co-sub-menu">
+                                        <li><a href="/service/serviceList/sortCategory?categoryCode=14" target="_blank">에어컨 설치</a></li>
+                                        <li><a href="/service/serviceList/sortCategory?categoryCode=15" target="_blank">난방기구 수리</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="/service/serviceList/sortCategory?categoryCode=5">인테리어</a>
+                                    <ul class="fh5co-sub-menu">
+                                        <li><a href="/service/serviceList/sortCategory?categoryCode=16" target="_blank">단열 시공</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
 
+                        <th:block sec:authorize="hasAnyAuthority('GENERAL')">
                         <li class="active">
                             <a href="/signup/become-a-dobby">도비등록</a>
                         </li>
+                        </th:block>
                         <th:block sec:authorize="isAnonymous()">
                             <li class="active">
                                 <a href="/login">로그인</a>
