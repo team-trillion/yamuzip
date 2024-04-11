@@ -76,13 +76,15 @@
                                     <form action="/signup/dobby" method="post">
                                         <div class="modal-body">
 
-                                            <p>전문 분야 등록하면<br>
-                                            도비 등록 완료!</p>
-<!--                                            <p th:text="|id : ${#authentication.principal.userId}|"></p>-->
-<!--                                            <p th:text="|name : ${#authentication.principal.userName}|"></p>-->
-<!--                                            <p th:text="|phone : ${#authentication.principal.phone}|"></p>-->
+                                            <b>전문 분야 등록하면<br>
+                                            도비 등록 완료!
+                                            </b>
+                                            <h2></h2>
+                                            <p th:text="|아이디 : ${#authentication.principal.userId}|"></p>
+                                            <p th:text="|이름 : ${#authentication.principal.userName}|"></p>
+                                            <p th:text="|연락처 : ${#authentication.principal.phone}|"></p>
 
-                                                <select class="form-select form-select-lg mb-3"
+                                                <select class="form-select form-control form-select-lg mb-3"
                                                         aria-label="Large select example"
                                                          id="applyCareer" name="applyCareer" required>
                                                     <option selected>전문 분야</option>
