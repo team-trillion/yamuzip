@@ -5,11 +5,30 @@
 <mapper namespace="team.trillion.yamuzip.admin.model.dao.OrderMapper">
 
     <!-- order list -->
-    <select id="getOrderCount">
+    <select id="getOrderCount" resultType="_int" parameterType="hashmap">
         SELECT
             COUNT(*)
         FROM
-            tbl_order
+            tbl_order a
+        <if test="searchCondition == 'serviceTitle'">
+            JOIN
+            tbl_service b ON(a.service_code = b.service_code)
+        </if>
+        <where>
+            <if test="searchCondition == 'serviceTitle'">
+                b.service_title LIKE CONCAT('%', #{ searchValue }, '%')
+            </if>
+            <if test="start != '' and start != null">
+                AND
+                a.order_datetime > #{ start }
+            </if>
+            <if test="end != '' and end != null">
+                AND
+                #{ end } > DATE_ADD(a.order_datetime, INTERVAL -1 DAY)
+            </if>
+        </where>
+        ORDER BY
+        order_datetime DESC
     </select>
 
     <select id="getOrderList" resultType="team.trillion.yamuzip.admin.model.dto.OrderDTO">
@@ -26,9 +45,22 @@
             tbl_order a
                 JOIN tbl_service b on (a.service_code = b.service_code)
                 JOIN tbl_payment c on (a.order_code = c.order_code)
+        <where>
+            <if test="searchCondition == 'serviceTitle'">
+                b.service_title LIKE CONCAT('%', #{ searchValue }, '%')
+            </if>
+            <if test="start != '' and start != null">
+                AND
+                a.order_datetime > #{ start }
+            </if>
+            <if test="end != '' and end != null">
+                AND
+                #{ end } > DATE_ADD(a.order_datetime, INTERVAL -1 DAY)
+            </if>
+        </where>
         ORDER BY
-            a.order_datetime DESC
-            LIMIT #{offset}, #{limit}
+        a.order_datetime DESC
+        LIMIT #{offset}, #{limit}
     </select>
 
     <select id="selectOrderDetail" resultType="team.trillion.yamuzip.admin.model.dto.OrderDetailDTO">

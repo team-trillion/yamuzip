@@ -35,7 +35,7 @@ status.forEach(btn => btn.addEventListener('click', function (e ){
     filteredList.forEach(list => {
         // const tr = document.createElement('tr');
         // const td = document.createElement('td');
-        const tr = `<tr>
+        const tr = `<tr onclick="location.href='/admin/order/detail?orderCode=${list.orderCode}'">
             <td class="align-middle">${list.orderCode}</td>
             <td class="${textColors[list.orderStatus]}">${statusTexts[list.orderStatus]}</td>
             <td class="align-middle fs-5" style="${list.payStatus === 'P' ? "color: #003f62" : "color: #222222"}">${payStatusTexts[list.payStatus]}</td>
