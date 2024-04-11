@@ -11,12 +11,12 @@
                     <div class="img">
                         <img id="image-box"
                              class="img-thumbnail custom-circle center-block"
-                             th:src="${dobby.dobImg != null? dobby.dobImg : '/images/profile.png'}" alt="도비 프로필"/>
+                             th:src="${dobby?.dobImg != null? dobby?.dobImg : '/images/profile.png'}" alt="도비 프로필"/>
                     </div>
                 </div>
 
                 <div class="col d-flex align-items-start justify-content-center flex-column mb-2 ">
-                    <div class="p-3" th:text="${dobby.dobNickname}"></div>
+                    <div class="p-3" th:text="${dobby?.dobNickname}"></div>
                     <button onClick="location.href='/mypage'" class="btn btn-* border border-white border-2 rounded-pill"><-> 일반 회원으로 전환</button>
                 </div>
                 <div class="col d-flex align-items-center justify-content-center">

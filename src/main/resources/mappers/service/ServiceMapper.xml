@@ -148,13 +148,14 @@
 
     <!--    FROM-->
 
-
     <!--</select>-->
+  
     <select id="getDobby" resultType="team.trillion.yamuzip.service.model.dto.DobbyDTO">
         SELECT *
         FROM tbl_dobby
         WHERE user_code = #{userCode}
     </select>
+  
     <select id="getServiceList" resultMap="selectService">
         SELECT service_code,
                dob_nickname,
@@ -172,7 +173,9 @@
              tbl_category ON tbl_service.category_code = tbl_category.category_code
         WHERE service_status = 'A'
         ORDER BY service_code
+
     </select>
+  
     <select id="getServiceListSortedByParentCategory" resultMap="selectService">
         SELECT service_code,
                dob_nickname,
@@ -192,6 +195,7 @@
           and ref_category_code = #{categoryCode}
         ORDER BY service_code
     </select>
+  
 <select id="getServiceListSortedByWish" resultMap="selectService2">
     SELECT
         s.service_code,

@@ -56,7 +56,7 @@
                             <td th:text="${user.userId}"></td>
                             <td th:text="${user.userName}"></td>
                             <td th:text="${user.phone}"></td>
-                            <td th:text="${user.unban}"></td>
+                            <td th:text="${user.unban}" th:attr="data-user-unban=${user.unban}"></td>
                             <td>
                                 <button type="button" class="banBtn badge dBtn btn btn-sm mb-2"
                                         th:attr="data-user-code=${user.userCode}, data-user-name=${user.userName}" onclick="event.stopPropagation()">정지 설정</button>
@@ -64,10 +64,8 @@
                         </tbody>
                     </table>
 
-                    <form action="/admin/user/ban" method="post" name="banControl">
+                    <form action="/admin/user/ban" method="get" name="banControl">
                         <input type="hidden" name="userCode">
-                        <input type="hidden" name="unban">
-                        <input type="hidden" name="userStatus">
                     </form>
 
                 </div>

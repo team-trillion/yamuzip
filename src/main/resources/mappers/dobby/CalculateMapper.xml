@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.dobby.mypage.model.dao.CalculateMapper">
+
+    <!-- 미출금된 총 수익금 -->
+    <select id="getAvailableForWithdrawal">
+        SELECT
+            SUM(a.total_price) AS total_available_price
+        FROM
+            tbl_order a
+        JOIN
+            tbl_service b ON a.service_code = b. service_code
+        JOIN
+            tbl_payment c ON a.order_code = c.order_code
+        WHERE
+            b.dob_code = #{dobCode}
+        AND
+            c.pay_code NOT IN(
+            SELECT pay_code
+            FROM
+            tbl_calc_fin)
+    </select>
+
+    <!-- 출금 완료된 총 수익금 -->
+    <select id="getWithdrawalsCompleted">
+        SELECT
+            SUM(cal_price) AS total_completed_price
+        FROM
+            tbl_calculate
+        WHERE
+            dob_code = #{dobCode}
+    </select>
+
+    <!-- 서비스 출금 여부 조회 -->
+    <select id="SettlementStatus" resultType="team.trillion.yamuzip.dobby.mypage.model.dto.ServiceStatusDTO">
+        SELECT
+            a.service_code,
+            b.thumbnail_url,
+            b.service_title,
+            a.order_datetime,
+            a.total_price,
+            CASE WHEN EXISTS (SELECT 1
+                              FROM tbl_calc_fin
+                              WHERE tbl_calc_fin.pay_code = c.pay_code)
+                              THEN 'Y' ELSE 'N' END as cal_status
+        FROM
+            tbl_order a
+            JOIN
+            tbl_service b ON a.service_code = b. service_code
+            JOIN
+            tbl_payment c ON a.order_code = c.order_code
+        WHERE
+            b.dob_code = #{dobCode}
+        ORDER BY
+            a.order_datetime
+    </select>
+
+
+</mapper>

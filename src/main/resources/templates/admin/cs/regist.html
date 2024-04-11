@@ -5,6 +5,18 @@
 
 <head>
     <th:block layout:fragment="userCss">
+        <style>
+            h1, h2, h3 { font-weight: 900; color: #003363; }
+            h4 { margin-bottom: 15px; font-weight: 700; color: #003363; }
+
+            .cs-table { border-top: 3px solid black; border-bottom: 2px solid black; margin-top: 5px;}
+            .cs-table thead { height: 55px; border-bottom: 2px solid; }
+            .cs-table thead tr th { vertical-align: middle; text-align: center; }
+            .cs-table tbody tr td { vertical-align: middle; padding: 10px; border-bottom-width: 0;}
+
+            #paging button { border: unset; background-color: unset;}
+        </style>
+        <link href="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.4/dist/quill.snow.css" rel="stylesheet" />
     </th:block>
 </head>
 
@@ -15,23 +27,56 @@
             <th:block layout:fragment="headerFragment"></th:block>
         </div>
 
-
         <div layout:fragment="content">
-            <div class="fh5co-hero">
-                <div class="fh5co-overlay"></div>
-                <section class="container-sm" style="background-color: yellow; padding-top: 150px;">
+                <section class="container-sm" style="padding-top: 150px; height: auto; padding-bottom: 100px;">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-10" style="float:none; margin: 0 auto;">
+                                <form id="registForm" action="/cs/regist" method="post">
+                                    <h1 class="text-center">고객센터 1:1 문의</h1>
+                                    <table class="table cs-table">
+                                        <tr class="align-middle">
+                                            <th th:width="120px">문의 유형</th>
+                                            <td colspan="2">
+                                                <select class="form-select form-select-lg" name="csType" id="csType" required>
+                                                    <option selected value="">문의 유형 선택</option>
+                                                    <option value="이용문의">이용문의</option>
+                                                    <option value="결제문의">결제문의</option>
+                                                    <option value="오류신고">오류신고</option>
+                                                    <option value="기타">기타</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="align-middle">
+                                            <th>제목</th>
+                                            <td>
+                                                <input type="text" class="form-control" name="csTitle" th:value="${cs?.csTitle}" required>
+                                            </td>
+                                            <td th:width="100px">
+                                                <input type="checkbox" class="form-check-input" name="isSecret" th:checked="${cs?.isSecret}">
+                                                <input type="hidden" value="on" name="_isSecret"/>
+                                                <label>비밀글</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>내용</th>
+                                            <td colspan="2">
+                                                <div id="editor" style="height: 400px"></div>
+                                                <input type="hidden" id="quill_html" name="csContent">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <hr>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary btn-sm">등록</button>
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="location.href='/cs'">취소</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
-                <!--여기부터 본인 페이지 코드 작성-->
-
-                    <h1>hello</h1>
-
-                    <p>표시를 위해 노란색 배경 적용했어요~ 22번 줄 style에서 background-color만 제거하시면 됩니다 퐈이튕!!!</p>
-                    <p>style.css는 웬만하면 건들지 않기! 꼭 상의하고 변경하기</p>
-                    <p>페이지에 필요한 css가 새로 있다면 head태그에 있는 usercss 블럭 태그 안에 작성하시면 됩니다!</p>
-
-                <!--여기까지 본인 페이지 코드 작성-->
                 </section>
-            </div>
         </div>
         <!-- content -->
 
@@ -42,6 +87,71 @@
 
 <th:block layout:fragment="userScript">
 <!--본인 페이지 js 작성-->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.4/dist/quill.js"></script>
+    <script th:inline="javascript">
+        function quilljsediterInit(){
+            var option = {
+                modules: {
+                    toolbar: [
+                        [{header: [1,2,false] }],
+                        ['bold', 'italic', 'underline'],
+                        ['image', 'code-block'],
+                        [{ list: 'ordered' }, { list: 'bullet' }]
+                    ]
+                },
+                placeholder: '내용을 입력해주세요.(이미지는 드래그 앤 드랍으로 넣으세요.)',
+                theme: 'snow'
+            };
+
+            quill = new Quill('#editor', option);
+            quill.on('text-change', function() {
+                document.getElementById("quill_html").value = quill.root.innerHTML;
+            });
+            quill.getModule('toolbar').addHandler('image', function () {
+                selectLocalImage();
+            });
+
+            quill.clipboard.dangerouslyPasteHTML([[${cs?.csContent}]]);
+        }
+
+        /* 이미지 콜백 함수 */
+
+/*        function selectLocalImage() {
+            const fileInput = document.createElement('input');
+            fileInput.setAttribute('type', 'file');
+            console.log("input.type " + fileInput.type);
+
+            fileInput.click();
+
+            fileInput.addEventListener("change", function () {  // change 이벤트로 input 값이 바뀌면 실행
+                const formData = new FormData();
+                const file = fileInput.files[0];
+                formData.append('uploadFile', file);
+
+                $.ajax({
+                    type: 'post',
+                    enctype: 'multipart/form-data',
+                    url: '/service/serviceRegist/',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        const range = quill.getSelection(); // 사용자가 선택한 에디터 범위
+                        data.uploadPath = data.uploadPath.replace(/\\/g, '/');
+                        quill.insertEmbed(range.index, 'uploadFile', "/service/serviceRegist?fileName=" + data.uploadPath +"/"+ data.uuid +"_"+ data.fileName);
+
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+
+            });
+        }*/
+
+        quilljsediterInit();
+    </script>
 </th:block>
 
 </body>

@@ -3,21 +3,22 @@ package team.trillion.yamuzip.admin.model.dto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import team.trillion.yamuzip.service.model.dto.CsDTO;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @ToString
-public class CSADTO {
-
-    private long csRepCode;
-    private long writerUserCode;
-    private LocalDateTime csRepCreated;
-    private char csRepStatus;
-    private LocalDateTime csRepModify;
+public class CSReplyDTO {
+    private int csRepCode;
     private String csRepContent;
-    private CsDTO csCode;
 
+    private LocalDateTime csRepCreated;
+    private String csRepCreatedString;
+
+    private String csRepStatus;
+    private int csCode;
+    private int writerUserCode;
+    private String userNickname;
+    private LocalDateTime csRepModify;
 }
