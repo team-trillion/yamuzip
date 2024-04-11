@@ -189,6 +189,8 @@ public class ServiceService {
     public List<ServiceDTO> getServiceListSortedByWish() {
        return serviceMapper.getServiceListSortedByWish();
     }
+
+
 }
 
 
