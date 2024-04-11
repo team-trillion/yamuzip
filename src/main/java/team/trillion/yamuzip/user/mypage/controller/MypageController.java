@@ -19,7 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MypageController {
 
-//    private final MypageService mypageService;
         private final OrderStatusService orderStatusService;
 
 
@@ -42,18 +41,9 @@ public class MypageController {
         return "user/mypage/profile";
     }
 
-    // 유저 마이페이지 > 관심 서비스
-//    @GetMapping("/service")
-//    public String userService() {
-//
-//        return "user/mypage/service";
-//    }
+    // 유저 마이페이지 > 관심 서비스 (WishController로 이동)
 
-    // 유저 마이페이지 > 주문 관리
-    // @GetMapping("/order")
-    public String userOrder() {
-        return "user/mypage/orderList";
-    }
+    // 유저 마이페이지 > 주문 관리 (OrderController로 이동)
 
     // 유저 마이페이지 > 리뷰 쓰기
     @GetMapping("/review")
