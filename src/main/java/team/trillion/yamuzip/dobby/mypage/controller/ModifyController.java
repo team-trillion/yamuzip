@@ -74,36 +74,27 @@ public class ModifyController {
         System.out.println(modify);
         /* 도비 정보 수정 */
 
-//        ModifyDTO modifyDobby = new ModifyDTO();
-//        modifyDobby.setUserCode(user.getUserCode());
         modify.setUserCode(user.getUserCode());
-//        modifyDobby.setDobNickname(dobNickname);
-//        modifyDobby.setDobContent(dobContent);
-//        modifyDobby.setDobArea(dobArea);
-//        modifyDobby.setDobCareerDays(dobCareerDays);
-
-//        modifyDobby.setDobNickname(modify.getDobNickname());
-//        modifyDobby.setDobContent(modify.getDobContent());
-//        modifyDobby.setDobArea(modify.getDobArea());
-//        modifyDobby.setDobCareerDays(modify.getDobCareerDays());
-
-
 
         /* 도비 WORKDAY 삭제 후 수정 */
 
+        modifyService.deleteWorkday(modify.getDobCode());
         List<String> workdayList = modify.getWorkdayList();
+
         for (String day : workdayList) {
-            modifyService.deleteWorkday(modify.getDobCode(),Integer.parseInt(day));
 
             WorkdayDTO modifyWorkday = new WorkdayDTO();
             modifyWorkday.setDobCode(modify.getDobCode());
             modifyWorkday.setDayWeek(Integer.parseInt(day));
 
             modifyService.registWorkday(modifyWorkday);
+
+            System.out.println("도비 영업일 삭제");
         }
 
 
         /* 도비 이미지 업로드 */
+        System.out.println("도비 이미지1 : " + modify.getDobImg());
 
         log.info(String.valueOf(profile));
         if (profile.getSize() > 0) {
@@ -124,6 +115,7 @@ public class ModifyController {
                 e.printStackTrace();
             }
             String saveFileName = "/upload/profile-images/" + savedName;
+            System.out.println("도비 이미지2 : " + modify.getDobImg());
             modify.setDobImg(saveFileName);
             model.addAttribute("dobImg", modify);
         }
@@ -137,7 +129,7 @@ public class ModifyController {
         SecurityContextHolder.getContext().setAuthentication(createNewAuthentication(user.getUserId()));
 
 
-        return "redirect:/";
+        return "redirect:/dobby/profile";
     }
 
     protected Authentication createNewAuthentication(String userId) {

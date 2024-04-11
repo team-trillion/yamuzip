@@ -96,7 +96,7 @@
 
                                         <div class="center-block pt-5" style="width: 500px;">
                                             자기 소개
-                                            <input type="text" id="dobContent" name="dobContent" class="form-control" style="height: 100px; width: 800px;" th:value="${dobby.dobContent}" th:placeholder="${dobby.dobContent}">
+                                            <input type="text" id="dobContent" name="dobContent" class="form-control" style="height: 100px;" th:value="${dobby.dobContent}" th:placeholder="${dobby.dobContent}">
                                         </div>
 
 
@@ -128,25 +128,39 @@
 
                                                 <input type="hidden" name="dobCode" th:value="${dobby.dobCode}">
 
-
-
-
                                             </div>
 
                                         </div>
                                         <div id="item-4">
                                             <h4 class="py-5">➂ 전문분야 및 경력</h4>
                                             <div class="center-block pt-5" style="width: 500px;">
-                                                전문 분야<input type="text" name="applyCareer" class="form-control" th:value="${dobby.applyCareer}" th:placeholder="${dobby.applyCareer}">
+                                                전문 분야
+                                                <select class="form-select form-control form-select-lg mb-3"
+                                                        aria-label="Large select example"
+                                                        id="applyCareer" name="applyCareer" required>
+                                                    <option value="청소" th:selected="${dobby?.applyCareer} == 청소" >청소</option>
+                                                    <option value="수리" th:selected="${dobby?.applyCareer} == 수리" >수리</option>
+                                                    <option value="이사" th:selected="${dobby?.applyCareer} == 이사" >이사</option>
+                                                    <option value="설치" th:selected="${dobby?.applyCareer} == 설치" >설치</option>
+                                                    <option value="인테리어" th:selected="${dobby?.applyCareer} == 인테리어" >인테리어</option>
+                                                </select>
                                             </div>
                                             <div class="center-block pt-5" style="width: 500px;">
-                                                경력<input type="text" name="dobCareerDays" class="form-control" th:value="${dobby.dobCareerDays}" th:placeholder="${dobby.dobCareerDays}">
+                                                경력
+                                                <select class="form-select form-control form-select-lg mb-3"
+                                                        aria-label="Large select example"
+                                                        id="dobCareerDays" name="dobCareerDays" required>
+                                                    <option value="1년 이상" th:selected="${dobby?.dobCareerDays} == '1년 이상'" >1년 이상</option>
+                                                    <option value="3년 이상" th:selected="${dobby?.dobCareerDays} == '3년 이상'" >3년 이상</option>
+                                                    <option value="5년 이상" th:selected="${dobby?.dobCareerDays} == '5년 이상'" >5년 이상</option>
+                                                    <option value="10년 이상" th:selected="${dobby?.dobCareerDays} == '10년 이상'">10년 이상</option>
+                                                </select>
                                             </div>
 
                                         </div>
 
                                         <div class=" p-5">
-                                            <button type="submit" class="btn btn-primary mt-3 float-end" data-bs-toggle="modal" data-bs-target="#profileChangeModal">
+                                            <button type="submit" class="btn btn-primary mt-3 mb-5 float-end" data-bs-toggle="modal" data-bs-target="#profileChangeModal">
                                                 내 정보 저장
                                             </button>
                                         </div>
