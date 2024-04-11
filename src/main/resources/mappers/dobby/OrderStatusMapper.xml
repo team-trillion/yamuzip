@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.trillion.yamuzip.dobby.mypage.model.dao.OrderStatusMapper">
+
+    <!-- 진행 중 서비스 - 서비스 진행 일자가 현재 날짜의 7일이 지났을 경우 조회되지 않음 -->
+    <select id="orderStatus" resultType="team.trillion.yamuzip.dobby.mypage.model.dto.OrderStatusDTO">
+        SELECT
+            a.order_code,
+            a.service_code,
+            a.user_code,
+            a.order_datetime,
+            a.order_status,
+            a.reserve_datetime,
+            a.reject_reason,
+            b.dob_code
+        FROM
+            tbl_order a
+        JOIN
+            tbl_service b ON a.service_code = b.service_code
+        WHERE
+            a.reserve_datetime > DATE_SUB(NOW(), INTERVAL 7 DAY)
+            AND
+            b.dob_code = #{dobCode}
+    </select>
+
+
+</mapper>

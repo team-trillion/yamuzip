@@ -16,5 +16,7 @@ public interface ModifyMapper {
 
     void registWorkday(WorkdayDTO modifyWorkday);
 
-    void deleteWorkday(Map<String, Integer> parameters);
+    void deleteWorkday(int dobCode);
+//    void deleteWorkday(Map<String, Integer> parameters);
+
 }
