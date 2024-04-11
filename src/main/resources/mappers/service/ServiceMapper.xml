@@ -134,7 +134,7 @@
         <result property="csSecret" column="cs_secret"/>
         <result property="csModify" column="cs_modify"/>
         <result property="csTitle" column="cs_title"/>
-        <result property="cs_content" column="cs_content"/>
+        <result property="csContent" column="cs_content"/>
         <association property="user" javaType="team.trillion.yamuzip.service.model.dto.UserDTO">
             <id property="userCode" column="user_code"/>
             <id property="userNickname" column="user_nickname"/>
@@ -409,7 +409,7 @@
     <select id="getCs" resultMap="getCs">
         SELECT cs_code,
                section,
-               writer_user_code,
+               writer_user_code as user_code,
                user_nickname,
                cs_created,
                cs_status,
