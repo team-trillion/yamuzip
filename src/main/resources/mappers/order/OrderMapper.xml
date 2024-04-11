@@ -41,6 +41,7 @@
     <resultMap type="team.trillion.yamuzip.order.model.dto.OrderDTO" id="orderResultMap" >
         <id property="orderCode" column="order_code"/>
         <result property="serviceCode" column="service_id"/> <!-- serviceCode 오토매핑되지 않도록-->
+        <result property="optionCode" column="option_id"/> <!-- serviceCode 오토매핑되지 않도록-->
     </resultMap>
 
     <resultMap id="orderResultResultMap" type="team.trillion.yamuzip.order.model.dto.OrderResultDTO">

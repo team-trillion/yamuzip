@@ -19,4 +19,5 @@ public class ReviewDTO {
     private LocalDateTime reviewModify;
     private UserDTO user;
     private String reviewContent;
+    private OrderDTO order;
 }
