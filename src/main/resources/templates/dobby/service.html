@@ -61,8 +61,7 @@
                         </thead>
                         <tbody>
                         <tr th:each="service : ${serviceList}"
-                            th:onclick="|location.href='/serviceInfo/${service.serviceCode}'|">
-
+                            th:onclick="|location.href='/service/serviceModifyList/' + ${service.serviceCode}|">
                             <td th:text="${service?.serviceCode}"></td>
                             <td class="img-col"><img class="order-img" th:src="${service?.thumbnailUrl}"/></td>
                             <td class="title" th:text="${service?.serviceTitle}"></td>
@@ -76,7 +75,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="12" class="text-center p-5" th:href="/service/serviceRegist">+서비스 등록하기</td>
+                            <td colspan="12" class="text-center p-5"><a href="/service/serviceRegist">+서비스 등록하기</a></td>
                         </tr>
                         </tbody>
 

@@ -173,7 +173,7 @@
                     <!-- 상품 리스트 -->
 
                     <div class="row" id="serviceList">
-                        <div class="col-4" th:each="service, serviceIndex : ${serviceList}">
+                        <div class="col-4" th:each="service : ${serviceList}">
                             <p>조회수 :  <span id="viewsCount" th:text="${service.views}"></span></p>
                             <input type="hidden" name = "serviceCode" th:value="${service.serviceCode}">
                             <div class="card" style="width: 35rem; height: auto">
@@ -209,8 +209,8 @@
                                 <div class="infoTab cardText mb-4 p-3">
                                     <span class="badge bg-primary" th:text="${service.category.categoryName}"></span>
                                 </div>
-                                <div th:each="review : ${allReviews[__${serviceIndex.index}__]}">
-                                    <p class="aver p-3" th:text="${review.reviewGrade}">★4.9(12)</p>
+                                <div>
+                                    <p class="aver p-3" >★4.6(12)</p>
 
                                 </div>
                             </div>

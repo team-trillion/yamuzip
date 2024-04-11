@@ -147,11 +147,11 @@
         <div layout:fragment="content">
             <div class="fh5co-hero" style="height: auto;">
                 <!--                <div class="fh5co-overlay"></div>-->
-                <section class="container-sm" style="padding-top: 150px;">
+                <section class="container-sm" style="padding-top: 150px;" >
 
                     <!--여기부터 본인 페이지 코드 작성-->
 
-                    <section class="py-5">
+                    <section class="py-5" >
                         <p>조회수 : <span id="viewsCount" th:text="${serviceDetailList.views}"></span></p>
 
                         <div class="container px-4 px-lg-5 my-5">
@@ -319,15 +319,15 @@
                             </div>
                             <hr>
                         </div>
-                        <div class="container">
+                        <div class="container" >
                             <h1>CS</h1>
-                            <div class="post-list" id="cs">
-                                <div class="post-item" th:each="cs:${cs}">
+                            <div class="post-list" id="cs"  >
+                                <div class="post-item"  >
                                     <div class="post-header">
-                                        <span th:text="${cs.csCode}">번호: 1</span>
-                                        <span>답변여부: 예</span>
+                                        <span>번호: 1</span>
+                                        <span>답변여부: NO</span>
                                         <div class="dropdown">
-                                            <button th:text="${cs.csType}" class="btn btn-secondary dropdown-toggle"
+                                            <button class="btn btn-secondary dropdown-toggle"
                                                     type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 문의 유형
                                             </button>
@@ -338,12 +338,13 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="post-content">
+                                    <div class="post-content" th:each="cs:${cs}">
                                         <p th:text="${cs.csContent}">내용: 상품 관련 문의입니다.</p>
-                                    </div>
-                                    <div class="post-footer">
                                         <span th:text="${cs.user.userNickname}">작성자: John Doe</span>
                                         <span th:text="${cs.csCreated}">등록일자: 2024-03-20</span>
+                                    </div>
+                                    <div class="post-footer">
+
                                         <button>답변 작성</button>
                                         <button>내 문의 바로가기</button>
 
