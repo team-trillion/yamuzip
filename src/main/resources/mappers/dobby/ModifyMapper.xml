@@ -17,28 +17,56 @@
 
     <select id="getDobby" resultMap="modifyResultMap">
         SELECT
-            a.dob_code,
-            a.user_code,
-            a.dob_nickname,
-            a.dob_img,
-            a.dob_content,
-            a.dob_area,
-            a.dob_career_days,
-            b.apply_career,
-            b.apply_status,
-            c.day_week,
-            c.dob_code
+        a.user_code,
+        b.apply_career,
+        b.apply_status,
+        c.dob_code,
+        c.dob_nickname,
+        c.dob_img,
+        c.dob_content,
+        c.dob_area,
+        c.dob_career_days,
+        d.day_week,
+        d.dob_code
         FROM
-            tbl_dobby a
-            JOIN
-            tbl_dob_apply b on(a.user_code = b.user_code)
-            LEFT JOIN
-            tbl_workday c on(a.dob_code = c.dob_code)
+        tbl_user a
+        LEFT JOIN
+        tbl_dob_apply b on(a.user_code = b.user_code)
+        LEFT JOIN
+        tbl_dobby c on(a.user_code = c.user_code)
+        LEFT JOIN
+        tbl_workday d on(c.dob_code = d.dob_code)
         WHERE
-            a.user_code= #{userCode}
-            AND
-            b.apply_status = 'A'
+        a.user_code = #{userCode}
+        AND
+        a.auth = 'dobby'
     </select>
+<!--    <select id="getDobby" resultMap="modifyResultMap">-->
+<!--        SELECT-->
+<!--            a.dob_code,-->
+<!--            a.user_code,-->
+<!--            a.dob_nickname,-->
+<!--            a.dob_img,-->
+<!--            a.dob_content,-->
+<!--            a.dob_area,-->
+<!--            a.dob_career_days,-->
+<!--            b.apply_career,-->
+<!--            b.apply_status,-->
+<!--            c.day_week,-->
+<!--            c.dob_code-->
+<!--        FROM-->
+<!--            tbl_dobby a-->
+<!--            JOIN-->
+<!--            tbl_dob_apply b on(a.user_code = b.user_code)-->
+<!--            LEFT JOIN-->
+<!--            tbl_workday c on(a.dob_code = c.dob_code)-->
+<!--            JOIN-->
+<!--            tbl_user d on(a.user_code = d.user_code)-->
+<!--        WHERE-->
+<!--            a.user_code= #{userCode}-->
+<!--            AND-->
+<!--            b.apply_status = 'A'-->
+<!--    </select>-->
 
 
     <update id="modifyDobby">
