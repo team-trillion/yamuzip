@@ -203,7 +203,7 @@
                                                       th:text="${serviceDetailList.servicePrice}"><b>31,600~</b></span>
                                             </div>
                                             <div class="orderBox">
-                                                <button class="order btn-block" type="button">주문하기</button>
+                                                <button class="order btn-block" th:onclick="|location.href='/order?serviceCode=' + ${serviceDetailList.serviceCode}|">주문하기</button>
                                             </div>
                                         </div>
                                     </div>

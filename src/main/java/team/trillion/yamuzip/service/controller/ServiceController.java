@@ -179,7 +179,7 @@ public class ServiceController {
         model.addAttribute("dobby", dobby);
         /* 이미지 업로드 */
         String root = "src/main/resources";
-        String imgUrl = root + "/uploadFiles";
+        String imgUrl = root + "/static/uploadFiles";
         File dir = new File(imgUrl);
 
         if (!dir.exists()) dir.mkdirs();
@@ -197,7 +197,7 @@ public class ServiceController {
                 throw new RuntimeException(e);
             }
 
-            img.add(new ImageDTO(imgOriginName, imgName, "/uploadFiles/", section));
+            img.add(new ImageDTO(imgOriginName, imgName, "/static/uploadFiles/", section));
 
         }
 
@@ -214,8 +214,8 @@ public class ServiceController {
 
         char section = 'S';
         service.setDobCode(dobCode);
-        service.setThumbnailUrl("/uploadFiles/" + imgName);
-        img.add(new ImageDTO(imgOriginName, imgName, "/uploadFiles/", section));
+        service.setThumbnailUrl("/static/uploadFiles/" + imgName);
+        img.add(new ImageDTO(imgOriginName, imgName, "/static/uploadFiles/", section));
         log.info("img : {}", img);
         log.info("service : {}", service);
         /* 서비스 등록 */
@@ -246,7 +246,7 @@ public class ServiceController {
                                 Model model) {
         /* 이미지 업로드 및 수정 */
         String root = "src/main/resources";
-        String imgUrl = root + "/uploadFiles";
+        String imgUrl = root + "/static/uploadFiles";
         File dir = new File(imgUrl);
 
         if (!dir.exists()) dir.mkdirs();
@@ -264,7 +264,7 @@ public class ServiceController {
             String thumbnailImgName = UUID.randomUUID() + thumbnailExt;
 
             serviceThumbnail.transferTo(new File(imgUrl + "/" + thumbnailImgName));
-            service.setThumbnailUrl("/uploadFiles/" + thumbnailImgName);
+            service.setThumbnailUrl("/static/uploadFiles/" + thumbnailImgName);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -38,10 +38,12 @@ public class OrderController {
 
         // 이미 예약된 날짜 Set
         Set<String> disabledDates = new HashSet<>();
+        System.out.println(service.getOrderList());
         if(!service.getOrderList().isEmpty()) {
             service.getOrderList().forEach( orderDTO -> {
                 String datetime = orderDTO.getReserveDatetime().toString();
                 String date = datetime.split("T")[0];
+
                 disabledDates.add(date);
             });
         }
