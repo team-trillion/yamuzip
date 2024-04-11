@@ -25,5 +25,4 @@ public class OrderDTO {
     private String orderDateString;
     private OrderStatus orderStatus;
     private PayStatus payStatus;
-
 }
