@@ -2,6 +2,7 @@ package team.trillion.yamuzip.service.model.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team.trillion.yamuzip.common.exception.CancelFailedException;
 import team.trillion.yamuzip.service.model.dao.ServiceMapper;
 import team.trillion.yamuzip.service.model.dto.*;
 
@@ -91,16 +92,23 @@ public class ServiceService {
 
     @Transactional
     public void updateService(ServiceDTO service, List<ImageDTO> img) {
-        serviceMapper.modifyService(service);
-        service.getOption().forEach(opt -> {
-            //insert delete update 걸러내기
-            serviceMapper.modifyOption(opt);
-            System.out.println(opt+"----------###");
-        });
-        img.forEach(imageDTO -> {
-            serviceMapper.modifyImg(imageDTO);
-            System.out.println(imageDTO+"===========================");
-        });
+       long serviceCode = service.getServiceCode();
+        int orderCount = serviceMapper.getOrderStatus(serviceCode);
+
+        // 주문이 없으면 삭제 작업 실행
+        if (orderCount == 0) {
+            serviceMapper.modifyService(service);
+            service.getOption().forEach(opt -> {
+                //insert delete update 걸러내기
+                serviceMapper.modifyOption(opt);
+                System.out.println(opt+"----------###");
+            });
+            img.forEach(imageDTO -> {
+                serviceMapper.modifyImg(imageDTO);
+                System.out.println(imageDTO+"===========================");
+            });        } else {
+            throw new CancelFailedException();
+        }
     }
 
 
@@ -113,7 +121,14 @@ public class ServiceService {
 
     public void removeService(long serviceCode) {
 
-        serviceMapper.getOrderStatus(serviceCode);
+        int orderCount = serviceMapper.getOrderStatus(serviceCode);
+
+        // 주문이 없으면 삭제 작업 실행
+        if (orderCount == 0) {
+            serviceMapper.removeService(serviceCode);
+        } else {
+            throw new CancelFailedException();
+        }
 
         serviceMapper.removeService(serviceCode);
     }
@@ -156,6 +171,23 @@ public class ServiceService {
     public int getTotalSerivce() {
 
         return serviceMapper.getTotalService();
+    }
+
+    public DobbyDTO getDobby(long userCode) {
+
+        return serviceMapper.getDobby(userCode);
+    }
+
+    public void likeService(Long serviceCode, long userCode) {
+        serviceMapper.likeService(serviceCode,userCode);
+    }
+
+    public void unlikeService(Long serviceCode, long userCode) {
+        serviceMapper.unlikeService(serviceCode, userCode);
+    }
+
+    public List<ServiceDTO> getServiceListSortedByWish() {
+       return serviceMapper.getServiceListSortedByWish();
     }
 }
 

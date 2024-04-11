@@ -62,5 +62,14 @@ public interface ServiceMapper {
 
     int getTotalService();
 
-    void getOrderStatus(long serviceCode);
+    int getOrderStatus(long serviceCode);
+
+    DobbyDTO getDobby(long userCode);
+
+    void likeService(Long serviceCode, long userCode);
+
+    void unlikeService(Long serviceCode, long userCode);
+
+    List<ServiceDTO> getServiceListSortedByWish();
+
 }
