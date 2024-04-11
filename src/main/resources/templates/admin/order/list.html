@@ -22,171 +22,189 @@
 
             <div class="container">
 
-                    <!-- start dashboard content -->
-                    <div class="dashboardText col-md-10 col-sm-9 col-xs-8">
-                        <p class="fs-5 pt-3 px-2">
-                            <a href="/admin" class="text-black">관리자페이지</a> 〉 &nbsp;
-                            <a href="/admin/dashboard/acc" class="text-black">정산관리</a> 〉 &nbsp;
-                            <a href="#" class="text-black">주문내역</a> &nbsp;
-                        </p>
+                <!-- start dashboard content -->
+                <div class="dashboardText col-md-10 col-sm-9 col-xs-8">
+                    <p class="fs-5 pt-3 px-2">
+                        <a href="/admin" class="text-black">관리자페이지</a> 〉 &nbsp;
+                        <a href="/admin/dashboard/acc" class="text-black">정산관리</a> 〉 &nbsp;
+                        <a href="#" class="text-black">주문내역</a> &nbsp;
+                    </p>
 
-                        <div class="container-fluid border border-2 rounded py-3 my-5">
-                            <div class="text-center">
-                                <p class="h2 py-4" style="color: #003f62">주문내역 조회</p>
-                            </div>
+                    <div class="container-fluid border border-2 rounded py-3 my-5">
+                        <div class="text-center">
+                            <p class="h2 py-4" style="color: #003f62">주문내역 조회</p>
+                        </div>
 
-                            <div class="card-group mx-2 mb-5 text-center">
-                                <div class="card border-dark">
-                                    <div class="card-header text-secondary fw-bold">
-                                        주문신청
-                                    </div>
-                                    <div class="card-body p-4 bg">
-                                        <h6 class="card-title">회원이 서비스를<br>새롭게 신청한 상태</h6>
-                                    </div>
+                        <div class="card-group mx-2 mb-5 text-center">
+                            <div class="card border-dark">
+                                <div class="card-header text-secondary fw-bold">
+                                    주문신청
                                 </div>
-                                <div class="card border-dark">
-                                    <div class="card-header text-success fw-bold">
-                                        예약승인
-                                    </div>
-                                    <div class="card-body p-4">
-                                        <h6 class="card-title">도비와의 일정 조정이<br>예약 완료된 상태</h6>
-                                    </div>
-                                </div>
-                                <div class="card border-dark">
-                                    <div class="card-header text-primary fw-bold">
-                                        서비스완료
-                                    </div>
-                                    <div class="card-body p-4">
-                                        <h6 class="card-title">서비스 예약일 이후<br>제공이 완료된 상태</h6>
-                                    </div>
-                                </div>
-                                <div class="card border-dark">
-                                    <div class="card-header text-warning fw-bold">
-                                        예약취소
-                                    </div>
-                                    <div class="card-body p-4">
-                                        <h6 class="card-title">서비스 예약일 이전<br>예약이 취소된 상태</h6>
-                                    </div>
-                                </div>
-                                <div class="card border-dark">
-                                    <div class="card-header text-danger fw-bold">
-                                        주문거절
-                                    </div>
-                                    <div class="card-body p-4">
-                                        <h6 class="card-title">서비스 신청 이전<br>예약이 불가한 상태</h6>
-                                    </div>
+                                <div class="card-body p-4 bg">
+                                    <h6 class="card-title">회원이 서비스를<br>새롭게 신청한 상태</h6>
                                 </div>
                             </div>
+                            <div class="card border-dark">
+                                <div class="card-header text-success fw-bold">
+                                    예약승인
+                                </div>
+                                <div class="card-body p-4">
+                                    <h6 class="card-title">도비와의 일정 조정이<br>예약 완료된 상태</h6>
+                                </div>
+                            </div>
+                            <div class="card border-dark">
+                                <div class="card-header text-primary fw-bold">
+                                    서비스완료
+                                </div>
+                                <div class="card-body p-4">
+                                    <h6 class="card-title">서비스 예약일 이후<br>제공이 완료된 상태</h6>
+                                </div>
+                            </div>
+                            <div class="card border-dark">
+                                <div class="card-header text-warning fw-bold">
+                                    예약취소
+                                </div>
+                                <div class="card-body p-4">
+                                    <h6 class="card-title">서비스 예약일 이전<br>예약이 취소된 상태</h6>
+                                </div>
+                            </div>
+                            <div class="card border-dark">
+                                <div class="card-header text-danger fw-bold">
+                                    주문거절
+                                </div>
+                                <div class="card-body p-4">
+                                    <h6 class="card-title">서비스 신청 이전<br>예약이 불가한 상태</h6>
+                                </div>
+                            </div>
+                        </div>
 
-                            <div class="row">
+                        <div class="row">
                             <div class="col-3 align-middle">
-                            <div class="btn-group-sm pb-3 dropdown-toggle m-4" role="group" data-bs-toggle="dropdown" aria-expanded="false">
-                                <button type="button" class="btn btn-secondary">상태별조회</button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="status dropdown-item" href="#" data-status="Z">전체</a></li>
-                                    <li><a class="status dropdown-item text-secondary" href="#" data-status="O" data-text-color="fw-bold fs-5 text-secondary align-middle">주문신청</a></li>
-                                    <li><a class="status dropdown-item text-success" href="#" data-status="A" data-text-color="fw-bold fs-5 text-success align-middle">예약승인</a></li>
-                                    <li><a class="status dropdown-item text-primary" href="#" data-status="F" data-text-color="fw-bold fs-5 text-primary align-middle">서비스완료</a></li>
-                                    <li><a class="status dropdown-item text-warning" href="#" data-status="C" data-text-color="fw-bold fs-5 text-warning align-middle">예약취소</a></li>
-                                    <li><a class="status dropdown-item text-danger" href="#" data-status="R" data-text-color="fw-bold fs-5 text-danger align-middle">주문거절</a></li>
-                                </ul>
-                            </div>
+                                <!--                            <div class="btn-group-sm pb-3 dropdown-toggle m-4" role="group" data-bs-toggle="dropdown" aria-expanded="false">-->
+                                <!--                                <button type="button" class="btn btn-secondary">상태별조회</button>-->
+                                <!--                                <ul class="dropdown-menu">-->
+                                <!--                                    <li><a class="status dropdown-item" href="#" data-status="Z">전체</a></li>-->
+                                <!--                                    <li><a class="status dropdown-item text-secondary" href="#" data-status="O" data-text-color="fw-bold fs-5 text-secondary align-middle">주문신청</a></li>-->
+                                <!--                                    <li><a class="status dropdown-item text-success" href="#" data-status="A" data-text-color="fw-bold fs-5 text-success align-middle">예약승인</a></li>-->
+                                <!--                                    <li><a class="status dropdown-item text-primary" href="#" data-status="F" data-text-color="fw-bold fs-5 text-primary align-middle">서비스완료</a></li>-->
+                                <!--                                    <li><a class="status dropdown-item text-warning" href="#" data-status="C" data-text-color="fw-bold fs-5 text-warning align-middle">예약취소</a></li>-->
+                                <!--                                    <li><a class="status dropdown-item text-danger" href="#" data-status="R" data-text-color="fw-bold fs-5 text-danger align-middle">주문거절</a></li>-->
+                                <!--                                </ul>-->
+                                <select class="orderStatusSelect form-select form-select-lg m-4">
+                                    <option value="Z">전체</option>
+                                    <option value="O">주문신청</option>
+                                    <option value="A">예약승인</option>
+                                    <option value="F">서비스완료</option>
+                                    <option value="C">예약취소</option>
+                                    <option value="R">주문거절</option>
+                                </select>
                             </div>
                             <div class="col-9">
-                            <form id="searchForm" class="form-inline mt-1" action="/admin/order/list" method="get">
-                                <nav class="navbar navbar-expand-lg text-right">
-                                    <div class="collapse navbar-collapse">
-                                        <div class="input-group input-daterange w-50" id="datepicker">
-                                            <input type="text" class="form-control input-sm" name="start"
-                                                   placeholder="연도. 월. 일." th:value="${ paging.start }"/>
-                                            <span class="input-group-addon input-sm bg-light">-</span>
-                                            <input type="text" class="form-control input-sm" name="end"
-                                                   placeholder="연도. 월. 일." th:value="${ paging.end }"/>
+                                <form id="searchForm" class="form-inline mt-1" action="/admin/order/list" method="get">
+                                    <!--                            <form id="searchForm" class="form-inline mt-1">-->
+                                    <nav class="navbar navbar-expand-lg text-right">
+                                        <div class="collapse navbar-collapse">
+                                            <div class="input-group input-daterange w-50" id="datepicker">
+                                                <input type="text" class="form-control input-sm" name="start"
+                                                       placeholder="연도. 월. 일." th:value="${ paging.start }"/>
+                                                <span class="input-group-addon input-sm bg-light">-</span>
+                                                <input type="text" class="form-control input-sm" name="end"
+                                                       placeholder="연도. 월. 일." th:value="${ paging.end }"/>
+                                            </div>
+                                            <input class="form-control input-sm w-25" type="text"
+                                                   id="searchValue"
+                                                   name="searchValue"
+                                                   placeholder="서비스명으로 검색" th:value="${ paging.searchValue }"/>
+                                            <button class="btn btn-primary btn-sm" type="button" id="searchBtn">조회
+                                            </button>
                                         </div>
-                                        <input class="form-control input-sm w-25" type="text"
-                                               id="searchValue"
-                                               name="searchValue"
-                                               placeholder="서비스명으로 검색" th:value="${ paging.searchValue }"/>
-                                        <button class="btn btn-primary btn-sm" type="submit">조회</button>
-                                    </div>
-                                </nav>
-                            </form>
-                            </div>
-                            </div>
-
-                            <table class="table text-center mb-5">
-                                <thead class="table-light border-top border-dark">
-                                <tr>
-                                    <th scope="col" class="text-center">주문번호</th>
-                                    <th scope="col" class="text-center">주문상태</th>
-                                    <th scope="col" class="text-center">결제상태</th>
-                                    <th scope="col" class="text-center">결제금액</th>
-                                    <th scope="col" class="text-center">서비스제목</th>
-                                    <th scope="col" class="text-center">주문일</th>
-                                </tr>
-                                </thead>
-                                <tbody id="tbody">
-                                <tr th:each="order : ${orderList}"
-                                    th:onclick="|location.href='/admin/order/detail?orderCode=${order.orderCode}'|">
-                                    <td th:text="${order.orderCode}" class="align-middle"></td>
-                                    <td th:text="${order.orderStatus.getOrderStatus()}"
-                                        th:if="${order.orderStatus.getOrderStatus().equals('주문신청')}" class="fw-bold fs-5 text-secondary align-middle"></td>
-                                    <td th:text="${order.orderStatus.getOrderStatus()}"
-                                        th:if="${order.orderStatus.getOrderStatus().equals('예약승인')}" class="fw-bold fs-5 text-success align-middle"></td>
-                                    <td th:text="${order.orderStatus.getOrderStatus()}"
-                                        th:if="${order.orderStatus.getOrderStatus().equals('서비스완료')}" class="fw-bold fs-5 text-primary align-middle"></td>
-                                    <td th:text="${order.orderStatus.getOrderStatus()}"
-                                        th:if="${order.orderStatus.getOrderStatus().equals('예약취소')}" class="fw-bold fs-5 text-warning align-middle"></td>
-                                    <td th:text="${order.orderStatus.getOrderStatus()}"
-                                        th:if="${order.orderStatus.getOrderStatus().equals('주문거절')}" class="fw-bold fs-5 text-danger align-middle"></td>
-                                    <td th:text="${order.payStatus.getPayStatus()}"
-                                        th:if="${order.payStatus.getPayStatus().equals('결제완료')}" class="align-middle fs-5" style="color: #003f62"></td>
-                                    <td th:text="${order.payStatus.getPayStatus()}"
-                                        th:if="${order.payStatus.getPayStatus().equals('환불완료')}" class="align-middle fs-5" style="color: #222222"></td>
-                                    <td th:text="${order.totalPrice}" class="align-middle"></td>
-                                    <td th:text="${order.serviceTitle}" class="align-middle"></td>
-                                    <td th:text="${order.orderDateString}" class="align-middle"></td>
-                                </tr>
-                                </tbody>
-                            </table>
-
-                            <div id="paging" align="center" style="margin-top: 20px;">
-                                <th:block th:if="${ paging.searchCondition == null  || paging.searchValue == null }">
-                                    <!-- 맨 앞으로 이동 -->
-                                    <button th:onclick="'location.href=\'/admin/order/list?page=1\''">&lt;&lt;</button>
-
-                                    <!-- 이전 페이지로 이동 -->
-                                    <button th:onclick="'location.href=\'/admin/order/list?page=' + @{${paging.page - 1}} + '\''"
-                                            th:disabled="${ paging.page <= 1 }">&lt;
-                                    </button>
-
-                                    <!-- 숫자 버튼 -->
-                                    <th:block th:each="page : ${ #numbers.sequence(paging.startPage, paging.endPage)}">
-                                        <button th:onclick="'location.href=\'/admin/order/list?page=' + @{${page}} + '\''"
-                                                th:text="${ page }" th:disabled="${ paging.page eq page }">
-                                        </button>
-                                    </th:block>
-
-                                    <!-- 다음 페이지로 이동 -->
-                                    <button th:onclick="'location.href=\'/admin/order/list?page=' + @{${paging.page + 1}} + '\''"
-                                            th:disabled="${ paging.page >= paging.maxPage }">>
-                                    </button>
-
-                                    <!-- 맨 끝으로 이동 -->
-                                    <button th:onclick="'location.href=\'/admin/order/list?page=' + @{${paging.maxPage}} + '\''">
-                                        >>
-                                    </button>
-                                </th:block>
+                                    </nav>
+                                </form>
                             </div>
 
                         </div>
-
                     </div>
-                    <!-- End dashboard content -->
+
+                    <table class="table text-center mb-5">
+                        <thead class="table-light border-top border-dark">
+                        <tr>
+                            <th scope="col" class="text-center">주문번호</th>
+                            <th scope="col" class="text-center">주문상태</th>
+                            <th scope="col" class="text-center">결제상태</th>
+                            <th scope="col" class="text-center">결제금액</th>
+                            <th scope="col" class="text-center">서비스제목</th>
+                            <th scope="col" class="text-center">주문일</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+                        <tr th:each="order : ${orderList}"
+                            th:onclick="|location.href='/admin/order/detail?orderCode=${order.orderCode}'|">
+                            <td th:text="${order.orderCode}" class="align-middle"></td>
+                            <td th:text="${order.orderStatus.getOrderStatus()}"
+                                th:if="${order.orderStatus.getOrderStatus().equals('주문신청')}"
+                                class="fw-bold fs-5 text-secondary align-middle"></td>
+                            <td th:text="${order.orderStatus.getOrderStatus()}"
+                                th:if="${order.orderStatus.getOrderStatus().equals('예약승인')}"
+                                class="fw-bold fs-5 text-success align-middle"></td>
+                            <td th:text="${order.orderStatus.getOrderStatus()}"
+                                th:if="${order.orderStatus.getOrderStatus().equals('서비스완료')}"
+                                class="fw-bold fs-5 text-primary align-middle"></td>
+                            <td th:text="${order.orderStatus.getOrderStatus()}"
+                                th:if="${order.orderStatus.getOrderStatus().equals('예약취소')}"
+                                class="fw-bold fs-5 text-warning align-middle"></td>
+                            <td th:text="${order.orderStatus.getOrderStatus()}"
+                                th:if="${order.orderStatus.getOrderStatus().equals('주문거절')}"
+                                class="fw-bold fs-5 text-danger align-middle"></td>
+                            <td th:text="${order.payStatus.getPayStatus()}"
+                                th:if="${order.payStatus.getPayStatus().equals('결제완료')}" class="align-middle fs-5"
+                                style="color: #003f62"></td>
+                            <td th:text="${order.payStatus.getPayStatus()}"
+                                th:if="${order.payStatus.getPayStatus().equals('환불완료')}" class="align-middle fs-5"
+                                style="color: #222222"></td>
+                            <td th:text="${order.totalPrice}" class="align-middle"></td>
+                            <td th:text="${order.serviceTitle}" class="align-middle"></td>
+                            <td th:text="${order.orderDateString}" class="align-middle"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div id="paging" align="center" style="margin-top: 20px;">
+                        <th:block th:if="${ paging.searchCondition == null  || paging.searchValue == null }">
+                            <!-- 맨 앞으로 이동 -->
+                            <button th:onclick="'location.href=\'/admin/order/list?page=1\''">&lt;&lt;</button>
+
+                            <!-- 이전 페이지로 이동 -->
+                            <button th:onclick="'location.href=\'/admin/order/list?page=' + @{${paging.page - 1}} + '\''"
+                                    th:disabled="${ paging.page <= 1 }">&lt;
+                            </button>
+
+                            <!-- 숫자 버튼 -->
+                            <th:block th:each="page : ${ #numbers.sequence(paging.startPage, paging.endPage)}">
+                                <button th:onclick="'location.href=\'/admin/order/list?page=' + @{${page}} + '\''"
+                                        th:text="${ page }" th:disabled="${ paging.page eq page }">
+                                </button>
+                            </th:block>
+
+                            <!-- 다음 페이지로 이동 -->
+                            <button th:onclick="'location.href=\'/admin/order/list?page=' + @{${paging.page + 1}} + '\''"
+                                    th:disabled="${ paging.page >= paging.maxPage }">>
+                            </button>
+
+                            <!-- 맨 끝으로 이동 -->
+                            <button th:onclick="'location.href=\'/admin/order/list?page=' + @{${paging.maxPage}} + '\''">
+                                >>
+                            </button>
+                        </th:block>
+                    </div>
+
+                </div>
 
             </div>
-        </section>
+            <!-- End dashboard content -->
+
     </div>
+    </section>
+</div>
 </div>
 <!-- content -->
 

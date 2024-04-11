@@ -26,6 +26,9 @@
                 AND
                 #{ end } > DATE_ADD(a.order_datetime, INTERVAL -1 DAY)
             </if>
+            <if test='orderStatus != "Z"'>
+                AND a.order_status = #{orderStatus}
+            </if>
         </where>
         ORDER BY
         order_datetime DESC
@@ -56,6 +59,9 @@
             <if test="end != '' and end != null">
                 AND
                 #{ end } > DATE_ADD(a.order_datetime, INTERVAL -1 DAY)
+            </if>
+            <if test='orderStatus != "Z"'>
+                AND a.order_status = #{orderStatus}
             </if>
         </where>
         ORDER BY

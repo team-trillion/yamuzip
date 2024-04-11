@@ -41,15 +41,18 @@ public class OrderController {
                                @RequestParam(required = false) String end,
                                @RequestParam(required = false) String searchCondition,
                                @RequestParam(required = false) String searchValue,
+                               @RequestParam(required = false) String orderStatus,
                                Model model) {
 
         Map<String, String> searchMap = new HashMap<>();
-        if(searchCondition == null && !Objects.equals(searchValue, "") && searchValue != null)
+        if(searchCondition == null && !Objects.equals(searchValue, "") && searchValue != null) {
             searchCondition = "serviceTitle";
-        searchMap.put("searchCondition", searchCondition);
-        searchMap.put("searchValue", searchValue);
-        searchMap.put("start", start);
-        searchMap.put("end", end);
+            searchMap.put("searchCondition", searchCondition);
+            searchMap.put("searchValue", searchValue);
+            searchMap.put("start", start);
+            searchMap.put("end", end);
+        }
+        searchMap.put("orderStatus", orderStatus);
 
         Map<String, Object> orderListAndPaging = orderService.getOrderList(searchMap, page);
         model.addAttribute("paging", orderListAndPaging.get("paging"));
