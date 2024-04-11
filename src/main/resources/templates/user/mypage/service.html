@@ -35,38 +35,93 @@
 
             <!--nav 옆 (content 안에 nav 있음)-->
 
-            <div class="col mt-5">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">최근 본 서비스</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">찜한 서비스</button>
-                    </li>
-                </ul>
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-                        <div class="mt-5 white-box">
-                            <!--최근 본 서비스-->
-                            <div class="col-4">
-                                <div class="card" style="width: 18rem;">
-                                    <img src="/images/부부청소단.png" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Card title</h5>
-                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                                    </div>
+
+            <div class="col">
+                <div class="card mt-5 mb-3 p-4" >
+                    <div class="card-header">내가 찜한 서비스</div>
+
+
+
+                    <div class="row">
+                        <div class="col-4" th:each="wish:${wishList}">
+
+                            <div class="card" style="width: 35rem; height: auto">
+
+                                <img th:src="@{${wish?.thumbnailUrl}}" class="card-img-top img-thumbnail" alt="이미지">
+                                <div class="card-body m-0 border">
+                                    <!-- 닉네임 출력 -->
+                                    <p id="dobName" class="card-name p-2 badge"
+                                       style="color: whitesmoke; background-color: #97cbff">
+                                        <!-- Thymeleaf 문법을 사용하여 닉네임 출력 -->
+                                        <b th:text="${wish?.dobNickname}"></b>
+                                    </p>
+
+                                    <a class="card-title p-3" style="color: #003363" th:href="@{'/service/serviceDetail?serviceCode=' + ${wish?.serviceCode}}"
+                                    >
+                                        <b th:text="${wish?.serviceTitle}"></b>
+                                    </a>
+
                                 </div>
+
+                                <!-- 서비스 설명 출력 -->
+                                <p class="card-text p-3 border" style="border-radius: 5px">
+                                    <span th:text="${wish?.serviceExplain}">
+                                서비스내용 Some quick example text to build on the card title and make up the bulk of the card's content.
+                                </span>
+                                </p>
+
+                                <div class="card-foot">
+                                    <p class="heart p-3">♥️</p>
+                                    <p class="infoFoot card-text p-3" th:text="${wish?.servicePrice}"></p>
+                                </div>
+
+<!--                                <div class="infoTab cardText mb-4 p-3">-->
+<!--                                    <span class="badge bg-primary" th:text="${service.category.categoryName}"></span>-->
+<!--                                </div>-->
+
+                                <p class="aver p-3">★4.9(12)</p>
                             </div>
+
                         </div>
                     </div>
-                    <div class="tab-pane" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-                        <div class="mt-5 white-box">
-                            <!--찜한 서비스-->
-                        </div>
-                    </div>
+
+
+
                 </div>
             </div>
+
+<!--            <div class="col mt-5">-->
+<!--                <ul class="nav nav-tabs" id="myTab" role="tablist">-->
+<!--                    <li class="nav-item" role="presentation">-->
+<!--                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">최근 본 서비스</button>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item" role="presentation">-->
+<!--                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">찜한 서비스</button>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--                <div class="tab-content" id="myTabContent">-->
+<!--                    <div class="tab-pane show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">-->
+<!--                        <div class="mt-5 white-box">-->
+<!--                            &lt;!&ndash;최근 본 서비스&ndash;&gt;-->
+<!--                            <div class="col-4">-->
+<!--                                <div class="card" style="width: 18rem;">-->
+<!--                                    <img src="/images/부부청소단.png" class="card-img-top" alt="...">-->
+<!--                                    <div class="card-body">-->
+<!--                                        <h5 class="card-title">Card title</h5>-->
+<!--                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+<!--                                        <a href="#" class="btn btn-primary">Go somewhere</a>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="tab-pane" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">-->
+<!--                        <div class="mt-5 white-box">-->
+<!--                            &lt;!&ndash;찜한 서비스&ndash;&gt;-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
 
             <!--여기까지 본인 페이지 코드 작성-->
         </section>

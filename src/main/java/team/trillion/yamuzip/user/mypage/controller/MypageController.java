@@ -32,6 +32,7 @@ public class MypageController {
         System.out.println(orderStatusList);
         model.addAttribute("orderStatusList",orderStatusList);
 
+        System.out.println("user : " + user);
         return "user/mypage/main";
     }
 
@@ -42,10 +43,11 @@ public class MypageController {
     }
 
     // 유저 마이페이지 > 관심 서비스
-    @GetMapping("/service")
-    public String userService() {
-        return "user/mypage/service";
-    }
+//    @GetMapping("/service")
+//    public String userService() {
+//
+//        return "user/mypage/service";
+//    }
 
     // 유저 마이페이지 > 주문 관리
     // @GetMapping("/order")
