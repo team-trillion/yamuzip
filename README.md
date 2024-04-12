@@ -41,7 +41,9 @@
 - 순서가 없는 항목
 
 <h2>⚙️ 개발환경</h2>
+<img width="80%" src="https://github.com/team-trillion/yamuzip/assets/154950327/b9119249-d608-4388-b464-a5cf00514897"/>
 <h2>📈 프로젝트 분석</h2>
+
 <h2>👨‍💻팀원</h2>
 박병언 | https://github.com/qkrquddjs1<br>
 박예원 | https://github.com/ppyye<br>
