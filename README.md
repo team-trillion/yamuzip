@@ -13,7 +13,9 @@
 사용자가 원하는 날짜-지역의 도비(전문가)를 선택,마음에 드는 서비스 찜,장바구니 담기,서비스 리뷰 작성 및 수정 삭제,전문가 가입 신청,전문가 휴일 - 영업일 등록 수정,결제 서비스 등이 있다.</p>
 
 <h2>📆 진행기간</h2>
-<img width="30%" src="https://github.com/team-trillion/yamuzip/assets/154950327/af80bc83-fb1f-48a6-bf29-f6b01815a8b4"/>
+| __팀원__ |  5명  |
+| __시작__ | 24년 2월 27일 |
+| __프로젝트 발표__ | 24년 4월 12일 |
 
 <h2>📄 ERD</h2>
 <img width="100%" src="https://github.com/team-trillion/yamuzip/assets/154950327/87696491-c85c-4668-a813-b0a38cbaa89b"/>
