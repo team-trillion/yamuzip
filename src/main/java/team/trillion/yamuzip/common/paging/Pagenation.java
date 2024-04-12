@@ -28,7 +28,7 @@ public class Pagenation {
         int offset = (page - 1) * limit;
 
         return new SelectCriteria(page, totalCount, limit, buttonAmount, maxPage, startPage, endPage,
-                offset, searchMap.get("searchCondition"), searchMap.get("searchValue"), searchMap.get("start"), searchMap.get("end"));
+                offset, searchMap.get("searchCondition"), searchMap.get("searchValue"), searchMap.get("start"), searchMap.get("end"), searchMap.get("orderStatus"));
     }
 
     public static SelectCriteria getSelectCriteria(int page, int totalCount, int limit, int buttonAmount) {

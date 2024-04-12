@@ -44,21 +44,18 @@
                                 </button>
                             </div>
                             <!--                                <div class="mx-5 mb-5" style="border-bottom: solid 0.5px #c4c4c4;"></div>-->
-                        </tr>
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" data-bs-toggle="tab" type="button" role="tab"
-                                        th:onclick="|location.href='/admin/user/detailOrder?userCode=${userCode}'|">진행
-                                    서비스
-                                </button>
+                                        th:onclick="|location.href='/admin/dobby/detailService?dobCode=${dobCode}&userCode=${userInfo.userCode}'|">진행 서비스</button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" data-bs-toggle="tab" type="button" role="tab"
-                                        th:onclick="|location.href='/admin/user/detailReview?userCode=${userCode}'|">작성한
-                                    리뷰
+                                        th:onclick="|location.href='/admin/dobby/detailCalc?dobCode=${dobCode}&userCode=${userInfo.userCode}'|">정산 내역
                                 </button>
                             </li>
                         </ul>
+                        </tr>
                         <div class="container-fluid mt-5">
 
                             <div class="table-responsive">
@@ -73,8 +70,8 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="calc : ${calcList}">
-                                    <!-- th:onclick="|location.href='/admin/order/detail?orderCode=${order.orderCode}'|">-->
+                                    <tr th:each="calc : ${calcList}"
+                                     th:onclick="|location.href='/admin/calc/detail?orderCode=${calc.serviceCode}'|">
                                         <td th:text="${calc.serviceCode}" class="align-middle"></td>
                                         <td> <img th:src="@{${calc.thumbnailUrl}}" alt="thumbnail" class="align-middle img-thumbnail"/></td>
                                         <td th:text="${calc.serviceTitle}" class="align-middle"></td>

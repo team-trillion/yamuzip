@@ -407,6 +407,7 @@
                  JOIN tbl_user ON tbl_review.writer_user_code = tbl_user.user_code
     </select>
     <select id="getCs" resultMap="getCs">
+
         SELECT tbl_cs.cs_code,
                tbl_cs.section,
 
@@ -420,9 +421,6 @@
                  JOIN tbl_service ON tbl_cs.service_code = tbl_service.service_code
         WHERE tbl_cs.cs_status = 'A' AND tbl_service.service_code = #{serviceCode}
         ORDER BY tbl_cs.cs_code;
-
-
-
     </select>
     <!-- getServiceById -->
     <select id="getServiceById" resultMap="selectService">

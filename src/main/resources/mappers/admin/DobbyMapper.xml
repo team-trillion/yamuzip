@@ -148,6 +148,7 @@
             b.reserve_datetime as payDatetime,
             b.total_price,
             a.thumbnail_url,
+            b.order_code,
             IFNULL(d.cal_status, 0) as cal_status
         FROM
             tbl_service a

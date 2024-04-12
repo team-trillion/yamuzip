@@ -108,8 +108,8 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr class="order-list" th:each="service : ${serviceList}">
-<!--                                                th:onclick="|location.href='/admin/order/detail?orderCode=${order.orderCode}'|">-->
+                                            <tr class="order-list" th:each="service : ${serviceList}"
+                                                th:onclick="|location.href='/service/serviceDetail?serviceCode=${service.serviceCode}'|">
                                                 <td th:text="${service.serviceCode}"></td>
                                                 <td class="img-col"><img class="order-img align-middle img-thumbnail"
                                                                          th:src="${service.thumbnailUrl}"/></td>

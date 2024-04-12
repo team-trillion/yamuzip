@@ -7,7 +7,10 @@
     <th:block layout:fragment="userCss">
     </th:block>
     <style>
-        .fh5co-overlay{display: none;}
+        .fh5co-overlay {
+            display: none;
+        }
+
         button {
             padding: 10px 20px;
             font-size: 16px;
@@ -15,9 +18,10 @@
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <script >
+    <script>
         let isIdDuplicate = false;
         let isIdChecked = false;
+
         async function receiveFetch() {
             const $userId = document.querySelector("#userId");
             const userIdValue = $userId.value;
@@ -60,7 +64,8 @@
         }
 
         let emconfirmchk = false;
-        function handleSubmit(event ) {
+
+        function handleSubmit(event) {
 
             if (!isIdChecked) {
                 alert("아이디 중복 확인을 해주세요.")
@@ -77,21 +82,21 @@
                 return;
             }
 
-            if(!emconfirmchk) {
+            if (!emconfirmchk) {
                 alert('인증번호가 일치하지 않습니다.')
                 event.preventDefault();
                 return;
             }
         }
 
-        function isSamePassword(){
+        function isSamePassword() {
             let userPwd = $("#userPwd").val();
             let userPwd1 = $("#userPwd1").val();
             const isPass = document.querySelector("#check2");
 
-            if(userPwd != userPwd1){
+            if (userPwd != userPwd1) {
                 isPass.hidden = false;
-            }else{
+            } else {
                 isPass.hidden = true;
             }
         }
@@ -114,7 +119,7 @@
                     chkEmailConfirm(data, $memailconfirm, $memailconfirmTxt);
 
                 },
-                error : (e) => console.log(e)
+                error: (e) => console.log(e)
             });
 
         }
@@ -149,57 +154,64 @@
 
 <body>
 
-<div id="fh5co-wrapper">
-    <div id="fh5co-page">
-        <div id="fh5co-header" >
-            <th:block layout:fragment="headerFragment"></th:block>
-        </div>
+<div id="fh5co-header">
+    <th:block layout:fragment="headerFragment"></th:block>
+</div>
 
 
-        <div layout:fragment="content">
-            <div class="fh5co-hero" style="height: auto;">
-                <div class="fh5co-overlay"></div>
-                <section class="container-sm" style=": yellow; padding-top: 150px;">
+<div layout:fragment="content">
+    <div class="fh5co-hero" style="height: auto;">
+        <div class="row justify-content-md-center">
+            <div class="col-6">
+                <section class="container-sm" style="padding-top: 150px;">
 
-                <!--여기부터 본인 페이지 코드 작성-->
+                    <!--여기부터 본인 페이지 코드 작성-->
 
                     <body>
                     <div class="container">
-                        <div class="input-form-backgroud row">
-                            <div class="input-form col-md-12 mx-auto">
-                                <h4 class="mb-3">회원가입</h4>
-                                <form action="regist" method="post"  name="userInfo"
+                        <div class="input-form-backgroud">
+                            <div class="input-form w-50">
+                                <h4 class="mb-3 text-center">회원가입</h4>
+                                <form action="regist" method="post" name="userInfo"
                                       onsubmit="handleSubmit(event)">
                                     <div class="row">
                                         <div class=" mb-3">
                                             <label for="userId" style="display: block;">아이디</label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" id="userId" name="userId" maxlength="50" placeholder="아이디를 입력해주세요" onchange="functionPrint()" required>
+                                                <input type="text" class="form-control" id="userId"
+                                                       name="userId" maxlength="50" placeholder="아이디를 입력해주세요"
+                                                       onchange="functionPrint()" required>
 
                                                 <span class="input-group-btn">
-                                                    <button class="btn btn-default" type="button" id="id" name="id" onclick="receiveFetch()">중복확인</button>
+                                                    <button class="btn btn-default" type="button" id="id" name="id"
+                                                            onclick="receiveFetch()">중복확인</button>
                                                 </span>
                                             </div>
-<!--                                            <p id="userId1"> 아이디는 영어 및 숫자만 가능합니다.</p>-->
+                                            <!--                                            <p id="userId1"> 아이디는 영어 및 숫자만 가능합니다.</p>-->
                                             <span class="idchk"></span>
                                         </div>
                                         <div class=" mb-3">
                                             <label for="userName" style="display: block;">이름</label>
-                                            <input type="text" class="form-control" id="userName" name="userName" placeholder="이름을 입력해주세요" value="" required>
+                                            <input type="text" class="form-control" id="userName"
+                                                   name="userName" placeholder="이름을 입력해주세요" value="" required>
                                             <span class="memberNamechk"></span>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="mb-3">
                                             <label for="userPwd">비밀번호</label> <input type="password"
-                                                                                      class="form-control" id="userPwd" name="userPwd" placeholder="비밀번호를 입력해주세요"
-                                                                                      value="" required> <span class="pwchk1"></span>
+                                                                                     class="form-control"
+                                                                                     id="userPwd" name="userPwd"
+                                                                                     placeholder="비밀번호를 입력해주세요"
+                                                                                     value="" required> <span
+                                                class="pwchk1"></span>
                                         </div>
 
                                         <div class=" mb-3">
                                             <label for="userPwd1">비밀번호 확인</label> <input type="password"
-                                                                                              class="form-control" id="userPwd1"
-                                                                                              placeholder="비밀번호를 다시 한번 입력해주세요"
+                                                                                         class="form-control"
+                                                                                         id="userPwd1"
+                                                                                         placeholder="비밀번호를 다시 한번 입력해주세요"
                                                                                          oninput="isSamePassword()"
                                                                                          value="" required><span
                                                 class="pwchk"></span>
@@ -212,65 +224,64 @@
                                     <div class="mb-3">
                                         <label for="email">이메일</label>
                                         <div class="input-group">
-                                            <input type="email" class="form-control" id="email" name="email" placeholder="metadog@example.com" required="required">
+                                            <input type="email" class="form-control" id="email" name="email"
+                                                   placeholder="metadog@example.com" required="required">
                                             <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button" name="email" id="check" onclick="checkEmail()">인증</button>
+                                            <button class="btn btn-default" type="button" name="email" id="check"
+                                                    onclick="checkEmail()">인증</button>
                                         </span>
                                         </div>
                                         <span class="emailchk"></span>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="memailconfirm" >인증번호를 입력해주세요</label>
-                                        <input type="text" class="form-control" id="memailconfirm" placeholder="인증번호를 입력해주세요">
-<!--                                        <button class="btn btn-default" type="button" id="a" onclick="b">확인</button>-->
+                                        <label for="memailconfirm">인증번호를 입력해주세요</label>
+                                        <input type="text" class="form-control" id="memailconfirm"
+                                               placeholder="인증번호를 입력해주세요">
+                                        <!--                                        <button class="btn btn-default" type="button" id="a" onclick="b">확인</button>-->
                                         <span id="memailconfirmTxt"></span>
                                     </div>
 
 
                                     <div class="mb-3">
                                         <label for="phone">휴대폰 번호</label> <input type="text"
-                                                                                       class="form-control" id="phone"name="phone"> <span
+                                                                                 class="form-control" id="phone"
+                                                                                 name="phone"> <span
                                             class="phchk"></span>
                                     </div>
 
                                     <div class="mb-4"></div>
 
-                                    <button class="btn btn-primary btn-lg btn-block" type="submit" id="registerButton" >가입
-                                        완료</button>
+                                    <button class="btn btn-primary btn-lg btn-block" type="submit"
+                                            id="registerButton">가입
+                                        완료
+                                    </button>
                                 </form>
                                 <br>
                                 <button class="btn btn-primary btn-lg btn-block"
-                                        onclick="goPreForm();">뒤로가기</button>
+                                        onclick="goPreForm();">뒤로가기
+                                </button>
                                 <div style="padding: 100px"></div>
                             </div>
                         </div>
 
-
                     </div>
-
-
 
                     </body>
 
 
-
-                <!--여기까지 본인 페이지 코드 작성-->.
+                    <!--여기까지 본인 페이지 코드 작성-->.
 
                 </section>
             </div>
         </div>
-        <!-- content -->
-
     </div>
-    <!-- page -->
 </div>
-<!-- wrapper -->
+<!-- content -->
 
 
 <th:block layout:fragment="userScript">
-<!--본인 페이지 js 작성-->
+    <!--본인 페이지 js 작성-->
 </th:block>
-
 
 </body>
 </html>
