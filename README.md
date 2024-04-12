@@ -49,8 +49,9 @@
 <!-- <h2>📈 프로젝트 분석</h2> -->
 
 <h2>👨‍💻팀원</h2>
-박병언 | https://github.com/qkrquddjs1<br>
-박예원 | https://github.com/ppyye<br>
-이은재 | https://github.com/EUNJAE97<br>
-이한솔 | https://github.com/1sol2<br>
-최시온 | https://github.com/sisology
+
+[박병언](https://github.com/qkrquddjs1) | qkrquddjs10@gmail.com<br>
+[박예원](https://github.com/ppyye) | 6076hs@gmail.com<br>
+[이은재](https://github.com/EUNJAE97) | zkfmak213@gmail.com<br>
+[이한솔](https://github.com/1sol2) | lhs1119r@gmail.com <br>
+[최시온](https://github.com/sisology) | gtldhs120@gmail.com
