@@ -21,7 +21,7 @@ public class CsDTO {
     private String csTitle;
     private String csContent;
     private ServiceDTO serviceCode;
-
+private String writerUserCode;
 }
 
 

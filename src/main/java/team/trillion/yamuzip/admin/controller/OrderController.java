@@ -17,8 +17,10 @@ import team.trillion.yamuzip.order.model.service.PaymentService;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @Controller
@@ -35,8 +37,21 @@ public class OrderController {
 
     @GetMapping("/list")
     public String getOrderList(@RequestParam(defaultValue = "1") int page,
-                                 Model model) {
-        Map<String, Object> orderListAndPaging = orderService.getOrderList(page);
+                               @RequestParam(required = false) String start,
+                               @RequestParam(required = false) String end,
+                               @RequestParam(required = false) String searchCondition,
+                               @RequestParam(required = false) String searchValue,
+                               Model model) {
+
+        Map<String, String> searchMap = new HashMap<>();
+        if(searchCondition == null && !Objects.equals(searchValue, "") && searchValue != null)
+            searchCondition = "serviceTitle";
+        searchMap.put("searchCondition", searchCondition);
+        searchMap.put("searchValue", searchValue);
+        searchMap.put("start", start);
+        searchMap.put("end", end);
+
+        Map<String, Object> orderListAndPaging = orderService.getOrderList(searchMap, page);
         model.addAttribute("paging", orderListAndPaging.get("paging"));
 
         List<OrderDTO> orderList = (List<OrderDTO>) orderListAndPaging.get("orderList");

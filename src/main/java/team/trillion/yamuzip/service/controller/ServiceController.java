@@ -40,6 +40,7 @@ public class ServiceController {
         model.addAttribute("totalService", totalService);
         return "service/serviceList";
     }
+
     @GetMapping("/serviceList/sortViews")
     public String getServiceByViewsList(Model model) {
         List<ServiceDTO> serviceList =  serviceService.getServiceListSortedByViews();
@@ -168,7 +169,7 @@ public class ServiceController {
         model.addAttribute("dobby", dobby);
         /* 이미지 업로드 */
         String root = "src/main/resources";
-        String imgUrl = root + "/uploadFiles";
+        String imgUrl = root + "/static/uploadFiles";
         File dir = new File(imgUrl);
 
         if (!dir.exists()) dir.mkdirs();
@@ -235,7 +236,7 @@ public class ServiceController {
                                 Model model) {
         /* 이미지 업로드 및 수정 */
         String root = "src/main/resources";
-        String imgUrl = root + "/uploadFiles";
+        String imgUrl = root + "/static/uploadFiles";
         File dir = new File(imgUrl);
 
         if (!dir.exists()) dir.mkdirs();
@@ -276,7 +277,7 @@ public class ServiceController {
                         throw new RuntimeException(e);
                     }
 
-                    ImageDTO imgDTO = new ImageDTO(imgCode, imgOriginName, imgName, "/static/uploadFiles/", section);
+                    ImageDTO imgDTO = new ImageDTO(imgCode, imgOriginName, imgName, "/uploadFiles/", section);
                     imageList.add(imgDTO);
                 }
 

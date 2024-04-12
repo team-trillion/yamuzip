@@ -6,11 +6,12 @@ import team.trillion.yamuzip.admin.model.dto.OrderDetailDTO;
 import team.trillion.yamuzip.common.paging.SelectCriteria;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface OrderMapper {
 
-    int getOrderCount();
+    int getOrderCount(Map<String, String> searchMap);
 
     List<OrderDTO> getOrderList(SelectCriteria selectCriteria);
 

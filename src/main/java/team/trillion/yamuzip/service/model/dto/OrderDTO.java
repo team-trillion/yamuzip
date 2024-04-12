@@ -7,4 +7,6 @@ import lombok.Setter;
 @Setter
 public class OrderDTO {
     private int orderCount;
+    private long serviceCode;
+    private long orderCode;
 }

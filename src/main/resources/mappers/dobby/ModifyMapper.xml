@@ -16,30 +16,31 @@
 
 
     <select id="getDobby" resultMap="modifyResultMap">
+
         SELECT
-        a.user_code,
-        b.apply_career,
-        b.apply_status,
-        c.dob_code,
-        c.dob_nickname,
-        c.dob_img,
-        c.dob_content,
-        c.dob_area,
-        c.dob_career_days,
-        d.day_week,
-        d.dob_code
+            a.user_code,
+            b.apply_career,
+            b.apply_status,
+            c.dob_code,
+            c.dob_nickname,
+            c.dob_img,
+            c.dob_content,
+            c.dob_area,
+            c.dob_career_days,
+            d.day_week,
+            d.dob_code
         FROM
-        tbl_user a
-        LEFT JOIN
-        tbl_dob_apply b on(a.user_code = b.user_code)
-        LEFT JOIN
-        tbl_dobby c on(a.user_code = c.user_code)
-        LEFT JOIN
-        tbl_workday d on(c.dob_code = d.dob_code)
+            tbl_user a
+                LEFT JOIN
+            tbl_dob_apply b on(a.user_code = b.user_code)
+                LEFT JOIN
+            tbl_dobby c on(a.user_code = c.user_code)
+                LEFT JOIN
+            tbl_workday d on(c.dob_code = d.dob_code)
         WHERE
-        a.user_code = #{userCode}
-        AND
-        a.auth = 'dobby'
+            a.user_code = #{userCode}
+          AND
+            a.auth = 'dobby'
     </select>
 <!--    <select id="getDobby" resultMap="modifyResultMap">-->
 <!--        SELECT-->
