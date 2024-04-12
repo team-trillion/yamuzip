@@ -42,7 +42,7 @@
 -서비스 관리<br>
 
 <h2>⚙️ 개발환경</h2>
-<img width="80%" src="https://github.com/team-trillion/yamuzip/assets/154950327/b9119249-d608-4388-b464-a5cf00514897"/>
+<img width="80%" src="https://github.com/team-trillion/yamuzip/assets/154950327/c60ad6b7-663d-4f35-a400-7851d6941dbf"/>
 <!-- <h2>📈 프로젝트 분석</h2> -->
 
 <h2>👨‍💻팀원</h2>
