@@ -46,13 +46,22 @@ public class ModifyController {
         System.out.println("user.getUserCode() = " + user.getUserCode());
         ModifyDTO dobby = modifyService.getDobby(user.getUserCode());
 
+        // dobCode 생성
+        int dobCode = dobby.getDobCode();
+        Integer dobbyCode = Integer.valueOf(dobCode);
+
+        if(dobbyCode == 0) {
+        modifyService.insertDobCode(user.getUserCode());
+        }
+
+
+
         if(dobby == null) {
             model.addAttribute("dobby", new ModifyDTO());
         }
          else {
             model.addAttribute("dobby", dobby);
             model.addAttribute("workdayList", dobby.getWorkdayList().stream().map(WorkdayDTO::getDayWeek).toList());
-
             System.out.println(dobby);
             System.out.println(dobby.getWorkdayList());
         }
