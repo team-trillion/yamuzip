@@ -14,6 +14,21 @@
         <id column="{dayWeek=day_week, dobCode=dob_code}"/>
     </resultMap>
 
+    <insert id="insertDobCode">
+        INSERT
+        INTO tbl_dobby
+        (user_code, dob_nickname,dob_content,dob_area,dob_career_days)
+        VALUES
+        (#{userCode}, '  ', '  ', '  ', '  ')
+    </insert>
+
+    <insert id="insertAccount">
+        INSERT
+        INTO tbl_account
+        (dob_code, acc_code, acc_number, acc_bank, acc_name)
+        VALUES
+        (#{dobCode}, #{accCode}, #{accNumber}, #{accBank}, #{accName})
+    </insert>
 
     <select id="getDobby" resultMap="modifyResultMap">
 
