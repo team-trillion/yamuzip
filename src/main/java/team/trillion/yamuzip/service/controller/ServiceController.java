@@ -35,18 +35,8 @@ public class ServiceController {
     @GetMapping("/serviceList")
     public String getServiceList(Model model) {
         List<ServiceDTO> serviceList = serviceService.getServiceList();
-        List<List<ReviewDTO>> allReviews = new ArrayList<>();
-
-        for (ServiceDTO serviceDTO : serviceList) {
-            long serviceCode = serviceDTO.getServiceCode();
-            log.info(serviceCode + "__________________");
-            List<ReviewDTO> reviews = serviceService.getReviews(serviceCode);
-            allReviews.add(reviews);
-        }
-
         int totalService = serviceService.getTotalSerivce();
         model.addAttribute("serviceList", serviceList);
-        model.addAttribute("allReviews", allReviews);
         model.addAttribute("totalService", totalService);
         return "service/serviceList";
     }
@@ -197,7 +187,7 @@ public class ServiceController {
                 throw new RuntimeException(e);
             }
 
-            img.add(new ImageDTO(imgOriginName, imgName, "/static/uploadFiles/", section));
+            img.add(new ImageDTO(imgOriginName, imgName, "/uploadFiles/", section));
 
         }
 
@@ -214,8 +204,8 @@ public class ServiceController {
 
         char section = 'S';
         service.setDobCode(dobCode);
-        service.setThumbnailUrl("/static/uploadFiles/" + imgName);
-        img.add(new ImageDTO(imgOriginName, imgName, "/static/uploadFiles/", section));
+        service.setThumbnailUrl("/uploadFiles/" + imgName);
+        img.add(new ImageDTO(imgOriginName, imgName, "/uploadFiles/", section));
         log.info("img : {}", img);
         log.info("service : {}", service);
         /* 서비스 등록 */
@@ -264,7 +254,7 @@ public class ServiceController {
             String thumbnailImgName = UUID.randomUUID() + thumbnailExt;
 
             serviceThumbnail.transferTo(new File(imgUrl + "/" + thumbnailImgName));
-            service.setThumbnailUrl("/static/uploadFiles/" + thumbnailImgName);
+            service.setThumbnailUrl("/uploadFiles/" + thumbnailImgName);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -287,7 +277,7 @@ public class ServiceController {
                         throw new RuntimeException(e);
                     }
 
-                    ImageDTO imgDTO = new ImageDTO(imgCode, imgOriginName, imgName, "/static/uploadFiles/", section);
+                    ImageDTO imgDTO = new ImageDTO(imgCode, imgOriginName, imgName, "/uploadFiles/", section);
                     imageList.add(imgDTO);
                 }
 
