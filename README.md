@@ -45,7 +45,41 @@
 -서비스 관리<br>
 
 <h2>⚙️ 개발환경</h2>
-<img width="80%" src="https://github.com/team-trillion/yamuzip/assets/154950327/c60ad6b7-663d-4f35-a400-7851d6941dbf"/>
+
+<h5>Tools</h5>
+
+![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)
+![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ_IDEA-000000?style=flat-square&logo=intellij-idea&logoColor=white)
+![Notion](https://img.shields.io/badge/Notion-000000?style=flat-square&logo=notion&logoColor=white)
+![Figma](https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=figma&logoColor=white)
+![Quill](https://img.shields.io/badge/Quill-000000?style=flat-square&logo=quill&logoColor=white)
+
+<h5>Languages</h5>
+
+![Java](https://img.shields.io/badge/Java-007396?style=flat-square&logo=openjdk&logoColor=white)
+![HTML](https://img.shields.io/badge/HTML-E34F26?style=flat-square&logo=html5&logoColor=white)
+![CSS](https://img.shields.io/badge/CSS-1572B6?style=flat-square&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+
+<h5>DB&Frameworks&Server</h5>
+
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat-square&logo=spring-boot&logoColor=white)
+![Spring Security](https://img.shields.io/badge/Spring_Security-6DB33F?style=flat-square&logo=spring-security&logoColor=white)
+![Thymeleaf](https://img.shields.io/badge/Thymeleaf-005F0F?style=flat-square&logo=thymeleaf&logoColor=white)
+![MyBatis](https://img.shields.io/badge/MyBatis-4479A1?style=flat-square&logo=mybatis&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white)
+![Bootstrap Icons](https://img.shields.io/badge/bootstrap-icona?logo=Bootstrap&logoColor=white&label=bootstrap-icons%401.11.3&labelColor=712cf9&color=%23666)
+![Apache](https://img.shields.io/badge/Apache-D22128?style=flat-square&logo=apache&logoColor=white)
+![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=flat-square&logo=chart.js&logoColor=white)
+
+<h5>APIs&Library</h5>
+
+![PortOne API](https://img.shields.io/badge/PortOne_API-f97316?style=flat-square&logo=api&logoColor=white)
+![jQuery](https://img.shields.io/badge/jQuery-0769AD?style=flat-square&logo=jquery&logoColor=white)
+
+
 <!-- <h2>📈 프로젝트 분석</h2> -->
 
 <h2>👨‍💻팀원</h2>
